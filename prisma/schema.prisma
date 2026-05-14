@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Subnet {
+  id          String   @id @default(cuid())
+  network     String
+  description String?
+  vlanId      String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  ipAddresses IpAddress[]
+}
+
+model IpAddress {
+  id          String    @id @default(cuid())
+  ip          String
+  status      IpStatus  @default(FREE)
+  hostname    String?
+  description String?
+  subnetId    String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  subnet      Subnet    @relation(fields: [subnetId], references: [id], onDelete: Cascade)
+}
+
+enum IpStatus {
+  FREE
+  ALLOCATED
+  RESERVED
+  DISABLED
+}
