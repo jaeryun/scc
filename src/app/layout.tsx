@@ -3,6 +3,9 @@ import { Toaster } from '@/components/ui/sonner';
 import { fontVariables } from '@/components/themes/font.config';
 import { DEFAULT_THEME, THEMES } from '@/components/themes/theme.config';
 import ThemeProvider from '@/components/themes/theme-provider';
+import { ViewSwitcher } from '@/components/view-switcher';
+import { SidebarShell } from '@/components/layout/sidebar-shell';
+import { ClientSidebarNav } from '@/components/layout/client-sidebar-nav';
 import { cn } from '@/lib/utils';
 import type { Metadata, Viewport } from 'next';
 import { cookies } from 'next/headers';
@@ -30,7 +33,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const themeToApply = isValidTheme ? activeThemeValue! : DEFAULT_THEME;
 
   return (
-    <html lang='en' suppressHydrationWarning data-theme={themeToApply}>
+    <html lang='ko' suppressHydrationWarning data-theme={themeToApply}>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -60,8 +63,18 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           enableColorScheme
         >
           <Providers activeThemeValue={themeToApply}>
-            <Toaster />
-            {children}
+            <div className='flex h-screen'>
+              <SidebarShell>
+                <div className='p-4 border-b'>
+                  <ViewSwitcher />
+                </div>
+                <ClientSidebarNav />
+              </SidebarShell>
+              <main className='flex-1 overflow-auto p-6'>
+                <Toaster />
+                {children}
+              </main>
+            </div>
           </Providers>
         </ThemeProvider>
       </body>
