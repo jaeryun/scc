@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter, usePathname } from "next/navigation";
+import { useMemo } from "react";
 import { views } from "@/config/views";
 import {
   Select,
@@ -10,23 +11,23 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-interface ViewSwitcherProps {
-  currentViewId?: string;
-}
-
-export function ViewSwitcher({ currentViewId }: ViewSwitcherProps) {
+export function ViewSwitcher() {
   const router = useRouter();
   const pathname = usePathname();
-  const viewId = currentViewId ?? pathname.split("/")[1] ?? "";
+
+  const currentViewId = useMemo(() => {
+    const viewId = pathname.split("/")[1];
+    return views.find((v) => v.id === viewId)?.id ?? views[0].id;
+  }, [pathname]);
 
   return (
     <Select
-      value={viewId}
+      value={currentViewId}
       onValueChange={(value) => {
         router.push(`/${value}`);
       }}
     >
-      <SelectTrigger className="w-full">
+      <SelectTrigger className="w-[200px]">
         <SelectValue placeholder="뷰 선택" />
       </SelectTrigger>
       <SelectContent>

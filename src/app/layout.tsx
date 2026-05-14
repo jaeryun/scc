@@ -65,12 +65,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <Providers activeThemeValue={themeToApply}>
             <div className='flex h-screen'>
               <SidebarShell>
-                <div className='p-4 border-b'>
+                <div className='p-4 border-b shrink-0'>
                   <ViewSwitcher />
                 </div>
-                <ClientSidebarNav />
+                <div className='flex-1 overflow-y-auto'>
+                  <ClientSidebarNav />
+                </div>
               </SidebarShell>
-              <main className='flex-1 overflow-auto p-6'>
+              <main className='flex-1 overflow-auto p-6 min-w-0'>
                 <Toaster />
                 {children}
               </main>
