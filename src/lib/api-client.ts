@@ -1,14 +1,11 @@
-const BASE_URL = '/api';
-
-export async function apiClient<T>(endpoint: string, options?: RequestInit): Promise<T> {
-  const res = await fetch(`${BASE_URL}${endpoint}`, {
-    headers: { 'Content-Type': 'application/json' },
-    ...options
+export async function apiClient<T>(url: string, options?: RequestInit): Promise<T> {
+  const res = await fetch(url, {
+    headers: { "Content-Type": "application/json" },
+    ...options,
   });
-
-  if (!res.ok) {
-    throw new Error(`API error: ${res.status} ${res.statusText}`);
+  const json = await res.json();
+  if (!json.success) {
+    throw new Error(json.error || "API error");
   }
-
-  return res.json() as Promise<T>;
+  return json.data;
 }
