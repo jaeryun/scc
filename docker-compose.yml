@@ -11,5 +11,14 @@ services:
     ports:
       - "5432:5432"
 
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://app:app@db:5432/coredb
+    depends_on:
+      - db
+
 volumes:
   pgdata:
