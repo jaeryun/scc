@@ -15,20 +15,22 @@ export function ViewSwitcher() {
   const router = useRouter();
   const pathname = usePathname();
 
-  const currentViewId = useMemo(() => {
+  const currentView = useMemo(() => {
     const viewId = pathname.split("/")[1];
-    return views.find((v) => v.id === viewId)?.id ?? views[0].id;
+    return views.find((v) => v.id === viewId) ?? views[0];
   }, [pathname]);
 
   return (
     <Select
-      value={currentViewId}
+      value={currentView.id}
       onValueChange={(value) => {
         router.push(`/${value}`);
       }}
     >
-      <SelectTrigger className="w-[200px]">
-        <SelectValue placeholder="뷰 선택" />
+      <SelectTrigger className="w-full">
+        <SelectValue placeholder="뷰 선택">
+          {currentView.label}
+        </SelectValue>
       </SelectTrigger>
       <SelectContent>
         {views.map((view) => (
