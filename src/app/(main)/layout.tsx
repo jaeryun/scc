@@ -31,7 +31,9 @@ export default async function MainLayout({
         <SidebarInset>
           <Header />
           <InfobarProvider defaultOpen={false}>
-            {children}
+            <div className='flex flex-1 flex-col'>
+              {children}
+            </div>
             <InfoSidebar side='right' />
           </InfobarProvider>
         </SidebarInset>

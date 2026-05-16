@@ -16,7 +16,7 @@ const META_THEME_COLORS = {
 };
 
 export const metadata: Metadata = {
-  title: '인프라팀 웹 서비스 Core',
+  title: 'SE Command Center',
   description: 'AI 기반 개발을 위한 일관된 웹 애플리케이션 프레임워크'
 };
 

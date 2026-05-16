@@ -6,7 +6,7 @@ This file provides essential information for AI coding agents working on this pr
 
 ## Project Overview
 
-**인프라팀 웹 서비스 Core**는 `kiranism/next-shadcn-dashboard-starter` 템플릿을 기반으로 한 사내 인프라팀용 관리 대시보드입니다.
+**SE Command Center**는 `kiranism/next-shadcn-dashboard-starter` 템플릿을 기반으로 한 사내 인프라팀용 관리 대시보드입니다.
 
 - **Framework**: Next.js 16 (App Router)
 - **Language**: TypeScript 5.7

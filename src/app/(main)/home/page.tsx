@@ -4,13 +4,13 @@ import { Icons } from '@/components/icons';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 export const metadata = {
-  title: '인프라팀 웹 서비스 Core',
+  title: 'SE Command Center',
   description: 'AI 기반 개발을 위한 일관된 웹 애플리케이션 프레임워크'
 };
 
 export default function HomePage() {
   return (
-    <div className='flex min-h-[calc(100vh-3.5rem)] flex-col items-center justify-center px-4 py-12'>
+    <div className='flex min-h-[calc(100vh-3.5rem)] flex-1 flex-col items-center justify-center px-4 py-12'>
       <div className='mx-auto max-w-4xl text-center'>
         <div className='mb-6 flex justify-center'>
           <div className='flex h-16 w-16 items-center justify-center rounded-2xl bg-primary text-primary-foreground'>
@@ -18,7 +18,7 @@ export default function HomePage() {
           </div>
         </div>
         <h1 className='text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl'>
-          인프라팀 웹 서비스 Core
+          SE Command Center
         </h1>
         <p className='mt-6 text-lg text-muted-foreground'>
           AI 기반 개발을 위한 일관된 웹 애플리케이션 프레임워크
@@ -57,13 +57,13 @@ export default function HomePage() {
               데모 - 컴포넌트
             </CardTitle>
             <CardDescription>
-              다양한 UI 패턴 참고용 (차트, 테이블, Kanban, 폼 등)
+              다양한 UI 패턴 참고용 (차트, 테이블, 칸반, 폼 등)
             </CardDescription>
           </CardHeader>
           <CardContent>
             <p className='text-sm text-muted-foreground mb-4'>
               shadcn/ui 기반의 대시보드 템플릿에서 사용하는 다양한 UI 컴포넌트와
-              패턴을 확인하세요. 차트, 데이터 테이블, Kanban 보드, 폼 등을 포함합니다.
+              패턴을 확인하세요. 차트, 데이터 테이블, 칸반 보드, 폼 등을 포함합니다.
             </p>
             <Link href='/demo-components/overview'>
               <Button className='w-full' variant='outline'>
