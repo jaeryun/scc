@@ -1,8 +1,16 @@
-export default function ProfileViewPage() {
+import PageContainer from '@/components/layout/page-container';
+
+export const metadata = {
+  title: 'Dashboard : Profile'
+};
+
+export default function Page() {
   return (
-    <div className='flex w-full flex-col p-4'>
-      <h1 className='text-2xl font-bold'>Profile</h1>
-      <p className='text-muted-foreground'>Profile settings will be available here.</p>
-    </div>
+    <PageContainer pageTitle='Profile' pageDescription='User profile page'>
+      <div className='rounded-lg border border-dashed p-8 text-center'>
+        <h2 className='text-xl font-semibold'>Profile</h2>
+        <p className='text-muted-foreground mt-2'>Authentication is currently disabled.</p>
+      </div>
+    </PageContainer>
   );
 }

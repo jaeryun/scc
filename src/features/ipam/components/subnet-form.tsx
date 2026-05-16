@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -11,32 +11,73 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useCreateSubnet } from "../hooks/use-subnets";
+import { useSubnetMutations } from "../hooks/use-subnet-mutations";
+import { Subnet } from "../types";
 
-export function SubnetFormDialog() {
-  const [open, setOpen] = useState(false);
-  const [network, setNetwork] = useState("");
-  const [description, setDescription] = useState("");
-  const [vlanId, setVlanId] = useState("");
-  const mutation = useCreateSubnet();
+interface SubnetFormDialogProps {
+  initialData?: Subnet | null;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+}
+
+export function SubnetFormDialog({
+  initialData,
+  open: controlledOpen,
+  onOpenChange: setControlledOpen,
+}: SubnetFormDialogProps) {
+  const isEdit = !!initialData;
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
+  const open = controlledOpen ?? uncontrolledOpen;
+  const setOpen = setControlledOpen ?? setUncontrolledOpen;
+
+  const [network, setNetwork] = useState(initialData?.network ?? "");
+  const [description, setDescription] = useState(
+    initialData?.description ?? ""
+  );
+  const [vlanId, setVlanId] = useState(initialData?.vlanId ?? "");
+
+  useEffect(() => {
+    if (open) {
+      setNetwork(initialData?.network ?? "");
+      setDescription(initialData?.description ?? "");
+      setVlanId(initialData?.vlanId ?? "");
+    }
+  }, [open, initialData]);
+
+  const { createMutation, updateMutation } = useSubnetMutations();
+
+  const mutation = isEdit ? updateMutation : createMutation;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await mutation.mutateAsync({ network, description, vlanId });
+    if (isEdit) {
+      await updateMutation.mutateAsync({
+        id: initialData.id,
+        network,
+        description,
+        vlanId,
+      });
+    } else {
+      await createMutation.mutateAsync({ network, description, vlanId });
+    }
     setOpen(false);
-    setNetwork("");
-    setDescription("");
-    setVlanId("");
+    if (!isEdit) {
+      setNetwork("");
+      setDescription("");
+      setVlanId("");
+    }
   };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button>서브넷 추가</Button>
-      </DialogTrigger>
+      {!isEdit && (
+        <DialogTrigger asChild>
+          <Button>서브넷 추가</Button>
+        </DialogTrigger>
+      )}
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>서브넷 추가</DialogTitle>
+          <DialogTitle>{isEdit ? "서브넷 수정" : "서브넷 추가"}</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -66,7 +107,13 @@ export function SubnetFormDialog() {
             />
           </div>
           <Button type="submit" disabled={mutation.isPending}>
-            {mutation.isPending ? "생성 중..." : "생성"}
+            {mutation.isPending
+              ? isEdit
+                ? "수정 중..."
+                : "생성 중..."
+              : isEdit
+                ? "수정"
+                : "생성"}
           </Button>
         </form>
       </DialogContent>

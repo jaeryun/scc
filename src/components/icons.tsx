@@ -43,6 +43,7 @@ import {
   IconFolder,
   IconGripVertical,
   IconHelpCircle,
+  IconHome,
   IconInfoCircle,
   IconItalic,
   IconLayoutDashboard,
@@ -56,6 +57,8 @@ import {
   IconMinus,
   IconMoon,
   IconMusic,
+  IconNetwork,
+  IconServer,
   IconPalette,
   IconPaperclip,
   IconPhone,
@@ -107,6 +110,7 @@ export const Icons = {
   ellipsis: IconDotsVertical,
   externalLink: IconExternalLink,
   help: IconHelpCircle,
+  home: IconHome,
   info: IconInfoCircle,
   spinner: IconLoader2,
   search: IconSearch,
@@ -198,6 +202,8 @@ export const Icons = {
   trendingUp: IconTrendingUp,
   eyeOff: IconEyeOff,
   adjustments: IconAdjustmentsHorizontal,
+  network: IconNetwork,
+  server: IconServer,
 
   // Text formatting
   bold: IconBold,

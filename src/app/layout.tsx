@@ -1,15 +1,19 @@
 import Providers from '@/components/layout/providers';
+import AppSidebar from '@/components/layout/app-sidebar';
+import Header from '@/components/layout/header';
 import { Toaster } from '@/components/ui/sonner';
+import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { fontVariables } from '@/components/themes/font.config';
 import { DEFAULT_THEME, THEMES } from '@/components/themes/theme.config';
 import ThemeProvider from '@/components/themes/theme-provider';
-import { ViewSwitcher } from '@/components/view-switcher';
-import { SidebarShell } from '@/components/layout/sidebar-shell';
-import { ClientSidebarNav } from '@/components/layout/client-sidebar-nav';
+import { InfoSidebar } from '@/components/layout/info-sidebar';
+import { InfobarProvider } from '@/components/ui/infobar';
+import KBar from '@/components/kbar';
 import { cn } from '@/lib/utils';
 import type { Metadata, Viewport } from 'next';
 import { cookies } from 'next/headers';
 import NextTopLoader from 'nextjs-toploader';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import '../styles/globals.css';
 
 const META_THEME_COLORS = {
@@ -18,8 +22,8 @@ const META_THEME_COLORS = {
 };
 
 export const metadata: Metadata = {
-  title: 'Next Shadcn',
-  description: 'Basic dashboard with Next.js and Shadcn'
+  title: '인프라팀 웹 서비스 Core',
+  description: 'AI 기반 개발을 위한 일관된 웹 애플리케이션 프레임워크'
 };
 
 export const viewport: Viewport = {
@@ -31,6 +35,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const activeThemeValue = cookieStore.get('active_theme')?.value;
   const isValidTheme = THEMES.some((t) => t.value === activeThemeValue);
   const themeToApply = isValidTheme ? activeThemeValue! : DEFAULT_THEME;
+  const defaultOpen = cookieStore.get('sidebar_state')?.value === 'true';
 
   return (
     <html lang='ko' suppressHydrationWarning data-theme={themeToApply}>
@@ -39,7 +44,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           dangerouslySetInnerHTML={{
             __html: `
               try {
-                // Set meta theme color
                 if (localStorage.theme === 'dark' || ((!('theme' in localStorage) || localStorage.theme === 'system') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                   document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '${META_THEME_COLORS.dark}')
                 }
@@ -54,6 +58,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           fontVariables
         )}
       >
+        <a
+          href='#main-content'
+          className='sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-primary focus:text-primary-foreground focus:px-4 focus:py-2 focus:rounded-md'
+        >
+          주 콘텐츠로 건너뛰기
+        </a>
         <NextTopLoader color='var(--primary)' showSpinner={false} />
         <ThemeProvider
           attribute='class'
@@ -63,20 +73,21 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           enableColorScheme
         >
           <Providers activeThemeValue={themeToApply}>
-            <div className='flex h-screen'>
-              <SidebarShell>
-                <div className='p-4 border-b shrink-0'>
-                  <ViewSwitcher />
-                </div>
-                <div className='flex-1 overflow-y-auto'>
-                  <ClientSidebarNav />
-                </div>
-              </SidebarShell>
-              <main className='flex-1 overflow-auto p-6 min-w-0'>
-                <Toaster />
-                {children}
-              </main>
-            </div>
+            <KBar>
+              <SidebarProvider defaultOpen={defaultOpen}>
+                <AppSidebar />
+                <SidebarInset id='main-content'>
+                  <Header />
+                  <InfobarProvider defaultOpen={false}>
+                    <div className='flex-1'>
+                      <NuqsAdapter>{children}</NuqsAdapter>
+                    </div>
+                    <InfoSidebar side='right' />
+                  </InfobarProvider>
+                </SidebarInset>
+              </SidebarProvider>
+            </KBar>
+            <Toaster />
           </Providers>
         </ThemeProvider>
       </body>

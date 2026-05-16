@@ -1,14 +1,15 @@
+import PageContainer from "@/components/layout/page-container";
 import { SubnetTable } from "@/features/ipam/components/subnet-table";
 import { SubnetFormDialog } from "@/features/ipam/components/subnet-form";
 
 export default function DemoIpamPage() {
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">IPAM 대시보드</h1>
-        <SubnetFormDialog />
-      </div>
+    <PageContainer
+      pageTitle="IPAM 대시보드"
+      pageDescription="네트워크 서브넷과 IP 주소를 관리합니다."
+      pageHeaderAction={<SubnetFormDialog />}
+    >
       <SubnetTable />
-    </div>
+    </PageContainer>
   );
 }

@@ -6,19 +6,22 @@ This file provides essential information for AI coding agents working on this pr
 
 ## Project Overview
 
-**Next.js Admin Dashboard Starter** is a production-ready admin dashboard template built with:
+**인프라팀 웹 서비스 Core**는 `kiranism/next-shadcn-dashboard-starter` 템플릿을 기반으로 한 사내 인프라팀용 관리 대시보드입니다.
 
 - **Framework**: Next.js 16 (App Router)
 - **Language**: TypeScript 5.7
 - **Styling**: Tailwind CSS v4
 - **UI Components**: shadcn/ui (New York style)
-- **Authentication**: Clerk (with Organizations/Billing support)
-- **Error Tracking**: Sentry
+- **Database**: Prisma + PostgreSQL
 - **Charts**: Recharts
-- **Containerization**: Docker (Node.js & Bun Dockerfiles)
+- **Containerization**: Docker + Docker Compose
 - **Package Manager**: Bun (preferred) or npm
 
-The project follows a feature-based folder structure designed for scalability in SaaS applications, internal tools, and admin panels.
+### Phase 1 Constraints
+- **Authentication**: Clerk/Sentry 제거됨 (Phase 1에서는 인증 없음, 향후 Keycloak SSO 예정)
+- **Network**: 폐쇄망 환경 — 외부 CDN/리소스 사용 불가
+- **View System**: 좌상단 Select 드롭다운으로 뷰 전환 (동적 사이드바 메뉴)
+- **IPAM Demo**: IP 주소 관리 데모 기능 구현 (서브넷 / IP 주소 CRUD)
 
 ---
 
@@ -67,6 +70,7 @@ The project follows a feature-based folder structure designed for scalability in
 - Route handlers at `src/app/api/` (for Route Handler or BFF patterns)
 - Mock data in `src/constants/mock-api*.ts` (default, swap via service layer)
 - API client utility in `src/lib/api-client.ts` (for fetch-based patterns)
+- Prisma ORM with PostgreSQL for IPAM demo and future data persistence
 
 ### Development Tools
 
@@ -82,6 +86,9 @@ The project follows a feature-based folder structure designed for scalability in
 ```
 /src
 ├── app/                    # Next.js App Router
+│   ├── (views)/           # View-based route groups (IPAM, demo-components)
+│   │   ├── demo-ipam/     # IPAM demo pages
+│   │   └── demo-components/ # Original template demo pages
 │   ├── auth/              # Authentication routes (sign-in, sign-up)
 │   ├── dashboard/         # Dashboard routes
 │   │   ├── overview/      # Parallel routes (@area_stats, @bar_stats, etc.)
@@ -93,10 +100,11 @@ The project follows a feature-based folder structure designed for scalability in
 │   │   ├── billing/       # Subscription billing
 │   │   ├── exclusive/     # Pro plan feature example
 │   │   └── profile/       # User profile
-│   ├── api/               # API routes (if any)
+│   ├── api/               # API routes
+│   │   └── ipam/          # IPAM REST API (subnets, ip-addresses)
 │   ├── layout.tsx         # Root layout with providers
 │   ├── page.tsx           # Landing page
-│   ├── global-error.tsx   # Sentry-integrated error boundary
+│   ├── global-error.tsx   # Global error boundary
 │   └── not-found.tsx      # 404 page
 │
 ├── components/
@@ -105,6 +113,7 @@ The project follows a feature-based folder structure designed for scalability in
 │   ├── forms/             # Form field wrappers
 │   ├── themes/            # Theme system components
 │   ├── kbar/              # Command+K search bar
+│   ├── view-switcher.tsx  # View system dropdown
 │   ├── icons.tsx          # Icon registry
 │   └── ...
 │
@@ -122,6 +131,12 @@ The project follows a feature-based folder structure designed for scalability in
 │   ├── users/             # User management (React Query + nuqs)
 │   │   ├── api/           # Same pattern: types.ts → service.ts → queries.ts
 │   │   └── components/    # Listing, table components
+│   ├── ipam/              # IPAM demo feature
+│   │   ├── api/           # IPAM API handlers (Prisma direct)
+│   │   ├── components/    # Subnet/IP tables, forms, dialogs, badges
+│   │   ├── hooks/         # useSubnets, useIpAddresses, useDeleteSubnet
+│   │   ├── schemas/       # Zod schemas (subnet, ipAddress)
+│   │   └── types.ts       # IPAM domain types
 │   ├── react-query-demo/  # React Query showcase (Pokemon API)
 │   ├── kanban/            # Kanban board with dnd-kit
 │   ├── chat/              # Messaging UI (conversations, bubbles, composer)
@@ -130,15 +145,19 @@ The project follows a feature-based folder structure designed for scalability in
 │
 ├── config/                # Configuration files
 │   ├── nav-config.ts      # Navigation with RBAC
+│   ├── views.ts           # View system definitions (menus per view)
 │   └── ...
 │
 ├── hooks/                 # Custom React hooks
 │   ├── use-nav.ts         # RBAC navigation filtering
 │   ├── use-data-table.ts  # Data table state
+│   ├── use-current-view.tsx # View system detection
 │   └── ...
 │
 ├── lib/                   # Utility functions
 │   ├── utils.ts           # cn() and formatters
+│   ├── api-client.ts      # Typed fetch wrapper with res.ok check
+│   ├── api-response.ts    # Standard API response wrapper
 │   ├── searchparams.ts    # Search param utilities
 │   └── ...
 │
@@ -149,6 +168,10 @@ The project follows a feature-based folder structure designed for scalability in
     ├── globals.css        # Tailwind imports + view transitions
     ├── theme.css          # Theme imports
     └── themes/            # Individual theme files
+
+/prisma                    # Prisma schema & migrations
+    ├── schema.prisma      # Subnet, IpAddress models
+    └── seed.ts            # Demo data seed script
 
 /docs                      # Documentation
 │   ├── clerk_setup.md     # Clerk configuration guide
@@ -161,6 +184,7 @@ The project follows a feature-based folder structure designed for scalability in
 
 Dockerfile                 # Node.js production Dockerfile
 Dockerfile.bun             # Bun production Dockerfile
+docker-compose.yml         # PostgreSQL + Next.js containers
 .dockerignore              # Docker build exclusions
 ```
 
@@ -299,6 +323,69 @@ See `docs/themes.md` for detailed theming guide.
 
 ---
 
+## View System
+
+The dashboard supports multiple persona-based views via a dropdown in the top-left corner of the sidebar.
+
+### View Definitions
+
+Views are defined in `src/config/views.ts`:
+
+```typescript
+export interface ViewDefinition {
+  id: string;
+  label: string;
+  icon?: string;           // Key from Icons registry
+  navItems: NavItem[];
+}
+```
+
+### How It Works
+
+1. `useCurrentView()` hook detects the current view from the URL pathname
+2. `ViewSwitcher` component renders a `<Select>` dropdown to switch between views
+3. `AppSidebar` dynamically renders `navItems` for the active view
+4. Views are route-grouped under `src/app/(views)/`
+
+### Adding a New View
+
+1. Add the view to `src/config/views.ts`
+2. Create route group pages under `src/app/(views)/your-view/`
+3. (Optional) Register the view icon in `src/components/icons.tsx`
+
+---
+
+## Database & Prisma
+
+### Schema Location
+
+- `prisma/schema.prisma` — Database schema
+- `prisma/seed.ts` — Seed script for demo data
+
+### Common Commands
+
+```bash
+# Generate Prisma client after schema changes
+bunx prisma generate
+
+# Run migrations
+bunx prisma migrate dev --name <name>
+
+# Seed database
+bunx prisma db seed
+```
+
+### Schema Changes Workflow
+
+1. Edit `prisma/schema.prisma`
+2. Run `bunx prisma migrate dev --name <description>`
+3. Run `bunx prisma generate`
+4. Update API handlers and service functions as needed
+
+**Never modify the database schema without creating a migration.**
+
+---
+
 ## Navigation & RBAC System
 
 ### Navigation Configuration
@@ -383,7 +470,7 @@ const hasFeature = has({ feature: 'premium_access' });
 
 ### Service Layer Architecture
 
-Each feature has a three-file API layer:
+Each feature **MUST** have a standardized three-file API layer:
 
 ```
 src/features/<name>/api/
@@ -393,6 +480,60 @@ src/features/<name>/api/
 ```
 
 **`service.ts` is the only file you modify when connecting to a real backend.** Queries and components import from it — they never change.
+
+**NEVER** call `apiClient`, `fetch`, or Prisma directly from components or hooks. Always go through `service.ts` → `queries.ts`.
+
+#### IPAM Example (Reference Implementation)
+
+See `src/features/ipam/api/` for the canonical example:
+
+```typescript
+// api/types.ts — Response shapes, filters, mutation payloads
+export type SubnetListResponse = Array<Subnet & { _count?: { ipAddresses: number } }>;
+export interface IpAddressFilters { subnetId?: string; }
+export interface CreateSubnetPayload { network: string; description?: string | null; }
+
+// api/service.ts — Data access (apiClient calls Route Handlers)
+export async function getSubnets(): Promise<SubnetListResponse> {
+  return apiClient('/api/ipam/subnets');
+}
+export async function createSubnet(data: CreateSubnetPayload): Promise<SubnetDetailResponse> {
+  return apiClient('/api/ipam/subnets', { method: 'POST', body: JSON.stringify(data) });
+}
+
+// api/queries.ts — Query key factories + queryOptions
+export const subnetKeys = {
+  all: ['subnets'] as const,
+  lists: () => [...subnetKeys.all, 'list'] as const,
+  detail: (id: string) => [...subnetKeys.all, 'detail', id] as const,
+};
+export const subnetsQueryOptions = () => queryOptions({
+  queryKey: subnetKeys.lists(),
+  queryFn: () => getSubnets(),
+});
+```
+
+```typescript
+// hooks/use-subnets.ts — Thin hook wrapping queryOptions
+import { useQuery } from '@tanstack/react-query';
+import { subnetsQueryOptions } from '../api/queries';
+export function useSubnets() {
+  return useQuery(subnetsQueryOptions());
+}
+
+// hooks/use-subnet-mutations.ts — Mutation hooks with cache invalidation
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { createSubnet, deleteSubnet } from '../api/service';
+import { subnetKeys } from '../api/queries';
+export function useSubnetMutations() {
+  const queryClient = useQueryClient();
+  const createMutation = useMutation({
+    mutationFn: createSubnet,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: subnetKeys.all }),
+  });
+  return { createMutation };
+}
+```
 
 #### Backend Patterns
 
@@ -674,14 +815,25 @@ Browse all available icons at `/dashboard/elements/icons` — a searchable grid 
 
 ### Adding a New Feature (End-to-End)
 
-1. Create `src/features/<name>/api/types.ts` — response types, filter types, mutation payloads
-2. Create `src/features/<name>/api/service.ts` — data access functions (mock by default)
-3. Create `src/features/<name>/api/queries.ts` — query key factory + `queryOptions`
-4. Create page route: `src/app/dashboard/<name>/page.tsx`
-5. Create feature components in `src/features/<name>/components/`
-6. Add navigation item in `src/config/nav-config.ts`
-7. (Optional) Add route handlers in `src/app/api/<name>/` for REST API patterns
-8. (Optional) Register new icon in `src/components/icons.tsx`
+Follow the exact three-file API layer pattern. Reference `src/features/ipam/` as the canonical implementation.
+
+1. **Create `src/features/<name>/api/types.ts`** — Response shapes, filter types, mutation payloads
+2. **Create `src/features/<name>/api/service.ts`** — Data access functions using `apiClient`. This is the ONLY file to swap for a real backend.
+3. **Create `src/features/<name>/api/queries.ts`** — Query key factory + `queryOptions` + `queryKey` constants
+4. **Create hooks** in `src/features/<name>/hooks/`:
+   - `use-<name>s.ts` — Wraps `useQuery(queryOptions())` or `useSuspenseQuery(queryOptions())`
+   - `use-<name>-mutations.ts` — Wraps `useMutation` with `queryClient.invalidateQueries` using the key factory
+5. **Create components** in `src/features/<name>/components/`
+6. **Create page route**: `src/app/(views)/<name>/page.tsx` or `src/app/dashboard/<name>/page.tsx`
+7. **Add navigation item** in `src/config/views.ts` (if under a view) or `src/config/nav-config.ts`
+8. (Optional) Add route handlers in `src/app/api/<name>/` for REST API patterns
+9. (Optional) Register new icon in `src/components/icons.tsx`
+
+**Anti-patterns to avoid:**
+- ❌ Never call `apiClient`, `fetch`, or Prisma directly from components
+- ❌ Never define `useMutation` inline inside a component
+- ❌ Never hardcode query keys as strings (`["entities"]`) — always use the key factory
+- ❌ Never skip `api/types.ts` and inline types in `service.ts`
 
 ### Adding a New API Route
 
@@ -751,4 +903,8 @@ See "Theming System" section above or `docs/themes.md`.
 9. **Page headers** - Always use `PageContainer` props (`pageTitle`, `pageDescription`, `pageHeaderAction`) for page headers. Never import `<Heading>` manually in pages — `PageContainer` handles that internally.
 10. **Forms** - Use TanStack Form via `useAppForm` from `@/components/ui/tanstack-form`. Never use `useState` inside `AppField` render props — extract stateful logic into separate components.
 11. **Button loading** - Use `<Button isLoading={isPending}>` for loading states. Uses CSS Grid overlap trick for zero layout shift. When `isLoading` is not passed, button behaves as default shadcn. `SubmitButton` in forms handles this automatically via form `isSubmitting` state.
-12. **Data layer** - Always go through the service layer: `types.ts` → `service.ts` → `queries.ts`. Components import types from `types.ts`, functions from `service.ts`, query options from `queries.ts`. Never import from `@/constants/mock-api*` directly in components.
+12. **Data layer** - Always go through the service layer: `types.ts` → `service.ts` → `queries.ts` → `hooks`. Components import types from `types.ts`, functions from `service.ts`, query options from `queries.ts`. Never import from `@/constants/mock-api*` directly in components. Never call `apiClient`, `fetch`, or Prisma directly from components or hooks.
+13. **View System** - When adding a new view, update `src/config/views.ts` AND create route group pages under `src/app/(views)/`. Ensure the view `id` matches the route segment name. Register new icons in `src/components/icons.tsx`.
+14. **Prisma schema changes** - Never modify `prisma/schema.prisma` without running `bunx prisma migrate dev --name <description>` followed by `bunx prisma generate`. Always keep Prisma client in sync with the schema.
+15. **API client safety** - `apiClient` in `src/lib/api-client.ts` checks `res.ok` before parsing JSON. When writing new API routes, always distinguish `ZodError` (400) from unexpected server errors (500) for consistent error handling.
+16. **Accessibility by default** - All `<Button>` icon-only triggers must have `aria-label`. All loading states (`Skeleton`, `PageSkeleton`) must have `aria-hidden="true"`. Every page must have exactly one `<h1>` via `PageContainer`. Skip Link and landmark roles (`navigation`, `main`) must not be removed.

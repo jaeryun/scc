@@ -9,13 +9,15 @@ datasource db {
 
 model Subnet {
   id          String   @id @default(cuid())
-  network     String
+  network     String   @unique
   description String?
   vlanId      String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   ipAddresses IpAddress[]
+  
+  @@index([network])
 }
 
 model IpAddress {
@@ -29,6 +31,8 @@ model IpAddress {
   updatedAt   DateTime  @updatedAt
 
   subnet      Subnet    @relation(fields: [subnetId], references: [id], onDelete: Cascade)
+  
+  @@unique([ip, subnetId])
 }
 
 enum IpStatus {
@@ -36,4 +40,12 @@ enum IpStatus {
   ALLOCATED
   RESERVED
   DISABLED
+}
+
+model ViewSetting {
+  id        String   @id @default(cuid())
+  viewId    String   @unique
+  icon      String   @default("dashboard")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

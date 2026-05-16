@@ -5,6 +5,7 @@ import {
   updateIpAddress,
   deleteIpAddress,
 } from "@/features/ipam/api/ip-handlers";
+import { ZodError } from "zod";
 
 export async function PUT(
   req: Request,
@@ -17,7 +18,16 @@ export async function PUT(
     const ip = await updateIpAddress(id, parsed);
     return NextResponse.json(success(ip));
   } catch (error) {
-    return NextResponse.json(failure("IP 주소 수정 실패"), { status: 400 });
+    if (error instanceof ZodError) {
+      return NextResponse.json(
+        failure("입력값이 올바르지 않습니다"),
+        { status: 400 }
+      );
+    }
+    return NextResponse.json(
+      failure("서버 오류가 발생했습니다"),
+      { status: 500 }
+    );
   }
 }
 

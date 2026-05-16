@@ -5,6 +5,7 @@ import {
   updateSubnet,
   deleteSubnet,
 } from "@/features/ipam/api/subnet-handlers";
+import { ZodError } from "zod";
 
 export async function PUT(
   req: Request,
@@ -17,7 +18,16 @@ export async function PUT(
     const subnet = await updateSubnet(id, parsed);
     return NextResponse.json(success(subnet));
   } catch (error) {
-    return NextResponse.json(failure("서브넷 수정 실패"), { status: 400 });
+    if (error instanceof ZodError) {
+      return NextResponse.json(
+        failure("입력값이 올바르지 않습니다"),
+        { status: 400 }
+      );
+    }
+    return NextResponse.json(
+      failure("서버 오류가 발생했습니다"),
+      { status: 500 }
+    );
   }
 }
 
@@ -30,6 +40,9 @@ export async function DELETE(
     await deleteSubnet(id);
     return NextResponse.json(success(null));
   } catch (error) {
-    return NextResponse.json(failure("서브넷 삭제 실패"), { status: 500 });
+    return NextResponse.json(
+      failure("서브넷 삭제 실패"),
+      { status: 500 }
+    );
   }
 }

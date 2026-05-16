@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
 
-export default async function Page() {
-  redirect('/demo-ipam');
+export default function RootPage() {
+  redirect('/home');
 }

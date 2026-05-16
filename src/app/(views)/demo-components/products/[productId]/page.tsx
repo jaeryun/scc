@@ -1,17 +1,29 @@
+import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
+import { getQueryClient } from '@/lib/query-client';
+import { productByIdOptions } from '@/features/products/api/queries';
 import PageContainer from '@/components/layout/page-container';
+import ProductViewPage from '@/features/products/components/product-view-page';
 
 export const metadata = {
-  title: 'Dashboard : Product View'
+  title: 'Dashboard : 상품 상세'
 };
 
-export default function Page() {
+type PageProps = { params: Promise<{ productId: string }> };
+
+export default async function Page(props: PageProps) {
+  const params = await props.params;
+  const queryClient = getQueryClient();
+
+  if (params.productId !== 'new') {
+    void queryClient.prefetchQuery(productByIdOptions(Number(params.productId)));
+  }
+
   return (
-    <PageContainer pageTitle="상품 상세" pageDescription="상품 상세 정보 UI 데모">
-      <div className="rounded-lg border border-dashed p-8 text-center">
-        <h2 className="text-xl font-semibold">상품 상세 데모</h2>
-        <p className="text-muted-foreground mt-2">
-          이 페이지는 UI 패턴 참고용 데모입니다.
-        </p>
+    <PageContainer>
+      <div className='flex-1 space-y-4'>
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          <ProductViewPage productId={params.productId} />
+        </HydrationBoundary>
       </div>
     </PageContainer>
   );
