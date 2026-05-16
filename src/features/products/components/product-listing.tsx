@@ -9,15 +9,14 @@ export default function ProductListingPage() {
   const search = searchParamsCache.get('name');
   const pageLimit = searchParamsCache.get('perPage');
   const categories = searchParamsCache.get('category');
-  const sortRaw = searchParamsCache.get('sort');
-  const sort = sortRaw ? JSON.parse(sortRaw) : [];
+  const sort = searchParamsCache.get('sort');
 
   const filters = {
     page,
     limit: pageLimit,
     ...(search && { search }),
     ...(categories && { categories }),
-    ...(sort.length > 0 && sortRaw && { sort: sortRaw })
+    ...(sort && { sort })
   };
 
   const queryClient = getQueryClient();

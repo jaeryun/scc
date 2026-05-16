@@ -3,21 +3,22 @@ import { getQueryClient } from '@/lib/query-client';
 import { searchParamsCache } from '@/lib/searchparams';
 import { usersQueryOptions } from '../api/queries';
 import { UsersTable } from './users-table';
+import { DataTableSkeleton } from '@/components/ui/table/data-table-skeleton';
+import { Suspense } from 'react';
 
 export default function UserListingPage() {
   const page = searchParamsCache.get('page');
   const search = searchParamsCache.get('name');
   const pageLimit = searchParamsCache.get('perPage');
   const roles = searchParamsCache.get('role');
-  const sortRaw = searchParamsCache.get('sort');
-  const sort = sortRaw ? JSON.parse(sortRaw) : [];
+  const sort = searchParamsCache.get('sort');
 
   const filters = {
     page,
     limit: pageLimit,
     ...(search && { search }),
     ...(roles && { roles }),
-    ...(sort.length > 0 && sortRaw && { sort: sortRaw })
+    ...(sort && { sort })
   };
 
   const queryClient = getQueryClient();
@@ -26,7 +27,13 @@ export default function UserListingPage() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <UsersTable />
+      <Suspense
+        fallback={
+          <DataTableSkeleton columnCount={5} rowCount={8} filterCount={2} />
+        }
+      >
+        <UsersTable />
+      </Suspense>
     </HydrationBoundary>
   );
 }

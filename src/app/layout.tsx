@@ -1,14 +1,8 @@
 import Providers from '@/components/layout/providers';
-import AppSidebar from '@/components/layout/app-sidebar';
-import Header from '@/components/layout/header';
 import { Toaster } from '@/components/ui/sonner';
-import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { fontVariables } from '@/components/themes/font.config';
 import { DEFAULT_THEME, THEMES } from '@/components/themes/theme.config';
 import ThemeProvider from '@/components/themes/theme-provider';
-import { InfoSidebar } from '@/components/layout/info-sidebar';
-import { InfobarProvider } from '@/components/ui/infobar';
-import KBar from '@/components/kbar';
 import { cn } from '@/lib/utils';
 import type { Metadata, Viewport } from 'next';
 import { cookies } from 'next/headers';
@@ -35,7 +29,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const activeThemeValue = cookieStore.get('active_theme')?.value;
   const isValidTheme = THEMES.some((t) => t.value === activeThemeValue);
   const themeToApply = isValidTheme ? activeThemeValue! : DEFAULT_THEME;
-  const defaultOpen = cookieStore.get('sidebar_state')?.value === 'true';
 
   return (
     <html lang='ko' suppressHydrationWarning data-theme={themeToApply}>
@@ -58,38 +51,21 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           fontVariables
         )}
       >
-        <a
-          href='#main-content'
-          className='sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-primary focus:text-primary-foreground focus:px-4 focus:py-2 focus:rounded-md'
-        >
-          주 콘텐츠로 건너뛰기
-        </a>
         <NextTopLoader color='var(--primary)' showSpinner={false} />
-        <ThemeProvider
-          attribute='class'
-          defaultTheme='system'
-          enableSystem
-          disableTransitionOnChange
-          enableColorScheme
-        >
-          <Providers activeThemeValue={themeToApply}>
-            <KBar>
-              <SidebarProvider defaultOpen={defaultOpen}>
-                <AppSidebar />
-                <SidebarInset id='main-content'>
-                  <Header />
-                  <InfobarProvider defaultOpen={false}>
-                    <div className='flex-1'>
-                      <NuqsAdapter>{children}</NuqsAdapter>
-                    </div>
-                    <InfoSidebar side='right' />
-                  </InfobarProvider>
-                </SidebarInset>
-              </SidebarProvider>
-            </KBar>
-            <Toaster />
-          </Providers>
-        </ThemeProvider>
+        <NuqsAdapter>
+          <ThemeProvider
+            attribute='class'
+            defaultTheme='system'
+            enableSystem
+            disableTransitionOnChange
+            enableColorScheme
+          >
+            <Providers activeThemeValue={themeToApply}>
+              <Toaster />
+              {children}
+            </Providers>
+          </ThemeProvider>
+        </NuqsAdapter>
       </body>
     </html>
   );
