@@ -1,15 +1,13 @@
-import PageContainer from "@/components/layout/page-container";
-import { SubnetTable } from "@/features/ipam/components/subnet-table";
-import { SubnetFormDialog } from "@/features/ipam/components/subnet-form";
+import PageContainer from '@/components/layout/page-container';
+import { IpamDashboardPage } from '@/features/ipam/components/dashboard-page';
 
 export default function DemoIpamPage() {
   return (
     <PageContainer
-      pageTitle="IPAM 대시보드"
-      pageDescription="네트워크 서브넷과 IP 주소를 관리합니다."
-      pageHeaderAction={<SubnetFormDialog />}
+      pageTitle='IPAM 대시보드'
+      pageDescription='전체 서브넷 및 IP 현황을 모니터링합니다.'
     >
-      <SubnetTable />
+      <IpamDashboardPage />
     </PageContainer>
   );
 }

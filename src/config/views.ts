@@ -18,7 +18,6 @@ export const views: ViewConfig[] = [
     icon: "home",
     navItems: [
       { title: "SCC 소개", href: "/home", icon: "info" },
-      { title: "주요 팀내 페이지 모음", href: "/home/pages", icon: "page" },
     ],
   },
   {
@@ -28,7 +27,7 @@ export const views: ViewConfig[] = [
     navItems: [
       { title: "대시보드", href: "/demo-ipam", icon: "dashboard" },
       { title: "서브넷 관리", href: "/demo-ipam/subnets", icon: "network" },
-      { title: "IP 주소 관리", href: "/demo-ipam/ip-addresses", icon: "server" },
+      { title: "IP 할당/반납", href: "/demo-ipam/ip-addresses", icon: "server" },
     ],
   },
   {
@@ -45,6 +44,17 @@ export const views: ViewConfig[] = [
       { title: "폼", href: "/demo-components/forms/basic", icon: "forms" },
       { title: "아이콘", href: "/demo-components/elements/icons", icon: "palette" },
       { title: "알림", href: "/demo-components/notifications", icon: "notification" },
+    ],
+  },
+  {
+    id: "settings",
+    label: "설정",
+    icon: "settings",
+    navItems: [
+      { title: "뷰 설정", href: "/settings/views", icon: "dashboard" },
+      { title: "일반", href: "/settings/general", icon: "settings" },
+      { title: "외형", href: "/settings/appearance", icon: "palette" },
+      { title: "알림", href: "/settings/notifications", icon: "notification" },
     ],
   },
 ];

@@ -1,13 +1,13 @@
-import PageContainer from "@/components/layout/page-container";
-import { IpTable } from "@/features/ipam/components/ip-table";
+import PageContainer from '@/components/layout/page-container';
+import { IpAssignReturnPage } from '@/features/ipam/components/ip-assign-page';
 
 export default function IpAddressesPage() {
   return (
     <PageContainer
-      pageTitle="IP 주소 관리"
-      pageDescription="서브넷 내 IP 주소를 할당하고 관리합니다."
+      pageTitle='IP 할당/반납'
+      pageDescription='서브넷의 빈 IP를 자동 할당하거나 호스트네임으로 검색하여 IP를 반납합니다.'
     >
-      <IpTable />
+      <IpAssignReturnPage />
     </PageContainer>
   );
 }

@@ -3,10 +3,9 @@ import {
   getSubnets,
   getSubnetById,
   getIpAddresses,
+  searchIpByHostname,
 } from "./service";
-import { IpAddressFilters } from "./types";
-
-// ─── Query Key Factories ───
+import { IpAddressFilters, HostnameSearchFilters } from "./types";
 
 export const subnetKeys = {
   all: ["subnets"] as const,
@@ -18,9 +17,9 @@ export const ipAddressKeys = {
   all: ["ip-addresses"] as const,
   lists: (filters: IpAddressFilters) =>
     [...ipAddressKeys.all, "list", filters] as const,
+  search: (filters: HostnameSearchFilters) =>
+    [...ipAddressKeys.all, "search", filters] as const,
 };
-
-// ─── Query Options ───
 
 export const subnetsQueryOptions = () =>
   queryOptions({
@@ -39,4 +38,11 @@ export const ipAddressesQueryOptions = (filters: IpAddressFilters = {}) =>
   queryOptions({
     queryKey: ipAddressKeys.lists(filters),
     queryFn: () => getIpAddresses(filters),
+  });
+
+export const ipHostnameSearchOptions = (filters: HostnameSearchFilters) =>
+  queryOptions({
+    queryKey: ipAddressKeys.search(filters),
+    queryFn: () => searchIpByHostname(filters),
+    enabled: !!filters.hostname,
   });

@@ -5,6 +5,8 @@ export const subnetSchema = z.object({
   network: z.string().min(1, "네트워크 주소는 필수입니다"),
   description: z.string().optional(),
   vlanId: z.string().optional(),
+  purpose: z.string().optional(),
+  centers: z.array(z.string()).default([]),
 });
 
 export const ipAddressSchema = z.object({

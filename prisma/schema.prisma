@@ -12,11 +12,13 @@ model Subnet {
   network     String   @unique
   description String?
   vlanId      String?
+  purpose     String?
+  centers     String[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   ipAddresses IpAddress[]
-  
+   
   @@index([network])
 }
 

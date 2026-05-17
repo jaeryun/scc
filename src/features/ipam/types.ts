@@ -5,6 +5,8 @@ export interface Subnet {
   network: string;
   description?: string | null;
   vlanId?: string | null;
+  purpose?: string | null;
+  centers: string[];
   createdAt: Date;
   updatedAt: Date;
 }

@@ -18,12 +18,24 @@ export interface IpAddressFilters {
   subnetId?: string;
 }
 
+export interface HostnameSearchFilters {
+  hostname: string;
+}
+
+export interface AssignIpPayload {
+  subnetId: string;
+  hostname?: string | null;
+  description?: string | null;
+}
+
 // ─── Mutation Payload Types ───
 
 export interface CreateSubnetPayload {
   network: string;
   description?: string | null;
   vlanId?: string | null;
+  purpose?: string | null;
+  centers: string[];
 }
 
 export interface UpdateSubnetPayload extends CreateSubnetPayload {

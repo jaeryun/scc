@@ -56,9 +56,11 @@ export function SubnetFormDialog({
         network,
         description,
         vlanId,
+        purpose: null,
+        centers: [],
       });
     } else {
-      await createMutation.mutateAsync({ network, description, vlanId });
+      await createMutation.mutateAsync({ network, description, vlanId, purpose: null, centers: [] });
     }
     setOpen(false);
     if (!isEdit) {

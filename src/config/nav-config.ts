@@ -54,7 +54,7 @@ export const navGroups: NavGroup[] = [
         items: []
       },
       {
-        title: 'IP Addresses',
+        title: 'IP Assign/Release',
         url: '/demo-ipam/ip-addresses',
         icon: 'server',
         isActive: false,

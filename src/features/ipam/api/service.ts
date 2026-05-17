@@ -9,6 +9,8 @@ import {
   CreateIpAddressPayload,
   UpdateIpAddressPayload,
   IpAddressFilters,
+  AssignIpPayload,
+  HostnameSearchFilters,
 } from "./types";
 
 // ─── Subnets ───
@@ -78,4 +80,26 @@ export async function updateIpAddress(
 
 export async function deleteIpAddress(id: string): Promise<null> {
   return apiClient(`/api/ipam/ip-addresses/${id}`, { method: "DELETE" });
+}
+
+// ─── IP Assignment / Release ───
+
+export async function assignIp(data: AssignIpPayload): Promise<IpAddress> {
+  return apiClient("/api/ipam/ip-addresses/assign", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+}
+
+export async function searchIpByHostname(
+  filters: HostnameSearchFilters
+): Promise<IpAddressListResponse> {
+  const url = `/api/ipam/ip-addresses/search?hostname=${encodeURIComponent(filters.hostname)}`;
+  return apiClient(url);
+}
+
+export async function releaseIp(id: string): Promise<null> {
+  return apiClient(`/api/ipam/ip-addresses/${id}/release`, {
+    method: "POST",
+  });
 }
