@@ -39,11 +39,12 @@ export default function IconsViewPage() {
 
   return (
     <PageContainer
-      pageTitle='Icons'
+      pageTitle='아이콘'
+      pageDescription='사전에 준비된 아이콘들을 사용하세요. Tabler 기반의 SVG 아이콘들이 준비되어 있습니다.'
       pageHeaderAction={
         <div className='flex items-center gap-3'>
           <Badge variant='secondary' className='text-xs'>
-            {TOTAL_COUNT} icons
+            {TOTAL_COUNT}개 아이콘
           </Badge>
           <Link
             href={TABLER_ICONS_URL}
@@ -75,14 +76,14 @@ export default function IconsViewPage() {
         </div>
         <div className='flex items-center gap-2'>
           <Input
-            placeholder='Search icons...'
+            placeholder='아이콘 검색...'
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className='max-w-sm'
           />
           {visibleCount !== TOTAL_COUNT && (
             <span className='text-muted-foreground text-xs whitespace-nowrap'>
-              {visibleCount} of {TOTAL_COUNT}
+              {TOTAL_COUNT}개 중 {visibleCount}개
             </span>
           )}
         </div>
@@ -101,7 +102,7 @@ export default function IconsViewPage() {
         </div>
         {iconEntries.length === 0 && (
           <p className='text-muted-foreground py-8 text-center'>
-            No icons found matching &quot;{search}&quot;
+              &quot;{search}&quot;에 해당하는 아이콘이 없습니다
           </p>
         )}
       </div>

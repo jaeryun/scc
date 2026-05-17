@@ -8,10 +8,10 @@ import type { Task } from '../utils/store';
 import { TaskCard } from './task-card';
 
 const COLUMN_TITLES: Record<string, string> = {
-  backlog: 'Backlog',
-  inProgress: 'In Progress',
-  review: 'Review',
-  done: 'Done'
+  backlog: '할 일',
+  inProgress: '진행 중',
+  review: '검토',
+  done: '완료'
 };
 
 interface TaskColumnProps extends Omit<React.ComponentProps<typeof KanbanColumn>, 'children'> {
