@@ -11,7 +11,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useCurrentView } from '@/hooks/use-current-view';
 import { views } from '@/config/views';
-import { settingsNavItems } from '@/config/settings-nav';
 import { Icons } from '../icons';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -22,8 +21,10 @@ import { viewSettingsQueryOptions } from '@/features/view-settings/api/queries';
 
 const mockUser = {
   imageUrl: '',
-  fullName: 'Demo User',
-  emailAddress: 'demo@example.com'
+  id: 'daniel.yun',
+  primary_team: '인프라팀',
+  secondary_team: '데이터센터팀',
+  role: 'admin'
 };
 
 export default function AppSidebar() {
@@ -36,11 +37,9 @@ export default function AppSidebar() {
     setMounted(true);
   }, []);
 
-  const isSettingsMode = pathname.startsWith('/settings');
-
   // If no view detected, default to first view
   const effectiveView = view ?? views[0];
-  const navItems = isSettingsMode ? settingsNavItems : effectiveView.navItems;
+  const navItems = effectiveView.navItems;
 
   // Fetch view settings from DB to get overridden icons
   const { data: viewSettings } = useQuery({
@@ -99,16 +98,12 @@ export default function AppSidebar() {
               aria-label='뷰 전환'
             >
               <div className='flex aspect-square size-8 shrink-0 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground'>
-                {isSettingsMode ? (
-                  <Icons.settings className='size-4' />
-                ) : (
-                  CurrentViewIconComponent && <CurrentViewIconComponent className='size-4' />
-                )}
+                {CurrentViewIconComponent && <CurrentViewIconComponent className='size-4' />}
               </div>
               <div className='grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden'>
                 <span className='truncate font-semibold' suppressHydrationWarning>SE Command Center</span>
                 <span className='truncate text-xs text-muted-foreground' suppressHydrationWarning>
-                  {isSettingsMode ? '설정' : effectiveView.label}
+                  {effectiveView.label}
                 </span>
               </div>
               <Icons.chevronsUpDown className='ml-auto size-4 shrink-0 text-muted-foreground group-data-[collapsible=icon]:hidden' />
@@ -148,19 +143,6 @@ export default function AppSidebar() {
                 );
               })}
             </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem
-                className='cursor-pointer'
-                onClick={() => router.push('/settings')}
-              >
-                <Icons.settings className='mr-2 h-4 w-4 text-muted-foreground' />
-                <span>설정</span>
-                {isSettingsMode && (
-                  <Icons.check className='ml-auto h-4 w-4 text-primary' />
-                )}
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarHeader>
@@ -194,14 +176,14 @@ export default function AppSidebar() {
                   className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
                 >
                   <Avatar className='h-8 w-8 rounded-lg'>
-                    <AvatarImage src={mockUser.imageUrl} alt={mockUser.fullName} />
+                    <AvatarImage src={mockUser.imageUrl} alt={mockUser.id} />
                     <AvatarFallback className='rounded-lg'>
-                      {mockUser.fullName.slice(0, 2).toUpperCase()}
+                      {mockUser.id.slice(0, 2).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
                   <div className='grid flex-1 text-left text-sm leading-tight'>
-                    <span className='truncate font-semibold'>{mockUser.fullName}</span>
-                    <span className='truncate text-xs'>{mockUser.emailAddress}</span>
+                    <span className='truncate font-semibold'>{mockUser.id}</span>
+                    <span className='truncate text-xs'>{mockUser.primary_team} &gt; {mockUser.secondary_team} · {mockUser.role}</span>
                   </div>
                   <Icons.chevronsDown className='ml-auto size-4' />
                 </SidebarMenuButton>
@@ -216,14 +198,14 @@ export default function AppSidebar() {
                   <div className='px-1 py-1.5'>
                     <div className='flex items-center gap-2'>
                       <Avatar className='h-8 w-8 rounded-lg'>
-                        <AvatarImage src={mockUser.imageUrl} alt={mockUser.fullName} />
+                        <AvatarImage src={mockUser.imageUrl} alt={mockUser.id} />
                         <AvatarFallback className='rounded-lg'>
-                          {mockUser.fullName.slice(0, 2).toUpperCase()}
+                          {mockUser.id.slice(0, 2).toUpperCase()}
                         </AvatarFallback>
                       </Avatar>
                       <div className='grid flex-1 text-left text-sm leading-tight'>
-                        <span className='truncate font-semibold'>{mockUser.fullName}</span>
-                        <span className='truncate text-xs'>{mockUser.emailAddress}</span>
+                        <span className='truncate font-semibold'>{mockUser.id}</span>
+                        <span className='truncate text-xs'>{mockUser.primary_team} &gt; {mockUser.secondary_team} · {mockUser.role}</span>
                       </div>
                     </div>
                   </div>

@@ -12,7 +12,7 @@ type Params = { params: Promise<{ id: string }> };
 export async function PUT(request: NextRequest, { params }: Params) {
   const { id } = await params;
   const body = await request.json();
-  const data = await fakeUsers.updateUser(Number(id), body);
+  const data = await fakeUsers.updateUser(id, body);
 
   if (!data.success) {
     return NextResponse.json(data, { status: 404 });
@@ -23,7 +23,7 @@ export async function PUT(request: NextRequest, { params }: Params) {
 
 export async function DELETE(request: NextRequest, { params }: Params) {
   const { id } = await params;
-  const data = await fakeUsers.deleteUser(Number(id));
+  const data = await fakeUsers.deleteUser(id);
 
   if (!data.success) {
     return NextResponse.json(data, { status: 404 });

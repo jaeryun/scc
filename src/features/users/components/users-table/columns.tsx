@@ -9,21 +9,18 @@ import { ROLE_OPTIONS } from './options';
 
 export const columns: ColumnDef<User>[] = [
   {
-    id: 'name',
-    accessorFn: (row) => `${row.first_name} ${row.last_name}`,
+    accessorKey: 'id',
     header: ({ column }: { column: Column<User, unknown> }) => (
-      <DataTableColumnHeader column={column} title='Name' />
+      <DataTableColumnHeader column={column} title='User ID' />
     ),
     cell: ({ row }) => (
       <div className='flex flex-col'>
-        <span className='font-medium'>
-          {row.original.first_name} {row.original.last_name}
-        </span>
-        <span className='text-muted-foreground text-xs'>{row.original.email}</span>
+        <span className='font-medium'>{row.original.id}</span>
+        <span className='text-muted-foreground text-xs'>{row.original.primary_team}</span>
       </div>
     ),
     meta: {
-      label: 'Name',
+      label: 'User ID',
       placeholder: 'Search users...',
       variant: 'text' as const,
       icon: Icons.text
@@ -31,8 +28,24 @@ export const columns: ColumnDef<User>[] = [
     enableColumnFilter: true
   },
   {
-    accessorKey: 'phone',
-    header: 'PHONE'
+    id: 'secondary_team',
+    accessorFn: (row) => `${row.primary_team} > ${row.secondary_team}`,
+    header: ({ column }: { column: Column<User, unknown> }) => (
+      <DataTableColumnHeader column={column} title='Team' />
+    ),
+    cell: ({ row }) => (
+      <div className='flex flex-col'>
+        <span className='font-medium'>{row.original.primary_team}</span>
+        <span className='text-muted-foreground text-xs'>{row.original.secondary_team}</span>
+      </div>
+    ),
+    meta: {
+      label: 'Team',
+      placeholder: 'Search teams...',
+      variant: 'text' as const,
+      icon: Icons.text
+    },
+    enableColumnFilter: true
   },
   {
     id: 'role',

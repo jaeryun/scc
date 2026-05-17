@@ -38,10 +38,10 @@ export async function createUser(data: UserMutationPayload) {
   return fakeUsers.createUser(data);
 }
 
-export async function updateUser(id: number, data: UserMutationPayload) {
+export async function updateUser(id: string, data: UserMutationPayload) {
   return fakeUsers.updateUser(id, data);
 }
 
-export async function deleteUser(id: number) {
+export async function deleteUser(id: string) {
   return fakeUsers.deleteUser(id);
 }

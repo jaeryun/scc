@@ -8,11 +8,9 @@ import { matchSorter } from 'match-sorter';
 export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export type User = {
-  id: number;
-  first_name: string;
-  last_name: string;
-  email: string;
-  phone: string;
+  id: string;
+  primary_team: string;
+  secondary_team: string;
   status: string;
   role: string;
   created_at: string;
@@ -25,16 +23,16 @@ export const fakeUsers = {
 
   initialize() {
     const sampleUsers: User[] = [];
-    function generateRandomUserData(id: number): User {
-      const roles = ['Developer', 'Designer', 'Manager', 'QA', 'DevOps', 'Product Owner'];
-      const statuses = ['Active', 'Inactive', 'Invited'];
+    function generateRandomUserData(id: string): User {
+      const roles = ['admin', 'viewer'];
+      const statuses = ['Active', 'Inactive'];
+      const primaryTeams = ['인프라팀', '개발팀', '보안팀', '네트워크팀', '플랫폼팀'];
+      const secondaryTeams = ['데이터센터팀', '클라우드팀', '백엔드팀', '프론트엔드팀', 'DevOps팀'];
 
       return {
         id,
-        first_name: faker.person.firstName(),
-        last_name: faker.person.lastName(),
-        email: faker.internet.email(),
-        phone: faker.phone.number({ style: 'national' }),
+        primary_team: faker.helpers.arrayElement(primaryTeams),
+        secondary_team: faker.helpers.arrayElement(secondaryTeams),
         status: faker.helpers.arrayElement(statuses),
         role: faker.helpers.arrayElement(roles),
         created_at: faker.date.between({ from: '2022-01-01', to: '2023-12-31' }).toISOString(),
@@ -42,8 +40,21 @@ export const fakeUsers = {
       };
     }
 
-    for (let i = 1; i <= 50; i++) {
-      sampleUsers.push(generateRandomUserData(i));
+    const usernameParts = [
+      'daniel.yun', 'james.kim', 'lisa.park', 'noah.lee', 'emma.choi',
+      'oliver.jung', 'sophia.kang', 'william.shin', 'ava.jang', 'benjamin.han',
+      'charlotte.ryu', 'henry.moon', 'amelia.song', 'lucas.ahn', 'mia.seo',
+      'alexander.nam', 'ella.baek', 'mason.hwang', 'scarlett.ko', 'ethan.chang',
+      'grace.cho', 'logan.heo', 'chloe.sim', 'jackson.noh', 'zoe.maeng',
+      'sebastian.huh', 'aria.uhm', 'owen.bang', 'lily.pyo', 'caleb.kwon',
+      'hannah.yeom', 'dylan.jeon', 'nora.chae', 'wyatt.son', 'aurora.chi',
+      'ryan.tak', 'violet.kil', 'nathan.ok', 'stella.pyeon', 'liam.yang',
+      'savannah.kook', 'leo.kyung', 'aurora.jin', 'gabriel.kong', 'layla.pil',
+      'levi.won', 'isla.kim', 'andrew.bae', 'penelope.ho', 'julian.joo'
+    ];
+
+    for (let i = 0; i < usernameParts.length; i++) {
+      sampleUsers.push(generateRandomUserData(usernameParts[i]));
     }
 
     this.records = sampleUsers;
@@ -58,19 +69,18 @@ export const fakeUsers = {
 
     if (search) {
       users = matchSorter(users, search, {
-        keys: ['first_name', 'last_name', 'email']
+        keys: ['id', 'primary_team', 'secondary_team']
       });
     }
 
     return users;
   },
 
-  async createUser(data: Omit<User, 'id' | 'created_at' | 'updated_at'>) {
+  async createUser(data: Omit<User, 'created_at' | 'updated_at'>) {
     await delay(800);
 
     const newUser: User = {
       ...data,
-      id: this.records.length + 1,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString()
     };
@@ -84,7 +94,7 @@ export const fakeUsers = {
     };
   },
 
-  async updateUser(id: number, data: Omit<User, 'id' | 'created_at' | 'updated_at'>) {
+  async updateUser(id: string, data: Omit<User, 'id' | 'created_at' | 'updated_at'>) {
     await delay(800);
 
     const index = this.records.findIndex((user) => user.id === id);
@@ -106,7 +116,7 @@ export const fakeUsers = {
     };
   },
 
-  async deleteUser(id: number) {
+  async deleteUser(id: string) {
     await delay(800);
 
     const index = this.records.findIndex((user) => user.id === id);
@@ -153,11 +163,8 @@ export const fakeUsers = {
         if (sortItems.length > 0) {
           const { id, desc } = sortItems[0];
           allUsers.sort((a, b) => {
-            // Handle computed 'name' column
-            const aVal =
-              id === 'name' ? `${a.first_name} ${a.last_name}` : (a as Record<string, unknown>)[id];
-            const bVal =
-              id === 'name' ? `${b.first_name} ${b.last_name}` : (b as Record<string, unknown>)[id];
+            const aVal = (a as Record<string, unknown>)[id];
+            const bVal = (b as Record<string, unknown>)[id];
             if (typeof aVal === 'number' && typeof bVal === 'number') {
               return desc ? bVal - aVal : aVal - bVal;
             }

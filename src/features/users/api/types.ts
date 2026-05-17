@@ -19,10 +19,9 @@ export type UsersResponse = {
 };
 
 export type UserMutationPayload = {
-  first_name: string;
-  last_name: string;
-  email: string;
-  phone: string;
+  id: string;
+  primary_team: string;
+  secondary_team: string;
   role: string;
   status: string;
 };
