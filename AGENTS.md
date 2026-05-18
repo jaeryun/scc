@@ -374,9 +374,9 @@ YYMMDD_무엇을-했는지-설명
 
 | 접두어 (가이드) | 용도 | 예시 |
 |-----------|------|------|
-| `init` | 초기 스키마 | `260514_init_core-schema` |
-| `add` | 컬럼/테이블/인덱스 추가 | `260518_add_purpose-centers-to-subnet` |
-| `alter` | 컬럼 타입/제약조건 변경 | `260520_alter_status-add-archived` |
+| `init` | 초기 스키마 | `260514_init-core-schema` |
+| `add` | 컬럼/테이블/인덱스 추가 | `260518_add-purpose-centers-to-subnet` |
+| `alter` | 컬럼 타입/제약조건 변경 | `260520_alter-status-add-archived` |
 | `remove` | 컬럼/테이블 제거 | `260522_remove-vlan-from-subnet` |
 | `rename` | 컬럼명/테이블명 변경 | `260525_rename-ipaddress-to-ip` |
 
