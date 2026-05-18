@@ -1,5 +1,7 @@
 # API 라우트 컨벤션
 
+에러 처리 (ZodError vs 서버), 접근성 등 공통 규칙 → [@docs/core/conventions.md](../../../docs/core/conventions.md) 참조.
+
 ## 기본 구조
 - 경로: `src/app/api/<name>/route.ts`
 - HTTP 메서드를 함수명 그대로 export: `GET`, `POST`, `PUT`, `PATCH`, `DELETE`
@@ -54,7 +56,7 @@ export async function POST(req: Request) {
 | 리소스 없음 | 404 | null/undefined 체크 |
 | 서버 내부 오류 | 500 | 그 외 모든 catch 에러 |
 
-**표준 패턴 (ZodError 구분)**:
+**표준 패턴**:
 
 ```typescript
 import { ZodError } from "zod";
@@ -71,15 +73,6 @@ export async function POST(req: Request) {
     }
     return NextResponse.json(failure("서브넷 생성 실패"), { status: 500 });
   }
-}
-```
-
-**간단 패턴 (단일 catch, 신규 개발 시 위 패턴으로 마이그레이션 권장)**:
-
-```typescript
-// 현재 일부 route.ts에서 사용 중 — 명시적 ZodError 구분 없음
-} catch (error) {
-  return NextResponse.json(failure("서브넷 생성 실패"), { status: 400 });
 }
 ```
 
