@@ -27,5 +27,14 @@ CREATE TABLE "IpAddress" (
     CONSTRAINT "IpAddress_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateIndex
+CREATE UNIQUE INDEX "Subnet_network_key" ON "Subnet"("network");
+
+-- CreateIndex
+CREATE INDEX "Subnet_network_idx" ON "Subnet"("network");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "IpAddress_ip_subnetId_key" ON "IpAddress"("ip", "subnetId");
+
 -- AddForeignKey
 ALTER TABLE "IpAddress" ADD CONSTRAINT "IpAddress_subnetId_fkey" FOREIGN KEY ("subnetId") REFERENCES "Subnet"("id") ON DELETE CASCADE ON UPDATE CASCADE;

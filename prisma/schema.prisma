@@ -13,7 +13,7 @@ model Subnet {
   description String?
   vlanId      String?
   purpose     String?
-  centers     String[]
+  centers     String[] @default([])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 

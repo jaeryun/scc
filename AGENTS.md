@@ -360,29 +360,53 @@ export interface ViewDefinition {
 ### Schema Location
 
 - `prisma/schema.prisma` — Database schema
+- `prisma/migrations/` — Migration files (SQL)
 - `prisma/seed.ts` — Seed script for demo data
 
-### Common Commands
+### Migration Naming Convention
 
-```bash
-# Generate Prisma client after schema changes
-bunx prisma generate
-
-# Run migrations
-bunx prisma migrate dev --name <name>
-
-# Seed database
-bunx prisma db seed
+```
+YYMMDD_무엇을-했는지-설명
 ```
 
-### Schema Changes Workflow
+- `_` : 구조 구분자 (날짜 / 설명)
+- `-` : 설명 내 단어 구분 (공백 대체)
 
-1. Edit `prisma/schema.prisma`
-2. Run `bunx prisma migrate dev --name <description>`
-3. Run `bunx prisma generate`
-4. Update API handlers and service functions as needed
+| 접두어 (가이드) | 용도 | 예시 |
+|-----------|------|------|
+| `init` | 초기 스키마 | `260514_init_core-schema` |
+| `add` | 컬럼/테이블/인덱스 추가 | `260518_add_purpose-centers-to-subnet` |
+| `alter` | 컬럼 타입/제약조건 변경 | `260520_alter_status-add-archived` |
+| `remove` | 컬럼/테이블 제거 | `260522_remove-vlan-from-subnet` |
+| `rename` | 컬럼명/테이블명 변경 | `260525_rename-ipaddress-to-ip` |
 
-**Never modify the database schema without creating a migration.**
+애매한 복합 변경은 핵심 변경을 자연스럽게 서술: `260601_replace-vlan-with-gateway`
+
+### Schema Changes Workflow (MANDATORY)
+
+1. `prisma/schema.prisma` 수정
+2. 마이그레이션 생성:
+   ```bash
+   bunx prisma migrate diff \
+     --from-schema-datasource prisma/schema.prisma \
+     --to-schema-datamodel prisma/schema.prisma \
+     --script > prisma/migrations/YYMMDD_설명/migration.sql
+   ```
+   > Note: `prisma migrate diff`에 shadow DB가 필요할 수 있음. 로컬에서는 `prisma migrate dev --name YYMMDD_설명` 으로 생성 가능.
+3. `prisma/migrations/YYMMDD_설명/migration.sql` 확인
+4. `bunx prisma migrate resolve --applied YYMMDD_설명`
+5. `bunx prisma generate`
+6. `bun run build` 로 무결성 확인
+
+**절대 `prisma db push` 단독 사용 금지.** 마이그레이션 파일이 생성되지 않아 신규 환경에서 스키마 불일치 발생.
+
+### Migration Integrity Check
+
+빌드 전 `scripts/check-migrations.sh` 가 자동 실행되어 `schema.prisma`와 마이그레이션의 일치를 검증합니다.
+수동 실행:
+```bash
+bash scripts/check-migrations.sh
+```
 
 ---
 
