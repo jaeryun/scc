@@ -1,38 +1,38 @@
-# Adding New Themes
+# 새 테마 추가하기
 
-This guide explains how to add a new theme to the application. The theme system uses CSS custom properties with `[data-theme]` selectors for easy theme switching.
+이 가이드는 애플리케이션에 새 테마를 추가하는 방법을 설명합니다. 테마 시스템은 CSS custom properties와 `[data-theme]` 셀렉터를 사용하여 손쉬운 테마 전환을 지원합니다.
 
-## The Journey: Adding a New Theme
+## 전체 과정: 새 테마 추가하기
 
-When adding a new theme, follow this journey:
+새 테마를 추가할 때는 다음 과정을 따르세요:
 
-1. **Create theme CSS file** → `src/styles/themes/your-theme-name.css` with `[data-theme='your-theme-name']`
-2. **Import theme** → Add `@import` to `src/styles/theme.css`
-3. **Register theme** → Add to `THEMES` array in `src/components/themes/theme.config.ts`
-4. **Add fonts (if needed)** → Import fonts in `src/components/themes/font.config.ts` if using custom Google Fonts
-5. **Set as default (optional)** → Update `DEFAULT_THEME` in `src/components/themes/active-theme.tsx`
+1. **테마 CSS 파일 생성** → `src/styles/themes/your-theme-name.css` 파일에 `[data-theme='your-theme-name']` 정의
+2. **테마 임포트** → `src/styles/theme.css`에 `@import` 추가
+3. **테마 등록** → `src/components/themes/theme.config.ts`의 `THEMES` 배열에 추가
+4. **폰트 추가 (필요한 경우)** → 커스텀 Google Fonts를 사용하는 경우 `src/components/themes/font.config.ts`에서 폰트 임포트
+5. **기본값으로 설정 (선택 사항)** → `src/components/themes/active-theme.tsx`의 `DEFAULT_THEME` 업데이트
 
-See the **Step-by-Step Guide** section below for detailed instructions.
+자세한 안내는 아래 **단계별 가이드** 섹션을 참고하세요.
 
-## Quick Start: Set Your Theme as Default
+## 빠른 시작: 테마를 기본값으로 설정하기
 
-To make your new theme the default (so it loads automatically without the theme switcher):
+새 테마를 기본값으로 만들려면 (테마 스위처 없이 자동으로 로드되도록):
 
-1. Open `src/components/themes/active-theme.tsx`
-2. Change line 12: `const DEFAULT_THEME = 'your-theme-name';`
-3. Save and restart your dev server
+1. `src/components/themes/active-theme.tsx` 파일 열기
+2. 12번째 줄 변경: `const DEFAULT_THEME = 'your-theme-name';`
+3. 저장하고 개발 서버 재시작
 
-That's it! Your theme will now be the default for all new users.
+이게 전부입니다! 이제 모든 신규 사용자에게 기본 테마로 적용됩니다.
 
-> **Note:** Make sure you've completed steps 1-3 above before setting a theme as default.
+> **참고:** 테마를 기본값으로 설정하기 전에 위의 1-3단계를 완료했는지 확인하세요.
 
-## Theme Structure
+## 테마 구조
 
-All themes are located in `src/styles/themes/` directory. Each theme is a complete, self-contained CSS file that defines all design tokens for both light and dark modes.
+모든 테마는 `src/styles/themes/` 디렉토리에 위치합니다. 각 테마는 light 모드와 dark 모드의 모든 디자인 토큰을 정의하는 완전하고 독립적인 CSS 파일입니다.
 
-## File Format
+## 파일 형식
 
-Each theme file must follow this structure:
+각 테마 파일은 다음 구조를 따라야 합니다:
 
 ```css
 /* Light mode tokens */
@@ -76,19 +76,19 @@ Each theme file must follow this structure:
   --sidebar-ring: oklch(...);
 
   /* Typography */
-  /* Option 1: Use fonts from next/font/google (recommended) */
-  --font-sans: 'Font Name', sans-serif; /* Use the font's display name */
+  /* Option 1: next/font/google의 폰트 사용 (권장) */
+  --font-sans: 'Font Name', sans-serif; /* 폰트의 display name 사용 */
   --font-serif: ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
   --font-mono: 'Mono Font Name', monospace;
 
-  /* Option 2: Use system fonts */
+  /* Option 2: 시스템 폰트 사용 */
   /* --font-sans: ui-sans-serif, system-ui, -apple-system, sans-serif; */
 
   /* Spacing & Layout */
   --radius: 0.5rem;
   --spacing: 0.25rem;
 
-  /* Shadows (optional) */
+  /* Shadows (선택 사항) */
   --shadow-x: 0px;
   --shadow-y: 1px;
   --shadow-blur: 3px;
@@ -104,16 +104,16 @@ Each theme file must follow this structure:
   --shadow-xl: 0px 1px 3px 0px hsl(0 0% 0% / 0.17), 0px 8px 10px -1px hsl(0 0% 0% / 0.17);
   --shadow-2xl: 0px 1px 3px 0px hsl(0 0% 0% / 0.43);
 
-  /* Letter spacing (optional) */
+  /* Letter spacing (선택 사항) */
   --tracking-normal: 0em;
 }
 
 /* Dark mode tokens */
 [data-theme='your-theme-name'].dark {
-  /* Same tokens as above, but with dark mode values */
+  /* 위와 동일한 토큰, dark mode 값으로 대체 */
   --background: oklch(...);
   --foreground: oklch(...);
-  /* ... all other tokens with dark mode values */
+  /* ... 다른 모든 토큰을 dark mode 값으로 정의 */
 }
 
 /* Theme inline mappings */
@@ -164,7 +164,7 @@ Each theme file must follow this structure:
     --radius-lg: var(--radius);
     --radius-xl: calc(var(--radius) + 4px);
 
-    /* Shadow mappings (if shadows are defined) */
+    /* Shadow mappings (shadows가 정의된 경우) */
     --shadow-2xs: var(--shadow-2xs);
     --shadow-xs: var(--shadow-xs);
     --shadow-sm: var(--shadow-sm);
@@ -174,7 +174,7 @@ Each theme file must follow this structure:
     --shadow-xl: var(--shadow-xl);
     --shadow-2xl: var(--shadow-2xl);
 
-    /* Tracking variants (if tracking-normal is defined) */
+    /* Tracking variants (tracking-normal이 정의된 경우) */
     --tracking-tighter: calc(var(--tracking-normal) - 0.05em);
     --tracking-tight: calc(var(--tracking-normal) - 0.025em);
     --tracking-normal: var(--tracking-normal);
@@ -185,189 +185,198 @@ Each theme file must follow this structure:
 }
 ```
 
-## Step-by-Step Guide: Adding a New Theme
+## 단계별 가이드: 새 테마 추가하기
 
-Follow these steps in order to add a new theme to your application.
+아래 단계를 순서대로 따라 애플리케이션에 새 테마를 추가하세요.
 
-### Step 1: Create Theme CSS File
+### Step 1: 테마 CSS 파일 생성
 
-Create a new file in `src/styles/themes/` with a descriptive name (use kebab-case):
+`src/styles/themes/`에 설명적인 이름으로 새 파일을 생성합니다 (kebab-case 사용):
 
 ```bash
 src/styles/themes/your-theme-name.css
 ```
 
-**Important:** The filename should match the `data-theme` attribute value you'll use in the CSS.
+**중요:** 파일명은 CSS에서 사용할 `data-theme` 속성 값과 일치해야 합니다.
 
-### Step 2: Define Your Theme with `[data-theme]` Attribute
+### Step 2: `[data-theme]` 속성으로 테마 정의하기
 
-Copy the structure from the "File Format" section above and fill in your color values. Use OKLCH color format for better color consistency:
+위의 "파일 형식" 섹션에서 구조를 복사하고 색상 값을 채워 넣으세요. 더 나은 색상 일관성을 위해 OKLCH 색상 형식을 사용하세요:
 
 ```css
 /* Light mode tokens */
 [data-theme='your-theme-name'] {
-  --background: oklch(1 0 0); /* White */
-  --foreground: oklch(0.145 0 0); /* Dark gray */
+  --background: oklch(1 0 0); /* 흰색 */
+  --foreground: oklch(0.145 0 0); /* 진한 회색 */
   --card: oklch(...);
-  /* ... all other tokens */
+  /* ... 다른 모든 토큰 */
 }
 
 /* Dark mode tokens */
 [data-theme='your-theme-name'].dark {
-  --background: oklch(0.145 0 0); /* Dark */
-  --foreground: oklch(0.985 0 0); /* Light */
-  /* ... all other tokens with dark mode values */
+  --background: oklch(0.145 0 0); /* 어두운 색 */
+  --foreground: oklch(0.985 0 0); /* 밝은 색 */
+  /* ... 다른 모든 토큰을 dark mode 값으로 정의 */
 }
 
-/* Theme inline mappings for Tailwind */
+/* Tailwind를 위한 Theme inline mappings */
 [data-theme='your-theme-name'] {
   @theme inline {
-    /* All the mappings as shown in the File Format section */
+    /* "파일 형식" 섹션에 표시된 모든 매핑 */
   }
 }
 ```
 
-**Color Format:**
+**색상 형식:**
 
-- Use `oklch()` format: `oklch(lightness chroma hue)`
-- Example: `oklch(0.852 0.199 91.936)` = light green-blue
-- Lightness: 0-1 (0 = black, 1 = white)
-- Chroma: 0+ (0 = grayscale, higher = more saturated)
-- Hue: 0-360 (color wheel position)
+- `oklch()` 형식 사용: `oklch(lightness chroma hue)`
+- 예시: `oklch(0.852 0.199 91.936)` = 밝은 초록-파랑
+- Lightness: 0-1 (0 = 검정, 1 = 흰색)
+- Chroma: 0+ (0 = 무채색, 높을수록 채도가 높음)
+- Hue: 0-360 (색상환 상의 위치)
 
-**Key Points:**
+**핵심 사항:**
 
-- The `[data-theme='your-theme-name']` selector is what makes your theme work
-- The value `'your-theme-name'` must match exactly in all places (CSS file, config, etc.)
-- Always include both light and dark mode variants
-- Include the `@theme inline` block for Tailwind CSS integration
+- `[data-theme='your-theme-name']` 셀렉터가 테마를 작동시키는 요소입니다
+- `'your-theme-name'` 값은 모든 곳(CSS 파일, 설정 파일 등)에서 정확히 일치해야 합니다
+- 항상 light 모드와 dark 모드 변형을 모두 포함하세요
+- Tailwind CSS 통합을 위한 `@theme inline` 블록을 포함하세요
 
-### Step 3: Import Theme in theme.css
+### Step 3: theme.css에서 테마 임포트
 
-Add your theme import to `src/styles/theme.css`:
+`src/styles/theme.css`에 테마 임포트를 추가하세요:
 
 ```css
 @import './themes/your-theme-name.css';
 ```
 
-This makes your theme available to the application.
+이렇게 하면 애플리케이션에서 테마를 사용할 수 있게 됩니다.
 
-### Step 4: Add Theme to theme.config.ts
+### Step 4: theme.config.ts에 테마 추가
 
-Add your theme to the `THEMES` array in `src/components/themes/theme.config.ts`:
+`src/components/themes/theme.config.ts`의 `THEMES` 배열에 테마를 추가하세요:
 
 ```typescript
 export const THEMES = [
-  // ... existing themes
+  // ... 기존 테마
   {
-    name: 'Your Theme Name', // Display name in the UI
-    value: 'your-theme-name' // Must match [data-theme] value exactly
+    name: 'Your Theme Name', // UI에 표시될 이름
+    value: 'your-theme-name' // CSS의 [data-theme] 값과 정확히 일치해야 함
   }
 ];
 ```
 
-**Important:** The `value` field must match the `data-theme` attribute value from your CSS file exactly.
+**중요:** `value` 필드는 CSS 파일의 `data-theme` 속성 값과 정확히 일치해야 합니다.
 
-### Step 5: Add Custom Fonts (If Needed)
+### Step 5: 커스텀 폰트 추가 (필요한 경우)
 
-**Only do this step if your theme requires a custom Google Font that isn't already loaded.**
+**이 단계는 아직 로드되지 않은 커스텀 Google Font가 테마에 필요한 경우에만 수행하세요.**
 
-If you want to use a Google Font in your theme:
+테마에 Google Font를 사용하려는 경우:
 
-**File:** `src/components/themes/font.config.ts`
+**파일:** `src/components/themes/font.config.ts`
 
-1. **Import the font** from `next/font/google`:
+1. `next/font/google`에서 **폰트 임포트**:
 
 ```typescript
 import { Your_Font_Name } from 'next/font/google';
 ```
 
-2. **Configure the font** with a CSS variable:
+2. CSS 변수로 **폰트 설정**:
 
 ```typescript
 const fontYourName = Your_Font_Name({
   subsets: ['latin'],
-  weight: ['400', '500', '700'], // Adjust weights as needed
-  variable: '--font-your-name' // Optional: custom variable name
+  weight: ['400', '500', '700'], // 필요에 따라 weight 조정
+  variable: '--font-your-name' // 선택 사항: 커스텀 변수 이름
 });
 ```
 
-3. **Add it to the `fontVariables` export**:
+3. `fontVariables` export에 **추가**:
 
 ```typescript
 export const fontVariables = cn(
-  // ... existing fonts
+  // ... 기존 폰트
   fontYourName.variable
 );
 ```
 
-4. **Use the font in your theme CSS** by its display name (not the CSS variable):
+4. 테마 CSS에서 display name으로 **폰트 사용** (CSS 변수가 아님):
 
 ```css
 [data-theme='your-theme-name'] {
-  --font-sans: 'Your Font Name', sans-serif; /* Use the actual font name */
+  --font-sans: 'Your Font Name', sans-serif; /* 실제 폰트 이름 사용 */
   --font-mono: 'Your Mono Font', monospace;
 }
 ```
 
-**Important Notes:**
+**중요 참고 사항:**
 
-- Use the font's **display name** in CSS (e.g., `'Geist'`, `'Architects Daughter'`), not the CSS variable
-- The font must be imported in `font.config.ts` for it to be loaded by Next.js
-- Font variables from `font.config.ts` are automatically applied to the body via `layout.tsx`
-- You can use any Google Font available in `next/font/google`
-- Check existing fonts in `font.config.ts` before adding new ones - you might be able to reuse them
+- CSS에서는 폰트의 **display name**을 사용하세요 (예: `'Geist'`, `'Architects Daughter'`). CSS 변수가 아닙니다.
+- Next.js가 폰트를 로드하려면 `font.config.ts`에서 폰트를 임포트해야 합니다.
+- `font.config.ts`의 폰트 변수는 `layout.tsx`를 통해 body에 자동으로 적용됩니다.
+- `next/font/google`에서 사용 가능한 모든 Google Font를 사용할 수 있습니다.
+- 새 폰트를 추가하기 전에 `font.config.ts`에 기존 폰트가 있는지 확인하세요. 재사용할 수 있을 수도 있습니다.
 
-**Example:** The `notebook` theme uses `Architects Daughter`:
+**예시:** `notebook` 테마는 `Architects Daughter`를 사용합니다:
 
-- Imported in `font.config.ts` as `Architects_Daughter`
-- Used in `notebook.css` as `'Architects Daughter'` (with quotes and space)
+- `font.config.ts`에서 `Architects_Daughter`로 임포트
+- `notebook.css`에서 `'Architects Daughter'`로 사용 (따옴표와 공백 포함)
 
-### Step 6: Set as Default Theme (Optional)
+### Step 6: 기본 테마로 설정 (선택 사항)
 
-If you want your theme to be the default theme that loads when users first visit the application (without needing the theme switcher), update the default theme constant:
+사용자가 처음 애플리케이션을 방문할 때 (테마 스위처 없이) 로드되는 기본 테마로 설정하려면, 기본 테마 상수를 업데이트하세요:
 
-**File:** `src/components/themes/theme.config.ts`
+**파일:** `src/components/themes/theme.config.ts`
 
 ```typescript
 /**
- * Default theme that loads when no user preference is set
- * Change this value to set a different default theme
+ * 사용자 설정이 없을 때 로드되는 기본 테마
+ * 다른 기본 테마로 설정하려면 이 값을 변경하세요
  */
-export const DEFAULT_THEME = 'your-theme-name'; // Change from 'vercel' to your theme name
+export const DEFAULT_THEME = 'your-theme-name'; // 'vercel'에서 변경
 ```
 
-**Note:**
+**참고:**
 
-- This is the **single source of truth** for the default theme - it's automatically used in both server-side rendering and client-side code
-- This will make your theme the default for all new users
-- Existing users who have already selected a theme will still see their saved preference (stored in cookies)
-- The default theme is applied immediately on page load (no flash of unstyled content)
+- 이는 기본 테마의 **단일 진실 공급원(SSOT)** 입니다. 서버 사이드 렌더링과 클라이언트 사이드 코드 모두에서 자동으로 사용됩니다.
+- **서버 사이드**: HTML `data-theme` 속성에 즉시 적용 (깜빡임 없음)
+- **클라이언트 사이드**: 쿠키에 저장된 설정이 없을 때의 fallback으로 사용
+- **사용자 설정**: 저장된 사용자 설정은 여전히 존중됩니다 (쿠키에 저장됨)
+- **자동**: 여러 파일을 수정할 필요가 없습니다. 한 번만 변경하면 모든 곳에 적용됩니다.
 
-### Step 7: Test Your Theme
+**이 접근 방식의 장점:**
 
-1. Start your development server
-2. Open the theme selector in the UI
-3. Select your new theme
-4. Verify it works in both light and dark modes
-5. Test scaled variant by selecting "Your Theme Name (Scaled)"
-6. If you set it as default, clear your browser cookies and refresh to see it load automatically
+✅ 코드 중복 없음 - 한 번 정의하고 모든 곳에서 사용
+✅ Type-safe - TypeScript가 일관성을 보장
+✅ 변경이 쉬움 - 한 파일의 한 줄만 수정
+✅ 문서화가 잘 되어 있음 - 명확한 주석으로 목적 설명
+✅ 즉시 적용 - 스타일이 지정되지 않은 콘텐츠의 깜빡임 없음
 
-## Quick Reference: File Locations
+### Step 7: 테마 테스트
 
-When adding a new theme, you'll work with these files in this order:
+1. 개발 서버 시작하기
+2. UI에서 테마 선택기 열기
+3. 새 테마 선택하기
+4. light 모드와 dark 모드 모두에서 작동하는지 확인하기
+5. "Your Theme Name (Scaled)"를 선택하여 scaled 변형 테스트하기
+6. 기본값으로 설정한 경우, 브라우저 쿠키를 지우고 새로고침하여 자동으로 로드되는지 확인하기
 
-1. ✅ `src/styles/themes/your-theme-name.css` - Create theme file with `[data-theme]` attribute
-2. ✅ `src/styles/theme.css` - Import your theme file
-3. ✅ `src/components/themes/theme.config.ts` - Add theme to `THEMES` array
-4. ⚠️ `src/components/themes/font.config.ts` - Add fonts only if needed
-5. ⚠️ `src/components/themes/active-theme.tsx` - Set as default only if desired
+## 빠른 참조: 파일 위치
 
-## Required Tokens
+새 테마를 추가할 때 다음 순서로 이 파일들을 작업하게 됩니다:
 
-### Minimum Required
+1. ✅ `src/styles/themes/your-theme-name.css` - `[data-theme]` 속성으로 테마 파일 생성
+2. ✅ `src/styles/theme.css` - 테마 파일 임포트
+3. ✅ `src/components/themes/theme.config.ts` - `THEMES` 배열에 테마 추가
+4. ⚠️ `src/components/themes/font.config.ts` - 필요한 경우에만 폰트 추가
+5. ⚠️ `src/components/themes/active-theme.tsx` - 원하는 경우에만 기본값으로 설정
 
-At minimum, your theme should define these tokens:
+## 필수 토큰
+
+### 최소 필수
+
+최소한 테마는 다음 토큰을 정의해야 합니다:
 
 - `--background`
 - `--foreground`
@@ -383,145 +392,145 @@ At minimum, your theme should define these tokens:
 - `--ring`
 - `--radius`
 
-### Optional Tokens
+### 선택 토큰
 
-These can be omitted if not needed:
+다음은 필요하지 않은 경우 생략할 수 있습니다:
 
-- `--chart-1` through `--chart-5` (defaults to primary colors)
-- `--sidebar-*` tokens (defaults to card colors)
-- `--font-*` tokens (uses system defaults)
-- `--shadow-*` tokens (no shadows if omitted)
-- `--tracking-normal` (no letter spacing if omitted)
-- `--spacing` (uses default)
+- `--chart-1` ~ `--chart-5` (primary 색상으로 기본 설정됨)
+- `--sidebar-*` 토큰 (card 색상으로 기본 설정됨)
+- `--font-*` 토큰 (시스템 기본값 사용)
+- `--shadow-*` 토큰 (생략 시 그림자 없음)
+- `--tracking-normal` (생략 시 자간 없음)
+- `--spacing` (기본값 사용)
 
-## Example: Complete Theme
+## 예시: 완전한 테마
 
-See `src/styles/themes/claude.css` for a complete example with all tokens defined.
+모든 토큰이 정의된 완전한 예시는 `src/styles/themes/claude.css`를 참조하세요.
 
-## Example: Minimal Theme
+## 예시: 최소 테마
 
-For a minimal theme, you can copy an existing theme and modify only the colors you want to change. The system will fall back to defaults for any missing tokens.
+최소한의 테마를 만들려면 기존 테마를 복사하고 변경하려는 색상만 수정하면 됩니다. 누락된 토큰에 대해서는 시스템이 기본값으로 대체합니다.
 
-## Color Format Reference
+## 색상 형식 참조
 
-### OKLCH Format
+### OKLCH 형식
 
 ```
 oklch(lightness chroma hue)
 ```
 
-- **Lightness**: 0-1 (0 = black, 1 = white)
-- **Chroma**: 0+ (0 = grayscale, 0.2+ = colorful)
-- **Hue**: 0-360 degrees
-  - 0/360 = Red
-  - 60 = Yellow
-  - 120 = Green
-  - 180 = Cyan
-  - 240 = Blue
-  - 300 = Magenta
+- **Lightness**: 0-1 (0 = 검정, 1 = 흰색)
+- **Chroma**: 0+ (0 = 무채색, 0.2+ = 선명한 색상)
+- **Hue**: 0-360도
+  - 0/360 = 빨강
+  - 60 = 노랑
+  - 120 = 초록
+  - 180 = 시안
+  - 240 = 파랑
+  - 300 = 자홍
 
-### Examples
+### 예시
 
 ```css
-/* Pure white */
+/* 순수 흰색 */
 --background: oklch(1 0 0);
 
-/* Pure black */
+/* 순수 검정 */
 --foreground: oklch(0 0 0);
 
-/* Bright blue */
+/* 밝은 파랑 */
 --primary: oklch(0.7 0.2 240);
 
-/* Muted gray */
+/* 차분한 회색 */
 --muted: oklch(0.5 0 0);
 ```
 
-## Scaled Variants
+## Scaled 변형
 
-All themes automatically support scaled variants. When a user selects "Theme Name (Scaled)", the `.theme-scaled` class is applied, which adjusts spacing and text sizes. No additional CSS is needed in your theme file.
+모든 테마는 자동으로 scaled 변형을 지원합니다. 사용자가 "Theme Name (Scaled)"를 선택하면 `.theme-scaled` 클래스가 적용되어 간격과 텍스트 크기가 조정됩니다. 테마 파일에 추가 CSS가 필요하지 않습니다.
 
-## Best Practices
+## 모범 사례
 
-1. **Use descriptive theme names**: Use kebab-case (e.g., `ocean-blue`, `forest-green`)
-2. **Provide both light and dark modes**: Always define both variants
-3. **Test accessibility**: Ensure sufficient contrast between foreground and background
-4. **Keep tokens consistent**: Use similar lightness/chroma values for related colors
-5. **Document special features**: If your theme has unique characteristics (like no shadows or custom fonts), add comments
+1. **설명적인 테마 이름 사용**: kebab-case 사용 (예: `ocean-blue`, `forest-green`)
+2. **light 모드와 dark 모드 모두 제공**: 항상 두 변형을 모두 정의하세요
+3. **접근성 테스트**: foreground와 background 간의 충분한 대비를 확인하세요
+4. **일관된 토큰 유지**: 관련 색상에 비슷한 lightness/chroma 값 사용
+5. **특수 기능 문서화**: 테마에 고유한 특성(그림자 없음, 커스텀 폰트 등)이 있는 경우 주석을 추가하세요
 
-## Troubleshooting
+## 문제 해결
 
-### Theme Not Appearing
+### 테마가 나타나지 않음
 
-- Check that the file is imported in `src/styles/theme.css`
-- Verify the theme name matches in both CSS file and theme-selector.tsx
-- Ensure the file is saved and the dev server has reloaded
+- `src/styles/theme.css`에 파일이 임포트되었는지 확인하세요
+- 테마 이름이 CSS 파일과 theme-selector.tsx에서 일치하는지 확인하세요
+- 파일이 저장되었고 개발 서버가 리로드되었는지 확인하세요
 
-### Colors Not Applying
+### 색상이 적용되지 않음
 
-- Verify all required tokens are defined
-- Check that `@theme inline` block includes all color mappings
-- Ensure OKLCH format is correct (no typos)
+- 모든 필수 토큰이 정의되었는지 확인하세요
+- `@theme inline` 블록에 모든 색상 매핑이 포함되었는지 확인하세요
+- OKLCH 형식이 올바른지 확인하세요 (오타 없음)
 
-### Dark Mode Not Working
+### Dark Mode가 작동하지 않음
 
-- Verify `.dark` selector is correct: `[data-theme='name'].dark`
-- Check that dark mode tokens are defined
-- Ensure `next-themes` is properly configured
+- `.dark` 셀렉터가 올바른지 확인: `[data-theme='name'].dark`
+- dark mode 토큰이 정의되었는지 확인하세요
+- `next-themes`가 올바르게 설정되었는지 확인하세요
 
-## Setting a Default Theme
+## 기본 테마 설정
 
-By default, the application uses the `vercel` theme. To change the default theme that loads for new users:
+기본적으로 애플리케이션은 `vercel` 테마를 사용합니다. 신규 사용자에게 로드되는 기본 테마를 변경하려면:
 
-### Change Default Theme Constant
+### 기본 테마 상수 변경
 
-Edit `src/components/themes/theme.config.ts` and update the `DEFAULT_THEME` constant:
+`src/components/themes/theme.config.ts`를 편집하고 `DEFAULT_THEME` 상수를 업데이트하세요:
 
 ```typescript
 /**
- * Default theme that loads when no user preference is set
- * Change this value to set a different default theme
+ * 사용자 설정이 없을 때 로드되는 기본 테마
+ * 다른 기본 테마로 설정하려면 이 값을 변경하세요
  */
-export const DEFAULT_THEME = 'your-theme-name'; // Change this value
+export const DEFAULT_THEME = 'your-theme-name'; // 이 값을 변경하세요
 ```
 
-**How it works:**
+**작동 방식:**
 
-- **Single source of truth**: `DEFAULT_THEME` is defined in `theme.config.ts` and imported everywhere it's needed
-- **Server-side**: Applied immediately in the HTML `data-theme` attribute (no flash)
-- **Client-side**: Used as fallback when no cookie preference exists
-- **User preferences**: Still respects saved user preferences (stored in cookies)
-- **Automatic**: No need to update multiple files - change it once and it works everywhere
+- **단일 진실 공급원(SSOT)**: `DEFAULT_THEME`는 `theme.config.ts`에 정의되며 필요한 모든 곳에서 임포트됩니다.
+- **서버 사이드**: HTML `data-theme` 속성에 즉시 적용 (깜빡임 없음)
+- **클라이언트 사이드**: 쿠키에 저장된 설정이 없을 때의 fallback으로 사용
+- **사용자 설정**: 저장된 사용자 설정(쿠키에 저장됨)은 여전히 존중됨
+- **자동**: 여러 파일을 업데이트할 필요가 없음 - 한 번만 변경하면 모든 곳에서 작동
 
-**Benefits of this approach:**
+**이 접근 방식의 장점:**
 
-✅ No code duplication - defined once, used everywhere  
-✅ Type-safe - TypeScript ensures consistency  
-✅ Easy to change - update one line in one file  
-✅ Well-documented - clear comments explain its purpose  
-✅ Immediate application - no flash of unstyled content
+✅ 코드 중복 없음 - 한 번 정의하고 모든 곳에서 사용
+✅ Type-safe - TypeScript가 일관성을 보장
+✅ 변경이 쉬움 - 한 파일의 한 줄만 수정
+✅ 문서화가 잘 되어 있음 - 명확한 주석으로 목적 설명
+✅ 즉시 적용 - 스타일이 지정되지 않은 콘텐츠의 깜빡임 없음
 
-## Using Google Fonts in Themes
+## 테마에서 Google Fonts 사용하기
 
-> **Note:** This section provides additional details about fonts. For the complete step-by-step process, see **Step 5** in the "Step-by-Step Guide" above.
+> **참고:** 이 섹션은 폰트에 대한 추가 세부 정보를 제공합니다. 전체 단계별 과정은 위의 "단계별 가이드"에서 **Step 5**를 참조하세요.
 
-### When to Add Fonts
+### 폰트를 추가해야 하는 경우
 
-You only need to add fonts to `font.config.ts` if:
+다음 경우에만 `font.config.ts`에 폰트를 추가하면 됩니다:
 
-- Your theme uses a Google Font that isn't already imported
-- You want to use a custom font that requires loading
+- 아직 임포트되지 않은 Google Font를 테마에서 사용하는 경우
+- 로딩이 필요한 커스텀 폰트를 사용하려는 경우
 
-**Tip:** Check `src/components/themes/font.config.ts` first - many fonts may already be available!
+**팁:** 먼저 `src/components/themes/font.config.ts`를 확인하세요 - 이미 많은 폰트를 사용할 수 있습니다!
 
-### Font Loading Process
+### 폰트 로딩 과정
 
-1. **Import the font** in `src/components/themes/font.config.ts`:
+1. `src/components/themes/font.config.ts`에서 **폰트 임포트**:
 
 ```typescript
 import { Roboto, Roboto_Mono } from 'next/font/google';
 ```
 
-2. **Configure the font** with a CSS variable:
+2. CSS 변수로 **폰트 설정**:
 
 ```typescript
 const fontRoboto = Roboto({
@@ -531,36 +540,36 @@ const fontRoboto = Roboto({
 });
 ```
 
-3. **Add to fontVariables export**:
+3. `fontVariables` export에 **추가**:
 
 ```typescript
 export const fontVariables = cn(
-  // ... existing fonts
+  // ... 기존 폰트
   fontRoboto.variable
 );
 ```
 
-4. **Use in your theme CSS** with the font's display name:
+4. 테마 CSS에서 폰트의 display name으로 **사용**:
 
 ```css
 [data-theme='your-theme'] {
-  --font-sans: 'Roboto', sans-serif; /* Use display name, not CSS variable */
+  --font-sans: 'Roboto', sans-serif; /* CSS 변수가 아닌 display name 사용 */
   --font-mono: 'Roboto Mono', monospace;
 }
 ```
 
-### Important Notes
+### 중요 참고 사항
 
-- **Font names**: Use the font's display name in CSS (e.g., `'Roboto'`, `'Open Sans'`), not the CSS variable name
-- **Font loading**: Fonts must be imported in `font.config.ts` to be loaded by Next.js
-- **Automatic application**: Font variables are automatically applied to the body element via `layout.tsx`
-- **Available fonts**: Check [Next.js Font Optimization](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) for available Google Fonts
+- **폰트 이름**: CSS에서는 폰트의 display name을 사용하세요 (예: `'Roboto'`, `'Open Sans'`). CSS 변수 이름이 아닙니다.
+- **폰트 로딩**: Next.js가 폰트를 로드하려면 `font.config.ts`에서 폰트를 임포트해야 합니다.
+- **자동 적용**: 폰트 변수는 `layout.tsx`를 통해 body 요소에 자동으로 적용됩니다.
+- **사용 가능한 폰트**: 사용 가능한 Google Fonts는 [Next.js Font Optimization](https://nextjs.org/docs/app/building-your-application/optimizing/fonts)을 확인하세요.
 
-### Example: Notebook Theme
+### 예시: Notebook 테마
 
-The `notebook` theme uses `Architects Daughter`:
+`notebook` 테마는 `Architects Daughter`를 사용합니다:
 
-**In `font.config.ts`:**
+**`font.config.ts`에서:**
 
 ```typescript
 import { Architects_Daughter } from 'next/font/google';
@@ -572,12 +581,12 @@ const fontArchitectsDaughter = Architects_Daughter({
 });
 
 export const fontVariables = cn(
-  // ... other fonts
+  // ... 다른 폰트
   fontArchitectsDaughter.variable
 );
 ```
 
-**In `notebook.css`:**
+**`notebook.css`에서:**
 
 ```css
 [data-theme='notebook'] {
@@ -585,11 +594,11 @@ export const fontVariables = cn(
 }
 ```
 
-## Reference Files
+## 참조 파일
 
-- **Complete theme example**: `src/styles/themes/claude.css`
-- **Theme aggregator**: `src/styles/theme.css`
-- **Theme selector component**: `src/components/themes/theme-selector.tsx`
-- **Theme provider**: `src/components/themes/active-theme.tsx`
-- **Theme configuration** (includes default theme): `src/components/themes/theme.config.ts`
-- **Font configuration**: `src/components/themes/font.config.ts`
+- **완전한 테마 예시**: `src/styles/themes/claude.css`
+- **테마 통합 파일**: `src/styles/theme.css`
+- **테마 선택기 컴포넌트**: `src/components/themes/theme-selector.tsx`
+- **테마 제공자**: `src/components/themes/active-theme.tsx`
+- **테마 설정** (기본 테마 포함): `src/components/themes/theme.config.ts`
+- **폰트 설정**: `src/components/themes/font.config.ts`

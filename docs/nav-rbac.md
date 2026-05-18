@@ -1,53 +1,53 @@
-# Simplified Navigation RBAC System
+# 간소화된 네비게이션 RBAC 시스템
 
-## Overview
+## 개요
 
-This document explains the fully client-side RBAC (Role-Based Access Control) system for navigation items.
+이 문서는 네비게이션 아이템을 위한 완전 클라이언트 사이드 RBAC(역할 기반 접근 제어) 시스템을 설명합니다.
 
-**Key Insight**: Navigation visibility is UX only, not security. We can check everything client-side using Clerk's hooks!
+**핵심 통찰**: 네비게이션 가시성은 보안이 아닌 UX일 뿐입니다. Clerk의 훅을 사용하여 모든 것을 클라이언트 사이드에서 확인할 수 있습니다!
 
-## Architecture
+## 아키텍처
 
-### Core Files
+### 핵심 파일
 
-1. **`src/hooks/use-nav.ts`** - Single hook that handles all filtering logic (fully client-side)
-2. **`src/types/index.ts`** - Type definitions with `access` property
+1. **`src/hooks/use-nav.ts`** - 모든 필터링 로직을 처리하는 단일 훅 (완전 클라이언트 사이드)
+2. **`src/types/index.ts`** - `access` 속성이 있는 타입 정의
 
-### Why Client-Side?
+### 클라이언트 사이드를 사용하는 이유?
 
-- **Navigation visibility is UX only** - Users can't bypass security by seeing/hiding nav items
-- **Clerk provides all data client-side** - `useOrganization()` gives us `membership.permissions` and `membership.role`
-- **Zero server calls** - Instant filtering, no loading states, no UI flashing
-- **Better performance** - No network latency, no async complexity
+- **네비게이션 가시성은 UX일 뿐입니다** - 사용자가 네비게이션 아이템을 보거나 숨긴다고 해서 보안을 우회할 수 없습니다
+- **Clerk가 모든 데이터를 클라이언트 사이드에서 제공합니다** - `useOrganization()`이 `membership.permissions`와 `membership.role`을 제공합니다
+- **서버 호출 제로** - 즉각적인 필터링, 로딩 상태 없음, UI 깜빡임 없음
+- **더 나은 성능** - 네트워크 지연 없음, 비동기 복잡성 없음
 
-**Note**: For actual security (API routes, server actions, page protection), always use server-side checks.
+**참고**: 실제 보안(API 라우트, 서버 액션, 페이지 보호)을 위해서는 항상 서버 사이드 검사를 사용하세요.
 
-## Performance Characteristics
+## 성능 특성
 
-### All Checks Are Synchronous
+### 모든 검사는 동기적입니다
 
-✅ **requireOrg**: Client-side check using `useOrganization()`  
-✅ **permission**: Client-side check using `membership.permissions` array  
-✅ **role**: Client-side check using `membership.role`  
-⚠️ **plan/feature**: Requires server-side check (see below)
+✅ **requireOrg**: `useOrganization()`을 사용한 클라이언트 사이드 검사  
+✅ **permission**: `membership.permissions` 배열을 사용한 클라이언트 사이드 검사  
+✅ **role**: `membership.role`을 사용한 클라이언트 사이드 검사  
+⚠️ **plan/feature**: 서버 사이드 검사 필요 (아래 참조)
 
-### Zero Server Calls
+### 서버 호출 제로
 
-- All navigation filtering happens synchronously
-- No loading states
-- No UI flashing
-- Instant results
+- 모든 네비게이션 필터링은 동기적으로 발생합니다
+- 로딩 상태 없음
+- UI 깜빡임 없음
+- 즉각적인 결과
 
-## Usage
+## 사용법
 
-### In `nav-config.ts`
+### `nav-config.ts`에서
 
 ```typescript
 {
   title: 'Teams',
   url: '/dashboard/workspaces/team',
   icon: 'userPen',
-  // Simple: requireOrg (client-side check, instant)
+  // 간단: requireOrg (클라이언트 사이드 검사, 즉시 실행)
   access: { requireOrg: true }
 }
 
@@ -55,125 +55,125 @@ This document explains the fully client-side RBAC (Role-Based Access Control) sy
   title: 'Admin Panel',
   url: '/dashboard/admin',
   icon: 'settings',
-  // All client-side checks - instant!
+  // 모든 클라이언트 사이드 검사 - 즉시 실행!
   access: {
     requireOrg: true,
-    permission: 'org:admin:manage',  // Client-side from membership.permissions
-    role: 'admin'  // Client-side from membership.role
+    permission: 'org:admin:manage',  // membership.permissions에서 클라이언트 사이드로 가져옴
+    role: 'admin'  // membership.role에서 클라이언트 사이드로 가져옴
 }
 ```
 
-### In Components
+### 컴포넌트에서
 
 ```typescript
 import { useFilteredNavItems } from '@/hooks/use-nav';
 
 function MyComponent() {
   const filteredItems = useFilteredNavItems(navItems);
-  // filteredItems is automatically filtered based on RBAC
+  // filteredItems는 RBAC 기반으로 자동 필터링됩니다
 }
 ```
 
-### Plan/Feature Checks
+### 플랜/기능 검사
 
-Plans and features require Clerk's `has()` function which is server-side only. Options:
+플랜과 기능은 서버 사이드 전용인 Clerk의 `has()` 함수가 필요합니다. 옵션:
 
-1. **Store in organization metadata** (recommended for navigation):
+1. **조직 메타데이터에 저장** (네비게이션에 권장):
 
    ```typescript
-   // In your organization setup
+   // 조직 설정 시
    organization.publicMetadata.plan = 'pro';
 
-   // In nav-config.ts
+   // nav-config.ts에서
    access: {
      requireOrg: true,
-     // Check metadata instead of plan
+     // plan 대신 메타데이터 확인
    }
    ```
 
-2. **Show item, protect at page level** (current approach):
-   - Navigation item is shown
-   - Page component checks server-side and redirects/shows error if needed
+2. **아이템 표시, 페이지 수준에서 보호** (현재 접근 방식):
+   - 네비게이션 아이템이 표시됨
+   - 페이지 컴포넌트가 서버 사이드에서 검사하고 필요 시 리다이렉트/에러 표시
 
-3. **Use server action** (if you really need it):
-   - Only for navigation items that absolutely need plan/feature checks
-   - Most navigation items won't need this
+3. **서버 액션 사용** (정말 필요한 경우):
+   - plan/feature 검사가 반드시 필요한 네비게이션 아이템에만 사용
+   - 대부분의 네비게이션 아이템은 이것이 필요하지 않습니다
 
-## Scalability
+## 확장성
 
-### Adding New Items
+### 새 아이템 추가
 
-Just add to `nav-config.ts`:
+`nav-config.ts`에 추가하기만 하면 됩니다:
 
 ```typescript
 {
   title: 'New Feature',
   url: '/dashboard/new',
   icon: 'star',
-  access: { plan: 'pro' }  // That's it!
+  access: { plan: 'pro' }  // 이게 끝입니다!
 }
 ```
 
-The system automatically:
+시스템이 자동으로:
 
-- Filters it in sidebar
-- Filters it in kbar
-- Handles async checks if needed
-- Handles sync checks immediately
+- 사이드바에서 필터링
+- kbar에서 필터링
+- 필요 시 비동기 검사 처리
+- 동기 검사 즉시 처리
 
-### Adding New Access Types
+### 새 접근 타입 추가
 
-1. Add to `PermissionCheck` interface in `src/app/actions/rbac.ts`
-2. Add check logic in `checkAccess()` function
-3. Update `use-nav.ts` to handle the new type
+1. `src/app/actions/rbac.ts`의 `PermissionCheck` 인터페이스에 추가
+2. `checkAccess()` 함수에 검사 로직 추가
+3. `use-nav.ts`를 업데이트하여 새 타입 처리
 
-## Comparison: Before vs After
+## 비교: 이전 vs 이후
 
-### Before (Overcomplicated)
+### 이전 (과도하게 복잡)
 
-- 4 files with complex logic
-- Multiple hooks and utilities
-- Unclear data flow
-- Potential for bugs
+- 복잡한 로직이 있는 4개의 파일
+- 여러 개의 훅과 유틸리티
+- 불분명한 데이터 흐름
+- 버그 가능성
 
-### After (Simplified)
+### 이후 (간소화됨)
 
-- 1 main hook file
-- Clear, linear logic
-- Easy to understand
-- Easy to maintain
+- 1개의 메인 훅 파일
+- 명확하고 선형적인 로직
+- 이해하기 쉬움
+- 유지보수하기 쉬움
 
-## Best Practices
+## 모범 사례
 
-1. **Use `requireOrg: true` for simple cases** - It's instant and requires no server call
-2. **Combine checks when possible** - `{ requireOrg: true, permission: '...' }` is more efficient than separate checks
-3. **Avoid unnecessary checks** - Don't add `access` if the item should always be visible
+1. **간단한 경우 `requireOrg: true` 사용** - 즉시 실행되며 서버 호출이 필요 없습니다
+2. **가능하면 검사를 결합** - `{ requireOrg: true, permission: '...' }`가 별도 검사보다 더 효율적입니다
+3. **불필요한 검사 피하기** - 아이템이 항상 표시되어야 한다면 `access`를 추가하지 마세요
 
-## Migration from Old System
+## 이전 시스템에서 마이그레이션
 
-The old `visible` function still works for backward compatibility:
+이전 `visible` 함수는 하위 호환성을 위해 여전히 작동합니다:
 
 ```typescript
-// Old way (still works)
+// 이전 방식 (여전히 작동)
 visible: (context) => !!context?.organization;
 
-// New way (recommended)
+// 새로운 방식 (권장)
 access: {
   requireOrg: true;
 }
 ```
 
-## Future Improvements
+## 향후 개선 사항
 
-Potential optimizations if needed:
+필요 시 가능한 최적화:
 
-1. Cache permission checks (e.g., React Query)
-2. Prefetch permissions on app load
-3. Optimistic UI updates
+1. 권한 검사 캐싱 (예: React Query)
+2. 앱 로드 시 권한 사전 페칭
+3. 낙관적 UI 업데이트
 
-But for now, the current implementation is:
+하지만 현재 구현은 다음과 같습니다:
 
-- ✅ Simple
-- ✅ Fast
-- ✅ Scalable
-- ✅ Maintainable
+- ✅ 간단함
+- ✅ 빠름
+- ✅ 확장 가능
+- ✅ 유지보수 가능
