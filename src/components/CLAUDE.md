@@ -1,6 +1,7 @@
 # 공통 컴포넌트 컨벤션
 
 컴포넌트 작성 규칙, shadcn, 접근성 → [@docs/core/conventions.md](../../docs/core/conventions.md) 참조.
+컴포넌트 배치 가이드 → @docs/architecture/component-guide.md
 
 ## 디렉토리 구조
 - `ui/` — shadcn 원본 (직접 수정 금지, 확장만)

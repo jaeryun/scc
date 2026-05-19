@@ -5,7 +5,7 @@
    - 도메인 로직(API, 훅, 스키마, 도메인 의존 UI) → `src/modules/<name>/`
    - 도메인 무관 공통 UI(여러 모듈에서 재사용) → `src/components/`
    - 판단 기준: "이 모듈을 삭제해도 이 컴포넌트가 의미 있는가?"
-   - 상세: @docs/architecture/component-guide.md
+   - 상세: [docs/architecture/component-guide.md](../architecture/component-guide.md)
 3. 기본적으로 서버 컴포넌트 — 브라우저 API/React 훅 필요 시만 `'use client'`
 4. 타입 안전성 우선 — `any` 금지, 명시적 타입 사용
 5. 객체 정의에 `type`보다 `interface` 우선 — 병합/확장성 고려
