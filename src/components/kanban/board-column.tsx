@@ -4,8 +4,8 @@ import { Icons } from '@/components/icons';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { KanbanColumn, KanbanColumnHandle } from '@/components/ui/kanban';
-import type { Task } from '../utils/store';
-import { TaskCard } from './task-card';
+import type { Task } from '@/modules/kanban/utils/store';
+import { TaskCard } from '@/components/kanban/task-card';
 
 const COLUMN_TITLES: Record<string, string> = {
   backlog: '할 일',

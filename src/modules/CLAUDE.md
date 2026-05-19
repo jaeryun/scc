@@ -15,3 +15,6 @@
 ## 정규 참조 구현
 - `src/modules/ipam/` — TanStack Query + Zod + Prisma 전체 패턴
 - `src/app/api/ipam/` — Route Handler + Zod 검증 + 계층 분리
+
+## 컴포넌트 배치
+→ @docs/architecture/component-guide.md 참조

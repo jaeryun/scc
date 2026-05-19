@@ -4,6 +4,8 @@
 
 ## 디렉토리 구조
 - `ui/` — shadcn 원본 (직접 수정 금지, 확장만)
+- `charts/` — Recharts 래퍼
+- `kanban/` — dnd-kit 기반 칸반 UI
 - `layout/` — 레이아웃, 사이드바, 뷰 전환 → [layout/CLAUDE.md](layout/CLAUDE.md)
 - `forms/` — TanStack Form + Zod → [@docs/forms/guide.md](../../docs/forms/guide.md)
 - `themes/` — OKLCH 테마 → [@docs/themes/guide.md](../../docs/themes/guide.md)

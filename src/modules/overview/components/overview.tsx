@@ -9,10 +9,10 @@ import {
   CardAction
 } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { AreaGraph } from './area-graph';
-import { BarGraph } from './bar-graph';
-import { PieGraph } from './pie-graph';
-import { RecentSales } from './recent-sales';
+import { AreaGraph } from '@/components/charts/area-graph';
+import { BarGraph } from '@/components/charts/bar-graph';
+import { PieGraph } from '@/components/charts/pie-graph';
+import { RecentSales } from '@/components/charts/recent-sales';
 import { Icons } from '@/components/icons';
 import { Badge } from '@/components/ui/badge';
 

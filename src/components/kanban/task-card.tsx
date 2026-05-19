@@ -2,7 +2,7 @@
 
 import { Badge } from '@/components/ui/badge';
 import { KanbanItem } from '@/components/ui/kanban';
-import type { Task } from '../utils/store';
+import type { Task } from '@/modules/kanban/utils/store';
 
 const PRIORITY_LABELS: Record<string, string> = {
   low: '낮음',

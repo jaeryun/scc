@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { useTaskStore } from '../utils/store';
+import { useTaskStore } from '@/modules/kanban/utils/store';
 
 export default function NewTaskDialog() {
   const addTask = useTaskStore((state) => state.addTask);

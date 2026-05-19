@@ -1,4 +1,4 @@
-import { BarGraphSkeleton } from '@/modules/overview/components/bar-graph-skeleton';
+import { BarGraphSkeleton } from '@/components/charts/bar-graph-skeleton';
 
 export default function Loading() {
   return <BarGraphSkeleton />;

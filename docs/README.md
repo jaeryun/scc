@@ -50,6 +50,7 @@
 | 파일 | 설명 |
 |------|------|
 | [architecture/build-deploy.md](architecture/build-deploy.md) | Docker, 환경변수, 배포 |
+| [architecture/component-guide.md](architecture/component-guide.md) | 컴포넌트 디렉토리 가이드 |
 
 ## 입문
 | 파일 | 설명 |
