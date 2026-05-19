@@ -5,9 +5,12 @@ import { Breadcrumbs } from '../breadcrumbs';
 import SearchInput from '../search-input';
 import { ThemeSelector } from '../themes/theme-selector';
 import { ThemeModeToggle } from '../themes/theme-mode-toggle';
-import { NotificationCenter } from '@/modules/notifications/components/notification-center';
 
-export default function Header() {
+interface HeaderProps {
+  rightSlot?: React.ReactNode;
+}
+
+export default function Header({ rightSlot }: HeaderProps) {
   return (
     <header className='bg-background/60 sticky top-0 z-20 flex h-16 shrink-0 items-center justify-between gap-2 backdrop-blur-md md:h-14'>
       <div className='flex items-center gap-2 px-4'>
@@ -24,7 +27,7 @@ export default function Header() {
         <div className='hidden sm:block'>
           <ThemeSelector />
         </div>
-        <NotificationCenter />
+        {rightSlot}
       </div>
     </header>
   );

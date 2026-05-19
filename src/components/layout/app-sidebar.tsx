@@ -16,8 +16,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import * as React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useQuery } from '@tanstack/react-query';
-import { viewSettingsQueryOptions } from '@/modules/view-settings/api/queries';
+
 
 const mockUser = {
   imageUrl: '',
@@ -27,7 +26,11 @@ const mockUser = {
   role: 'admin'
 };
 
-export default function AppSidebar() {
+export default function AppSidebar({
+  viewIconMap = new Map(),
+}: {
+  viewIconMap?: Map<string, string>;
+}) {
   const pathname = usePathname();
   const router = useRouter();
   const view = useCurrentView();
@@ -40,23 +43,6 @@ export default function AppSidebar() {
   // If no view detected, default to first view
   const effectiveView = view ?? views[0];
   const navItems = effectiveView.navItems;
-
-  // Fetch view settings from DB to get overridden icons
-  const { data: viewSettings } = useQuery({
-    ...viewSettingsQueryOptions(),
-    enabled: mounted,
-  });
-
-  // Build a map of viewId -> icon from DB settings
-  const viewIconMap = React.useMemo(() => {
-    const map = new Map<string, string>();
-    if (viewSettings) {
-      viewSettings.forEach((setting) => {
-        map.set(setting.viewId, setting.icon);
-      });
-    }
-    return map;
-  }, [viewSettings]);
 
   // Get the current view's icon (DB override or default from views.ts)
   const currentViewIcon = viewIconMap.get(effectiveView.id) || effectiveView.icon;

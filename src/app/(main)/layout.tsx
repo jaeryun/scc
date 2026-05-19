@@ -2,6 +2,7 @@ import KBar from '@/components/kbar';
 import AppSidebar from '@/components/layout/app-sidebar';
 import Header from '@/components/layout/header';
 import { InfoSidebar } from '@/components/layout/info-sidebar';
+import { NotificationCenter } from '@/modules/notifications/components/notification-center';
 import { InfobarProvider } from '@/components/ui/infobar';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import type { Metadata } from 'next';
@@ -29,7 +30,7 @@ export default async function MainLayout({
       <SidebarProvider defaultOpen={defaultOpen}>
         <AppSidebar />
         <SidebarInset>
-          <Header />
+          <Header rightSlot={<NotificationCenter />} />
           <InfobarProvider defaultOpen={false}>
             <div className='flex flex-1 flex-col'>
               {children}

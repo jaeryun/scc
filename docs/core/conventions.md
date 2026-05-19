@@ -29,3 +29,18 @@
 23. 에러 처리 강화 — `global-error.tsx`에 `<html>`/`<body>` 태그 필수 (레이아웃 없이 마운트됨), API 라우트에서 `ZodError`(400)와 서버 에러(500) 엄격 구분
 24. apiClient headers — `options.headers`가 기본 `Content-Type: application/json`을 덮어쓰므로, `Content-Type` 변경이 필요할 때만 명시적 오버라이드
 25. 메타데이터 — `page.tsx`마다 `Metadata` export 또는 `generateMetadata` 사용, SEO/OG 태그 필수
+
+## 외부 UI 라이브러리 통합 규칙
+
+외부 라이브러리(react-day-picker, @dnd-kit, recharts 등)를 래핑할 때:
+
+1. `cn()`으로 className 병합 필수 — 문자열 연결, 템플릿 리터럴, `!important` 접미사 금지
+2. `data-slot='<component-name>'` 속성 부여 — shadcn/ui와 동일한 디버깅/선택자 패턴
+3. CSS 변수 기반 색상 — 하드코딩(`bg-blue-500`) 대신 `bg-primary`, `text-muted-foreground` 사용
+4. 아이콘은 `Icons.*`로 사용 — 외부 라이브러리 아이콘 직접 임포트 금지. 새 아이콘은 `icons.tsx`에 등록
+5. `{...props}`로 나머지 props 전달 — `className`은 `cn()`으로, `ref`는 `forwardRef` 또는 `ref` prop으로
+6. 필요한 타입만 `export type` 재익스포트 — 사용처에서 원본 라이브러리 import 방지
+7. 접근성 기본: 아이콘 버튼 `aria-label`, 키보드 네비게이션, `focus-visible:ring-*`
+8. `'use client'`는 브라우저 API/이벤트/React 훅 사용 시에만
+9. 컴포넌트: 함수 선언문 `function Name() {}`, Props: `{Name}Props`
+10. 래핑 깊이: 단순 스타일 통합=얇은 래퍼(1:1), 복잡한 상태/조합=두꺼운 래퍼(새 API)
