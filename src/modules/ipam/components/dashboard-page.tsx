@@ -4,8 +4,8 @@ import { Card, CardHeader, CardDescription, CardTitle, CardAction } from '@/comp
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Icons } from '@/components/icons';
-import { useSubnets } from '@/features/ipam/hooks/use-subnets';
-import { Subnet } from '@/features/ipam/types';
+import { useSubnets } from '@/modules/ipam/hooks/use-subnets';
+import { Subnet } from '@/modules/ipam/types';
 
 type SubnetWithCount = Subnet & { _count?: { ipAddresses: number } };
 

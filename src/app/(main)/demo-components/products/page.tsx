@@ -1,6 +1,6 @@
 import PageContainer from '@/components/layout/page-container';
 import { buttonVariants } from '@/components/ui/button';
-import ProductListingPage from '@/features/products/components/product-listing';
+import ProductListingPage from '@/modules/products/components/product-listing';
 import { searchParamsCache } from '@/lib/searchparams';
 import { cn } from '@/lib/utils';
 import { Icons } from '@/components/icons';

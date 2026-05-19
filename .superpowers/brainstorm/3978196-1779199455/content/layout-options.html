@@ -1,0 +1,251 @@
+<h2>스위치 포트 매핑 UI — 어떤 레이아웃이 좋을까요?</h2>
+<p class="subtitle">IB Switch 예시: 연결상태, 포트정보(인덱스/샤시/모듈/포트/서브포트) ↔ 호스트정보(호스트네임, NIC, IP, GPU, Speed)</p>
+
+<style>
+  .demo-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .demo-table th { padding: 8px; text-align: left; border-bottom: 2px solid rgba(255,255,255,0.1); font-weight: 600; font-size: 11px; color: var(--muted); }
+  .demo-table td { padding: 8px 6px; border-bottom: 1px solid rgba(255,255,255,0.05); font-family: monospace; }
+  .status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
+  .status-up { background: #22c55e; }
+  .status-down { background: #ef4444; }
+  .port-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+  .port-card { border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; overflow: hidden; background: rgba(255,255,255,0.03); }
+  .port-card-top { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; }
+  .port-card-bottom { padding: 10px 12px; font-size: 12px; }
+  .port-card-bottom .row { display: flex; justify-content: space-between; padding: 2px 0; }
+  .port-card-bottom .label { color: var(--muted); font-size: 10px; }
+  .port-card-bottom .val { font-family: monospace; font-size: 12px; }
+  .accordion { border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; overflow: hidden; }
+  .accordion-row { border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .accordion-row:last-child { border-bottom: none; }
+  .accordion-header { padding: 8px 12px; display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px; font-family: monospace; }
+  .accordion-body { padding: 8px 12px 12px 32px; font-size: 12px; background: rgba(255,255,255,0.02); display: flex; gap: 24px; flex-wrap: wrap; }
+  .accordion-body .item { display: flex; flex-direction: column; gap: 2px; }
+  .accordion-body .label { font-size: 10px; color: var(--muted); }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; overflow: hidden; }
+  .two-col .side { padding: 10px 14px; }
+  .two-col .side.left { border-right: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); }
+  .two-col .col-row { display: flex; justify-content: space-between; padding: 3px 0; font-size: 12px; border-bottom: 1px solid rgba(255,255,255,0.03); }
+  .two-col .col-row:last-child { border-bottom: none; }
+  .two-col .col-label { color: var(--muted); font-size: 10px; }
+  .two-col .col-val { font-family: monospace; }
+  .two-col .col-header { font-weight: 600; font-size: 13px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+  .signal { color: var(--muted); font-size: 18px; }
+</style>
+
+<div class="cards">
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-body">
+      <h3>A: 컴팩트 로우 테이블</h3>
+      <p>모든 포트를 단일 테이블에 압축. 좌측 포트정보, 우측 호스트정보를 한 행에 표시</p>
+      <div class="mockup" style="margin-top: 8px;">
+        <div class="mockup-body" style="overflow-x: auto; padding: 8px;">
+          <table class="demo-table">
+            <thead>
+              <tr><th>상태</th><th>인덱스</th><th>샤시</th><th>모듈</th><th>포트</th><th>서브</th><th style="border-left: 1px solid rgba(255,255,255,0.15); padding-left: 10px;">호스트네임</th><th>NIC</th><th>IP</th><th>GPU</th><th>Speed</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><span class="status-dot status-up"></span></td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td><td style="border-left: 1px solid rgba(255,255,255,0.1);">gpu-srv-01</td><td>ib0.8001</td><td>192.168.1.10</td><td>A100</td><td>200Gb/s</td></tr>
+              <tr><td><span class="status-dot status-up"></span></td><td>2</td><td>0</td><td>1</td><td>1</td><td>2</td><td style="border-left: 1px solid rgba(255,255,255,0.1);">gpu-srv-02</td><td>ib0.8001</td><td>192.168.1.11</td><td>H100</td><td>200Gb/s</td></tr>
+              <tr><td><span class="status-dot status-down"></span></td><td>3</td><td>0</td><td>1</td><td>2</td><td>1</td><td style="border-left: 1px solid rgba(255,255,255,0.1);">—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+              <tr><td><span class="status-dot status-up"></span></td><td>4</td><td>0</td><td>1</td><td>2</td><td>2</td><td style="border-left: 1px solid rgba(255,255,255,0.1);">storage-01</td><td>ib0.8001</td><td>192.168.1.20</td><td>—</td><td>100Gb/s</td></tr>
+              <tr><td><span class="status-dot status-up"></span></td><td>5</td><td>0</td><td>2</td><td>1</td><td>1</td><td style="border-left: 1px solid rgba(255,255,255,0.1);">gpu-srv-03</td><td>ib0.8001</td><td>192.168.1.12</td><td>A100</td><td>200Gb/s</td></tr>
+              <tr><td><span class="status-dot status-down"></span></td><td>6</td><td>0</td><td>2</td><td>1</td><td>2</td><td style="border-left: 1px solid rgba(255,255,255,0.1);">—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="pros-cons" style="margin-top: 8px;">
+        <div class="pros"><h4>장점</h4><ul><li>많은 포트를 한눈에</li><li>정렬/필터링 쉬움</li><li>익숙한 엑셀 방식</li></ul></div>
+        <div class="cons"><h4>단점</h4><ul><li>넓은 화면 필요</li><li>시각적 매핑감 약함</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-body">
+      <h3>B: 포트 카드</h3>
+      <p>각 포트를 독립 카드로. 상단은 포트 ID, 하단은 연결된 호스트 정보</p>
+      <div class="mockup" style="margin-top: 8px;">
+        <div class="mockup-body">
+          <div class="port-grid">
+            <div class="port-card">
+              <div class="port-card-top">
+                <span><span class="status-dot status-up"></span><b>Port 1/1/1</b></span>
+                <span style="font-size: 10px; color: var(--muted);">Index 1</span>
+              </div>
+              <div class="port-card-bottom">
+                <div class="row"><span class="label">Host</span><span class="val">gpu-srv-01</span></div>
+                <div class="row"><span class="label">NIC</span><span class="val">ib0.8001</span></div>
+                <div class="row"><span class="label">IP</span><span class="val">192.168.1.10</span></div>
+                <div class="row"><span class="label">GPU</span><span class="val">A100</span></div>
+                <div class="row"><span class="label">Speed</span><span class="val">200Gb/s</span></div>
+              </div>
+            </div>
+            <div class="port-card">
+              <div class="port-card-top">
+                <span><span class="status-dot status-up"></span><b>Port 1/1/2</b></span>
+                <span style="font-size: 10px; color: var(--muted);">Index 2</span>
+              </div>
+              <div class="port-card-bottom">
+                <div class="row"><span class="label">Host</span><span class="val">gpu-srv-02</span></div>
+                <div class="row"><span class="label">NIC</span><span class="val">ib0.8001</span></div>
+                <div class="row"><span class="label">IP</span><span class="val">192.168.1.11</span></div>
+                <div class="row"><span class="label">GPU</span><span class="val">H100</span></div>
+                <div class="row"><span class="label">Speed</span><span class="val">200Gb/s</span></div>
+              </div>
+            </div>
+            <div class="port-card">
+              <div class="port-card-top">
+                <span><span class="status-dot status-down"></span><b>Port 2/1/1</b></span>
+                <span style="font-size: 10px; color: var(--muted);">Index 3</span>
+              </div>
+              <div class="port-card-bottom">
+                <div class="row"><span class="label">Host</span><span class="val" style="color: var(--muted);">—</span></div>
+              </div>
+            </div>
+            <div class="port-card">
+              <div class="port-card-top">
+                <span><span class="status-dot status-up"></span><b>Port 2/1/2</b></span>
+                <span style="font-size: 10px; color: var(--muted);">Index 4</span>
+              </div>
+              <div class="port-card-bottom">
+                <div class="row"><span class="label">Host</span><span class="val">storage-01</span></div>
+                <div class="row"><span class="label">NIC</span><span class="val">ib0.8001</span></div>
+                <div class="row"><span class="label">IP</span><span class="val">192.168.1.20</span></div>
+                <div class="row"><span class="label">Speed</span><span class="val">100Gb/s</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pros-cons" style="margin-top: 8px;">
+        <div class="pros"><h4>장점</h4><ul><li>각 포트의 상세정보 강조</li><li>다양한 화면 크기에 반응형</li><li>연결/미연결 시각적 차이 큼</li></ul></div>
+        <div class="cons"><h4>단점</h4><ul><li>화면 1개당 보이는 포트 수 적음</li><li>필터/정렬 기능 구현 복잡</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-body">
+      <h3>C: 아코디언 (접이식)</h3>
+      <p>기본은 포트 목록만. 클릭시 연결정보 펼침. 깔끔하지만 매핑을 보려면 클릭 필요</p>
+      <div class="mockup" style="margin-top: 8px;">
+        <div class="mockup-body">
+          <div class="accordion">
+            <div class="accordion-row">
+              <div class="accordion-header">🟢 <b>Port 1/1/1</b> → gpu-srv-01 <span class="signal">›</span></div>
+              <div class="accordion-body">
+                <div class="item"><span class="label">포트</span> 인덱스: 1, 샤시: 0, 모듈: 1, 포트: 1, 서브: 1</div>
+                <div class="item"><span class="label">호스트</span> gpu-srv-01 / ib0.8001 / 192.168.1.10 / A100 / 200Gb/s</div>
+              </div>
+            </div>
+            <div class="accordion-row">
+              <div class="accordion-header">🟢 <b>Port 1/1/2</b> → gpu-srv-02 <span class="signal">›</span></div>
+              <div class="accordion-body">
+                <div class="item"><span class="label">포트</span> 인덱스: 2, 샤시: 0, 모듈: 1, 포트: 1, 서브: 2</div>
+                <div class="item"><span class="label">호스트</span> gpu-srv-02 / ib0.8001 / 192.168.1.11 / H100 / 200Gb/s</div>
+              </div>
+            </div>
+            <div class="accordion-row">
+              <div class="accordion-header">🔴 <b>Port 2/1/1</b> <span style="color: var(--muted);">(미연결)</span> <span class="signal">›</span></div>
+            </div>
+            <div class="accordion-row">
+              <div class="accordion-header">🟢 <b>Port 2/1/2</b> → storage-01 <span class="signal">›</span></div>
+              <div class="accordion-body">
+                <div class="item"><span class="label">포트</span> 인덱스: 4, 샤시: 0, 모듈: 1, 포트: 2, 서브: 2</div>
+                <div class="item"><span class="label">호스트</span> storage-01 / ib0.8001 / 192.168.1.20 / 100Gb/s</div>
+              </div>
+            </div>
+            <div class="accordion-row">
+              <div class="accordion-header">🟢 <b>Port 2/2/1</b> → gpu-srv-03 <span class="signal">›</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pros-cons" style="margin-top: 8px;">
+        <div class="pros"><h4>장점</h4><ul><li>깔끔하고 공간 효율적</li><li>포트 수 많을 때 적합</li></ul></div>
+        <div class="cons"><h4>단점</h4><ul><li>매핑을 보려면 매번 클릭</li><li>전체 상황 파악 어려움</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="d" onclick="toggleSelect(this)">
+    <div class="card-body">
+      <h3>D: 투-컬럼 매핑 (대칭 뷰)</h3>
+      <p>좌측 포트 식별, 우측 호스트 정보를 대칭 배치. 각 행이 하나의 연결</p>
+      <div class="mockup" style="margin-top: 8px;">
+        <div class="mockup-body" style="padding: 0;">
+          <div class="two-col" style="margin-bottom: 8px;">
+            <div class="side left">
+              <div class="col-header"><span class="status-dot status-up"></span> Port 1/1/1</div>
+              <div class="col-row"><span class="col-label">Index</span><span class="col-val">1</span></div>
+              <div class="col-row"><span class="col-label">Chassis</span><span class="col-val">0</span></div>
+              <div class="col-row"><span class="col-label">Module</span><span class="col-val">1</span></div>
+              <div class="col-row"><span class="col-label">Port</span><span class="col-val">1</span></div>
+              <div class="col-row"><span class="col-label">Subport</span><span class="col-val">1</span></div>
+            </div>
+            <div class="side">
+              <div class="col-header"><span style="color:var(--muted);">→</span> gpu-srv-01</div>
+              <div class="col-row"><span class="col-label">NIC</span><span class="col-val">ib0.8001</span></div>
+              <div class="col-row"><span class="col-label">IP</span><span class="col-val">192.168.1.10</span></div>
+              <div class="col-row"><span class="col-label">GPU</span><span class="col-val">A100</span></div>
+              <div class="col-row"><span class="col-label">Speed</span><span class="col-val">200Gb/s</span></div>
+            </div>
+          </div>
+          <div class="two-col" style="margin-bottom: 8px;">
+            <div class="side left">
+              <div class="col-header"><span class="status-dot status-up"></span> Port 1/1/2</div>
+              <div class="col-row"><span class="col-label">Index</span><span class="col-val">2</span></div>
+              <div class="col-row"><span class="col-label">Chassis</span><span class="col-val">0</span></div>
+              <div class="col-row"><span class="col-label">Module</span><span class="col-val">1</span></div>
+              <div class="col-row"><span class="col-label">Port</span><span class="col-val">1</span></div>
+              <div class="col-row"><span class="col-label">Subport</span><span class="col-val">2</span></div>
+            </div>
+            <div class="side">
+              <div class="col-header"><span style="color:var(--muted);">→</span> gpu-srv-02</div>
+              <div class="col-row"><span class="col-label">NIC</span><span class="col-val">ib0.8001</span></div>
+              <div class="col-row"><span class="col-label">IP</span><span class="col-val">192.168.1.11</span></div>
+              <div class="col-row"><span class="col-label">GPU</span><span class="col-val">H100</span></div>
+              <div class="col-row"><span class="col-label">Speed</span><span class="col-val">200Gb/s</span></div>
+            </div>
+          </div>
+          <div class="two-col" style="margin-bottom: 8px;">
+            <div class="side left">
+              <div class="col-header"><span class="status-dot status-down"></span> Port 2/1/1</div>
+              <div class="col-row"><span class="col-label">Index</span><span class="col-val">3</span></div>
+              <div class="col-row"><span class="col-label">Chassis</span><span class="col-val">0</span></div>
+              <div class="col-row"><span class="col-label">Module</span><span class="col-val">1</span></div>
+              <div class="col-row"><span class="col-label">Port</span><span class="col-val">2</span></div>
+              <div class="col-row"><span class="col-label">Subport</span><span class="col-val">1</span></div>
+            </div>
+            <div class="side">
+              <div class="col-header" style="color: var(--muted);">(미연결)</div>
+            </div>
+          </div>
+          <div class="two-col">
+            <div class="side left">
+              <div class="col-header"><span class="status-dot status-up"></span> Port 2/1/2</div>
+              <div class="col-row"><span class="col-label">Index</span><span class="col-val">4</span></div>
+              <div class="col-row"><span class="col-label">Chassis</span><span class="col-val">0</span></div>
+              <div class="col-row"><span class="col-label">Module</span><span class="col-val">1</span></div>
+              <div class="col-row"><span class="col-label">Port</span><span class="col-val">2</span></div>
+              <div class="col-row"><span class="col-label">Subport</span><span class="col-val">2</span></div>
+            </div>
+            <div class="side">
+              <div class="col-header"><span style="color:var(--muted);">→</span> storage-01</div>
+              <div class="col-row"><span class="col-label">NIC</span><span class="col-val">ib0.8001</span></div>
+              <div class="col-row"><span class="col-label">IP</span><span class="col-val">192.168.1.20</span></div>
+              <div class="col-row"><span class="col-label">GPU</span><span class="col-val">—</span></div>
+              <div class="col-row"><span class="col-label">Speed</span><span class="col-val">100Gb/s</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pros-cons" style="margin-top: 8px;">
+        <div class="pros"><h4>장점</h4><ul><li>매핑 관계 시각적으로 명확</li><li>한눈에 연결 파악</li><li>상대적으로 compact</li></ul></div>
+        <div class="cons"><h4>단점</h4><ul><li>디자인/구현 복잡</li><li>모바일 대응 까다로움</li></ul></div>
+      </div>
+    </div>
+  </div>
+</div>

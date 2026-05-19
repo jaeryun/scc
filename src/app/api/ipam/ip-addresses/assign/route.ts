@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { success, failure } from "@/lib/api-response";
-import { assignIpFromSubnet } from "@/features/ipam/api/ip-handlers";
+import { assignIpFromSubnet } from "@/modules/ipam/api/ip-handlers";
 
 export async function POST(req: Request) {
   try {

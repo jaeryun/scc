@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import { success, failure } from "@/lib/api-response";
-import { subnetSchema } from "@/features/ipam/schemas";
+import { subnetSchema } from "@/modules/ipam/schemas";
 import {
   getSubnets,
   createSubnet,
-} from "@/features/ipam/api/subnet-handlers";
+} from "@/modules/ipam/api/subnet-handlers";
 
 export async function GET() {
   try {

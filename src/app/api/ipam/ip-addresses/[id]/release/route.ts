@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { success, failure } from "@/lib/api-response";
-import { releaseIp } from "@/features/ipam/api/ip-handlers";
+import { releaseIp } from "@/modules/ipam/api/ip-handlers";
 
 export async function POST(
   _req: Request,

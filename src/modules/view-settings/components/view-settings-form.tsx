@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { viewSettingsQueryOptions, viewSettingKeys } from '@/features/view-settings/api/queries';
-import { updateViewSetting } from '@/features/view-settings/api/service';
+import { viewSettingsQueryOptions, viewSettingKeys } from '@/modules/view-settings/api/queries';
+import { updateViewSetting } from '@/modules/view-settings/api/service';
 import { views } from '@/config/views';
 import { Icons } from '@/components/icons';
 import IconPicker from './icon-picker';

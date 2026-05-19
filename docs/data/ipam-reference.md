@@ -113,7 +113,7 @@ export async function createSubnet(data: SubnetInput) {
 // app/api/ipam/subnets/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { success, failure } from '@/lib/api-response';
-import * as handlers from '@/features/ipam/api/subnet-handlers';
+import * as handlers from '@/modules/ipam/api/subnet-handlers';
 
 export async function GET() {
   try {

@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import { success, failure } from "@/lib/api-response";
-import { subnetSchema } from "@/features/ipam/schemas";
+import { subnetSchema } from "@/modules/ipam/schemas";
 import {
   updateSubnet,
   deleteSubnet,
-} from "@/features/ipam/api/subnet-handlers";
+} from "@/modules/ipam/api/subnet-handlers";
 import { ZodError } from "zod";
 
 export async function PUT(

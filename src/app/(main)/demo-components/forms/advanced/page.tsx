@@ -1,5 +1,5 @@
 import PageContainer from '@/components/layout/page-container';
-import AdvancedFormPatterns from '@/features/forms/components/advanced-form-patterns';
+import AdvancedFormPatterns from '@/modules/forms/components/advanced-form-patterns';
 
 export const metadata = {
   title: 'Dashboard: 고급 폼 패턴'

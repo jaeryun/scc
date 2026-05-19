@@ -1,7 +1,7 @@
 # App Router 컨벤션
 
 서버 컴포넌트, 메타데이터 등 공통 규칙 → [@docs/core/conventions.md](../../docs/core/conventions.md) 참조.
-데이터 페칭 패턴 → [../features/CLAUDE.md](../features/CLAUDE.md) 참조.
+데이터 페칭 패턴 → [../modules/CLAUDE.md](../modules/CLAUDE.md) 참조.
 API 라우트 규칙 → [api/CLAUDE.md](api/CLAUDE.md) 참조.
 
 ## 라우트 그룹
@@ -83,4 +83,4 @@ export default function GlobalError({
 1. `src/config/views.ts` → `views` 배열에 새 뷰 등록 (또는 기존 뷰에 navItems 추가)
 2. `src/app/(main)/<view-id>/page.tsx` → 페이지 생성
 3. `PageContainer`로 래핑, `pageTitle`/`pageDescription` props 사용
-4. 데이터 페칭: [../features/CLAUDE.md](../features/CLAUDE.md)의 `prefetchQuery` + `useSuspenseQuery` 패턴 참조
+4. 데이터 페칭: [../modules/CLAUDE.md](../modules/CLAUDE.md)의 `prefetchQuery` + `useSuspenseQuery` 패턴 참조

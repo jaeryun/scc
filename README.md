@@ -40,7 +40,7 @@ scc/
 ├── src/
 │   ├── app/(main)/           # 라우트 그룹 (demo-ipam, demo-components, home, settings)
 │   ├── app/api/              # API 라우트 핸들러
-│   ├── features/             # 기능 모듈 (ipam, products, users, kanban, chat 등)
+│   ├── modules/             # 기능 모듈 (ipam, products, users, kanban, chat 등)
 │   ├── components/           # 공통 UI 컴포넌트 (layout, ui, themes, kbar)
 │   ├── config/               # 네비게이션, 뷰, 데이터 테이블 설정
 │   ├── lib/                  # 유틸리티 (query-client, searchparams 등)
@@ -60,13 +60,13 @@ scc/
 
 | 디렉토리 | 설명 |
 |----------|------|
-| `features/ipam/` | IPAM — 서브넷/IP 주소 관리 (CRUD, Prisma 연동) |
-| `features/products/` | 상품 목록/폼 — TanStack Table + React Query 예시 |
-| `features/users/` | 사용자 테이블 — React Query + Nuqs 패턴 |
-| `features/kanban/` | Kanban 보드 — dnd-kit + Zustand |
-| `features/chat/` | 채팅 UI |
-| `features/overview/` | 대시보드 개요 — Recharts 차트 |
-| `features/notifications/` | 알림 센터 |
+| `modules/ipam/` | IPAM — 서브넷/IP 주소 관리 (CRUD, Prisma 연동) |
+| `modules/products/` | 상품 목록/폼 — TanStack Table + React Query 예시 |
+| `modules/users/` | 사용자 테이블 — React Query + Nuqs 패턴 |
+| `modules/kanban/` | Kanban 보드 — dnd-kit + Zustand |
+| `modules/chat/` | 채팅 UI |
+| `modules/overview/` | 대시보드 개요 — Recharts 차트 |
+| `modules/notifications/` | 알림 센터 |
 
 ---
 

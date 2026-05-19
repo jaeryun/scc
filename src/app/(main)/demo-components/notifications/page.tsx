@@ -1,4 +1,4 @@
-import NotificationsPage from '@/features/notifications/components/notifications-page';
+import NotificationsPage from '@/modules/notifications/components/notifications-page';
 
 export const metadata = {
   title: 'Dashboard: 알림'

@@ -4,7 +4,7 @@
 - 인증 없음 (Clerk/Sentry 제거), 향후 Keycloak SSO
 - 폐쇄망 — 외부 CDN/리소스 사용 불가
 - 좌상단 Select 드롭다운으로 뷰 전환 (`src/config/views.ts`, 라우트 그룹 `src/app/(main)/`)
-- IPAM Demo: 서브넷/IP CRUD (`src/features/ipam/`)
+- IPAM Demo: 서브넷/IP CRUD (`src/modules/ipam/`)
 
 ## 기술 스택
 Next.js 16, React 19, TypeScript 5.7, Tailwind CSS v4, shadcn/ui, Prisma + PostgreSQL,
@@ -46,7 +46,7 @@ DATABASE_URL=postgresql://user:password@host:5432/dbname
 │   ├── app/                    # 라우트 + API 라우트 핸들러
 │   │   ├── (main)/             # 뷰별 라우트 그룹 (Select 드롭다운 전환)
 │   │   └── api/                # API 라우트 핸들러
-│   ├── features/               # 기능 모듈 (도메인별)
+│   ├── modules/               # 기능 모듈 (도메인별)
 │   │   ├── auth/               # 인증 (Phase 2)
 │   │   ├── chat/               # 채팅
 │   │   ├── elements/           # UI 요소 데모

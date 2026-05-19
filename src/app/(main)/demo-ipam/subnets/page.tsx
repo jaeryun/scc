@@ -1,6 +1,6 @@
 import PageContainer from '@/components/layout/page-container';
-import { SubnetsTable } from '@/features/ipam/components/subnets-table/subnets-table';
-import { SubnetFormSheetTrigger } from '@/features/ipam/components/subnet-form-sheet';
+import { SubnetsTable } from '@/modules/ipam/components/subnets-table/subnets-table';
+import { SubnetFormSheetTrigger } from '@/modules/ipam/components/subnet-form-sheet';
 
 export default function SubnetsPage() {
   return (

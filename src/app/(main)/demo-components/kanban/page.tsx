@@ -1,4 +1,4 @@
-import KanbanViewPage from '@/features/kanban/components/kanban-view-page';
+import KanbanViewPage from '@/modules/kanban/components/kanban-view-page';
 
 export const metadata = {
   title: 'Dashboard: 칸반 보드'

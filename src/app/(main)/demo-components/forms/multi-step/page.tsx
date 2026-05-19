@@ -1,5 +1,5 @@
 import PageContainer from '@/components/layout/page-container';
-import FormsShowcasePage from '@/features/forms/components/forms-showcase-page';
+import FormsShowcasePage from '@/modules/forms/components/forms-showcase-page';
 
 export const metadata = {
   title: 'Dashboard: 다단계 폼'

@@ -5,7 +5,7 @@
 ## 데이터 계층 구조 (3파일)
 
 ```
-src/features/<name>/api/
+src/modules/<name>/api/
   types.ts    → 응답 타입, 필터 타입, 뮤테이션 페이로드
   service.ts  → 백엔드 호출 전용 (apiClient 외 import 금지)
   queries.ts  → queryOptions + 쿼리 키 팩토리

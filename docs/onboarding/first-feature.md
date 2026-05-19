@@ -2,12 +2,12 @@
 
 ## 참조 구현: IPAM
 
-`src/features/ipam/`은 이 프로젝트의 **정규 참조 구현**입니다.
+`src/modules/ipam/`은 이 프로젝트의 **정규 참조 구현**입니다.
 신규 기능을 추가할 때 먼저 이 구조를 살펴보세요.
 
 ## IPAM 구조
 ```
-src/features/ipam/
+src/modules/ipam/
 ├── api/
 │   ├── types.ts         # 데이터 타입, 필터, 페이로드
 │   ├── service.ts       # apiClient 호출 전용
@@ -25,11 +25,11 @@ src/features/ipam/
 
 ## 신규 기능 7단계 워크플로
 
-1. `src/features/<name>/api/types.ts` — 응답 타입, 필터 타입, 뮤테이션 페이로드 정의
-2. `src/features/<name>/api/service.ts` — `apiClient` 호출 전용 (외부에서 직접 호출 금지)
-3. `src/features/<name>/api/queries.ts` — `queryOptions()` + 쿼리 키 팩토리
-4. `src/features/<name>/hooks/` — `use-<name>s.ts`, `use-<name>-mutations.ts`
-5. `src/features/<name>/components/` — UI 컴포넌트
+1. `src/modules/<name>/api/types.ts` — 응답 타입, 필터 타입, 뮤테이션 페이로드 정의
+2. `src/modules/<name>/api/service.ts` — `apiClient` 호출 전용 (외부에서 직접 호출 금지)
+3. `src/modules/<name>/api/queries.ts` — `queryOptions()` + 쿼리 키 팩토리
+4. `src/modules/<name>/hooks/` — `use-<name>s.ts`, `use-<name>-mutations.ts`
+5. `src/modules/<name>/components/` — UI 컴포넌트
 6. `src/app/(views)/<view>/` 또는 `src/app/dashboard/<name>/page.tsx` — 페이지 등록
 7. `src/config/nav-config.ts` — 내비게이션 아이템 등록 (`access` 속성 필수)
 

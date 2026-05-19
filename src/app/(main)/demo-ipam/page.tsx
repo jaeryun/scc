@@ -1,5 +1,5 @@
 import PageContainer from '@/components/layout/page-container';
-import { IpamDashboardPage } from '@/features/ipam/components/dashboard-page';
+import { IpamDashboardPage } from '@/modules/ipam/components/dashboard-page';
 
 export default function DemoIpamPage() {
   return (

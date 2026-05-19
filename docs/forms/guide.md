@@ -76,7 +76,7 @@ form-context.tsx             fields/*.tsx
 모든 폼 기능은 **스키마**, **상수**, **컴포넌트**로 분리해야 합니다:
 
 ```
-src/features/products/
+src/modules/products/
 ├── schemas/
 │   └── product.ts              ← Zod 스키마 + 추론된 FormValues 타입
 ├── constants/
@@ -98,7 +98,7 @@ src/features/products/
 **스키마 파일 예제:**
 
 ```ts
-// src/features/products/schemas/product.ts
+// src/modules/products/schemas/product.ts
 import * as z from 'zod';
 
 export const productSchema = z.object({
@@ -118,9 +118,9 @@ export type ProductFormValues = z.infer<typeof productSchema>;
 **폼 컴포넌트가 스키마를 임포트:**
 
 ```tsx
-// src/features/products/components/product-form.tsx
-import { productSchema, type ProductFormValues } from '@/features/products/schemas/product';
-import { categoryOptions } from '@/features/products/constants/product-options';
+// src/modules/products/components/product-form.tsx
+import { productSchema, type ProductFormValues } from '@/modules/products/schemas/product';
+import { categoryOptions } from '@/modules/products/constants/product-options';
 
 const form = useAppForm({
   defaultValues: { ... } as ProductFormValues,
@@ -135,7 +135,7 @@ const { FormTextField, FormSelectField } = useFormFields<ProductFormValues>();
 
 ```ts
 // src/app/api/products/route.ts
-import { productSchema } from '@/features/products/schemas/product';
+import { productSchema } from '@/modules/products/schemas/product';
 
 export async function POST(req: Request) {
   const body = await req.json();
@@ -604,7 +604,7 @@ const form = useAppForm({
 <Step1 form={form} fields={{ name: 'name', category: 'category' }} />
 ```
 
-`src/features/forms/components/multi-step-product-form.tsx`를 참조하세요.
+`src/modules/forms/components/multi-step-product-form.tsx`를 참조하세요.
 
 ### 중첩 객체 필드
 
@@ -805,7 +805,7 @@ const positionOptions = [
 플랫 필드, 체크박스 그룹, 날짜 선택기, 셀렉트, 파일 업로드, 프로덕션 유틸리티를 결합한 완전한 폼입니다. 파일 분할 패턴을 따릅니다:
 
 ```
-src/features/applications/
+src/modules/applications/
 ├── schemas/application.ts         ← Zod 스키마 + z.infer 타입
 ├── constants/application-options.ts ← Position 및 experience 옵션
 ├── components/application-form.tsx  ← 폼 UI
@@ -1038,6 +1038,6 @@ const TypedDatePicker = narrow(FormDatePickerField);
 
 | 폼             | 파일                                                    | 패턴                                      |
 | ------------- | ------------------------------------------------------ | ----------------------------------------- |
-| Product CRUD  | `src/features/products/components/product-form.tsx`    | 패턴 1, 분할 스키마, onBlur 검증기         |
-| Sheet Product | `src/features/forms/components/sheet-product-form.tsx` | 시트 내 패턴 2                             |
-| Auth          | `src/features/auth/components/user-auth-form.tsx`      | 패턴 2, 미니멀                             |
+| Product CRUD  | `src/modules/products/components/product-form.tsx`    | 패턴 1, 분할 스키마, onBlur 검증기         |
+| Sheet Product | `src/modules/forms/components/sheet-product-form.tsx` | 시트 내 패턴 2                             |
+| Auth          | `src/modules/auth/components/user-auth-form.tsx`      | 패턴 2, 미니멀                             |

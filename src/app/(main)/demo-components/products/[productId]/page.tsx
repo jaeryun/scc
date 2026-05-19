@@ -1,8 +1,8 @@
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import { getQueryClient } from '@/lib/query-client';
-import { productByIdOptions } from '@/features/products/api/queries';
+import { productByIdOptions } from '@/modules/products/api/queries';
 import PageContainer from '@/components/layout/page-container';
-import ProductViewPage from '@/features/products/components/product-view-page';
+import ProductViewPage from '@/modules/products/components/product-view-page';
 
 export const metadata = {
   title: 'Dashboard : 상품 상세'

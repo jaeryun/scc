@@ -1,4 +1,4 @@
-import IconsViewPage from '@/features/elements/components/icons-view-page';
+import IconsViewPage from '@/modules/elements/components/icons-view-page';
 
 export const metadata = {
   title: 'Dashboard : 아이콘'

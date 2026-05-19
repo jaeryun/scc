@@ -1,5 +1,5 @@
 import PageContainer from '@/components/layout/page-container';
-import SheetFormDemo from '@/features/forms/components/sheet-form-demo';
+import SheetFormDemo from '@/modules/forms/components/sheet-form-demo';
 
 export const metadata = {
   title: 'Dashboard: 시트 폼'

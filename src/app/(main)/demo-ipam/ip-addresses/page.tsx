@@ -1,5 +1,5 @@
 import PageContainer from '@/components/layout/page-container';
-import { IpAssignReturnPage } from '@/features/ipam/components/ip-assign-page';
+import { IpAssignReturnPage } from '@/modules/ipam/components/ip-assign-page';
 
 export default function IpAddressesPage() {
   return (

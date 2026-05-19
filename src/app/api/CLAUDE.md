@@ -33,7 +33,7 @@ return NextResponse.json(failure("서버 오류"), { status: 500 });
 요청 본문 검증은 Zod 스키마 + `.parse()`:
 
 ```typescript
-import { subnetSchema } from "@/features/ipam/schemas";
+import { subnetSchema } from "@/modules/ipam/schemas";
 
 export async function POST(req: Request) {
   const body = await req.json();
@@ -42,7 +42,7 @@ export async function POST(req: Request) {
 }
 ```
 
-- 스키마는 `src/features/<name>/schemas.ts`에 정의
+- 스키마는 `src/modules/<name>/schemas.ts`에 정의
 - `.parse()` 실패 시 `ZodError`가 throw되므로 try/catch로 감싸서 처리
 
 ## 에러 핸들링
@@ -93,8 +93,8 @@ api/ipam/
 
 **계층 구조**:
 - **`route.ts`**: 요청 파싱, Zod 검증, 응답 포매팅만 담당 (thin controller)
-- **`src/features/ipam/api/*-handlers.ts`**: 실제 비즈니스 로직 (Prisma 쿼리 등)
-- **`src/features/ipam/schemas.ts`**: Zod 스키마 정의
+- **`src/modules/ipam/api/*-handlers.ts`**: 실제 비즈니스 로직 (Prisma 쿼리 등)
+- **`src/modules/ipam/schemas.ts`**: Zod 스키마 정의
 
 ```typescript
 // route.ts — thin controller

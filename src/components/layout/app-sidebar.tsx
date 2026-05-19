@@ -17,7 +17,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import * as React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useQuery } from '@tanstack/react-query';
-import { viewSettingsQueryOptions } from '@/features/view-settings/api/queries';
+import { viewSettingsQueryOptions } from '@/modules/view-settings/api/queries';
 
 const mockUser = {
   imageUrl: '',

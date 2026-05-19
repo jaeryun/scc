@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import { success, failure } from "@/lib/api-response";
-import { ipAddressSchema } from "@/features/ipam/schemas";
+import { ipAddressSchema } from "@/modules/ipam/schemas";
 import {
   getIpAddresses,
   createIpAddress,
-} from "@/features/ipam/api/ip-handlers";
+} from "@/modules/ipam/api/ip-handlers";
 
 export async function GET(req: Request) {
   try {

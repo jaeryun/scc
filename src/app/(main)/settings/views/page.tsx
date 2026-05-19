@@ -1,5 +1,5 @@
 import PageContainer from "@/components/layout/page-container";
-import ViewSettingsForm from "@/features/view-settings/components/view-settings-form";
+import ViewSettingsForm from "@/modules/view-settings/components/view-settings-form";
 
 export default function SettingsViewsPage() {
   return (

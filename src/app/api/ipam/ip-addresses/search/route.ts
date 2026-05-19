@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { success, failure } from "@/lib/api-response";
-import { searchIpByHostname } from "@/features/ipam/api/ip-handlers";
+import { searchIpByHostname } from "@/modules/ipam/api/ip-handlers";
 
 export async function GET(req: Request) {
   try {

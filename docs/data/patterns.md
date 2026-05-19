@@ -1,6 +1,6 @@
 # 데이터 패턴 상세 가이드
 
-> `src/features/CLAUDE.md`에서 핵심 규칙을 먼저 확인하고, 이 문서는 상세 예제와 심화 패턴을 제공합니다.
+> `src/modules/CLAUDE.md`에서 핵심 규칙을 먼저 확인하고, 이 문서는 상세 예제와 심화 패턴을 제공합니다.
 > 빠른 참조: [cheat-sheet.md](./cheat-sheet.md)
 
 ## 1. React Query 상세 패턴
@@ -13,7 +13,7 @@
 // app/(views)/subnets/page.tsx
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { getQueryClient } from '@/lib/query-client';
-import { subnetsQueryOptions } from '@/features/ipam/api/queries';
+import { subnetsQueryOptions } from '@/modules/ipam/api/queries';
 
 export default async function SubnetsPage() {
   const queryClient = getQueryClient();
@@ -38,7 +38,7 @@ export default async function SubnetsPage() {
 'use client';
 
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { subnetsQueryOptions } from '@/features/ipam/api/queries';
+import { subnetsQueryOptions } from '@/modules/ipam/api/queries';
 
 export function SubnetsTable() {
   // useQuery 말고 useSuspenseQuery 사용
@@ -192,7 +192,7 @@ export function useSubnetFilters() {
 ### 파일 구조
 
 ```
-features/<name>/
+modules/<name>/
   api/queries.ts              ← 쿼리 옵션 정의
   components/<name>-tables/
     columns.tsx               ← 컬럼 정의 (header, accessorKey, cell, filterFn)
