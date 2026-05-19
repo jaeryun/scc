@@ -1,6 +1,6 @@
 # App Router 컨벤션
 
-서버 컴포넌트, 메타데이터 등 공통 규칙 → [@docs/core/conventions.md](../../docs/core/conventions.md) 참조.
+서버 컴포넌트, 메타데이터 등 공통 규칙 → [docs/core/conventions.md](../../docs/core/conventions.md) 참조.
 데이터 페칭 패턴 → [../modules/CLAUDE.md](../modules/CLAUDE.md) 참조.
 API 라우트 규칙 → [api/CLAUDE.md](api/CLAUDE.md) 참조.
 

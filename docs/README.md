@@ -6,7 +6,7 @@
 | [core/project.md](core/project.md) | 프로젝트 개요, Phase 제약, 빌드 명령 |
 | [core/behavior.md](core/behavior.md) | AI 행동 원칙 |
 | [core/conventions.md](core/conventions.md) | 25개 코딩 규칙 |
-| [core/naming.md](core/naming.md) | 파일명/변수명 컨벤션 |
+| [core/loading-policy.md](core/loading-policy.md) | CLAUDE.md 로딩 정책 |
 
 ## Rules — 파일 타입별 조건부
 | 파일 | paths |
@@ -16,6 +16,7 @@
 | [rules/styling.md](rules/styling.md) | `**/*.{tsx,css}` |
 | [rules/prisma.md](rules/prisma.md) | `prisma/**` |
 | [rules/docs.md](rules/docs.md) | `docs/**/*.md` |
+| [rules/naming.md](rules/naming.md) | `**/*.{ts,tsx}` — 파일명/변수명 컨벤션 |
 
 ## 데이터 — 데이터 페칭
 | 파일 | 용도 |

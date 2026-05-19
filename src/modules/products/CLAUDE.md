@@ -89,4 +89,4 @@ mutationFn: ({ id, values }: { id: number; values: ProductMutationPayload }) =>
 
 ### RSC 데이터 페칭 패턴 (Products 전용)
 Products는 `searchParams` → RSC `fetch` → 데이터를 props로 클라이언트 테이블에 전달하는 **서버 컴포넌트 패치 패턴**을 사용합니다.
-Users의 `prefetchQuery` + `useSuspenseQuery` 패턴과 다릅니다. (참고: [@modules/users/info-content.ts](../users/info-content.ts))
+Users의 `prefetchQuery` + `useSuspenseQuery` 패턴과 다릅니다. (참고: [modules/users/info-content.ts](../users/info-content.ts))

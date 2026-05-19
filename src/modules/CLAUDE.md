@@ -1,7 +1,8 @@
 # 기능 모듈 컨벤션
 
-데이터 계층, 쿼리 키, 페칭 패턴, 금지사항 → [@docs/data/cheat-sheet.md](../../docs/data/cheat-sheet.md) 참조.
-폼 시스템 → [@docs/forms/cheat-sheet.md](../../docs/forms/cheat-sheet.md) 참조.
+@docs/data/cheat-sheet.md
+@docs/forms/cheat-sheet.md
+@docs/architecture/component-guide.md
 
 ## 기능 추가 워크플로
 1. `src/modules/<name>/api/` — `types.ts` → `service.ts` → `queries.ts`
@@ -17,4 +18,3 @@
 - `src/app/api/ipam/` — Route Handler + Zod 검증 + 계층 분리
 
 ## 컴포넌트 배치
-→ @docs/architecture/component-guide.md 참조

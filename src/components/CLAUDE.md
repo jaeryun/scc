@@ -1,6 +1,6 @@
 # 공통 컴포넌트 컨벤션
 
-컴포넌트 작성 규칙, shadcn, 접근성 → [@docs/core/conventions.md](../../docs/core/conventions.md) 참조.
+컴포넌트 작성 규칙, shadcn, 접근성 → [docs/core/conventions.md](../../docs/core/conventions.md) 참조.
 컴포넌트 배치 가이드 → @docs/architecture/component-guide.md
 
 ## 디렉토리 구조
@@ -8,8 +8,8 @@
 - `charts/` — Recharts 래퍼
 - `kanban/` — dnd-kit 기반 칸반 UI
 - `layout/` — 레이아웃, 사이드바, 뷰 전환 → [layout/CLAUDE.md](layout/CLAUDE.md)
-- `forms/` — TanStack Form + Zod → [@docs/forms/guide.md](../../docs/forms/guide.md)
-- `themes/` — OKLCH 테마 → [@docs/themes/guide.md](../../docs/themes/guide.md)
+- `forms/` — TanStack Form + Zod → [docs/forms/guide.md](../../docs/forms/guide.md)
+- `themes/` — OKLCH 테마 → [docs/themes/guide.md](../../docs/themes/guide.md)
 - `icons.tsx` — 아이콘 레지스트리
 
 ## 아이콘 시스템

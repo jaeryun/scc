@@ -10,19 +10,9 @@
 Next.js 16, React 19, TypeScript 5.7, Tailwind CSS v4, shadcn/ui, Prisma + PostgreSQL,
 TanStack React Query, TanStack Table, TanStack Form + Zod, Zustand, Nuqs, Recharts
 
-## 빌드 명령어
-| 명령어 | 용도 |
-|--------|------|
-| `bun install` | 의존성 설치 |
-| `bun run dev` | 개발 서버 (:3000) |
-| `bun run build` | 프로덕션 빌드 |
-| `bun run lint` | ESLint |
-| `bun run lint:fix` | ESLint 자동 수정 |
-| `bun run format` | Prettier |
-| `bun run format:check` | 포매팅 검사 |
-| `bunx prisma generate` | Prisma 클라이언트 생성 |
-
 ## 환경 설정
+
+주요 명령: `bun install` / `bun dev` (:3000) / `bun build` / `bun lint` / `bun format` / `bunx prisma generate`
 
 `.env.example`을 `.env.local`로 복사하여 사용 (⚠️ `.env.example` 내부 안내문은 `.env`로 복사하라고 되어 있으나, Next.js 컨벤션에 맞게 `.env.local`을 사용합니다):
 
@@ -92,34 +82,8 @@ DATABASE_URL=postgresql://user:password@host:5432/dbname
 
 ## 배포
 
-### Docker 빌드
-
-- Next.js `output: 'standalone'` 모드 사용 (`BUILD_STANDALONE=true` 환경변수로 활성화; `.env.example` 참조)
-  - `Dockerfile.bun`: `ENV BUILD_STANDALONE=true`가 명시되어 있어 자동 적용
-  - `Dockerfile` (Node.js): `next.config.ts` 또는 프로젝트 `.env`에서 `BUILD_STANDALONE` 설정 필요
-- 빌드 시점 환경변수(`NEXT_PUBLIC_*`): `Dockerfile.bun`만 ARG 정의가 있으므로 `docker build --build-arg`로 전달 가능 (`Dockerfile` Node.js는 ARG 미정의)
-- 런타임 환경변수(시크릿): `docker run -e`로 전달
-
-```bash
-# Node.js 이미지
-docker build -t scc-app .
-
-# Bun 이미지
-docker build -f Dockerfile.bun -t scc-app:bun .
-```
-
-### Docker Compose (개발)
-
-```bash
-docker compose up -d
-```
-
-- PostgreSQL + Next.js 개발 서버 동시 실행
-- `.env.local`의 `DATABASE_URL`이 컨테이너 내 PostgreSQL을 가리키도록 설정
+[Docker 빌드 & 배포 상세 → docs/architecture/build-deploy.md](../architecture/build-deploy.md)
 
 ## 외부 문서
-- [Next.js App Router](https://nextjs.org/docs/app)
-- [shadcn/ui](https://ui.shadcn.com/docs)
-- [Tailwind CSS v4](https://tailwindcss.com/docs)
-- [TanStack Table](https://tanstack.com/table/latest)
-- [TanStack React Query](https://tanstack.com/query/latest)
+
+Next.js, shadcn/ui, Tailwind CSS v4, TanStack Table/Query/Form — 공식 문서 참조

@@ -1,6 +1,6 @@
 # API 라우트 컨벤션
 
-에러 처리 (ZodError vs 서버), 접근성 등 공통 규칙 → [@docs/core/conventions.md](../../../docs/core/conventions.md) 참조.
+에러 처리 (ZodError vs 서버), 접근성 등 공통 규칙 → [docs/core/conventions.md](../../../docs/core/conventions.md) 참조.
 
 ## 기본 구조
 - 경로: `src/app/api/<name>/route.ts`

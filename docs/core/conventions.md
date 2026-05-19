@@ -44,3 +44,8 @@
 8. `'use client'`는 브라우저 API/이벤트/React 훅 사용 시에만
 9. 컴포넌트: 함수 선언문 `function Name() {}`, Props: `{Name}Props`
 10. 래핑 깊이: 단순 스타일 통합=얇은 래퍼(1:1), 복잡한 상태/조합=두꺼운 래퍼(새 API)
+
+## CLAUDE.md 로딩 정책
+- 항상 로딩: 루트 CLAUDE.md에서 @import (총 200줄 이하)
+- 컨텍스트 로딩: 디렉토리별 CLAUDE.md에서 @import
+- 상세: [docs/core/loading-policy.md](../core/loading-policy.md) 참조
