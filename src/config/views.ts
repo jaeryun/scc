@@ -57,6 +57,14 @@ export const views: ViewConfig[] = [
       { title: "알림", href: "/settings/notifications", icon: "notification" },
     ],
   },
+  {
+    id: "switch-mapping",
+    label: "Switch Mapping",
+    icon: "switch",
+    navItems: [
+      { title: "Port Mapping", href: "/switch-mapping", icon: "network" },
+    ],
+  },
 ];
 
 export function getViewByPath(pathname: string): ViewConfig | undefined {
