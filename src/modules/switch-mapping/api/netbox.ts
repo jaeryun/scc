@@ -5,7 +5,7 @@ export async function netboxGet<T>(path: string): Promise<T> {
   const url = `${NETBOX_URL}/api${path}`
   const res = await fetch(url, {
     headers: {
-      Authorization: `Token ${NETBOX_TOKEN}`,
+      Authorization: `Bearer ${NETBOX_TOKEN}`,
       'Content-Type': 'application/json',
       Accept: 'application/json; indent=4',
     },
