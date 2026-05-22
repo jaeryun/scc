@@ -44,6 +44,7 @@ export const views: ViewConfig[] = [
       { title: "폼", href: "/demo-components/forms/basic", icon: "forms" },
       { title: "아이콘", href: "/demo-components/elements/icons", icon: "palette" },
       { title: "알림", href: "/demo-components/notifications", icon: "notification" },
+      { title: "스위치 관리", href: "/demo-components/switch-mapping", icon: "network" },
     ],
   },
   {
@@ -57,14 +58,7 @@ export const views: ViewConfig[] = [
       { title: "알림", href: "/settings/notifications", icon: "notification" },
     ],
   },
-  {
-    id: "switch-mapping",
-    label: "Switch Mapping",
-    icon: "switch",
-    navItems: [
-      { title: "Port Mapping", href: "/switch-mapping", icon: "network" },
-    ],
-  },
+
 ];
 
 export function getViewByPath(pathname: string): ViewConfig | undefined {
