@@ -3,6 +3,7 @@ import { Toaster } from '@/components/ui/sonner';
 import { fontVariables } from '@/components/themes/font.config';
 import { DEFAULT_THEME, THEMES } from '@/components/themes/theme.config';
 import ThemeProvider from '@/components/themes/theme-provider';
+import { ThemeMetaColor } from '@/components/themes/theme-meta-color';
 import { cn } from '@/lib/utils';
 import type { Metadata, Viewport } from 'next';
 import { cookies } from 'next/headers';
@@ -10,18 +11,13 @@ import NextTopLoader from 'nextjs-toploader';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import '../styles/globals.css';
 
-const META_THEME_COLORS = {
-  light: '#ffffff',
-  dark: '#09090b'
-};
-
 export const metadata: Metadata = {
   title: 'SE Command Center',
   description: 'AI 기반 개발을 위한 일관된 웹 애플리케이션 프레임워크'
 };
 
 export const viewport: Viewport = {
-  themeColor: META_THEME_COLORS.light
+  themeColor: '#ffffff'
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
@@ -32,25 +28,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang='ko' suppressHydrationWarning data-theme={themeToApply}>
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              try {
-                if (localStorage.theme === 'dark' || ((!('theme' in localStorage) || localStorage.theme === 'system') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '${META_THEME_COLORS.dark}')
-                }
-              } catch (_) {}
-            `
-          }}
-        />
-      </head>
       <body
         className={cn(
           'bg-background overflow-x-hidden overscroll-none font-sans antialiased',
           fontVariables
         )}
       >
+        <ThemeMetaColor />
         <NextTopLoader color='var(--primary)' showSpinner={false} />
         <NuqsAdapter>
           <ThemeProvider
