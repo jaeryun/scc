@@ -61,7 +61,7 @@ export function SwitchPortView() {
   const { data, isLoading, isError, refetch } = useSwitchPorts(selectedDeviceId)
 
   return (
-    <div className='flex flex-col gap-6'>
+    <div className='flex flex-1 flex-col gap-6'>
       <div className='flex flex-wrap items-end gap-4'>
         {SWITCH_ROLES.map((r) => (
           <SwitchSelector

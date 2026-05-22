@@ -61,7 +61,7 @@ export function SwitchPortTable({ ports }: SwitchPortTableProps) {
   })
 
   return (
-    <div className='flex flex-col gap-4'>
+    <div className='flex flex-1 flex-col gap-4'>
       <DataTable
         table={table}
         onRowClick={(row) => {
