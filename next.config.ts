@@ -7,8 +7,8 @@ const nextConfig: NextConfig = {
   },
   // Turbopack 활성화 (Next.js 16 기본값)
   turbopack: {},
-  // 개발 서버 cross-origin 요청 허용 (localhost, 127.0.0.1, 내부 IP)
-  allowedDevOrigins: ['localhost', '127.0.0.1', '10.10.10.29'],
+  // 개발 서버 cross-origin 요청 허용 (모든 origin 허용)
+  allowedDevOrigins: ['*'],
 };
 
 export default nextConfig;
