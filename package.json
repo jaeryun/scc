@@ -7,7 +7,7 @@
     "url": "https://github.com/Kiranism"
   },
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -H 0.0.0.0",
     "build": "bun run prebuild && next build",
     "prebuild": "bash scripts/check-migrations.sh",
     "start": "next start",
