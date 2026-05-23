@@ -7,9 +7,8 @@
 ## 아키텍처
 
 - [필수] **모듈 기반 구조**
-  - 도메인 로직(API, 훅, 스키마, 도메인 의존 UI) → `src/modules/<name>/`
-  - 도메인 무관 공통 UI(여러 모듈에서 재사용) → `src/components/`
-  - 판단 기준: "이 모듈을 삭제해도 이 컴포넌트가 의미 있는가?"
+  - 순수 UI, 데이터 로직 없음, 여러 곳에서 재사용 → `src/components/`
+  - 특정 기능의 데이터 로직(API/쿼리/훅) + 그 UI까지 포함 → `src/modules/<name>/`
   - → [component-guide.md](../architecture/component-guide.md)
 - [필수] **뷰 시스템** — 새 뷰는 `src/config/views.ts` + `src/app/(views)/` 하위 라우트 그룹. 뷰 `id`는 라우트 세그먼트명과 일치
 - [필수] **데이터 계층** — `types.ts` → `service.ts` → `queries.ts` → `hooks` 순서. 컴포넌트에서 직접 `apiClient`/`fetch`/Prisma 호출 금지. mock-api 직접 임포트 금지
