@@ -7,8 +7,8 @@
 ## 아키텍처
 
 - [필수] **모듈 기반 구조**
-  - 순수 UI, 특정 모듈의 타입/API 의존성 없음 → `src/components/`
-  - 특정 도메인의 데이터 계층(API/쿼리/훅) + 타입 의존 UI → `src/modules/<name>/`
+  - 순수 UI, 어떤 도메인 타입도 직접 알 필요 없음 → `src/components/`
+  - 특정 기능의 데이터(API/쿼리/훅) + 그 데이터를 표현하는 UI → `src/modules/<name>/`
   - → [component-guide.md](../architecture/component-guide.md)
 - [필수] **뷰 시스템** — 새 뷰는 `src/config/views.ts` + `src/app/(views)/` 하위 라우트 그룹. 뷰 `id`는 라우트 세그먼트명과 일치
 - [필수] **데이터 계층** — `types.ts` → `service.ts` → `queries.ts` → `hooks` 순서. 컴포넌트에서 직접 `apiClient`/`fetch`/Prisma 호출 금지. mock-api 직접 임포트 금지
