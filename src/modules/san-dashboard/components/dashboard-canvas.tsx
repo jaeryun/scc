@@ -3,7 +3,7 @@
 import { useState, useCallback } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { ResponsiveGridLayout, useContainerWidth } from 'react-grid-layout';
+import { ResponsiveGridLayout, useContainerWidth, type Layout } from 'react-grid-layout';
 import { Button } from '@/components/ui/button';
 import { WidgetFrame } from '@/components/ui/grid-dashboard/widget-frame';
 import { Icons } from '@/components/icons';
@@ -12,6 +12,13 @@ import { updateDashboardMutation } from '../api/mutations';
 import type { DashboardItem } from '../api/types';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
+
+const WIDGET_TYPES = [
+  { type: 'switch-table' as const, label: 'Switch Table', w: 4, h: 3 },
+  { type: 'switch-summary' as const, label: 'Switch Summary', w: 2, h: 1 },
+  { type: 'server-card' as const, label: 'Server Card', w: 2, h: 2 },
+  { type: 'text' as const, label: 'Text Note', w: 2, h: 1 }
+];
 
 function renderWidgetContent(item: DashboardItem) {
   return (
@@ -28,7 +35,7 @@ export function DashboardCanvas({ dashboardId }: { dashboardId: string }) {
   const [isEditing, setIsEditing] = useState(false);
   const updateMutation = useMutation(updateDashboardMutation);
 
-  const layout = (dashboard?.items ?? []).map((item) => ({
+  const layout: Layout = (dashboard?.items ?? []).map((item) => ({
     i: item.id,
     x: item.x,
     y: item.y,
@@ -37,7 +44,7 @@ export function DashboardCanvas({ dashboardId }: { dashboardId: string }) {
   }));
 
   const handleLayoutChange = useCallback(
-    (newLayout: { i: string; x: number; y: number; w: number; h: number }[]) => {
+    (newLayout: Layout) => {
       if (!dashboard) return;
       const updatedItems: DashboardItem[] = newLayout
         .map((l) => {
@@ -68,6 +75,29 @@ export function DashboardCanvas({ dashboardId }: { dashboardId: string }) {
     [dashboard, dashboardId, updateMutation]
   );
 
+  const handleAddWidget = useCallback(
+    (type: DashboardItem['type'], w: number, h: number) => {
+      if (!dashboard) return;
+      const newItem: DashboardItem = {
+        id: `widget-${Date.now()}`,
+        type,
+        targetId: 'san-brc-x7-4-fa01',
+        x: 0,
+        y: 0,
+        w,
+        h,
+        config: {}
+      };
+      updateMutation.mutate({
+        id: dashboardId,
+        data: {
+          items: [...dashboard.items, newItem]
+        }
+      });
+    },
+    [dashboard, dashboardId, updateMutation]
+  );
+
   if (isLoading) {
     return (
       <div className='flex h-64 items-center justify-center'>
@@ -83,6 +113,8 @@ export function DashboardCanvas({ dashboardId }: { dashboardId: string }) {
       </div>
     );
   }
+
+  const isEmpty = dashboard.items.length === 0;
 
   return (
     <div ref={containerRef} className='space-y-4'>
@@ -104,7 +136,39 @@ export function DashboardCanvas({ dashboardId }: { dashboardId: string }) {
         </div>
       </div>
 
-      {width > 0 && (
+      {isEditing && (
+        <div className='flex flex-wrap gap-2'>
+          {WIDGET_TYPES.map((w) => (
+            <Button
+              key={w.type}
+              variant='outline'
+              size='sm'
+              onClick={() => handleAddWidget(w.type, w.w, w.h)}
+            >
+              <Icons.add className='mr-2 h-4 w-4' />
+              {w.label}
+            </Button>
+          ))}
+        </div>
+      )}
+
+      {isEmpty && !isEditing && (
+        <div className='flex h-64 items-center justify-center rounded-lg border'>
+          <p className='text-muted-foreground text-sm'>
+            Click <strong>Edit</strong> to add widgets and build your dashboard.
+          </p>
+        </div>
+      )}
+
+      {isEmpty && isEditing && (
+        <div className='flex h-64 items-center justify-center rounded-lg border'>
+          <p className='text-muted-foreground text-sm'>
+            Use the buttons above to add widgets. Then drag and resize them.
+          </p>
+        </div>
+      )}
+
+      {!isEmpty && width > 0 && (
         <ResponsiveGridLayout
           className='layout'
           width={width}

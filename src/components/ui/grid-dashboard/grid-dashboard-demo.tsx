@@ -1,11 +1,12 @@
 'use client';
 
-import { GridLayout } from 'react-grid-layout';
+import { useState, useCallback } from 'react';
+import { GridLayout, type Layout } from 'react-grid-layout';
 import { WidgetFrame } from '@/components/ui/grid-dashboard/widget-frame';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 
-const LAYOUT = [
+const INITIAL: Layout = [
   { i: 'a', x: 0, y: 0, w: 4, h: 3 },
   { i: 'b', x: 4, y: 0, w: 4, h: 2 },
   { i: 'c', x: 8, y: 0, w: 4, h: 2 },
@@ -14,14 +15,19 @@ const LAYOUT = [
 ];
 
 export function GridDashboardDemo() {
+  const [layout, setLayout] = useState(INITIAL);
+
+  const handleChange = useCallback((l: Layout) => setLayout([...l]), []);
+
   return (
     <GridLayout
       className='layout'
       width={1200}
       gridConfig={{ cols: 12, rowHeight: 80, margin: [8, 8] }}
-      dragConfig={{ enabled: false }}
-      resizeConfig={{ enabled: false }}
-      layout={LAYOUT}
+      dragConfig={{ enabled: true }}
+      resizeConfig={{ enabled: true }}
+      layout={layout}
+      onLayoutChange={handleChange}
     >
       <div key='a'>
         <WidgetFrame title='Widget A (4x3)'>
