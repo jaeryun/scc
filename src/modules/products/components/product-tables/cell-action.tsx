@@ -52,7 +52,7 @@ export function CellAction({ data }: CellActionProps) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end'>
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DropdownMenuItem onClick={() => router.push(`/demo-components/products/${data.id}`)}>
+          <DropdownMenuItem onClick={() => router.push(`/demo-logic/products/${data.id}`)}>
             <Icons.edit className='mr-2 h-4 w-4' /> Update
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpen(true)}>

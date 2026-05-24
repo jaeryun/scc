@@ -527,7 +527,7 @@ export function DashboardList() {
       const params = new URLSearchParams(searchParams.toString());
       if (folderId) params.set('folder', folderId);
       else params.delete('folder');
-      router.push(`/demo-components/grid-dashboard?${params.toString()}`);
+      router.push(`/demo-logic/grid-dashboard?${params.toString()}`);
     },
     [router, searchParams, clearSelection]
   );
@@ -955,7 +955,7 @@ export function DashboardList() {
                     />
                   </TableCell>
                   <TableCell
-                    onClick={() => router.push(`/demo-components/grid-dashboard/${dashboard.id}`)}
+                    onClick={() => router.push(`/demo-logic/grid-dashboard/${dashboard.id}`)}
                   >
                     <div className='flex items-center gap-2'>
                       <Icons.dashboard className='h-4 w-4 shrink-0 text-muted-foreground' />
@@ -964,7 +964,7 @@ export function DashboardList() {
                   </TableCell>
                   <TableCell
                     className='hidden md:table-cell text-muted-foreground'
-                    onClick={() => router.push(`/demo-components/grid-dashboard/${dashboard.id}`)}
+                    onClick={() => router.push(`/demo-logic/grid-dashboard/${dashboard.id}`)}
                   >
                     <span className='truncate block max-w-[200px]'>
                       {dashboard.description || '\u2014'}
@@ -972,13 +972,13 @@ export function DashboardList() {
                   </TableCell>
                   <TableCell
                     className='text-center tabular-nums'
-                    onClick={() => router.push(`/demo-components/grid-dashboard/${dashboard.id}`)}
+                    onClick={() => router.push(`/demo-logic/grid-dashboard/${dashboard.id}`)}
                   >
                     {dashboard.panels.length}
                   </TableCell>
                   <TableCell
                     className='hidden sm:table-cell text-muted-foreground'
-                    onClick={() => router.push(`/demo-components/grid-dashboard/${dashboard.id}`)}
+                    onClick={() => router.push(`/demo-logic/grid-dashboard/${dashboard.id}`)}
                   >
                     {formatDate(dashboard.updatedAt)}
                   </TableCell>
