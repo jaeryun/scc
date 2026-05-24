@@ -287,9 +287,18 @@ function MoveDialog({
             }`}
           >
             <span
+              role='button'
+              tabIndex={0}
               onClick={(e) => {
                 e.stopPropagation();
                 toggleExpand(folder.id);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  toggleExpand(folder.id);
+                }
               }}
               className={`shrink-0 flex items-center justify-center w-4 h-4 text-muted-foreground hover:text-foreground cursor-pointer transition-transform ${
                 hasChildren ? '' : 'invisible'
