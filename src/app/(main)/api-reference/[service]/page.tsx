@@ -1,10 +1,9 @@
 import type { Metadata } from 'next';
-import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
 import PageContainer from '@/components/layout/page-container';
 import { getAllSpecs, getSpecById } from '@/modules/api-reference/api/registry';
 import QuickStartGuide from '@/modules/api-reference/components/quick-start-guide';
-import { ScalarLoadingSkeleton } from '@/modules/api-reference/components/scalar-loading';
+import DynamicScalarViewer from '@/modules/api-reference/components/dynamic-scalar-viewer';
 
 export async function generateMetadata({
   params
@@ -23,11 +22,6 @@ export async function generateMetadata({
 export async function generateStaticParams() {
   return getAllSpecs().map((spec) => ({ service: spec.id }));
 }
-
-const DynamicScalarViewer = dynamic(
-  () => import('@/modules/api-reference/components/scalar-viewer'),
-  { ssr: false, loading: () => <ScalarLoadingSkeleton /> }
-);
 
 export default async function ServicePage({ params }: { params: Promise<{ service: string }> }) {
   const { service } = await params;
