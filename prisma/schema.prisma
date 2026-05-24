@@ -61,3 +61,27 @@ model Dashboard {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
+model DemoDashboardFolder {
+  id        String   @id @default(cuid())
+  title     String
+  parentId  String?
+  parent    DemoDashboardFolder?  @relation("FolderNesting", fields: [parentId], references: [id])
+  children  DemoDashboardFolder[] @relation("FolderNesting")
+  dashboards DemoDashboard[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model DemoDashboard {
+  id            String   @id @default(cuid())
+  title         String
+  description   String?
+  folderId      String?
+  folder        DemoDashboardFolder? @relation(fields: [folderId], references: [id])
+  schemaVersion Int      @default(1)
+  layout        Json     @default("{\"columns\":12,\"rowHeight\":80}")
+  panels        Json     @default("[]")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}

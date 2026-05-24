@@ -1,17 +1,14 @@
 import PageContainer from '@/components/layout/page-container';
-import { GridDashboardDemo } from '@/components/ui/grid-dashboard/grid-dashboard-demo';
+import { DashboardList } from '@/modules/demo-dashboard/components/dashboard-list';
 
 export const metadata = {
-  title: 'Dashboard: Grid Dashboard Demo'
+  title: 'Dashboard: Grid Dashboard'
 };
 
-export default function GridDashboardDemoPage() {
+export default function GridDashboardListPage() {
   return (
-    <PageContainer
-      pageTitle='Grid Dashboard Demo'
-      pageDescription='12-column grid system using react-grid-layout'
-    >
-      <GridDashboardDemo />
+    <PageContainer pageTitle='Grid Dashboard' pageDescription='폴더와 대시보드를 관리하세요'>
+      <DashboardList />
     </PageContainer>
   );
 }
