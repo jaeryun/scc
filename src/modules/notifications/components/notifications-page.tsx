@@ -7,14 +7,7 @@ import { NotificationCard } from '@/components/ui/notification-card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useRouter } from 'next/navigation';
 import { useNotificationStore } from '../utils/store';
-
-const actionRoutes: Record<string, string> = {
-  view: '/demo-components/workspaces',
-  'view-product': '/demo-components/products',
-  billing: '/demo-components/billing',
-  open: '/demo-components/kanban',
-  'open-chat': '/demo-components/chat'
-};
+import { notificationActionRoutes } from '../constants';
 
 export default function NotificationsPage() {
   const { notifications, markAsRead, markAllAsRead, unreadCount } = useNotificationStore();
@@ -47,7 +40,7 @@ export default function NotificationsPage() {
             actions={notification.actions}
             onMarkAsRead={markAsRead}
             onAction={(notifId, actionId) => {
-              const route = actionRoutes[actionId];
+              const route = notificationActionRoutes[actionId];
               if (route) {
                 markAsRead(notifId);
                 router.push(route);

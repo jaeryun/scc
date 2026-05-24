@@ -29,7 +29,7 @@ const mockNotifications: Notification[] = [
     createdAt: new Date(Date.now() - 1000 * 60 * 5).toISOString(),
     actions: [
       {
-        id: 'view',
+        id: 'workspaces',
         label: 'View workspace',
         type: 'redirect',
         style: 'primary'
@@ -44,7 +44,7 @@ const mockNotifications: Notification[] = [
     createdAt: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
     actions: [
       {
-        id: 'view-product',
+        id: 'products',
         label: 'View products',
         type: 'redirect',
         style: 'primary'
@@ -74,7 +74,7 @@ const mockNotifications: Notification[] = [
     createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
     actions: [
       {
-        id: 'open',
+        id: 'kanban',
         label: 'Open kanban',
         type: 'redirect',
         style: 'primary'
@@ -89,7 +89,7 @@ const mockNotifications: Notification[] = [
     createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3).toISOString(),
     actions: [
       {
-        id: 'open-chat',
+        id: 'chat',
         label: 'Open chat',
         type: 'redirect',
         style: 'primary'
