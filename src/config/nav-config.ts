@@ -63,11 +63,82 @@ export const navGroups: NavGroup[] = [
     ]
   },
   {
-    label: 'Components',
+    label: '순수 UI',
+    items: [
+      {
+        title: 'Kanban',
+        url: '/demo-ui/kanban',
+        icon: 'kanban',
+        isActive: false,
+        shortcut: ['k', 'k'],
+        items: []
+      },
+      {
+        title: 'Chat',
+        url: '/demo-ui/chat',
+        icon: 'chat',
+        isActive: false,
+        shortcut: ['c', 'c'],
+        items: []
+      },
+      {
+        title: 'Forms',
+        url: '/demo-ui/forms/basic',
+        icon: 'forms',
+        isActive: true,
+        items: [
+          {
+            title: 'Basic Form',
+            url: '/demo-ui/forms/basic',
+            icon: 'forms',
+            shortcut: ['f', 'f']
+          },
+          {
+            title: 'Multi-Step Form',
+            url: '/demo-ui/forms/multi-step',
+            icon: 'forms'
+          },
+          {
+            title: 'Sheet & Dialog',
+            url: '/demo-ui/forms/sheet-form',
+            icon: 'forms'
+          },
+          {
+            title: 'Advanced Patterns',
+            url: '/demo-ui/forms/advanced',
+            icon: 'forms'
+          }
+        ]
+      },
+      {
+        title: 'Icons',
+        url: '/demo-ui/icons',
+        icon: 'palette',
+        isActive: false,
+        items: []
+      },
+      {
+        title: 'Notifications',
+        url: '/demo-ui/notifications',
+        icon: 'notification',
+        isActive: false,
+        items: []
+      },
+      {
+        title: 'Profile',
+        url: '/demo-ui/profile',
+        icon: 'teams',
+        isActive: false,
+        items: []
+      }
+    ]
+  },
+  {
+    label: 'UI + Logic',
     items: [
       {
         title: 'Overview',
-        url: '/demo-components/overview',
+        url: '/demo-logic/overview',
         icon: 'dashboard',
         isActive: false,
         shortcut: ['d', 'd'],
@@ -75,88 +146,59 @@ export const navGroups: NavGroup[] = [
       },
       {
         title: 'Products',
-        url: '/demo-components/products',
+        url: '/demo-logic/products',
         icon: 'product',
-        shortcut: ['p', 'p'],
         isActive: false,
+        shortcut: ['p', 'p'],
         items: []
       },
       {
         title: 'Users',
-        url: '/demo-components/users',
+        url: '/demo-logic/users',
         icon: 'teams',
+        isActive: false,
         shortcut: ['u', 'u'],
+        items: []
+      },
+      {
+        title: 'Grid Dashboard',
+        url: '/demo-logic/grid-dashboard',
+        icon: 'dashboard',
         isActive: false,
         items: []
       },
       {
-        title: 'Kanban',
-        url: '/demo-components/kanban',
-        icon: 'kanban',
-        shortcut: ['k', 'k'],
+        title: 'Switch Mapping',
+        url: '/demo-logic/switch-mapping',
+        icon: 'network',
         isActive: false,
         items: []
-      },
-      {
-        title: 'Chat',
-        url: '/demo-components/chat',
-        icon: 'chat',
-        shortcut: ['c', 'c'],
-        isActive: false,
-        items: []
-      }
-    ]
-  },
-  {
-    label: 'Elements',
-    items: [
-      {
-        title: 'Forms',
-        url: '#',
-        icon: 'forms',
-        isActive: true,
-        items: [
-          {
-            title: 'Basic Form',
-            url: '/demo-components/forms/basic',
-            icon: 'forms',
-            shortcut: ['f', 'f']
-          },
-          {
-            title: 'Multi-Step Form',
-            url: '/demo-components/forms/multi-step',
-            icon: 'forms'
-          },
-          {
-            title: 'Sheet & Dialog',
-            url: '/demo-components/forms/sheet-form',
-            icon: 'forms'
-          },
-          {
-            title: 'Advanced Patterns',
-            url: '/demo-components/forms/advanced',
-            icon: 'forms'
-          }
-        ]
       },
       {
         title: 'React Query',
-        url: '/demo-components/react-query',
+        url: '/demo-logic/react-query',
         icon: 'code',
         isActive: false,
         items: []
       },
       {
-        title: 'Icons',
-        url: '/demo-components/elements/icons',
-        icon: 'palette',
+        title: 'Billing',
+        url: '/demo-logic/billing',
+        icon: 'billing',
         isActive: false,
         items: []
       },
       {
-        title: 'Notifications',
-        url: '/demo-components/notifications',
-        icon: 'notification',
+        title: 'Exclusive',
+        url: '/demo-logic/exclusive',
+        icon: 'sparkles',
+        isActive: false,
+        items: []
+      },
+      {
+        title: 'Workspaces',
+        url: '/demo-logic/workspaces',
+        icon: 'workspace',
         isActive: false,
         items: []
       }
