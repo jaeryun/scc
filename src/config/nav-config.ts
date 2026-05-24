@@ -161,5 +161,18 @@ export const navGroups: NavGroup[] = [
         items: []
       }
     ]
+  },
+  {
+    label: 'API Reference',
+    items: [
+      {
+        title: 'SemaphoreUI',
+        url: '/api-reference/semaphore',
+        icon: 'serverBolt',
+        isActive: false,
+        access: { requireOrg: true },
+        items: []
+      }
+    ]
   }
 ];

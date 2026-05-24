@@ -53,6 +53,15 @@ export const views: ViewConfig[] = [
     ]
   },
   {
+    id: 'api-reference',
+    label: 'API Reference',
+    icon: 'api',
+    navItems: [
+      { title: 'All APIs', href: '/api-reference', icon: 'listTree' },
+      { title: 'SemaphoreUI', href: '/api-reference/semaphore', icon: 'serverBolt' }
+    ]
+  },
+  {
     id: 'settings',
     label: '설정',
     icon: 'settings',
