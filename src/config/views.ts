@@ -35,21 +35,32 @@ export const views: ViewConfig[] = [
     ]
   },
   {
-    id: 'demo-components',
-    label: '(데모)컴포넌트 모음',
+    id: 'demo-ui',
+    label: '[데모] 순수 UI',
     icon: 'palette',
     navItems: [
-      { title: '데모 소개', href: '/demo-components', icon: 'info' },
-      { title: '대시보드', href: '/demo-components/overview', icon: 'dashboard' },
-      { title: '상품 관리', href: '/demo-components/products', icon: 'product' },
-      { title: '사용자 관리', href: '/demo-components/users', icon: 'teams' },
-      { title: '칸반 보드', href: '/demo-components/kanban', icon: 'kanban' },
-      { title: '채팅', href: '/demo-components/chat', icon: 'chat' },
-      { title: '폼', href: '/demo-components/forms/basic', icon: 'forms' },
-      { title: '아이콘', href: '/demo-components/elements/icons', icon: 'palette' },
-      { title: '알림', href: '/demo-components/notifications', icon: 'notification' },
-      { title: '그리드 대시보드', href: '/demo-components/grid-dashboard', icon: 'dashboard' },
-      { title: '스위치 관리', href: '/demo-components/switch-mapping', icon: 'network' }
+      { title: '칸반 보드', href: '/demo-ui/kanban', icon: 'kanban' },
+      { title: '채팅', href: '/demo-ui/chat', icon: 'chat' },
+      { title: '폼', href: '/demo-ui/forms/basic', icon: 'forms' },
+      { title: '아이콘', href: '/demo-ui/icons', icon: 'palette' },
+      { title: '알림', href: '/demo-ui/notifications', icon: 'notification' },
+      { title: '프로필', href: '/demo-ui/profile', icon: 'teams' }
+    ]
+  },
+  {
+    id: 'demo-logic',
+    label: '[데모] UI + Logic',
+    icon: 'code',
+    navItems: [
+      { title: '대시보드', href: '/demo-logic/overview', icon: 'dashboard' },
+      { title: '상품 관리', href: '/demo-logic/products', icon: 'product' },
+      { title: '사용자 관리', href: '/demo-logic/users', icon: 'teams' },
+      { title: '그리드 대시보드', href: '/demo-logic/grid-dashboard', icon: 'dashboard' },
+      { title: '스위치 매핑', href: '/demo-logic/switch-mapping', icon: 'network' },
+      { title: 'React Query', href: '/demo-logic/react-query', icon: 'code' },
+      { title: 'Billing', href: '/demo-logic/billing', icon: 'payment' },
+      { title: 'Exclusive', href: '/demo-logic/exclusive', icon: 'shapes' },
+      { title: 'Workspaces', href: '/demo-logic/workspaces', icon: 'building' }
     ]
   },
   {
