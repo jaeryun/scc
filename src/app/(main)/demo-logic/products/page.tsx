@@ -27,7 +27,7 @@ export default async function Page(props: pageProps) {
       infoContent={productInfoContent}
       pageHeaderAction={
         <Link
-          href='/demo-components/products/new'
+          href='/demo-logic/products/new'
           className={cn(buttonVariants(), 'text-xs md:text-sm')}
         >
           <Icons.add className='mr-2 h-4 w-4' /> 새 상품 추가
