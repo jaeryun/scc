@@ -32,6 +32,7 @@ DATABASE_URL=postgresql://user:password@host:5432/dbname
 
 ```
 /
+├── public/                     # 정적 파일 (robots.txt, OG 이미지 등)
 ├── src/                        # Next.js App Router 소스
 │   ├── app/                    # 라우트 + API 라우트 핸들러
 │   │   ├── (main)/             # 뷰별 라우트 그룹 (Select 드롭다운 전환)

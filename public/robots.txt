@@ -1,6 +1,5 @@
+# SE Command Center — 사내 인프라팀 관리 대시보드
+# 폐쇄망 운영, 외부 크롤러 접근 불필요
 User-agent: *
-Disallow: /auth
-Disallow: /dashboard
-Disallow: /sign-in
-Disallow: /sign-up
-Disallow: /v1/
+Disallow: /api/
+Disallow: /

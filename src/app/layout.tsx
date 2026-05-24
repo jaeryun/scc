@@ -13,7 +13,14 @@ import '../styles/globals.css';
 
 export const metadata: Metadata = {
   title: 'SE Command Center',
-  description: 'AI 기반 개발을 위한 일관된 웹 애플리케이션 프레임워크'
+  description: 'SE Command Center — 사내 인프라팀 관리 대시보드',
+  openGraph: {
+    title: 'SE Command Center',
+    description: '사내 인프라팀 관리 대시보드',
+    siteName: 'SE Command Center',
+    locale: 'ko_KR',
+    type: 'website'
+  }
 };
 
 export const viewport: Viewport = {

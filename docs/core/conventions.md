@@ -55,7 +55,7 @@
 - [필수] **쿼리 키** — 문자열 하드코딩 금지, 키 팩토리(`entityKeys.all/list/detail`) 사용
 - [필수] **API 에러 구분** — `ZodError`(400)와 서버 에러(500) 엄격 구분. `apiClient`의 `res.ok` 체크 활용. `global-error.tsx`는 `<html>`/`<body>` 태그 필수 (레이아웃 없이 마운트됨)
 - [필수] **apiClient headers** — `options.headers`가 기본 `Content-Type: application/json`을 덮어쓰므로, `Content-Type` 변경이 필요할 때만 명시적 오버라이드
-- [필수] **Prisma** — `prisma db push` 단독 사용 금지. 마이그레이션 워크플로 (`migrate dev` → `generate` → `build`) 준수
+- [필수] **Prisma** — `prisma db push` **절대 금지** (기존 데이터 전량 삭제, migration 이력 파괴). 스키마 변경은 반드시 `prisma migrate dev` → `prisma generate` → `migrate deploy` 워크플로만 사용. DB 이관 시에도 `migrate deploy`만 허용.
   - → [rules/prisma.md](../rules/prisma.md)
 
 ## 네이밍 & Import
@@ -106,6 +106,22 @@
 
 ## 외부 UI 라이브러리 통합 규칙
 
+## Tailwind / 스타일링
+
+- [필수] **테마 색상만 사용** — `text-amber-500`, `text-blue-600` 등 Tailwind 정적 색상 **절대 금지**. 10개 내장 테마가 전환될 때 하드코딩된 색상은 전혀 반응하지 않아 UI가 깨짐. 항상 shadcn CSS 변수 기반 토큰 사용:
+  - 주요 요소: `bg-primary`, `text-primary-foreground`, `ring-primary/30`
+  - 보조/비활성: `text-muted-foreground`, `text-muted-foreground/40`
+  - 배경/호버: `bg-muted/50`, `hover:bg-muted/50`
+  - 강조/파괴: `text-destructive`, `bg-destructive`
+  - 카드/팝오버: `bg-card`, `bg-popover`
+  - 차트 구분: `text-[--chart-1]` ~ `text-[--chart-5]`
+  - → [themes/cheat-sheet.md](../themes/cheat-sheet.md)
+- [필수] **`cn()` 헬퍼** — `className`에 조건부 클래스 병합 시 `clsx` + `tailwind-merge` 사용
+  ```tsx
+  import { cn } from '@/lib/utils'
+  <div className={cn('base', isActive && 'active', className)} />
+  ```
+
 외부 라이브러리(react-grid-layout, react-day-picker, recharts 등)를 래핑할 때:
 
 1. `data-slot='<component-name>'` 속성 부여 — shadcn/ui와 동일한 디버깅/선택자 패턴
@@ -120,6 +136,18 @@
 > 나머지 규칙(`cn()` 병합, 아이콘 `Icons.*`, `'use client'`, 함수 선언문 등)은 본문 규칙을 그대로 따른다.
 
 ---
+
+## 정적 파일 (`public/`)
+
+- [필수] **Public 디렉토리 용도** — `/` 경로로 서빙될 정적 자산만 배치
+  - `robots.txt`, `sitemap.xml` — SEO 메타 파일 (Next.js 자동 감지)
+  - `next.svg` — 기본 OG 이미지 폴백 (metadata에 명시적 설정이 없을 때 사용)
+  - 폰트, 다운로드 파일, 외부 노출 필요한 정적 리소스
+  - **금지**: 컴포넌트/타입/로직 파일, 번들되는 에셋 (`src/`로)
+- [필수] **파비콘은 `src/app/`에** — `favicon.ico`, `icon.{png,svg}`, `apple-icon.png` 등 앱 아이콘은 `src/app/` 디렉토리에 배치 (Next.js App Router 컨벤션, `public/` 아님)
+- [필수] **디렉토리 구조** — 3개 이하 파일이면 `public/` 평탄하게 유지. 많아지면 `public/<category>/` 구성
+- [필수] **참조 방식** — 코드에서는 `public/` 접두사 없이 `/filename.ext` (절대 경로)로 참조. `<Image src="/logo.svg">`, `<a href="/downloads/manual.pdf">`. 상대 경로(`./`, `../`) 금지
+- [필수] **폐쇄망 고려** — 외부 CDN/URL 리소스 대신 로컬 `public/` 파일 사용. Google Fonts, 외부 이미지 URL 사용 불가
 
 ## CLAUDE.md 로딩 정책
 - 항상 로딩: 루트 CLAUDE.md에서 @import (총 200줄 이하)
