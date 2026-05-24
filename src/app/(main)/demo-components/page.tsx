@@ -136,16 +136,23 @@ export default function DemoComponentsPage() {
           모든 데모는 다음 기술을 기반으로 구현되어 있습니다:
         </p>
         <div className='flex flex-wrap gap-2'>
-          {['Next.js 16', 'React 19', 'TypeScript', 'Tailwind CSS', 'shadcn/ui', 'TanStack Query', 'TanStack Table', 'TanStack Form'].map(
-            (tech) => (
-              <span
-                key={tech}
-                className='inline-flex items-center rounded-full bg-background border px-3 py-1 text-sm font-medium'
-              >
-                {tech}
-              </span>
-            )
-          )}
+          {[
+            'Next.js 16',
+            'React 19',
+            'TypeScript',
+            'Tailwind CSS',
+            'shadcn/ui',
+            'TanStack Query',
+            'TanStack Table',
+            'TanStack Form'
+          ].map((tech) => (
+            <span
+              key={tech}
+              className='inline-flex items-center rounded-full bg-background border px-3 py-1 text-sm font-medium'
+            >
+              {tech}
+            </span>
+          ))}
         </div>
       </div>
     </div>

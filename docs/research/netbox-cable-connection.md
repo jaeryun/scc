@@ -9,12 +9,12 @@
 
 NetBox 케이블 관리 시스템은 **4가지 핵심 요소**로 구성:
 
-| 요소 | 역할 | 테이블 존재 |
-|------|------|------------|
-| **Cable** | 물리적 케이블 엔티티 | ✅ 별도 테이블 |
-| **CableTermination** | Cable과 종단점 간 N:M 연결 조인 테이블 | ✅ 별도 테이블 |
-| **CablePath** | A→Z 전체 경로 denormalized 캐시 | ✅ 별도 테이블 |
-| **CabledObjectModel** | 종단점에 cable/cable_end 직접 캐싱 | ❌ Django abstract mixin |
+| 요소                  | 역할                                   | 테이블 존재              |
+| --------------------- | -------------------------------------- | ------------------------ |
+| **Cable**             | 물리적 케이블 엔티티                   | ✅ 별도 테이블           |
+| **CableTermination**  | Cable과 종단점 간 N:M 연결 조인 테이블 | ✅ 별도 테이블           |
+| **CablePath**         | A→Z 전체 경로 denormalized 캐시        | ✅ 별도 테이블           |
+| **CabledObjectModel** | 종단점에 cable/cable_end 직접 캐싱     | ❌ Django abstract mixin |
 
 ### 핵심 설계 원리: 이중 표현 (Dual Representation)
 
@@ -159,15 +159,15 @@ class CabledObjectModel(models.Model):
 
 ### 적용 대상
 
-| 모델 | Cable | WirelessLink | PathEndpoint |
-|------|-------|-------------|-------------|
-| **Interface** | ✅ | ✅ | ✅ |
-| ConsolePort | ✅ | ❌ | ✅ |
-| ConsoleServerPort | ✅ | ❌ | ✅ |
-| PowerPort | ✅ | ❌ | ✅ |
-| PowerOutlet | ✅ | ❌ | ✅ |
-| FrontPort | ✅ | ❌ | ❌ |
-| RearPort | ✅ | ❌ | ❌ |
+| 모델              | Cable | WirelessLink | PathEndpoint |
+| ----------------- | ----- | ------------ | ------------ |
+| **Interface**     | ✅    | ✅           | ✅           |
+| ConsolePort       | ✅    | ❌           | ✅           |
+| ConsoleServerPort | ✅    | ❌           | ✅           |
+| PowerPort         | ✅    | ❌           | ✅           |
+| PowerOutlet       | ✅    | ❌           | ✅           |
+| FrontPort         | ✅    | ❌           | ❌           |
+| RearPort          | ✅    | ❌           | ❌           |
 
 ### CabledObjectModel ↔ CableTermination 동기화
 
@@ -236,12 +236,15 @@ def from_origin(cls, terminations):
 ### "Interface X는 무엇과 연결되어 있는가?"
 
 #### Immediate Peer (`link_peers`)
+
 ```python
 interface.link_peers  # 같은 Cable의 반대편 termination
 ```
+
 **SQL**: `SELECT * FROM dcim_cabletermination WHERE cable_id={cable_id} AND cable_end != '{end}'`
 
 #### End-to-End Destination (`connected_endpoints`)
+
 ```python
 interface.connected_endpoints  # CablePath.path_objects[-1]
 ```
@@ -269,9 +272,9 @@ interface.connected_endpoints  # CablePath.path_objects[-1]
 
 ## 7. Nautobot vs NetBox Cable 비교 (참고)
 
-| 측면 | NetBox (v4.x) | Nautobot |
-|------|--------------|----------|
-| Cable-to-Termination 관계 | 1:N (through CableTermination) | 1:1 per side (직접 GFK) |
-| Through table | `CableTermination` 모델 존재 | 없음 |
-| Breakout/trunk 케이블 | 지원 (profile + connector/positions) | 지원 안 함 |
-| Terminating object가 cable 참조 | `CabledObjectModel` mixin | `CableTermination` mixin |
+| 측면                            | NetBox (v4.x)                        | Nautobot                 |
+| ------------------------------- | ------------------------------------ | ------------------------ |
+| Cable-to-Termination 관계       | 1:N (through CableTermination)       | 1:1 per side (직접 GFK)  |
+| Through table                   | `CableTermination` 모델 존재         | 없음                     |
+| Breakout/trunk 케이블           | 지원 (profile + connector/positions) | 지원 안 함               |
+| Terminating object가 cable 참조 | `CabledObjectModel` mixin            | `CableTermination` mixin |

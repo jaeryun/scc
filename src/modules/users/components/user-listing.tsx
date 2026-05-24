@@ -27,11 +27,7 @@ export default function UserListingPage() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Suspense
-        fallback={
-          <DataTableSkeleton columnCount={5} rowCount={8} filterCount={2} />
-        }
-      >
+      <Suspense fallback={<DataTableSkeleton columnCount={5} rowCount={8} filterCount={2} />}>
         <UsersTable />
       </Suspense>
     </HydrationBoundary>

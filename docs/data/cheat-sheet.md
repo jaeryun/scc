@@ -17,18 +17,18 @@ src/modules/<name>/api/
 export const entityKeys = {
   all: ['entity'] as const,
   lists: () => [...entityKeys.all, 'list'] as const,
-  detail: (id: string) => [...entityKeys.all, 'detail', id] as const,
+  detail: (id: string) => [...entityKeys.all, 'detail', id] as const
 };
 ```
 
 ## 데이터 페칭 핵심
 
-| 위치 | API | 설명 |
-|------|-----|------|
-| 서버 컴포넌트 | `void queryClient.prefetchQuery(...)` | 렌더링 차단 안 함 |
-| 서버 컴포넌트 | `await queryClient.fetchQuery(...)` | 헤더/메타데이터용 데이터 필요 시 |
-| 클라이언트 컴포넌트 | `useSuspenseQuery(queryOptions())` | `useQuery` 말고 반드시 이걸 사용 |
-| 래퍼 | `<HydrationBoundary>` + `<Suspense>` | prefetch → stream 연결 |
+| 위치                | API                                   | 설명                             |
+| ------------------- | ------------------------------------- | -------------------------------- |
+| 서버 컴포넌트       | `void queryClient.prefetchQuery(...)` | 렌더링 차단 안 함                |
+| 서버 컴포넌트       | `await queryClient.fetchQuery(...)`   | 헤더/메타데이터용 데이터 필요 시 |
+| 클라이언트 컴포넌트 | `useSuspenseQuery(queryOptions())`    | `useQuery` 말고 반드시 이걸 사용 |
+| 래퍼                | `<HydrationBoundary>` + `<Suspense>`  | prefetch → stream 연결           |
 
 ## 금지사항
 
@@ -39,12 +39,12 @@ export const entityKeys = {
 
 ## 임포트 경로
 
-| 용도 | 경로 |
-|------|------|
+| 용도                          | 경로                    |
+| ----------------------------- | ----------------------- |
 | queryOptions, mutationOptions | `@tanstack/react-query` |
 | useSuspenseQuery, useMutation | `@tanstack/react-query` |
-| dehydrate, HydrationBoundary | `@tanstack/react-query` |
-| getQueryClient | `@/lib/query-client` |
-| apiClient | `@/lib/api-client` |
-| searchParams (서버) | `nuqs/server` |
-| useQueryStates (클라이언트) | `nuqs` |
+| dehydrate, HydrationBoundary  | `@tanstack/react-query` |
+| getQueryClient                | `@/lib/query-client`    |
+| apiClient                     | `@/lib/api-client`      |
+| searchParams (서버)           | `nuqs/server`           |
+| useQueryStates (클라이언트)   | `nuqs`                  |

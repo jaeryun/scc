@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { SidebarNav } from "./sidebar-nav";
-import { useCurrentView } from "@/hooks/use-current-view";
-import { views } from "@/config/views";
+import { SidebarNav } from './sidebar-nav';
+import { useCurrentView } from '@/hooks/use-current-view';
+import { views } from '@/config/views';
 
 export function ClientSidebarNav() {
   const view = useCurrentView();

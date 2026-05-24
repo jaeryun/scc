@@ -106,23 +106,10 @@ export function SubnetFormSheet({ subnet, open, onOpenChange }: SubnetFormSheetP
         <div className='flex-1 overflow-auto'>
           <form.AppForm>
             <form.Form id='subnet-form-sheet' className='space-y-4'>
-              <FormTextField
-                name='network'
-                label='CIDR'
-                required
-                placeholder='192.168.1.0/24'
-              />
-              <FormTextField
-                name='description'
-                label='설명'
-                placeholder='서브넷 용도 설명'
-              />
+              <FormTextField name='network' label='CIDR' required placeholder='192.168.1.0/24' />
+              <FormTextField name='description' label='설명' placeholder='서브넷 용도 설명' />
               <div className='grid grid-cols-2 gap-4'>
-                <FormTextField
-                  name='vlanId'
-                  label='VLAN ID'
-                  placeholder='100'
-                />
+                <FormTextField name='vlanId' label='VLAN ID' placeholder='100' />
                 <FormSelectField
                   name='purpose'
                   label='용도'
@@ -144,7 +131,9 @@ export function SubnetFormSheet({ subnet, open, onOpenChange }: SubnetFormSheetP
                               if (checked) {
                                 field.setValue([...field.state.value, center]);
                               } else {
-                                field.setValue(field.state.value.filter((v: string) => v !== center));
+                                field.setValue(
+                                  field.state.value.filter((v: string) => v !== center)
+                                );
                               }
                             }}
                           />

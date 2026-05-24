@@ -1,6 +1,7 @@
 ---
 paths:
-  - "prisma/**"
-  - "**/*.prisma"
+  - 'prisma/**'
+  - '**/*.prisma'
 ---
+
 @docs/rules/prisma.md

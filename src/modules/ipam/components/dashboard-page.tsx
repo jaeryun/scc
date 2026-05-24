@@ -66,7 +66,10 @@ function IpamDashboardInner() {
   PURPOSES.forEach((p) => purposeStats.set(p, 0));
   subnetList.forEach((s) => {
     if (s.purpose) {
-      purposeStats.set(s.purpose, (purposeStats.get(s.purpose) ?? 0) + (s._count?.ipAddresses ?? 0));
+      purposeStats.set(
+        s.purpose,
+        (purposeStats.get(s.purpose) ?? 0) + (s._count?.ipAddresses ?? 0)
+      );
     }
   });
   const totalPurposeIps = Array.from(purposeStats.values()).reduce((a, b) => a + b, 0);
@@ -131,22 +134,26 @@ function IpamDashboardInner() {
       <Card>
         <CardHeader>
           <CardDescription>서브넷별 IP 사용률</CardDescription>
-          <CardTitle>
-            {subnetList.length}개 서브넷
-          </CardTitle>
+          <CardTitle>{subnetList.length}개 서브넷</CardTitle>
         </CardHeader>
         <div className='px-6 pb-6'>
           <div className='flex flex-col gap-3'>
             {subnetList.map((subnet) => {
               const ipCount = subnet._count?.ipAddresses ?? 0;
-              const maxIps = subnet.network.includes('/24') ? 256 : subnet.network.includes('/23') ? 512 : ipCount;
+              const maxIps = subnet.network.includes('/24')
+                ? 256
+                : subnet.network.includes('/23')
+                  ? 512
+                  : ipCount;
               const pct = maxIps > 0 ? Math.min(100, (ipCount / maxIps) * 100) : 0;
               const barColor = pct > 75 ? 'bg-amber-500' : pct > 50 ? 'bg-chart-2' : 'bg-chart-1';
               return (
                 <div key={subnet.id}>
                   <div className='mb-1 flex items-center justify-between text-sm'>
                     <span className='font-medium'>{subnet.network}</span>
-                    <span className='text-muted-foreground tabular-nums'>{ipCount}/{maxIps} ({pct.toFixed(0)}%)</span>
+                    <span className='text-muted-foreground tabular-nums'>
+                      {ipCount}/{maxIps} ({pct.toFixed(0)}%)
+                    </span>
                   </div>
                   <div className='bg-muted h-6 overflow-hidden rounded'>
                     <div
@@ -172,7 +179,10 @@ function IpamDashboardInner() {
               {CENTER_COLORS.map(([center, color]) => {
                 const stats = centerStats.get(center);
                 return (
-                  <div key={center} className='flex items-center justify-between border-b py-2 text-sm last:border-0'>
+                  <div
+                    key={center}
+                    className='flex items-center justify-between border-b py-2 text-sm last:border-0'
+                  >
                     <div className='flex items-center gap-2'>
                       <span className='h-2.5 w-2.5 rounded-sm' style={{ backgroundColor: color }} />
                       <span className='font-medium'>{center}</span>
@@ -197,7 +207,8 @@ function IpamDashboardInner() {
             <div className='flex flex-col gap-2'>
               {PURPOSES.map((purpose) => {
                 const count = purposeStats.get(purpose) ?? 0;
-                const pct = totalPurposeIps > 0 ? ((count / totalPurposeIps) * 100).toFixed(0) : '0';
+                const pct =
+                  totalPurposeIps > 0 ? ((count / totalPurposeIps) * 100).toFixed(0) : '0';
                 return (
                   <div key={purpose} className='flex items-center gap-2 text-sm'>
                     <span

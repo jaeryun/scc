@@ -62,12 +62,12 @@ form-context.tsx             fields/*.tsx
 
 **주요 파일:**
 
-| 파일                                    | 제공하는 것                                                                                                                                                                                           |
-| --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 파일                                    | 제공하는 것                                                                                                                                                                                             |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `src/components/ui/form-context.tsx`    | 공유 프리미티브 — 컨텍스트, `useFieldContext`, 구조적 컴포넌트 (`FormFieldSet`, `FormField`, `FormFieldError`), `createFormField`, `FieldConfig` 타입, `typedField`, `FormErrors`, `scrollToFirstError` |
-| `src/components/ui/tanstack-form.tsx`   | 메인 진입점 — `useAppForm`, `useFormFields`, `Form`, `SubmitButton`, `StepButton`, `withForm`, `withFieldGroup`                                                                                       |
-| `src/components/forms/fields/*.tsx`     | 8개의 필드 컴포넌트, 각각 베이스 (`TextField`)와 조합된 (`FormTextField`) 변형을 export                                                                                                                |
-| `src/components/forms/fields/index.tsx` | 모든 필드에 대한 배럴 re-export                                                                                                                                                                       |
+| `src/components/ui/tanstack-form.tsx`   | 메인 진입점 — `useAppForm`, `useFormFields`, `Form`, `SubmitButton`, `StepButton`, `withForm`, `withFieldGroup`                                                                                         |
+| `src/components/forms/fields/*.tsx`     | 8개의 필드 컴포넌트, 각각 베이스 (`TextField`)와 조합된 (`FormTextField`) 변형을 export                                                                                                                 |
+| `src/components/forms/fields/index.tsx` | 모든 필드에 대한 배럴 re-export                                                                                                                                                                         |
 
 ---
 
@@ -88,12 +88,12 @@ src/modules/products/
 
 **분리하는 이유:**
 
-| 관심사       | 파일                           | 이점                                                                                  |
-| ----------- | ------------------------------ | ------------------------------------------------------------------------------------- |
-| **스키마**   | `schemas/product.ts`           | API 라우트, 서버 액션, 데이터 테이블, 테스트에서 재사용 가능 — `'use client'` 불필요      |
-| **타입**    | `schemas/product.ts`           | `ProductFormValues`를 폼, API, 리스트 컴포넌트에서 사용 — 단일 진실 공급원               |
-| **옵션**     | `constants/product-options.ts` | 폼 select, 테이블 필터, 검색 패싯 간 공유                                              |
-| **폼 UI**    | `components/product-form.tsx`  | 순수 UI — 깔끔하게 열리며, 유효성 검사 로직이 섞이지 않음                                |
+| 관심사     | 파일                           | 이점                                                                                 |
+| ---------- | ------------------------------ | ------------------------------------------------------------------------------------ |
+| **스키마** | `schemas/product.ts`           | API 라우트, 서버 액션, 데이터 테이블, 테스트에서 재사용 가능 — `'use client'` 불필요 |
+| **타입**   | `schemas/product.ts`           | `ProductFormValues`를 폼, API, 리스트 컴포넌트에서 사용 — 단일 진실 공급원           |
+| **옵션**   | `constants/product-options.ts` | 폼 select, 테이블 필터, 검색 패싯 간 공유                                            |
+| **폼 UI**  | `components/product-form.tsx`  | 순수 UI — 깔끔하게 열리며, 유효성 검사 로직이 섞이지 않음                            |
 
 **스키마 파일 예제:**
 
@@ -234,15 +234,15 @@ const { FormTextField, FormSelectField } = useFormFields<FormValues>();
 
 **모든 `FormXxxField`에서 사용 가능한 Props:**
 
-| Prop               | 타입                                            | 설명                                                                        |
-| ------------------ | ----------------------------------------------- | --------------------------------------------------------------------------- |
-| `name`             | `DeepKeys<T>` (`useFormFields` 경유) 또는 `string` | 필드 경로                                                                   |
-| `validators`       | `FieldValidatorConfig`                          | `onBlur`, `onChange`, `onChangeAsync`, `onSubmit`, `onChangeListenTo` 등    |
-| `asyncDebounceMs`  | `number`                                        | 모든 비동기 검증기에 대한 기본 debounce                                       |
-| `listeners`        | `FieldListenerConfig`                           | `onChange`, `onBlur`, `onMount`, `onSubmit` + debounce 옵션                  |
-| `mode`             | `'value' \| 'array'`                            | 배열 필드에 `'array'` 설정                                                    |
-| `defaultValue`     | `unknown`                                       | 동적으로 추가된 필드의 초기값                                                  |
-| ...component props | 다양함                                           | `label`, `required`, `placeholder`, `options` 등                            |
+| Prop               | 타입                                               | 설명                                                                     |
+| ------------------ | -------------------------------------------------- | ------------------------------------------------------------------------ |
+| `name`             | `DeepKeys<T>` (`useFormFields` 경유) 또는 `string` | 필드 경로                                                                |
+| `validators`       | `FieldValidatorConfig`                             | `onBlur`, `onChange`, `onChangeAsync`, `onSubmit`, `onChangeListenTo` 등 |
+| `asyncDebounceMs`  | `number`                                           | 모든 비동기 검증기에 대한 기본 debounce                                  |
+| `listeners`        | `FieldListenerConfig`                              | `onChange`, `onBlur`, `onMount`, `onSubmit` + debounce 옵션              |
+| `mode`             | `'value' \| 'array'`                               | 배열 필드에 `'array'` 설정                                               |
+| `defaultValue`     | `unknown`                                          | 동적으로 추가된 필드의 초기값                                            |
+| ...component props | 다양함                                             | `label`, `required`, `placeholder`, `options` 등                         |
 
 ### 패턴 2: `form.AppField` 렌더 프롭 — 완전한 제어
 
@@ -271,34 +271,34 @@ const { FormTextField, FormSelectField } = useFormFields<FormValues>();
 
 **렌더 프롭 내에서 사용 가능한 컴포넌트 (`field.XxxField`):**
 
-| 컴포넌트                  | 목적                                                       |
-| ------------------------ | ----------------------------------------------------------- |
-| `field.FieldSet`         | 래퍼 — 고유 접근성 ID 생성                                    |
-| `field.Field`            | 컨테이너 — `aria-invalid`, `aria-describedby` 연결           |
-| `field.FieldLabel`       | 필드에 연결된 `<label>`                                      |
-| `field.FieldError`       | 유효성 검사 에러 렌더링 (터치 또는 제출 후 표시)               |
-| `field.FieldContent`     | 레이블 + 설명을 위한 Flex 컨테이너 (가로 레이아웃)              |
-| `field.FieldDescription` | 필드 아래의 도움말 텍스트                                     |
-| `field.TextField`        | 사전 빌드된 텍스트 입력                                       |
-| `field.TextareaField`    | 사전 빌드된 텍스트 영역                                       |
-| `field.SelectField`      | 사전 빌드된 셀렉트                                            |
-| `field.CheckboxField`    | 사전 빌드된 체크박스                                          |
-| `field.SwitchField`      | 사전 빌드된 스위치                                            |
-| `field.RadioGroupField`  | 사전 빌드된 라디오 그룹                                       |
-| `field.SliderField`      | 사전 빌드된 슬라이더                                          |
-| `field.FileUploadField`  | 사전 빌드된 파일 업로더                                       |
+| 컴포넌트                 | 목적                                               |
+| ------------------------ | -------------------------------------------------- |
+| `field.FieldSet`         | 래퍼 — 고유 접근성 ID 생성                         |
+| `field.Field`            | 컨테이너 — `aria-invalid`, `aria-describedby` 연결 |
+| `field.FieldLabel`       | 필드에 연결된 `<label>`                            |
+| `field.FieldError`       | 유효성 검사 에러 렌더링 (터치 또는 제출 후 표시)   |
+| `field.FieldContent`     | 레이블 + 설명을 위한 Flex 컨테이너 (가로 레이아웃) |
+| `field.FieldDescription` | 필드 아래의 도움말 텍스트                          |
+| `field.TextField`        | 사전 빌드된 텍스트 입력                            |
+| `field.TextareaField`    | 사전 빌드된 텍스트 영역                            |
+| `field.SelectField`      | 사전 빌드된 셀렉트                                 |
+| `field.CheckboxField`    | 사전 빌드된 체크박스                               |
+| `field.SwitchField`      | 사전 빌드된 스위치                                 |
+| `field.RadioGroupField`  | 사전 빌드된 라디오 그룹                            |
+| `field.SliderField`      | 사전 빌드된 슬라이더                               |
+| `field.FileUploadField`  | 사전 빌드된 파일 업로더                            |
 
 **필드 API (`field.state`, `field.handleChange` 등):**
 
-| Property/Method                       | 설명                               |
-| ------------------------------------- | ---------------------------------- |
-| `field.state.value`                   | 현재 필드 값                         |
+| Property/Method                       | 설명                                  |
+| ------------------------------------- | ------------------------------------- |
+| `field.state.value`                   | 현재 필드 값                          |
 | `field.state.meta.isTouched`          | 사용자가 상호작용했는지 여부          |
 | `field.state.meta.isDirty`            | 값이 기본값과 다른지 여부             |
-| `field.state.meta.isValid`            | 유효성 검사 에러가 없는지 여부         |
-| `field.state.meta.isValidating`       | 비동기 유효성 검사 진행 중 여부        |
-| `field.state.meta.errors`             | 에러 메시지 배열                     |
-| `field.handleChange(value)`           | 필드 값 업데이트                     |
+| `field.state.meta.isValid`            | 유효성 검사 에러가 없는지 여부        |
+| `field.state.meta.isValidating`       | 비동기 유효성 검사 진행 중 여부       |
+| `field.state.meta.errors`             | 에러 메시지 배열                      |
+| `field.handleChange(value)`           | 필드 값 업데이트                      |
 | `field.handleBlur()`                  | 터치 표시 + onBlur 유효성 검사 트리거 |
 | `field.pushValue(item)`               | 배열 모드: 항목 추가                  |
 | `field.removeValue(index)`            | 배열 모드: 항목 제거                  |
@@ -317,15 +317,15 @@ import { FormTextField } from '@/components/forms/fields';
 
 ### 어느 것을 사용할지
 
-| 시나리오                                             | 패턴          | 이유                                       |
-| -------------------------------------------------- | ------------- | ------------------------------------------ |
-| 표준 필드 (텍스트, 셀렉트, 체크박스 등)               | **패턴 1**    | 타입 세이프 + 간결함                         |
-| 커스텀 일회성 필드 (date picker, OTP, combobox)      | **패턴 2**    | 전체 필드 API 접근                           |
-| 커스텀 행 레이아웃이 있는 배열 필드                    | **패턴 2**    | `pushValue`, `removeValue`, 하위 필드 필요   |
-| 조합된 컴포넌트를 사용하는 배열 필드                    | **패턴 1**    | `mode="array"` 전달                         |
-| 다중 단계 폼 단계                                    | **패턴 2**    | `group.AppField` + `field.TextField`        |
-| 연결된 필드 유효성 검사 (`onChangeListenTo`)           | **패턴 2**    | 검증기에서 `fieldApi` 필요                    |
-| 빠른 프로토타입 / 동적 필드 이름                       | **패턴 3**    | 가장 빠름                                   |
+| 시나리오                                        | 패턴       | 이유                                       |
+| ----------------------------------------------- | ---------- | ------------------------------------------ |
+| 표준 필드 (텍스트, 셀렉트, 체크박스 등)         | **패턴 1** | 타입 세이프 + 간결함                       |
+| 커스텀 일회성 필드 (date picker, OTP, combobox) | **패턴 2** | 전체 필드 API 접근                         |
+| 커스텀 행 레이아웃이 있는 배열 필드             | **패턴 2** | `pushValue`, `removeValue`, 하위 필드 필요 |
+| 조합된 컴포넌트를 사용하는 배열 필드            | **패턴 1** | `mode="array"` 전달                        |
+| 다중 단계 폼 단계                               | **패턴 2** | `group.AppField` + `field.TextField`       |
+| 연결된 필드 유효성 검사 (`onChangeListenTo`)    | **패턴 2** | 검증기에서 `fieldApi` 필요                 |
+| 빠른 프로토타입 / 동적 필드 이름                | **패턴 3** | 가장 빠름                                  |
 
 ---
 
@@ -333,16 +333,16 @@ import { FormTextField } from '@/components/forms/fields';
 
 각 필드에는 두 가지 변형이 있습니다:
 
-| 베이스 (렌더 프롭용) | 조합형 (플랫 사용용)   | 입력 타입                                      |
-| --------------------- | --------------------- | --------------------------------------------- |
-| `TextField`           | `FormTextField`       | Text, email, password, tel, url, number       |
-| `TextareaField`       | `FormTextareaField`   | 선택적 문자 카운트가 있는 여러 줄 텍스트          |
-| `SelectField`         | `FormSelectField`     | 단일 값 드롭다운 (`options` prop)              |
-| `CheckboxField`       | `FormCheckboxField`   | 레이블이 있는 불리언 체크박스                     |
-| `SwitchField`         | `FormSwitchField`     | 레이블 + 설명이 있는 토글 스위치                  |
-| `RadioGroupField`     | `FormRadioGroupField` | 라디오 버튼 그룹 (`options` prop)               |
-| `SliderField`         | `FormSliderField`     | 최소/최대 표시가 있는 범위 슬라이더               |
-| `FileUploadField`     | `FormFileUploadField` | 드래그 앤 드롭 파일 업로드                       |
+| 베이스 (렌더 프롭용) | 조합형 (플랫 사용용)  | 입력 타입                                |
+| -------------------- | --------------------- | ---------------------------------------- |
+| `TextField`          | `FormTextField`       | Text, email, password, tel, url, number  |
+| `TextareaField`      | `FormTextareaField`   | 선택적 문자 카운트가 있는 여러 줄 텍스트 |
+| `SelectField`        | `FormSelectField`     | 단일 값 드롭다운 (`options` prop)        |
+| `CheckboxField`      | `FormCheckboxField`   | 레이블이 있는 불리언 체크박스            |
+| `SwitchField`        | `FormSwitchField`     | 레이블 + 설명이 있는 토글 스위치         |
+| `RadioGroupField`    | `FormRadioGroupField` | 라디오 버튼 그룹 (`options` prop)        |
+| `SliderField`        | `FormSliderField`     | 최소/최대 표시가 있는 범위 슬라이더      |
+| `FileUploadField`    | `FormFileUploadField` | 드래그 앤 드롭 파일 업로드               |
 
 **TextField**는 `type` prop을 지원합니다: `'text'`, `'email'`, `'password'`, `'tel'`, `'url'`, `'number'`. 비동기 유효성 검사 중에 스피너를 표시합니다.
 
@@ -362,14 +362,14 @@ import { FormTextField } from '@/components/forms/fields';
 
 ### 검증기 타이밍
 
-| Validator       | 실행 시점                     | 사용 대상                            |
-| --------------- | ---------------------------- | ---------------------------------- |
-| `onChange`      | 키 입력마다                   | 즉시 피드백 (절제하여 사용)           |
-| `onBlur`        | 필드가 포커스를 잃을 때        | 필수 확인, 형식 유효성 검사           |
-| `onChangeAsync` | 키 입력 시 debounce 후        | 서버 측 고유성 확인                   |
-| `onBlurAsync`   | 포커스 이탈 시 debounce 후    | 비용이 큰 서버 유효성 검사             |
-| `onSubmit`      | 폼 제출 시                    | 최종 만능 검사                        |
-| `onMount`       | 필드 마운트 시                | 사전 유효성 검사                      |
+| Validator       | 실행 시점                  | 사용 대상                   |
+| --------------- | -------------------------- | --------------------------- |
+| `onChange`      | 키 입력마다                | 즉시 피드백 (절제하여 사용) |
+| `onBlur`        | 필드가 포커스를 잃을 때    | 필수 확인, 형식 유효성 검사 |
+| `onChangeAsync` | 키 입력 시 debounce 후     | 서버 측 고유성 확인         |
+| `onBlurAsync`   | 포커스 이탈 시 debounce 후 | 비용이 큰 서버 유효성 검사  |
+| `onSubmit`      | 폼 제출 시                 | 최종 만능 검사              |
+| `onMount`       | 필드 마운트 시             | 사전 유효성 검사            |
 
 ### Zod 스키마 vs 함수
 
@@ -482,12 +482,12 @@ const form = useAppForm({
 />
 ```
 
-| 리스너      | 실행 시점                |
+| 리스너     | 실행 시점               |
 | ---------- | ----------------------- |
-| `onChange` | 필드 값 변경 후           |
-| `onBlur`   | 필드가 포커스를 잃을 때    |
-| `onMount`  | 필드 마운트 시            |
-| `onSubmit` | 폼 제출 시                |
+| `onChange` | 필드 값 변경 후         |
+| `onBlur`   | 필드가 포커스를 잃을 때 |
+| `onMount`  | 필드 마운트 시          |
+| `onSubmit` | 폼 제출 시              |
 
 각각 선택적 `*DebounceMs` 동반자가 있습니다 (예: `onChangeDebounceMs: 300`).
 
@@ -970,16 +970,16 @@ const TypedDatePicker = narrow(FormDatePickerField);
 
 ## 타입 안전성 참조
 
-| 항목                                         | 타입 세이프? | 방법                                          |
-| --------------------------------------------- | :--------: | --------------------------------------------- |
-| `useFormFields<T>()`를 통한 필드 이름          |    예     | `DeepKeys<T>`가 `name`을 좁힘                   |
-| `form.AppField`를 통한 필드 이름               |    예     | 네이티브 TanStack Form 타이핑                   |
-| `typedField<T>()(Component)`를 통한 필드 이름  |    예     | 커스텀 필드를 위한 `DeepKeys<T>` 좁히기          |
-| 직접 `FormTextField` 임포트를 통한 필드 이름     |   아니오   | `name`이 `string`                              |
-| 중첩 경로 (`team.name`, `members[0].role`)     |    예     | `DeepKeys<T>`가 점/대괄호 표기법 해결             |
-| 검증기 값 (Zod 스키마)                          |    예     | StandardSchemaV1 통과                           |
-| 검증기 함수                                    |  부분적   | `value`가 `unknown`으로 타이핑됨 — 함수 내에서 캐스트 |
-| 리스너 콜백                                    |  부분적   | `value`가 `unknown`으로 타이핑됨 — 콜백 내에서 캐스트 |
+| 항목                                          | 타입 세이프? | 방법                                                  |
+| --------------------------------------------- | :----------: | ----------------------------------------------------- |
+| `useFormFields<T>()`를 통한 필드 이름         |      예      | `DeepKeys<T>`가 `name`을 좁힘                         |
+| `form.AppField`를 통한 필드 이름              |      예      | 네이티브 TanStack Form 타이핑                         |
+| `typedField<T>()(Component)`를 통한 필드 이름 |      예      | 커스텀 필드를 위한 `DeepKeys<T>` 좁히기               |
+| 직접 `FormTextField` 임포트를 통한 필드 이름  |    아니오    | `name`이 `string`                                     |
+| 중첩 경로 (`team.name`, `members[0].role`)    |      예      | `DeepKeys<T>`가 점/대괄호 표기법 해결                 |
+| 검증기 값 (Zod 스키마)                        |      예      | StandardSchemaV1 통과                                 |
+| 검증기 함수                                   |    부분적    | `value`가 `unknown`으로 타이핑됨 — 함수 내에서 캐스트 |
+| 리스너 콜백                                   |    부분적    | `value`가 `unknown`으로 타이핑됨 — 콜백 내에서 캐스트 |
 
 ---
 
@@ -987,26 +987,26 @@ const TypedDatePicker = narrow(FormDatePickerField);
 
 ### `@/components/ui/tanstack-form`에서
 
-| Export                 | 타입      | 목적                                                                     |
-| ---------------------- | --------- | ----------------------------------------------------------------------- |
-| `useAppForm`           | Hook      | 폼 인스턴스 생성                                                           |
-| `useFormFields<T>()`   | Hook      | 타입 세이프 조합 필드 컴포넌트 가져오기                                       |
-| `withForm`             | HOC       | 폼 컨텍스트로 컴포넌트 감싸기                                               |
-| `withFieldGroup`       | HOC       | 다중 단계 필드 그룹 생성                                                    |
-| `useFormContext`       | Hook      | 컨텍스트에서 폼 인스턴스 접근                                                |
-| `useFieldContext`      | Hook      | 컨텍스트에서 필드 API 접근                                                   |
-| `createFormField`      | 유틸리티   | 베이스 필드에서 조합 필드 생성                                                |
-| `typedField<T>()`      | 유틸리티   | 모든 조합 필드의 `name`을 `DeepKeys<T>`로 좁히기                              |
-| `revalidateLogic`      | 유틸리티   | 다중 단계를 위한 동적 유효성 검사 로직                                        |
-| `scrollToFirstError`   | 유틸리티   | 첫 번째 유효하지 않은 필드로 스크롤 + 포커스                                   |
-| `FormFieldSet`         | 컴포넌트   | 구조적 — 접근성 ID 래퍼                                                     |
-| `FormField`            | 컴포넌트   | 구조적 — aria-invalid, aria-describedby                                   |
-| `FormFieldError`       | 컴포넌트   | 필드 레벨 에러 렌더링                                                        |
-| `FormErrors`           | 컴포넌트   | 폼 레벨 에러 렌더링                                                          |
-| `FieldConfig`          | 타입      | `validators` + `asyncDebounceMs` + `listeners` + `mode` + `defaultValue`   |
-| `FieldValidatorConfig` | 타입      | 검증기 타이밍 옵션                                                           |
-| `FieldListenerConfig`  | 타입      | 리스너 옵션                                                                 |
-| `WithTypedName`        | 타입      | 컴포넌트의 `name` prop 좁히기                                                |
+| Export                 | 타입     | 목적                                                                     |
+| ---------------------- | -------- | ------------------------------------------------------------------------ |
+| `useAppForm`           | Hook     | 폼 인스턴스 생성                                                         |
+| `useFormFields<T>()`   | Hook     | 타입 세이프 조합 필드 컴포넌트 가져오기                                  |
+| `withForm`             | HOC      | 폼 컨텍스트로 컴포넌트 감싸기                                            |
+| `withFieldGroup`       | HOC      | 다중 단계 필드 그룹 생성                                                 |
+| `useFormContext`       | Hook     | 컨텍스트에서 폼 인스턴스 접근                                            |
+| `useFieldContext`      | Hook     | 컨텍스트에서 필드 API 접근                                               |
+| `createFormField`      | 유틸리티 | 베이스 필드에서 조합 필드 생성                                           |
+| `typedField<T>()`      | 유틸리티 | 모든 조합 필드의 `name`을 `DeepKeys<T>`로 좁히기                         |
+| `revalidateLogic`      | 유틸리티 | 다중 단계를 위한 동적 유효성 검사 로직                                   |
+| `scrollToFirstError`   | 유틸리티 | 첫 번째 유효하지 않은 필드로 스크롤 + 포커스                             |
+| `FormFieldSet`         | 컴포넌트 | 구조적 — 접근성 ID 래퍼                                                  |
+| `FormField`            | 컴포넌트 | 구조적 — aria-invalid, aria-describedby                                  |
+| `FormFieldError`       | 컴포넌트 | 필드 레벨 에러 렌더링                                                    |
+| `FormErrors`           | 컴포넌트 | 폼 레벨 에러 렌더링                                                      |
+| `FieldConfig`          | 타입     | `validators` + `asyncDebounceMs` + `listeners` + `mode` + `defaultValue` |
+| `FieldValidatorConfig` | 타입     | 검증기 타이밍 옵션                                                       |
+| `FieldListenerConfig`  | 타입     | 리스너 옵션                                                              |
+| `WithTypedName`        | 타입     | 컴포넌트의 `name` prop 좁히기                                            |
 
 ### `@/components/forms/fields`에서
 
@@ -1027,17 +1027,17 @@ const TypedDatePicker = narrow(FormDatePickerField);
 
 ### 폼 페이지 (`/dashboard/forms/...`)
 
-| 페이지                  | 경로                          | 시연되는 패턴                                                                                                                                                   |
-| --------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **기본 폼**            | `/dashboard/forms/basic`      | 8가지 모든 필드 타입, `useFormFields`, `onBlur` + 비동기 유효성 검사, 리스너, 폼 데이터 미리보기                                                                    |
-| **다중 단계 폼**       | `/dashboard/forms/multi-step` | `withFieldGroup`, 단계별 Zod 스키마, `revalidateLogic`, 단계 탐색, 검토 요약                                                                                    |
-| **시트 & 다이얼로그**   | `/dashboard/forms/sheet-form` | 외부 제출 버튼이 있는 시트 내 폼, 다이얼로그 내 폼, 성공 시 닫기 + 초기화                                                                                         |
-| **고급 패턴**          | `/dashboard/forms/advanced`   | 비동기 유효성 검사 (username 확인), 연결된 필드 (`onChangeListenTo`로 password confirm), 중첩 객체 (`team.name`), 동적 배열 행 (members), 의존적 드롭다운 (country → state with listener), `FormErrors`, `scrollToFirstError` |
+| 페이지                | 경로                          | 시연되는 패턴                                                                                                                                                                                                                 |
+| --------------------- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **기본 폼**           | `/dashboard/forms/basic`      | 8가지 모든 필드 타입, `useFormFields`, `onBlur` + 비동기 유효성 검사, 리스너, 폼 데이터 미리보기                                                                                                                              |
+| **다중 단계 폼**      | `/dashboard/forms/multi-step` | `withFieldGroup`, 단계별 Zod 스키마, `revalidateLogic`, 단계 탐색, 검토 요약                                                                                                                                                  |
+| **시트 & 다이얼로그** | `/dashboard/forms/sheet-form` | 외부 제출 버튼이 있는 시트 내 폼, 다이얼로그 내 폼, 성공 시 닫기 + 초기화                                                                                                                                                     |
+| **고급 패턴**         | `/dashboard/forms/advanced`   | 비동기 유효성 검사 (username 확인), 연결된 필드 (`onChangeListenTo`로 password confirm), 중첩 객체 (`team.name`), 동적 배열 행 (members), 의존적 드롭다운 (country → state with listener), `FormErrors`, `scrollToFirstError` |
 
 ### 기타 폼
 
-| 폼             | 파일                                                    | 패턴                                      |
-| ------------- | ------------------------------------------------------ | ----------------------------------------- |
-| Product CRUD  | `src/modules/products/components/product-form.tsx`    | 패턴 1, 분할 스키마, onBlur 검증기         |
-| Sheet Product | `src/modules/forms/components/sheet-product-form.tsx` | 시트 내 패턴 2                             |
-| Auth          | `src/modules/auth/components/user-auth-form.tsx`      | 패턴 2, 미니멀                             |
+| 폼            | 파일                                                  | 패턴                               |
+| ------------- | ----------------------------------------------------- | ---------------------------------- |
+| Product CRUD  | `src/modules/products/components/product-form.tsx`    | 패턴 1, 분할 스키마, onBlur 검증기 |
+| Sheet Product | `src/modules/forms/components/sheet-product-form.tsx` | 시트 내 패턴 2                     |
+| Auth          | `src/modules/auth/components/user-auth-form.tsx`      | 패턴 2, 미니멀                     |

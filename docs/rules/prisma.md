@@ -9,13 +9,13 @@
 
 ## 허용된 명령어
 
-| 명령어 | 용도 |
-|--------|------|
-| `prisma migrate dev --name YYMMDD_설명` | 스키마 변경 시 migration 생성 + 적용 |
-| `prisma migrate deploy` | 새 환경/DB 이관 시 모든 migration 적용 |
-| `prisma generate` | Prisma Client 재생성 |
-| `prisma migrate status` | migration 적용 상태 확인 |
-| `prisma migrate diff` | 스키마 ↔ migration 간 drift 검출 |
+| 명령어                                  | 용도                                   |
+| --------------------------------------- | -------------------------------------- |
+| `prisma migrate dev --name YYMMDD_설명` | 스키마 변경 시 migration 생성 + 적용   |
+| `prisma migrate deploy`                 | 새 환경/DB 이관 시 모든 migration 적용 |
+| `prisma generate`                       | Prisma Client 재생성                   |
+| `prisma migrate status`                 | migration 적용 상태 확인               |
+| `prisma migrate diff`                   | 스키마 ↔ migration 간 drift 검출       |
 
 ## 마이그레이션 네이밍
 

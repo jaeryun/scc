@@ -1,5 +1,6 @@
 ---
 paths:
-  - "**/*.tsx"
+  - '**/*.tsx'
 ---
+
 @docs/rules/react.md

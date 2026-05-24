@@ -1,4 +1,4 @@
-import { apiClient } from "@/lib/api-client";
+import { apiClient } from '@/lib/api-client';
 
 export interface ViewSettingItem {
   viewId: string;
@@ -11,7 +11,7 @@ export interface UpdateViewSettingPayload {
 }
 
 export async function getViewSettings(): Promise<ViewSettingItem[]> {
-  return apiClient("/api/view-settings");
+  return apiClient('/api/view-settings');
 }
 
 export async function updateViewSetting(
@@ -19,7 +19,7 @@ export async function updateViewSetting(
   data: UpdateViewSettingPayload
 ): Promise<{ id: string; viewId: string; icon: string }> {
   return apiClient(`/api/view-settings/${viewId}`, {
-    method: "PUT",
-    body: JSON.stringify(data),
+    method: 'PUT',
+    body: JSON.stringify(data)
   });
 }

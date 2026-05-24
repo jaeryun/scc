@@ -18,7 +18,7 @@ export default function ViewSettingsForm() {
       updateViewSetting(viewId, { icon }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: viewSettingKeys.all });
-    },
+    }
   });
 
   const viewIconMap = React.useMemo(() => {
@@ -52,7 +52,9 @@ export default function ViewSettingsForm() {
           {views.map((view) => {
             const currentIcon = viewIconMap.get(view.id) || view.icon;
             const IconComponent = currentIcon
-              ? (Icons[currentIcon as keyof typeof Icons] as React.ComponentType<{ className?: string }>)
+              ? (Icons[currentIcon as keyof typeof Icons] as React.ComponentType<{
+                  className?: string;
+                }>)
               : null;
 
             return (

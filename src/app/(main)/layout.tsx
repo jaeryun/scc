@@ -17,11 +17,7 @@ export const metadata: Metadata = {
   }
 };
 
-export default async function MainLayout({
-  children
-}: {
-  children: React.ReactNode;
-}) {
+export default async function MainLayout({ children }: { children: React.ReactNode }) {
   const cookieStore = await cookies();
   const defaultOpen = cookieStore.get('sidebar_state')?.value === 'true';
 
@@ -32,9 +28,7 @@ export default async function MainLayout({
         <SidebarInset>
           <Header rightSlot={<NotificationCenter />} />
           <InfobarProvider defaultOpen={false}>
-            <div className='flex flex-1 flex-col'>
-              {children}
-            </div>
+            <div className='flex flex-1 flex-col'>{children}</div>
             <InfoSidebar side='right' />
           </InfobarProvider>
         </SidebarInset>

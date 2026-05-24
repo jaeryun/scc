@@ -15,6 +15,7 @@ Prisma 마이그레이션 네이밍 및 전체 워크플로는 [`docs/core/conve
 3. **운영 환경 위험**: staging/production에서 절대 사용 불가한 도구를 개발 환경에서도 사용하면 안 됨
 
 **올바른 워크플로:**
+
 ```
 1. prisma/schema.prisma 수정
 2. npx prisma migrate dev --name YYMMDD_설명     → migration 생성 + DB 반영
@@ -23,14 +24,15 @@ Prisma 마이그레이션 네이밍 및 전체 워크플로는 [`docs/core/conve
 ```
 
 **DB 이관/재구성 시:**
+
 ```
 npx prisma migrate deploy   → 새 DB에 모든 migration 순차 적용 (데이터 보존)
 ```
 
 ## 스키마 파일 위치
 
-| 경로 | 설명 |
-|------|------|
-| `prisma/schema.prisma` | DB 스키마 정의 (datasource, generator, model) |
-| `prisma/migrations/` | 마이그레이션 SQL 파일 (YYYYMMDD_설명/migration.sql) |
-| `prisma/seed.ts` | 데모 데이터 시드 스크립트 |
+| 경로                   | 설명                                                 |
+| ---------------------- | ---------------------------------------------------- |
+| `prisma/schema.prisma` | DB 스키마 정의 (datasource, generator, model)        |
+| `prisma/migrations/`   | 마이그레이션 SQL 파일 (YYYYMMDD\_설명/migration.sql) |
+| `prisma/seed.ts`       | 데모 데이터 시드 스크립트                            |

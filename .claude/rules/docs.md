@@ -1,5 +1,6 @@
 ---
 paths:
-  - "docs/**/*.md"
+  - 'docs/**/*.md'
 ---
+
 @docs/rules/docs.md

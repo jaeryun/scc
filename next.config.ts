@@ -1,9 +1,9 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   output: 'standalone',
   images: {
-    unoptimized: true, // 폐쇄망에서 외부 이미지 최적화 불가
+    unoptimized: true // 폐쇄망에서 외부 이미지 최적화 불가
   },
   // Turbopack 활성화 (Next.js 16 기본값)
   turbopack: {},
@@ -14,10 +14,10 @@ const nextConfig: NextConfig = {
       {
         source: '/switch-mapping',
         destination: '/demo-components/switch-mapping',
-        permanent: true,
-      },
+        permanent: true
+      }
     ];
-  },
+  }
 };
 
 export default nextConfig;

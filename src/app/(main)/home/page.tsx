@@ -32,14 +32,12 @@ export default function HomePage() {
               <Icons.network className='h-5 w-5 text-primary' />
               데모 - IPAM
             </CardTitle>
-            <CardDescription>
-              IP 주소 관리 시스템 데모. 서브넷/IP CRUD, 상태 추적
-            </CardDescription>
+            <CardDescription>IP 주소 관리 시스템 데모. 서브넷/IP CRUD, 상태 추적</CardDescription>
           </CardHeader>
           <CardContent>
             <p className='text-sm text-muted-foreground mb-4'>
-              네트워크 인프라를 관리하는 IPAM 시스템의 UI/UX 패턴을 참고하세요.
-              서브넷 할당, IP 주소 상태 추적, 검색 및 필터링 기능을 포함합니다.
+              네트워크 인프라를 관리하는 IPAM 시스템의 UI/UX 패턴을 참고하세요. 서브넷 할당, IP 주소
+              상태 추적, 검색 및 필터링 기능을 포함합니다.
             </p>
             <Link href='/demo-ipam'>
               <Button className='w-full'>
@@ -56,14 +54,12 @@ export default function HomePage() {
               <Icons.dashboard className='h-5 w-5 text-primary' />
               데모 - 컴포넌트
             </CardTitle>
-            <CardDescription>
-              다양한 UI 패턴 참고용 (차트, 테이블, 칸반, 폼 등)
-            </CardDescription>
+            <CardDescription>다양한 UI 패턴 참고용 (차트, 테이블, 칸반, 폼 등)</CardDescription>
           </CardHeader>
           <CardContent>
             <p className='text-sm text-muted-foreground mb-4'>
-              shadcn/ui 기반의 대시보드 템플릿에서 사용하는 다양한 UI 컴포넌트와
-              패턴을 확인하세요. 차트, 데이터 테이블, 칸반 보드, 폼 등을 포함합니다.
+              shadcn/ui 기반의 대시보드 템플릿에서 사용하는 다양한 UI 컴포넌트와 패턴을 확인하세요.
+              차트, 데이터 테이블, 칸반 보드, 폼 등을 포함합니다.
             </p>
             <Link href='/demo-components/overview'>
               <Button className='w-full' variant='outline'>
@@ -99,7 +95,9 @@ export default function HomePage() {
                 <li>&middot; Server Actions &amp; 스트리밍</li>
               </ul>
               <p className='mt-3 border-t pt-3 text-xs text-muted-foreground'>
-                <strong className='text-foreground'>시너지:</strong> React 19 RSC와 TypeScript로 완전한 엔드투엔드 타입 안전성을 확보하며, App Router로 복잡한 멀티뷰 대시보드를 직관적으로 구성할 수 있어 채택했습니다.
+                <strong className='text-foreground'>시너지:</strong> React 19 RSC와 TypeScript로
+                완전한 엔드투엔드 타입 안전성을 확보하며, App Router로 복잡한 멀티뷰 대시보드를
+                직관적으로 구성할 수 있어 채택했습니다.
               </p>
             </CardContent>
           </Card>
@@ -119,7 +117,9 @@ export default function HomePage() {
                 <li>&middot; use() Hook, Actions</li>
               </ul>
               <p className='mt-3 border-t pt-3 text-xs text-muted-foreground'>
-                <strong className='text-foreground'>시너지:</strong> Next.js 16 + shadcn/ui + TanStack Query의 기반. RSC로 초기 로드를 최소화하고 Suspense로 데이터 스트리밍을 자연스럽게 처리합니다.
+                <strong className='text-foreground'>시너지:</strong> Next.js 16 + shadcn/ui +
+                TanStack Query의 기반. RSC로 초기 로드를 최소화하고 Suspense로 데이터 스트리밍을
+                자연스럽게 처리합니다.
               </p>
             </CardContent>
           </Card>
@@ -139,7 +139,9 @@ export default function HomePage() {
                 <li>&middot; Zod로 런타임 검증 보완</li>
               </ul>
               <p className='mt-3 border-t pt-3 text-xs text-muted-foreground'>
-                <strong className='text-foreground'>시너지:</strong> Prisma가 생성한 DB 타입부터 TanStack Query 키 추론, Zod 스키마까지 전 레이어에서 타입 안전성을 보장해 DX를 극대화합니다.
+                <strong className='text-foreground'>시너지:</strong> Prisma가 생성한 DB 타입부터
+                TanStack Query 키 추론, Zod 스키마까지 전 레이어에서 타입 안전성을 보장해 DX를
+                극대화합니다.
               </p>
             </CardContent>
           </Card>
@@ -159,7 +161,9 @@ export default function HomePage() {
                 <li>&middot; 임의 값 및 컨테이너 쿼리</li>
               </ul>
               <p className='mt-3 border-t pt-3 text-xs text-muted-foreground'>
-                <strong className='text-foreground'>시너지:</strong> shadcn/ui의 스타일링 기반으로, CSS-in-JS 없이도 컴포넌트 스타일링이 예측 가능합니다. 10가지 테마를 통해 다크/라이트 모드를 일관되게 지원합니다.
+                <strong className='text-foreground'>시너지:</strong> shadcn/ui의 스타일링 기반으로,
+                CSS-in-JS 없이도 컴포넌트 스타일링이 예측 가능합니다. 10가지 테마를 통해 다크/라이트
+                모드를 일관되게 지원합니다.
               </p>
             </CardContent>
           </Card>
@@ -179,7 +183,9 @@ export default function HomePage() {
                 <li>&middot; 자유로운 커스터마이징</li>
               </ul>
               <p className='mt-3 border-t pt-3 text-xs text-muted-foreground'>
-                <strong className='text-foreground'>시너지:</strong> Tailwind v4 + React 19와 완벽 호환. 컴포넌트 코드를 직접 소유하므로 벤더 락인 없이 필요에 맞게 수정할 수 있어 선택했습니다.
+                <strong className='text-foreground'>시너지:</strong> Tailwind v4 + React 19와 완벽
+                호환. 컴포넌트 코드를 직접 소유하므로 벤더 락인 없이 필요에 맞게 수정할 수 있어
+                선택했습니다.
               </p>
             </CardContent>
           </Card>
@@ -199,7 +205,9 @@ export default function HomePage() {
                 <li>&middot; Devtools &amp; 낙관적 업데이트</li>
               </ul>
               <p className='mt-3 border-t pt-3 text-xs text-muted-foreground'>
-                <strong className='text-foreground'>시너지:</strong> Next.js 서버 프리페치 + HydrationBoundary와 결합해 클라이언트 네비게이션 시 즉시 로딩을 구현합니다. useMutation으로 Prisma API 응답을 즉시 캐시에 반영합니다.
+                <strong className='text-foreground'>시너지:</strong> Next.js 서버 프리페치 +
+                HydrationBoundary와 결합해 클라이언트 네비게이션 시 즉시 로딩을 구현합니다.
+                useMutation으로 Prisma API 응답을 즉시 캐시에 반영합니다.
               </p>
             </CardContent>
           </Card>
@@ -219,7 +227,9 @@ export default function HomePage() {
                 <li>&middot; Prisma Studio GUI</li>
               </ul>
               <p className='mt-3 border-t pt-3 text-xs text-muted-foreground'>
-                <strong className='text-foreground'>시너지:</strong> PostgreSQL과 TypeScript 사이의 타입 브릿지. 스키마에서 생성된 타입이 API 응답까지 전파되어 실수 없는 데이터 접근을 보장합니다.
+                <strong className='text-foreground'>시너지:</strong> PostgreSQL과 TypeScript 사이의
+                타입 브릿지. 스키마에서 생성된 타입이 API 응답까지 전파되어 실수 없는 데이터 접근을
+                보장합니다.
               </p>
             </CardContent>
           </Card>
@@ -239,7 +249,9 @@ export default function HomePage() {
                 <li>&middot; 풀텍스트 검색 &amp; 인덱싱</li>
               </ul>
               <p className='mt-3 border-t pt-3 text-xs text-muted-foreground'>
-                <strong className='text-foreground'>시너지:</strong> Prisma와 결합해 견고한 데이터 무결성을 보장하며, JSONB로 스키마 변경 없이 유연한 데이터 모델 확장이 가능해 실무 인프라팀 데이터에 적합합니다.
+                <strong className='text-foreground'>시너지:</strong> Prisma와 결합해 견고한 데이터
+                무결성을 보장하며, JSONB로 스키마 변경 없이 유연한 데이터 모델 확장이 가능해 실무
+                인프라팀 데이터에 적합합니다.
               </p>
             </CardContent>
           </Card>

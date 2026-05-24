@@ -35,24 +35,24 @@ class DeviceRole(NestedGroupModel):  # MPTT
 
 ### 확장 속성 저장 전략 (3레벨)
 
-| 레이어 | 메커니즘 | 용도 예시 |
-|--------|----------|-----------|
-| **표준 필드** | Device 기본 컬럼 | serial, asset_tag, platform(OS), status |
-| **Custom Field** | JSONB (`custom_field_data`) | IB GUID, GPU 모델명, 포트 GUID 등 검색/필터링 필요한 속성 |
-| **ConfigContext** | 계층적 JSON 병합 | CPU, RAM, GPU 구성, Ansible 인벤토리 변수 |
+| 레이어            | 메커니즘                    | 용도 예시                                                 |
+| ----------------- | --------------------------- | --------------------------------------------------------- |
+| **표준 필드**     | Device 기본 컬럼            | serial, asset_tag, platform(OS), status                   |
+| **Custom Field**  | JSONB (`custom_field_data`) | IB GUID, GPU 모델명, 포트 GUID 등 검색/필터링 필요한 속성 |
+| **ConfigContext** | 계층적 JSON 병합            | CPU, RAM, GPU 구성, Ansible 인벤토리 변수                 |
 
 ---
 
 ## 2. 물리 Device vs VirtualMachine
 
-| 특성 | Device (물리) | VirtualMachine (가상) |
-|------|---------------|----------------------|
-| 모델 | `dcim.Device` | `virtualization.VirtualMachine` |
-| 위치 | Site → Rack → Position | Site / Cluster / Device |
-| 인터페이스 | `dcim.Interface` (물리+가상) | `virtualization.VMInterface` (가상만) |
-| 케이블 연결 | 가능 (Cable로) | **불가능** |
-| CPU/RAM | 없음 (ConfigContext로) | `vcpus`, `memory`, `disk` 기본 필드 |
-| OS | platform FK | platform FK |
+| 특성        | Device (물리)                | VirtualMachine (가상)                 |
+| ----------- | ---------------------------- | ------------------------------------- |
+| 모델        | `dcim.Device`                | `virtualization.VirtualMachine`       |
+| 위치        | Site → Rack → Position       | Site / Cluster / Device               |
+| 인터페이스  | `dcim.Interface` (물리+가상) | `virtualization.VMInterface` (가상만) |
+| 케이블 연결 | 가능 (Cable로)               | **불가능**                            |
+| CPU/RAM     | 없음 (ConfigContext로)       | `vcpus`, `memory`, `disk` 기본 필드   |
+| OS          | platform FK                  | platform FK                           |
 
 ### VirtualMachine 모델
 
@@ -109,16 +109,16 @@ interface.save()
 
 ### Custom Field 타입 매핑 (IB/SAN)
 
-| 속성 | 타입 | 설명 |
-|------|------|------|
-| IB GUID | text (regex: `^0x[0-9a-fA-F]{16}$`) | 64비트 16진수 |
-| IB Port GUID | text | 64비트 16진수 |
-| IB LID | integer (min=1, max=49152) | 16비트 |
-| Partition Key | text | PKey |
-| GPU Model | select | "NVIDIA H100", "A100", ... |
-| GPU Count | integer | |
-| CPU Model | text | |
-| RAM GB | integer | |
+| 속성          | 타입                                | 설명                       |
+| ------------- | ----------------------------------- | -------------------------- |
+| IB GUID       | text (regex: `^0x[0-9a-fA-F]{16}$`) | 64비트 16진수              |
+| IB Port GUID  | text                                | 64비트 16진수              |
+| IB LID        | integer (min=1, max=49152)          | 16비트                     |
+| Partition Key | text                                | PKey                       |
+| GPU Model     | select                              | "NVIDIA H100", "A100", ... |
+| GPU Count     | integer                             |                            |
+| CPU Model     | text                                |                            |
+| RAM GB        | integer                             |                            |
 
 ### REST API로 필터링
 
@@ -147,19 +147,19 @@ Global ConfigContext (weight=1000)
 ```json
 // "GPU Node" Role ConfigContext
 {
-    "hardware": {
-        "cpu": {"model": "AMD EPYC 9654", "cores": 96},
-        "ram_gb": 2048,
-        "gpu": [{"model": "NVIDIA H100", "count": 8, "vram_gb": 80}]
-    },
-    "network": {
-        "ib_interfaces": ["mlx5_0", "mlx5_1"],
-        "ib_partition_key": "0x8001"
-    },
-    "ansible": {
-        "groups": ["gpu_nodes", "h100_nodes"],
-        "vars": {"ib_mode": "connected"}
-    }
+  "hardware": {
+    "cpu": { "model": "AMD EPYC 9654", "cores": 96 },
+    "ram_gb": 2048,
+    "gpu": [{ "model": "NVIDIA H100", "count": 8, "vram_gb": 80 }]
+  },
+  "network": {
+    "ib_interfaces": ["mlx5_0", "mlx5_1"],
+    "ib_partition_key": "0x8001"
+  },
+  "ansible": {
+    "groups": ["gpu_nodes", "h100_nodes"],
+    "vars": { "ib_mode": "connected" }
+  }
 }
 ```
 
@@ -261,10 +261,10 @@ for iface in Interface.objects.filter(device=ib_switch):
 
 ## 7. 결론
 
-| 질문 | 답변 |
-|------|------|
-| NetBox의 "Host"는 무엇인가? | Device + DeviceRole(name="GPU Node"/"Server") |
-| Host 확장 속성 저장은? | Custom Field (검색 필요) / ConfigContext (설정 데이터) |
-| VM은 어떻게 구분되는가? | 별도 VirtualMachine 모델 (vcpus/memory/disk 기본 필드) |
-| switch↔host 연결 방식 | Device의 Interface ↔ Cable ↔ 다른 Device의 Interface |
-| IB GUID/LID, WWN 등 저장 | Interface Custom Field (JSONB) |
+| 질문                        | 답변                                                   |
+| --------------------------- | ------------------------------------------------------ |
+| NetBox의 "Host"는 무엇인가? | Device + DeviceRole(name="GPU Node"/"Server")          |
+| Host 확장 속성 저장은?      | Custom Field (검색 필요) / ConfigContext (설정 데이터) |
+| VM은 어떻게 구분되는가?     | 별도 VirtualMachine 모델 (vcpus/memory/disk 기본 필드) |
+| switch↔host 연결 방식       | Device의 Interface ↔ Cable ↔ 다른 Device의 Interface   |
+| IB GUID/LID, WWN 등 저장    | Interface Custom Field (JSONB)                         |

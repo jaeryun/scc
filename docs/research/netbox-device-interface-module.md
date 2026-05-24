@@ -7,11 +7,11 @@
 
 ## 1. Manufacturer
 
-| 필드 | 타입 | 설명 |
-|------|------|------|
-| `name` | CharField | 하드웨어 제조사 |
-| `slug` | SlugField | 슬러그 |
-| `description` | CharField | 설명 |
+| 필드          | 타입      | 설명            |
+| ------------- | --------- | --------------- |
+| `name`        | CharField | 하드웨어 제조사 |
+| `slug`        | SlugField | 슬러그          |
+| `description` | CharField | 설명            |
 
 `ordering = ('name',)`. ContactsMixin 상속으로 연락처 관리 지원.
 
@@ -37,6 +37,7 @@ class DeviceType(ImageAttachmentsMixin, PrimaryModel, WeightMixin):
 ```
 
 **Unique Constraints**:
+
 - `(manufacturer, model)`
 - `(manufacturer, slug)`
 
@@ -80,43 +81,43 @@ class Device(ContactsMixin, ImageAttachmentsMixin, RenderConfigMixin,
              ConfigContextModel, TrackingModelMixin, PrimaryModel):
 ```
 
-| 필드명 | 타입 | Null | Default | 설명 |
-|--------|------|------|---------|------|
-| `device_type` | FK(DeviceType, PROTECT) | NOT NULL | - | 장비 유형 |
-| `role` | FK(DeviceRole, PROTECT) | NOT NULL | - | 역할 (스위치/서버/스토리지 등) |
-| `tenant` | FK(Tenant, PROTECT) | NULL | null | 테넌트 |
-| `platform` | FK(Platform, SET_NULL) | NULL | null | OS/펌웨어 |
-| `name` | CharField(64) | NULL | null | 장비명 |
-| `serial` | CharField(50) | blank | "" | 시리얼 번호 |
-| `asset_tag` | CharField(50) | **UNIQUE** | null | 자산 태그 (전역 unique) |
-| `site` | FK(Site, PROTECT) | NOT NULL | - | 사이트 |
-| `location` | FK(Location, PROTECT) | NULL | null | 위치 |
-| `rack` | FK(Rack, PROTECT) | NULL | null | 랙 |
-| `position` | DecimalField(4,1) | NULL | null | 랙 내 위치 (1~100.5) |
-| `face` | CharField(50) | NULL | null | `front`/`rear` |
-| `status` | CharField(50) | NOT NULL | `active` | 상태 |
-| `airflow` | CharField(50) | NULL | null | 공기 흐름 |
-| `primary_ip4` | OneToOneField(IPAddress, SET_NULL) | NULL | null | Primary IPv4 |
-| `primary_ip6` | OneToOneField(IPAddress, SET_NULL) | NULL | null | Primary IPv6 |
-| `oob_ip` | OneToOneField(IPAddress, SET_NULL) | NULL | null | OOB 관리 IP |
-| `cluster` | FK(Cluster, SET_NULL) | NULL | null | 가상화 클러스터 |
-| `virtual_chassis` | FK(VirtualChassis, SET_NULL) | NULL | null | Virtual Chassis |
-| `vc_position` | PositiveIntegerField | NULL | null | VC 내 포지션 |
-| `vc_priority` | PositiveSmallIntegerField | NULL | null | VC 마스터 우선순위 |
-| `latitude` | DecimalField(8,6) | NULL | null | GPS 위도 |
-| `longitude` | DecimalField(9,6) | NULL | null | GPS 경도 |
-| `comments` | CharField | blank | "" | 코멘트 |
+| 필드명            | 타입                               | Null       | Default  | 설명                           |
+| ----------------- | ---------------------------------- | ---------- | -------- | ------------------------------ |
+| `device_type`     | FK(DeviceType, PROTECT)            | NOT NULL   | -        | 장비 유형                      |
+| `role`            | FK(DeviceRole, PROTECT)            | NOT NULL   | -        | 역할 (스위치/서버/스토리지 등) |
+| `tenant`          | FK(Tenant, PROTECT)                | NULL       | null     | 테넌트                         |
+| `platform`        | FK(Platform, SET_NULL)             | NULL       | null     | OS/펌웨어                      |
+| `name`            | CharField(64)                      | NULL       | null     | 장비명                         |
+| `serial`          | CharField(50)                      | blank      | ""       | 시리얼 번호                    |
+| `asset_tag`       | CharField(50)                      | **UNIQUE** | null     | 자산 태그 (전역 unique)        |
+| `site`            | FK(Site, PROTECT)                  | NOT NULL   | -        | 사이트                         |
+| `location`        | FK(Location, PROTECT)              | NULL       | null     | 위치                           |
+| `rack`            | FK(Rack, PROTECT)                  | NULL       | null     | 랙                             |
+| `position`        | DecimalField(4,1)                  | NULL       | null     | 랙 내 위치 (1~100.5)           |
+| `face`            | CharField(50)                      | NULL       | null     | `front`/`rear`                 |
+| `status`          | CharField(50)                      | NOT NULL   | `active` | 상태                           |
+| `airflow`         | CharField(50)                      | NULL       | null     | 공기 흐름                      |
+| `primary_ip4`     | OneToOneField(IPAddress, SET_NULL) | NULL       | null     | Primary IPv4                   |
+| `primary_ip6`     | OneToOneField(IPAddress, SET_NULL) | NULL       | null     | Primary IPv6                   |
+| `oob_ip`          | OneToOneField(IPAddress, SET_NULL) | NULL       | null     | OOB 관리 IP                    |
+| `cluster`         | FK(Cluster, SET_NULL)              | NULL       | null     | 가상화 클러스터                |
+| `virtual_chassis` | FK(VirtualChassis, SET_NULL)       | NULL       | null     | Virtual Chassis                |
+| `vc_position`     | PositiveIntegerField               | NULL       | null     | VC 내 포지션                   |
+| `vc_priority`     | PositiveSmallIntegerField          | NULL       | null     | VC 마스터 우선순위             |
+| `latitude`        | DecimalField(8,6)                  | NULL       | null     | GPS 위도                       |
+| `longitude`       | DecimalField(9,6)                  | NULL       | null     | GPS 경도                       |
+| `comments`        | CharField                          | blank      | ""       | 코멘트                         |
 
 ### DeviceStatusChoices (7종)
 
-| Key | Label | Color |
-|-----|-------|-------|
-| `offline` | Offline | gray |
-| `active` | Active | green |
-| `planned` | Planned | cyan |
-| `staged` | Staged | blue |
-| `failed` | Failed | red |
-| `inventory` | Inventory | purple |
+| Key               | Label           | Color  |
+| ----------------- | --------------- | ------ |
+| `offline`         | Offline         | gray   |
+| `active`          | Active          | green  |
+| `planned`         | Planned         | cyan   |
+| `staged`          | Staged          | blue   |
+| `failed`          | Failed          | red    |
+| `inventory`       | Inventory       | purple |
 | `decommissioning` | Decommissioning | yellow |
 
 ### Unique Constraints
@@ -163,50 +164,50 @@ NetBoxModel
 
 ### 핵심 필드
 
-| 필드 | 타입 | Null | Default | 설명 |
-|------|------|------|---------|------|
-| `device` | FK(Device, CASCADE) | NOT NULL | - | 소속 장비 |
-| `module` | FK(Module, CASCADE) | **NULL** | null | 모듈 (null=Device 직속) |
-| `name` | CharField(64) | NOT NULL | - | 인터페이스명 |
-| `label` | CharField(64) | blank | "" | 물리 라벨 |
-| `type` | CharField(50) | **NOT NULL** | - | 인터페이스 타입 (190종+) |
-| `enabled` | BooleanField | NOT NULL | true | 활성화 |
-| `mgmt_only` | BooleanField | NOT NULL | false | 관리 전용 |
-| `mtu` | PositiveIntegerField | NULL | null | MTU (1~65536) |
-| `speed` | PositiveBigIntegerField | NULL | null | 속도 (**Kbps**) |
-| `duplex` | CharField(50) | NULL | null | half / full / auto |
-| `wwn` | **WWNField** (64-bit) | NULL | null | World Wide Name (FC) |
-| `mode` | CharField(50) | NULL | null | 802.1Q 모드 |
-| `parent` | FK(self, RESTRICT) | NULL | null | 부모 인터페이스 |
-| `bridge` | FK(self, SET_NULL) | NULL | null | 브리지 |
-| `lag` | FK(self, SET_NULL) | NULL | null | LAG 부모 |
-| `untagged_vlan` | FK(VLAN) | NULL | null | Untagged VLAN |
-| `tagged_vlans` | M2M(VLAN) | - | - | Tagged VLANs |
-| `vrf` | FK(VRF, SET_NULL) | NULL | null | VRF |
-| `poe_mode` | CharField(50) | NULL | null | pd / pse |
-| `poe_type` | CharField(50) | NULL | null | PoE 타입 |
-| `rf_role` | CharField(30) | NULL | null | 무선 역할 |
-| `rf_channel` | CharField(50) | NULL | null | 무선 채널 |
-| `rf_channel_frequency` | DecimalField(8,3) | NULL | null | 주파수 (MHz) |
-| `rf_channel_width` | DecimalField(7,3) | NULL | null | 채널 폭 (MHz) |
-| `tx_power` | SmallIntegerField | NULL | null | 송신 전력 (dBm) |
-| `wireless_link` | FK(WirelessLink) | NULL | null | 무선 링크 |
-| `wireless_lans` | M2M(WirelessLAN) | - | - | 무선 LAN |
-| `qinq_svlan` | FK(VLAN) | NULL | null | Q-in-Q SVLAN |
-| `vlan_translation_policy` | FK | NULL | null | VLAN 변환 정책 |
-| `primary_mac_address` | OneToOneField(MACAddress) | NULL | null | Primary MAC |
-| `vdcs` | M2M(VirtualDeviceContext) | - | - | VDC |
+| 필드                      | 타입                      | Null         | Default | 설명                     |
+| ------------------------- | ------------------------- | ------------ | ------- | ------------------------ |
+| `device`                  | FK(Device, CASCADE)       | NOT NULL     | -       | 소속 장비                |
+| `module`                  | FK(Module, CASCADE)       | **NULL**     | null    | 모듈 (null=Device 직속)  |
+| `name`                    | CharField(64)             | NOT NULL     | -       | 인터페이스명             |
+| `label`                   | CharField(64)             | blank        | ""      | 물리 라벨                |
+| `type`                    | CharField(50)             | **NOT NULL** | -       | 인터페이스 타입 (190종+) |
+| `enabled`                 | BooleanField              | NOT NULL     | true    | 활성화                   |
+| `mgmt_only`               | BooleanField              | NOT NULL     | false   | 관리 전용                |
+| `mtu`                     | PositiveIntegerField      | NULL         | null    | MTU (1~65536)            |
+| `speed`                   | PositiveBigIntegerField   | NULL         | null    | 속도 (**Kbps**)          |
+| `duplex`                  | CharField(50)             | NULL         | null    | half / full / auto       |
+| `wwn`                     | **WWNField** (64-bit)     | NULL         | null    | World Wide Name (FC)     |
+| `mode`                    | CharField(50)             | NULL         | null    | 802.1Q 모드              |
+| `parent`                  | FK(self, RESTRICT)        | NULL         | null    | 부모 인터페이스          |
+| `bridge`                  | FK(self, SET_NULL)        | NULL         | null    | 브리지                   |
+| `lag`                     | FK(self, SET_NULL)        | NULL         | null    | LAG 부모                 |
+| `untagged_vlan`           | FK(VLAN)                  | NULL         | null    | Untagged VLAN            |
+| `tagged_vlans`            | M2M(VLAN)                 | -            | -       | Tagged VLANs             |
+| `vrf`                     | FK(VRF, SET_NULL)         | NULL         | null    | VRF                      |
+| `poe_mode`                | CharField(50)             | NULL         | null    | pd / pse                 |
+| `poe_type`                | CharField(50)             | NULL         | null    | PoE 타입                 |
+| `rf_role`                 | CharField(30)             | NULL         | null    | 무선 역할                |
+| `rf_channel`              | CharField(50)             | NULL         | null    | 무선 채널                |
+| `rf_channel_frequency`    | DecimalField(8,3)         | NULL         | null    | 주파수 (MHz)             |
+| `rf_channel_width`        | DecimalField(7,3)         | NULL         | null    | 채널 폭 (MHz)            |
+| `tx_power`                | SmallIntegerField         | NULL         | null    | 송신 전력 (dBm)          |
+| `wireless_link`           | FK(WirelessLink)          | NULL         | null    | 무선 링크                |
+| `wireless_lans`           | M2M(WirelessLAN)          | -            | -       | 무선 LAN                 |
+| `qinq_svlan`              | FK(VLAN)                  | NULL         | null    | Q-in-Q SVLAN             |
+| `vlan_translation_policy` | FK                        | NULL         | null    | VLAN 변환 정책           |
+| `primary_mac_address`     | OneToOneField(MACAddress) | NULL         | null    | Primary MAC              |
+| `vdcs`                    | M2M(VirtualDeviceContext) | -            | -       | VDC                      |
 
 ### CabledObjectModel mixin (Interface가 상속받는 케이블 관련 필드)
 
-| 필드 | 타입 | 설명 |
-|------|------|------|
-| `cable` | FK(Cable, SET_NULL) | 연결된 케이블 (denormalized cache) |
-| `cable_end` | CharField(1) | 'A' or 'B' |
-| `cable_connector` | PositiveSmallIntegerField | 1-256 |
-| `cable_positions` | ArrayField(PositiveSmallInteger) | 1-1024 |
-| `mark_connected` | BooleanField(default=False) | 가상 연결 표시 |
-| `_path` | FK(CablePath, SET_NULL) | 케이블 경로 (PathEndpoint) |
+| 필드              | 타입                             | 설명                               |
+| ----------------- | -------------------------------- | ---------------------------------- |
+| `cable`           | FK(Cable, SET_NULL)              | 연결된 케이블 (denormalized cache) |
+| `cable_end`       | CharField(1)                     | 'A' or 'B'                         |
+| `cable_connector` | PositiveSmallIntegerField        | 1-256                              |
+| `cable_positions` | ArrayField(PositiveSmallInteger) | 1-1024                             |
+| `mark_connected`  | BooleanField(default=False)      | 가상 연결 표시                     |
+| `_path`           | FK(CablePath, SET_NULL)          | 케이블 경로 (PathEndpoint)         |
 
 ### Key Constraint
 
@@ -218,36 +219,38 @@ UniqueConstraint(fields=('device', 'name'), name='unique_device_name')
 
 ### InterfaceTypeChoices — InfiniBand (9종)
 
-| Key | Label | 속도 |
-|-----|-------|------|
-| `infiniband-sdr` | SDR | 2 Gbps |
-| `infiniband-ddr` | DDR | 4 Gbps |
-| `infiniband-qdr` | QDR | 8 Gbps |
-| `infiniband-fdr10` | FDR10 | 10 Gbps |
-| `infiniband-fdr` | FDR | 13.64 Gbps |
-| `infiniband-edr` | EDR | 25 Gbps |
-| `infiniband-hdr` | HDR | 50 Gbps |
-| `infiniband-ndr` | NDR | 100 Gbps |
-| `infiniband-xdr` | XDR | 250 Gbps |
+| Key                | Label | 속도       |
+| ------------------ | ----- | ---------- |
+| `infiniband-sdr`   | SDR   | 2 Gbps     |
+| `infiniband-ddr`   | DDR   | 4 Gbps     |
+| `infiniband-qdr`   | QDR   | 8 Gbps     |
+| `infiniband-fdr10` | FDR10 | 10 Gbps    |
+| `infiniband-fdr`   | FDR   | 13.64 Gbps |
+| `infiniband-edr`   | EDR   | 25 Gbps    |
+| `infiniband-hdr`   | HDR   | 50 Gbps    |
+| `infiniband-ndr`   | NDR   | 100 Gbps   |
+| `infiniband-xdr`   | XDR   | 250 Gbps   |
 
 ### InterfaceTypeChoices — FibreChannel (11종)
 
-| Key | Label | 속도 |
-|-----|-------|------|
-| `1gfc-sfp` | SFP (1GFC) | 1 Gbps |
-| `2gfc-sfp` | SFP (2GFC) | 2 Gbps |
-| `4gfc-sfp` | SFP (4GFC) | 4 Gbps |
-| `8gfc-sfpp` | SFP+ (8GFC) | 8 Gbps |
-| `16gfc-sfpp` | SFP+ (16GFC) | 16 Gbps |
-| `32gfc-sfp28` | SFP28 (32GFC) | 32 Gbps |
-| `32gfc-sfpp` | SFP+ (32GFC) | 32 Gbps |
-| `64gfc-qsfpp` | QSFP+ (64GFC) | 64 Gbps |
-| `64gfc-sfpdd` | SFP-DD (64GFC) | 64 Gbps |
-| `64gfc-sfpp` | SFP+ (64GFC) | 64 Gbps |
+| Key             | Label           | 속도     |
+| --------------- | --------------- | -------- |
+| `1gfc-sfp`      | SFP (1GFC)      | 1 Gbps   |
+| `2gfc-sfp`      | SFP (2GFC)      | 2 Gbps   |
+| `4gfc-sfp`      | SFP (4GFC)      | 4 Gbps   |
+| `8gfc-sfpp`     | SFP+ (8GFC)     | 8 Gbps   |
+| `16gfc-sfpp`    | SFP+ (16GFC)    | 16 Gbps  |
+| `32gfc-sfp28`   | SFP28 (32GFC)   | 32 Gbps  |
+| `32gfc-sfpp`    | SFP+ (32GFC)    | 32 Gbps  |
+| `64gfc-qsfpp`   | QSFP+ (64GFC)   | 64 Gbps  |
+| `64gfc-sfpdd`   | SFP-DD (64GFC)  | 64 Gbps  |
+| `64gfc-sfpp`    | SFP+ (64GFC)    | 64 Gbps  |
 | `128gfc-qsfp28` | QSFP28 (128GFC) | 128 Gbps |
 
 ### InterfaceDuplexChoices: `half`, `full`, `auto`
+
 ### InterfaceModeChoices: `access`, `tagged`, `tagged-all`, `q-in-q`
+
 ### InterfacePoEModeChoices: `pd`, `pse`
 
 ### WWN 필드 상세

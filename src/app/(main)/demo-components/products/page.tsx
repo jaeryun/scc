@@ -26,7 +26,10 @@ export default async function Page(props: pageProps) {
       pageDescription='상품 관리 (React Query + nuqs 테이블 패턴)'
       infoContent={productInfoContent}
       pageHeaderAction={
-        <Link href='/demo-components/products/new' className={cn(buttonVariants(), 'text-xs md:text-sm')}>
+        <Link
+          href='/demo-components/products/new'
+          className={cn(buttonVariants(), 'text-xs md:text-sm')}
+        >
           <Icons.add className='mr-2 h-4 w-4' /> 새 상품 추가
         </Link>
       }

@@ -1,5 +1,16 @@
 'use client';
-import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarRail } from '@/components/ui/sidebar';
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarRail
+} from '@/components/ui/sidebar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,7 +28,6 @@ import { usePathname, useRouter } from 'next/navigation';
 import * as React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-
 const mockUser = {
   imageUrl: '',
   id: 'daniel.yun',
@@ -26,11 +36,7 @@ const mockUser = {
   role: 'admin'
 };
 
-export default function AppSidebar({
-  viewIconMap = new Map(),
-}: {
-  viewIconMap?: Map<string, string>;
-}) {
+export default function AppSidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const view = useCurrentView();
@@ -44,20 +50,14 @@ export default function AppSidebar({
   const effectiveView = view ?? views[0];
   const navItems = effectiveView.navItems;
 
-  // Get the current view's icon (DB override or default from views.ts)
-  const currentViewIcon = viewIconMap.get(effectiveView.id) || effectiveView.icon;
-  const CurrentViewIconComponent = currentViewIcon
-    ? (Icons[currentViewIcon as keyof typeof Icons] as React.ComponentType<{ className?: string }>)
-    : null;
-
   // Prevent hydration mismatch by not rendering dynamic content until mounted
   if (!mounted) {
     return (
       <Sidebar collapsible='icon' role='navigation' aria-label='Main navigation'>
         <SidebarHeader className='group-data-[collapsible=icon]:pt-4'>
           <div className='flex w-full items-center gap-2 rounded-md px-2 py-2'>
-            <div className='flex aspect-square size-8 shrink-0 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground'>
-              <Icons.settings className='size-4' />
+            <div className='flex aspect-square size-8 shrink-0 items-center justify-center rounded-lg bg-white dark:bg-[#1E1E1E]'>
+              <Icons.kakaobank className='size-5' />
             </div>
             <div className='grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden'>
               <span className='truncate font-semibold'>SE Command Center</span>
@@ -83,11 +83,13 @@ export default function AppSidebar({
               className='flex w-full items-center gap-2 rounded-md px-2 py-2 text-left transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0'
               aria-label='뷰 전환'
             >
-              <div className='flex aspect-square size-8 shrink-0 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground'>
-                {CurrentViewIconComponent && <CurrentViewIconComponent className='size-4' />}
+              <div className='flex aspect-square size-8 shrink-0 items-center justify-center rounded-lg bg-white dark:bg-[#1E1E1E]'>
+                <Icons.kakaobank className='size-5' />
               </div>
               <div className='grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden'>
-                <span className='truncate font-semibold' suppressHydrationWarning>SE Command Center</span>
+                <span className='truncate font-semibold' suppressHydrationWarning>
+                  SE Command Center
+                </span>
                 <span className='truncate text-xs text-muted-foreground' suppressHydrationWarning>
                   {effectiveView.label}
                 </span>
@@ -107,9 +109,11 @@ export default function AppSidebar({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               {views.map((viewItem) => {
-                const itemIconKey = viewIconMap.get(viewItem.id) || viewItem.icon;
+                const itemIconKey = viewItem.icon;
                 const ItemIcon = itemIconKey
-                  ? (Icons[itemIconKey as keyof typeof Icons] as React.ComponentType<{ className?: string }>)
+                  ? (Icons[itemIconKey as keyof typeof Icons] as React.ComponentType<{
+                      className?: string;
+                    }>)
                   : null;
                 const isActive = viewItem.id === effectiveView.id;
                 return (
@@ -118,13 +122,9 @@ export default function AppSidebar({
                     className='cursor-pointer'
                     onClick={() => router.push(`/${viewItem.id}`)}
                   >
-                    {ItemIcon && (
-                      <ItemIcon className='mr-2 h-4 w-4 text-muted-foreground' />
-                    )}
+                    {ItemIcon && <ItemIcon className='mr-2 h-4 w-4 text-muted-foreground' />}
                     <span>{viewItem.label}</span>
-                    {isActive && (
-                      <Icons.check className='ml-auto h-4 w-4 text-primary' />
-                    )}
+                    {isActive && <Icons.check className='ml-auto h-4 w-4 text-primary' />}
                   </DropdownMenuItem>
                 );
               })}
@@ -137,12 +137,16 @@ export default function AppSidebar({
           <SidebarMenu>
             {navItems.map((item) => {
               const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
-              const Icon = item.icon ? (Icons[item.icon as keyof typeof Icons] as React.ComponentType<{ className?: string }>) : null;
+              const Icon = item.icon
+                ? (Icons[item.icon as keyof typeof Icons] as React.ComponentType<{
+                    className?: string;
+                  }>)
+                : null;
               return (
                 <SidebarMenuItem key={item.href}>
                   <SidebarMenuButton asChild tooltip={item.title} isActive={isActive}>
                     <Link href={item.href}>
-                      {Icon && <Icon className="size-4" />}
+                      {Icon && <Icon className='size-4' />}
                       <span>{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
@@ -169,7 +173,9 @@ export default function AppSidebar({
                   </Avatar>
                   <div className='grid flex-1 text-left text-sm leading-tight'>
                     <span className='truncate font-semibold'>{mockUser.id}</span>
-                    <span className='truncate text-xs'>{mockUser.primary_team} &gt; {mockUser.secondary_team} · {mockUser.role}</span>
+                    <span className='truncate text-xs'>
+                      {mockUser.primary_team} &gt; {mockUser.secondary_team} · {mockUser.role}
+                    </span>
                   </div>
                   <Icons.chevronsDown className='ml-auto size-4' />
                 </SidebarMenuButton>
@@ -191,7 +197,9 @@ export default function AppSidebar({
                       </Avatar>
                       <div className='grid flex-1 text-left text-sm leading-tight'>
                         <span className='truncate font-semibold'>{mockUser.id}</span>
-                        <span className='truncate text-xs'>{mockUser.primary_team} &gt; {mockUser.secondary_team} · {mockUser.role}</span>
+                        <span className='truncate text-xs'>
+                          {mockUser.primary_team} &gt; {mockUser.secondary_team} · {mockUser.role}
+                        </span>
                       </div>
                     </div>
                   </div>

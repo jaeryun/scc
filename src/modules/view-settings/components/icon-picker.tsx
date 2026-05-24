@@ -4,11 +4,7 @@ import React from 'react';
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 
 // Icons to exclude from logo picker (internal/functional icons)
@@ -34,12 +30,12 @@ const EXCLUDED_ICONS = new Set([
   'chevronsLeft',
   'chevronsRight',
   'chevronsUpDown',
-  'dots',
+  'dots'
 ]);
 
-const AVAILABLE_ICON_KEYS = Object.keys(Icons).filter(
-  (key) => !EXCLUDED_ICONS.has(key)
-) as Array<keyof typeof Icons>;
+const AVAILABLE_ICON_KEYS = Object.keys(Icons).filter((key) => !EXCLUDED_ICONS.has(key)) as Array<
+  keyof typeof Icons
+>;
 
 interface IconPickerProps {
   value: string;
@@ -65,16 +61,8 @@ export default function IconPicker({ value, onChange }: IconPickerProps) {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button
-          variant='outline'
-          className='w-48 justify-start gap-2'
-          aria-label='아이콘 선택'
-        >
-          {SelectedIcon ? (
-            <SelectedIcon className='h-4 w-4' />
-          ) : (
-            <span className='h-4 w-4' />
-          )}
+        <Button variant='outline' className='w-48 justify-start gap-2' aria-label='아이콘 선택'>
+          {SelectedIcon ? <SelectedIcon className='h-4 w-4' /> : <span className='h-4 w-4' />}
           <span className='truncate'>{value || '아이콘 선택'}</span>
         </Button>
       </PopoverTrigger>
@@ -103,9 +91,7 @@ export default function IconPicker({ value, onChange }: IconPickerProps) {
                   }}
                   className={cn(
                     'flex aspect-square items-center justify-center rounded-md transition-colors',
-                    isSelected
-                      ? 'bg-primary text-primary-foreground'
-                      : 'hover:bg-muted'
+                    isSelected ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
                   )}
                   title={iconKey}
                   aria-label={iconKey}
@@ -116,9 +102,7 @@ export default function IconPicker({ value, onChange }: IconPickerProps) {
             })}
           </div>
           {filteredIcons.length === 0 && (
-            <p className='text-muted-foreground py-4 text-center text-sm'>
-              검색 결과가 없습니다.
-            </p>
+            <p className='text-muted-foreground py-4 text-center text-sm'>검색 결과가 없습니다.</p>
           )}
         </div>
       </PopoverContent>

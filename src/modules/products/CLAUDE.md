@@ -31,13 +31,13 @@ interface Product {
 
 ## API 엔드포인트 (Route Handler - 프록시)
 
-| 메서드 | 경로 | 설명 |
-|--------|------|------|
-| `GET` | `/api/products?page=&limit=&categories=&search=&sort=` | 제품 목록 (필터/검색/정렬) |
-| `GET` | `/api/products/[id]` | 제품 상세 |
-| `POST` | `/api/products` | 제품 생성 |
-| `PUT` | `/api/products/[id]` | 제품 수정 |
-| `DELETE` | `/api/products/[id]` | 제품 삭제 |
+| 메서드   | 경로                                                   | 설명                       |
+| -------- | ------------------------------------------------------ | -------------------------- |
+| `GET`    | `/api/products?page=&limit=&categories=&search=&sort=` | 제품 목록 (필터/검색/정렬) |
+| `GET`    | `/api/products/[id]`                                   | 제품 상세                  |
+| `POST`   | `/api/products`                                        | 제품 생성                  |
+| `PUT`    | `/api/products/[id]`                                   | 제품 수정                  |
+| `DELETE` | `/api/products/[id]`                                   | 제품 삭제                  |
 
 ## 필터/검색/정렬 (`ProductFilters`)
 
@@ -45,9 +45,9 @@ interface Product {
 type ProductFilters = {
   page?: number;
   limit?: number;
-  categories?: string;   // CSV (e.g. "beauty,electronics")
-  search?: string;       // 제품명 검색
-  sort?: string;         // 정렬 기준 (e.g. "price", "name")
+  categories?: string; // CSV (e.g. "beauty,electronics")
+  search?: string; // 제품명 검색
+  sort?: string; // 정렬 기준 (e.g. "price", "name")
 };
 ```
 
@@ -88,5 +88,6 @@ mutationFn: ({ id, values }: { id: number; values: ProductMutationPayload }) =>
 ## 특별 규칙
 
 ### RSC 데이터 페칭 패턴 (Products 전용)
+
 Products는 `searchParams` → RSC `fetch` → 데이터를 props로 클라이언트 테이블에 전달하는 **서버 컴포넌트 패치 패턴**을 사용합니다.
 Users의 `prefetchQuery` + `useSuspenseQuery` 패턴과 다릅니다. (참고: [modules/users/info-content.ts](../users/info-content.ts))

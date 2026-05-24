@@ -66,9 +66,7 @@ const KBarComponent = ({ children }: { children: React.ReactNode }) => {
     <>
       <KBarPortal>
         <KBarPositioner
-          className={cn(
-            'bg-background/80 fixed inset-0 z-99999 !p-0 backdrop-blur-sm'
-          )}
+          className={cn('bg-background/80 fixed inset-0 z-99999 !p-0 backdrop-blur-sm')}
           data-slot='kbar-positioner'
         >
           <KBarAnimator

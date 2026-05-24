@@ -42,7 +42,7 @@ export default function NewTaskDialog() {
         </DialogHeader>
         <form id='task-form' className='grid gap-4 py-4' onSubmit={handleSubmit}>
           <div className='grid grid-cols-4 items-center gap-4'>
-              <Input id='title' name='title' placeholder='작업 제목...' className='col-span-4' />
+            <Input id='title' name='title' placeholder='작업 제목...' className='col-span-4' />
           </div>
           <div className='grid grid-cols-4 items-center gap-4'>
             <Textarea

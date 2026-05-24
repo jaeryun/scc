@@ -1,4 +1,4 @@
-export type IpStatus = "FREE" | "ALLOCATED" | "RESERVED" | "DISABLED";
+export type IpStatus = 'FREE' | 'ALLOCATED' | 'RESERVED' | 'DISABLED';
 
 export interface Subnet {
   id: string;

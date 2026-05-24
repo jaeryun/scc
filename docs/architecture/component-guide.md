@@ -82,10 +82,10 @@ app/           ← 어디서든 import 가능
 
 **정의**: props만 받아 렌더링. 도메인 타입에 의존하지 않으면 `src/components/`, 의존하면 `src/modules/<name>/components/`.
 
-| 조건 | 위치 | 예시 |
-|------|------|------|
-| 도메인 무관, 프로젝트 전역 재사용 | `src/components/ui/` | `Button`, `Card`, `Badge`, `EmptyState` |
-| 도메인 타입에 의존 | `src/modules/<name>/components/` | `IpStatusBadge` — IPAM 모듈이 사라지면 무의미 |
+| 조건                              | 위치                             | 예시                                          |
+| --------------------------------- | -------------------------------- | --------------------------------------------- |
+| 도메인 무관, 프로젝트 전역 재사용 | `src/components/ui/`             | `Button`, `Card`, `Badge`, `EmptyState`       |
+| 도메인 타입에 의존                | `src/modules/<name>/components/` | `IpStatusBadge` — IPAM 모듈이 사라지면 무의미 |
 
 ### Type B: UI + 데이터 (데이터 페칭)
 
@@ -94,6 +94,7 @@ app/           ← 어디서든 import 가능
 **위치**: 항상 `src/modules/<name>/components/`
 
 **규칙**:
+
 - 데이터 페칭은 무조건 `hooks/` 경유 — 컴포넌트에서 `apiClient`/`fetch`/Prisma 직접 호출 금지
 - 페이지에서 사용 시 `<Suspense>` + `<HydrationBoundary state={dehydrate(queryClient)}>` 필수 조합
 
@@ -127,20 +128,20 @@ components/          ← hooks를 통해서만 데이터 접근
 
 ### 올바른 배치 ✅
 
-| 파일 | 판단 근거 |
-|------|-----------|
-| `modules/ipam/components/subnet-table.tsx` | `useSubnets()`로 IPAM 데이터 페칭, `Subnet` 타입 의존 → 도메인 의존 |
-| `modules/ipam/components/ip-status-badge.tsx` | `IpStatus` 타입 의존, IPAM 모듈이 사라지면 의미 없음 → 도메인 의존 |
-| `components/ui/button.tsx` | 도메인 의존 없음, 프로젝트 전역 재사용 → 범용 UI |
-| `components/layout/app-sidebar.tsx` | `config/views.ts`, `config/nav-config.ts` 의존 — 전역 config만 사용, 도메인 모듈과 무관 |
+| 파일                                          | 판단 근거                                                                               |
+| --------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `modules/ipam/components/subnet-table.tsx`    | `useSubnets()`로 IPAM 데이터 페칭, `Subnet` 타입 의존 → 도메인 의존                     |
+| `modules/ipam/components/ip-status-badge.tsx` | `IpStatus` 타입 의존, IPAM 모듈이 사라지면 의미 없음 → 도메인 의존                      |
+| `components/ui/button.tsx`                    | 도메인 의존 없음, 프로젝트 전역 재사용 → 범용 UI                                        |
+| `components/layout/app-sidebar.tsx`           | `config/views.ts`, `config/nav-config.ts` 의존 — 전역 config만 사용, 도메인 모듈과 무관 |
 
 ### 재배치 완료 사례 ✅
 
-| 파일 | 이전 위치 | 현재 위치 | 판단 근거 |
-|------|-----------|-----------|------|
+| 파일                               | 이전 위치        | 현재 위치            | 판단 근거                                       |
+| ---------------------------------- | ---------------- | -------------------- | ----------------------------------------------- |
 | `components/charts/area-graph.tsx` | modules/overview | `components/charts/` | 순수 recharts 래퍼, overview 삭제해도 의미 있음 |
-| `components/charts/bar-graph.tsx` | modules/overview | `components/charts/` | recharts BarChart, 도메인 무관 재사용 가능 |
-| `components/charts/pie-graph.tsx` | modules/overview | `components/charts/` | recharts PieChart, 범용 시각화 |
+| `components/charts/bar-graph.tsx`  | modules/overview | `components/charts/` | recharts BarChart, 도메인 무관 재사용 가능      |
+| `components/charts/pie-graph.tsx`  | modules/overview | `components/charts/` | recharts PieChart, 범용 시각화                  |
 
 ## 컴포넌트 작성 규칙 (요약)
 

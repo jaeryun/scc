@@ -98,7 +98,9 @@ export function UserFormSheet({ user, open, onOpenChange }: UserFormSheetProps) 
                 required
                 placeholder='daniel.yun'
                 validators={{
-                  onBlur: z.string().regex(/^[a-z0-9]+\.[a-z0-9]+$/, 'User ID must be in format <id>.<id>')
+                  onBlur: z
+                    .string()
+                    .regex(/^[a-z0-9]+\.[a-z0-9]+$/, 'User ID must be in format <id>.<id>')
                 }}
               />
 

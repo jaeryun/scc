@@ -96,9 +96,7 @@ export const columns: ColumnDef<SubnetWithCount>[] = [
       <DataTableColumnHeader column={column} title='전체 IP' />
     ),
     accessorFn: (row) => row._count?.ipAddresses ?? 0,
-    cell: ({ cell }) => (
-      <span className='tabular-nums'>{cell.getValue<number>()}</span>
-    )
+    cell: ({ cell }) => <span className='tabular-nums'>{cell.getValue<number>()}</span>
   },
   {
     id: 'usageRate',
@@ -107,12 +105,20 @@ export const columns: ColumnDef<SubnetWithCount>[] = [
     ),
     accessorFn: (row) => {
       const count = row._count?.ipAddresses ?? 0;
-      const max = row.network.includes('/24') ? 256 : row.network.includes('/23') ? 512 : count || 1;
+      const max = row.network.includes('/24')
+        ? 256
+        : row.network.includes('/23')
+          ? 512
+          : count || 1;
       return count / max;
     },
     cell: ({ row }) => {
       const count = row.original._count?.ipAddresses ?? 0;
-      const max = row.original.network.includes('/24') ? 256 : row.original.network.includes('/23') ? 512 : count || 1;
+      const max = row.original.network.includes('/24')
+        ? 256
+        : row.original.network.includes('/23')
+          ? 512
+          : count || 1;
       const pct = Math.min(100, (count / max) * 100);
       const barColor = pct > 75 ? 'bg-amber-500' : pct > 50 ? 'bg-chart-2' : 'bg-chart-1';
       return (
@@ -120,7 +126,9 @@ export const columns: ColumnDef<SubnetWithCount>[] = [
           <div className='bg-muted h-2 w-16 overflow-hidden rounded'>
             <div className={`h-full rounded ${barColor}`} style={{ width: `${pct}%` }} />
           </div>
-          <span className='text-muted-foreground w-8 text-right text-xs tabular-nums'>{pct.toFixed(0)}%</span>
+          <span className='text-muted-foreground w-8 text-right text-xs tabular-nums'>
+            {pct.toFixed(0)}%
+          </span>
         </div>
       );
     }

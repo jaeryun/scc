@@ -3,18 +3,21 @@
 ## Docker 이미지
 
 ### Node.js (`Dockerfile`)
+
 - `output: 'standalone'` 모드 (next.config.ts에 설정)
 - ARG 정의 없음 — 빌드 시점 `NEXT_PUBLIC_*` 주입 불가
 - `COPY --from=builder /app/.next/standalone ./`
 - `ENV NODE_ENV=production`
 
 ### Bun (`Dockerfile.bun`)
+
 - `--build-arg`로 `NEXT_PUBLIC_*` 전달 가능
 - `docker run -e`로 런타임 시크릿 주입
 - `ENV BUILD_STANDALONE=true` 명시
 - `USER bun` 비루트 실행
 
 ### 빌드 명령
+
 ```bash
 # Node.js
 docker build -t scc-app .
@@ -41,9 +44,9 @@ docker compose up -d
 cp .env.example .env.local
 ```
 
-| 변수 | 용도 |
-|------|------|
-| `DATABASE_URL` | PostgreSQL 연결 문자열 (필수) |
+| 변수               | 용도                                           |
+| ------------------ | ---------------------------------------------- |
+| `DATABASE_URL`     | PostgreSQL 연결 문자열 (필수)                  |
 | `BUILD_STANDALONE` | standalone 출력 활성화 (Docker 배포 시 `true`) |
 
 - **Phase 1**: 폐쇄망, 외부 CDN 불가 — `images.unoptimized: true`

@@ -1,17 +1,17 @@
-import { prisma } from "@/lib/prisma";
-import { SubnetInput } from "../schemas";
+import { prisma } from '@/lib/prisma';
+import { SubnetInput } from '../schemas';
 
 export async function getSubnets() {
   return prisma.subnet.findMany({
     include: { _count: { select: { ipAddresses: true } } },
-    orderBy: { createdAt: "desc" },
+    orderBy: { createdAt: 'desc' }
   });
 }
 
 export async function getSubnetById(id: string) {
   return prisma.subnet.findUnique({
     where: { id },
-    include: { ipAddresses: true },
+    include: { ipAddresses: true }
   });
 }
 

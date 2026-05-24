@@ -1,10 +1,10 @@
-import { prisma } from "@/lib/prisma";
-import { IpAddressInput } from "../schemas";
+import { prisma } from '@/lib/prisma';
+import { IpAddressInput } from '../schemas';
 
 export async function getIpAddresses(subnetId?: string) {
   return prisma.ipAddress.findMany({
     where: subnetId ? { subnetId } : undefined,
-    orderBy: { ip: "asc" },
+    orderBy: { ip: 'asc' }
   });
 }
 
@@ -20,36 +20,40 @@ export async function deleteIpAddress(id: string) {
   return prisma.ipAddress.delete({ where: { id } });
 }
 
-export async function assignIpFromSubnet(subnetId: string, hostname?: string, description?: string) {
+export async function assignIpFromSubnet(
+  subnetId: string,
+  hostname?: string,
+  description?: string
+) {
   const subnet = await prisma.subnet.findUnique({ where: { id: subnetId } });
-  if (!subnet) throw new Error("Subnet not found");
+  if (!subnet) throw new Error('Subnet not found');
 
   const freeIp = await prisma.ipAddress.findFirst({
-    where: { subnetId, status: "FREE" },
-    orderBy: { ip: "asc" },
+    where: { subnetId, status: 'FREE' },
+    orderBy: { ip: 'asc' }
   });
 
   if (freeIp) {
     return prisma.ipAddress.update({
       where: { id: freeIp.id },
       data: {
-        status: "ALLOCATED",
+        status: 'ALLOCATED',
         hostname: hostname ?? freeIp.hostname,
-        description: description ?? freeIp.description,
-      },
+        description: description ?? freeIp.description
+      }
     });
   }
 
   const ips = await prisma.ipAddress.findMany({
     where: { subnetId },
     select: { ip: true },
-    orderBy: { ip: "asc" },
+    orderBy: { ip: 'asc' }
   });
 
   const cidr = subnet.network;
-  const [base, prefixLen] = cidr.split("/");
+  const [base, prefixLen] = cidr.split('/');
   const prefix = parseInt(prefixLen);
-  const baseParts = base.split(".").map(Number);
+  const baseParts = base.split('.').map(Number);
   const totalHosts = Math.pow(2, 32 - prefix) - 2;
   const usedIps = new Set(ips.map((i) => i.ip));
 
@@ -66,29 +70,29 @@ export async function assignIpFromSubnet(subnetId: string, hostname?: string, de
       return prisma.ipAddress.create({
         data: {
           ip,
-          status: "ALLOCATED",
+          status: 'ALLOCATED',
           hostname: hostname ?? null,
           description: description ?? null,
-          subnetId,
-        },
+          subnetId
+        }
       });
     }
   }
 
-  throw new Error("서브넷에 사용 가능한 IP가 없습니다");
+  throw new Error('서브넷에 사용 가능한 IP가 없습니다');
 }
 
 export async function searchIpByHostname(hostname: string) {
   return prisma.ipAddress.findMany({
-    where: { hostname: { contains: hostname }, status: "ALLOCATED" },
+    where: { hostname: { contains: hostname }, status: 'ALLOCATED' },
     include: { subnet: true },
-    orderBy: { ip: "asc" },
+    orderBy: { ip: 'asc' }
   });
 }
 
 export async function releaseIp(id: string) {
   return prisma.ipAddress.update({
     where: { id },
-    data: { status: "FREE", hostname: null, description: null },
+    data: { status: 'FREE', hostname: null, description: null }
   });
 }

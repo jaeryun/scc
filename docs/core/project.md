@@ -1,12 +1,14 @@
 # 프로젝트 개요
 
 ## Phase 1 제약
+
 - 인증 없음 (Clerk/Sentry 제거), 향후 Keycloak SSO
 - 폐쇄망 — 외부 CDN/리소스 사용 불가
 - 좌상단 Select 드롭다운으로 뷰 전환 (`src/config/views.ts`, 라우트 그룹 `src/app/(main)/`)
 - IPAM Demo: 서브넷/IP CRUD (`src/modules/ipam/`)
 
 ## 기술 스택
+
 Next.js 16, React 19, TypeScript 5.7, Tailwind CSS v4, shadcn/ui, Prisma + PostgreSQL,
 TanStack React Query, TanStack Table, TanStack Form + Zod, Zustand, Nuqs, Recharts
 

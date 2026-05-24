@@ -28,9 +28,9 @@ export default function IconsViewPage() {
 
   const iconEntries = useMemo(() => {
     return Object.entries(Icons).filter(([name]) => {
+      if (name === 'kakaobank') return false;
       const matchesSearch = name.toLowerCase().includes(search.toLowerCase());
-      const matchesCategory =
-        category === 'All' || keyToCategory[name] === category;
+      const matchesCategory = category === 'All' || keyToCategory[name] === category;
       return matchesSearch && matchesCategory;
     });
   }, [search, category]);
@@ -94,15 +94,13 @@ export default function IconsViewPage() {
               className='hover:bg-accent flex flex-col items-center gap-2 rounded-lg border p-4 text-center transition-colors'
             >
               <IconComponent className='h-6 w-6' />
-              <span className='text-muted-foreground text-xs break-all'>
-                {name}
-              </span>
+              <span className='text-muted-foreground text-xs break-all'>{name}</span>
             </div>
           ))}
         </div>
         {iconEntries.length === 0 && (
           <p className='text-muted-foreground py-8 text-center'>
-              &quot;{search}&quot;에 해당하는 아이콘이 없습니다
+            &quot;{search}&quot;에 해당하는 아이콘이 없습니다
           </p>
         )}
       </div>

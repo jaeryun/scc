@@ -118,8 +118,8 @@
   - → [themes/cheat-sheet.md](../themes/cheat-sheet.md)
 - [필수] **`cn()` 헬퍼** — `className`에 조건부 클래스 병합 시 `clsx` + `tailwind-merge` 사용
   ```tsx
-  import { cn } from '@/lib/utils'
-  <div className={cn('base', isActive && 'active', className)} />
+  import { cn } from '@/lib/utils';
+  <div className={cn('base', isActive && 'active', className)} />;
   ```
 
 외부 라이브러리(react-grid-layout, react-day-picker, recharts 등)를 래핑할 때:
@@ -150,6 +150,7 @@
 - [필수] **폐쇄망 고려** — 외부 CDN/URL 리소스 대신 로컬 `public/` 파일 사용. Google Fonts, 외부 이미지 URL 사용 불가
 
 ## CLAUDE.md 로딩 정책
+
 - 항상 로딩: 루트 CLAUDE.md에서 @import (총 200줄 이하)
 - 컨텍스트 로딩: 디렉토리별 CLAUDE.md에서 @import
 - → [loading-policy.md](../core/loading-policy.md)

@@ -78,13 +78,13 @@ export default async function SubnetDetailPage({ params }) {
 
 `service.ts`가 지원하는 백엔드 연결 방식은 5가지입니다. 프로젝트 상황에 맞게 선택하고, **교체 시 service.ts만 수정**합니다.
 
-| 패턴 | service.ts 구현 | 사용 시점 |
-|------|----------------|----------|
-| **Mock (기본)** | 인메모리 가짜 데이터 저장소 호출 | 백엔드 없는 초기 개발, UI 프로토타입 |
-| **Route Handlers + ORM** | `apiClient('/api/...')` → route handler → *-handlers.ts → Prisma | Next.js 풀스택, 같은 레포에서 API+DB 운영 |
-| **Server Actions + ORM** | `'use server'` 상단에 선언, ORM 직접 호출 | 서버 컴포넌트 전용, 간단한 CRUD |
-| **BFF (Next.js → 외부)** | `apiClient('/api/...')` → route handler → Laravel/Go 등 외부 API 프록시 | 마이그레이션 과도기, 외부 백엔드 연동 |
-| **Direct External API** | `fetch('https://ext-api/...')` 직접 호출 | Next.js 외부의 서드파티 API 직접 연동 |
+| 패턴                     | service.ts 구현                                                         | 사용 시점                                 |
+| ------------------------ | ----------------------------------------------------------------------- | ----------------------------------------- |
+| **Mock (기본)**          | 인메모리 가짜 데이터 저장소 호출                                        | 백엔드 없는 초기 개발, UI 프로토타입      |
+| **Route Handlers + ORM** | `apiClient('/api/...')` → route handler → \*-handlers.ts → Prisma       | Next.js 풀스택, 같은 레포에서 API+DB 운영 |
+| **Server Actions + ORM** | `'use server'` 상단에 선언, ORM 직접 호출                               | 서버 컴포넌트 전용, 간단한 CRUD           |
+| **BFF (Next.js → 외부)** | `apiClient('/api/...')` → route handler → Laravel/Go 등 외부 API 프록시 | 마이그레이션 과도기, 외부 백엔드 연동     |
+| **Direct External API**  | `fetch('https://ext-api/...')` 직접 호출                                | Next.js 외부의 서드파티 API 직접 연동     |
 
 ---
 
@@ -147,11 +147,7 @@ onError: (error) => {
 
 ```typescript
 // lib/searchparams.ts
-import {
-  createSearchParamsCache,
-  parseAsInteger,
-  parseAsString
-} from 'nuqs/server';
+import { createSearchParamsCache, parseAsInteger, parseAsString } from 'nuqs/server';
 
 export const searchParamsCache = createSearchParamsCache({
   page: parseAsInteger.withDefault(1),

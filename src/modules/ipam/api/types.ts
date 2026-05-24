@@ -1,10 +1,8 @@
-import { Subnet, IpAddress } from "../types";
+import { Subnet, IpAddress } from '../types';
 
 // ─── API Response Types ───
 
-export type SubnetListResponse = Array<
-  Subnet & { _count?: { ipAddresses: number } }
->;
+export type SubnetListResponse = Array<Subnet & { _count?: { ipAddresses: number } }>;
 
 export type SubnetDetailResponse = Subnet & {
   ipAddresses: IpAddress[];
@@ -44,7 +42,7 @@ export interface UpdateSubnetPayload extends CreateSubnetPayload {
 
 export interface CreateIpAddressPayload {
   ip: string;
-  status: "FREE" | "ALLOCATED" | "RESERVED" | "DISABLED";
+  status: 'FREE' | 'ALLOCATED' | 'RESERVED' | 'DISABLED';
   hostname?: string | null;
   description?: string | null;
   subnetId: string;

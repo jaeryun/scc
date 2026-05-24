@@ -1,11 +1,11 @@
-import type { Metadata } from 'next'
-import PageContainer from '@/components/layout/page-container'
-import { SwitchPortView } from './switch-port-view'
+import type { Metadata } from 'next';
+import PageContainer from '@/components/layout/page-container';
+import { SwitchPortView } from './switch-port-view';
 
 export const metadata: Metadata = {
   title: 'Switch Port Mapping',
-  description: '네트워크 스위치 포트-호스트 매핑 현황',
-}
+  description: '네트워크 스위치 포트-호스트 매핑 현황'
+};
 
 export default function SwitchMappingPage() {
   return (
@@ -15,5 +15,5 @@ export default function SwitchMappingPage() {
     >
       <SwitchPortView />
     </PageContainer>
-  )
+  );
 }

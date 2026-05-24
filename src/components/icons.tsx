@@ -188,6 +188,8 @@ import {
   IconX
 } from '@tabler/icons-react';
 
+import { KakaoBankSymbol } from './icons/kakaobank-symbol';
+
 export type Icon = React.ComponentType<IconProps>;
 
 export const Icons = {
@@ -265,6 +267,9 @@ export const Icons = {
   typescript: IconBrandTypescript,
   tailwind: IconBrandTailwind,
   prisma: IconBrandPrisma,
+  // ⚠️ KakaoBank brand logo — strict guidelines apply, do not modify colors
+  // Light: #1d1d1d on White bg | Dark: #ffffff on #1E1E1E bg
+  kakaobank: KakaoBankSymbol,
 
   // Communication
   chat: IconMessage,
@@ -485,7 +490,17 @@ export const ICON_CATEGORIES: Record<string, string[]> = {
   ],
   Layout: ['dashboard', 'kanban', 'panelLeft', 'components'],
   User: ['user', 'user2', 'account', 'profile', 'employee', 'userPen', 'teams'],
-  Brand: ['github', 'twitter', 'logo', 'nextjs', 'react', 'typescript', 'tailwind', 'prisma'],
+  Brand: [
+    'github',
+    'twitter',
+    'logo',
+    'nextjs',
+    'react',
+    'typescript',
+    'tailwind',
+    'prisma',
+    'kakaobank'
+  ],
   Communication: ['chat', 'notification', 'phone', 'video', 'send', 'paperclip'],
   Files: [
     'page',

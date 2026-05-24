@@ -34,9 +34,7 @@ export function SubnetsTable() {
     return (
       <div className='flex flex-col items-center justify-center py-16 text-center border rounded-lg border-dashed'>
         <p className='text-muted-foreground font-medium'>등록된 서브넷이 없습니다</p>
-        <p className='text-muted-foreground text-sm mt-1'>
-          우측 상단의 추가 버튼을 클릭하세요.
-        </p>
+        <p className='text-muted-foreground text-sm mt-1'>우측 상단의 추가 버튼을 클릭하세요.</p>
       </div>
     );
   }
@@ -104,7 +102,9 @@ export function SubnetsTable() {
                     <div className='bg-muted h-2 w-16 overflow-hidden rounded'>
                       <div className={`h-full rounded ${barColor}`} style={{ width: `${pct}%` }} />
                     </div>
-                    <span className='text-muted-foreground text-xs tabular-nums'>{pct.toFixed(0)}%</span>
+                    <span className='text-muted-foreground text-xs tabular-nums'>
+                      {pct.toFixed(0)}%
+                    </span>
                   </div>
                 </TableCell>
                 <TableCell>

@@ -8,9 +8,7 @@
 ```typescript
 import { Subnet, IpAddress } from '../types';
 
-export type SubnetListResponse = Array<
-  Subnet & { _count?: { ipAddresses: number } }
->;
+export type SubnetListResponse = Array<Subnet & { _count?: { ipAddresses: number } }>;
 export type SubnetDetailResponse = Subnet & {
   ipAddresses: IpAddress[];
 };
@@ -37,9 +35,7 @@ export async function getSubnets(): Promise<SubnetListResponse> {
   return apiClient('/api/ipam/subnets');
 }
 
-export async function createSubnet(
-  data: CreateSubnetPayload
-): Promise<SubnetDetailResponse> {
+export async function createSubnet(data: CreateSubnetPayload): Promise<SubnetDetailResponse> {
   return apiClient('/api/ipam/subnets', {
     method: 'POST',
     body: JSON.stringify(data)
@@ -148,9 +144,9 @@ export async function POST(req: NextRequest) {
                                                                      Prisma
 ```
 
-| 계층 | 파일 | 역할 |
-|------|------|------|
-| 1. 쿼리/뮤테이션 | `queries.ts`, `mutations.ts` | React Query 옵션, 캐시 전략 |
-| 2. 서비스 | `service.ts` | API 호출 (유일한 교체 지점) |
-| 3. 라우트 핸들러 | `app/api/*/route.ts` | HTTP 요청/응답 처리, 에러 핸들링 |
-| 4. 비즈니스 로직 | `*-handlers.ts` | Prisma ORM 호출, 실제 데이터 연산 |
+| 계층             | 파일                         | 역할                              |
+| ---------------- | ---------------------------- | --------------------------------- |
+| 1. 쿼리/뮤테이션 | `queries.ts`, `mutations.ts` | React Query 옵션, 캐시 전략       |
+| 2. 서비스        | `service.ts`                 | API 호출 (유일한 교체 지점)       |
+| 3. 라우트 핸들러 | `app/api/*/route.ts`         | HTTP 요청/응답 처리, 에러 핸들링  |
+| 4. 비즈니스 로직 | `*-handlers.ts`              | Prisma ORM 호출, 실제 데이터 연산 |

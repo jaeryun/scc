@@ -1,20 +1,20 @@
-'use client'
+'use client';
 
 import {
   Sheet,
   SheetContent,
   SheetDescription,
   SheetHeader,
-  SheetTitle,
-} from '@/components/ui/sheet'
-import { Separator } from '@/components/ui/separator'
-import { SwitchPortStatusBadge } from './switch-port-status-badge'
-import type { PortMapping } from '../types'
+  SheetTitle
+} from '@/components/ui/sheet';
+import { Separator } from '@/components/ui/separator';
+import { SwitchPortStatusBadge } from './switch-port-status-badge';
+import type { PortMapping } from '../types';
 
 interface SwitchPortDetailSheetProps {
-  port: PortMapping | null
-  open: boolean
-  onOpenChange: (open: boolean) => void
+  port: PortMapping | null;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
 function DetailRow({ label, value }: { label: string; value: string | number | null }) {
@@ -23,14 +23,10 @@ function DetailRow({ label, value }: { label: string; value: string | number | n
       <span className='text-muted-foreground text-sm'>{label}</span>
       <span className='font-mono text-sm'>{value ?? '-'}</span>
     </div>
-  )
+  );
 }
 
-export function SwitchPortDetailSheet({
-  port,
-  open,
-  onOpenChange,
-}: SwitchPortDetailSheetProps) {
+export function SwitchPortDetailSheet({ port, open, onOpenChange }: SwitchPortDetailSheetProps) {
   if (!port) {
     return (
       <Sheet open={open} onOpenChange={onOpenChange}>
@@ -40,10 +36,10 @@ export function SwitchPortDetailSheet({
           </SheetHeader>
         </SheetContent>
       </Sheet>
-    )
+    );
   }
 
-  const portAttrs = Object.entries(port.values)
+  const portAttrs = Object.entries(port.values);
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -75,5 +71,5 @@ export function SwitchPortDetailSheet({
         </div>
       </SheetContent>
     </Sheet>
-  )
+  );
 }

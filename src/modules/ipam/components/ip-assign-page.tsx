@@ -25,12 +25,7 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 import { Icons } from '@/components/icons';
 import { toast } from 'sonner';
-import {
-  getSubnets,
-  assignIp,
-  searchIpByHostname,
-  releaseIp
-} from '../api/service';
+import { getSubnets, assignIp, searchIpByHostname, releaseIp } from '../api/service';
 import { subnetKeys, ipAddressKeys } from '../api/queries';
 import { Subnet } from '../types';
 
@@ -205,9 +200,7 @@ function IpAssignPage() {
 
             {searchResults.length > 0 && (
               <div className='space-y-2'>
-                <p className='text-muted-foreground text-xs'>
-                  검색 결과: {searchResults.length}건
-                </p>
+                <p className='text-muted-foreground text-xs'>검색 결과: {searchResults.length}건</p>
                 <div className='max-h-64 overflow-auto rounded-lg border'>
                   <Table>
                     <TableHeader>

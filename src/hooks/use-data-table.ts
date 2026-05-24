@@ -39,8 +39,14 @@ export function useDataTable<TData>({
   debounceMs = 500,
   initialState
 }: UseDataTableProps<TData>) {
-  const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1).withOptions({ shallow, throttleMs: debounceMs }));
-  const [perPage] = useQueryState('perPage', parseAsInteger.withDefault(10).withOptions({ shallow }));
+  const [page, setPage] = useQueryState(
+    'page',
+    parseAsInteger.withDefault(1).withOptions({ shallow, throttleMs: debounceMs })
+  );
+  const [perPage] = useQueryState(
+    'perPage',
+    parseAsInteger.withDefault(10).withOptions({ shallow })
+  );
 
   const pagination: PaginationState = {
     pageIndex: page - 1,
