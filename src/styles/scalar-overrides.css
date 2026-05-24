@@ -1,0 +1,8 @@
+.scalar-app {
+  --scalar-color-1: var(--foreground);
+  --scalar-color-2: var(--muted-foreground);
+  --scalar-background-1: var(--background);
+  --scalar-background-2: var(--muted);
+  --scalar-border-color: var(--border);
+  --scalar-color-accent: var(--primary);
+}
