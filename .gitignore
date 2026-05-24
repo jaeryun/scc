@@ -13,11 +13,11 @@
 /out/
 
 # production
-/build
+/build/
 
 # misc
 .DS_Store
-*.pem
+/*.pem
 
 # debug
 npm-debug.log*
@@ -27,15 +27,17 @@ yarn-error.log*
 # local env files
 .env*
 .env*.local
+!.env.example
 
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
+/next-env.d.ts
 
 .idea/
+.vscode/
 # clerk configuration (can include secrets)
 /.clerk/
 
@@ -51,4 +53,12 @@ next-env.d.ts
 .playwright-mcp/
 
 # Debug screenshots
-*.png
+bug*.png
+!/public/*.png
+
+# Superpowers
+/.superpowers/
+/docs/superpowers
+
+# Speckit
+/specs
