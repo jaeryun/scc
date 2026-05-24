@@ -1,1 +1,12 @@
+#!/bin/bash
+# Check for IP addresses in API specs
+if grep -rqE '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' public/api-specs/ 2>/dev/null; then
+  echo "ERROR: IP addresses found in API specs. Remove them before committing."
+  exit 1
+fi
+# Check for internal domain patterns
+if grep -rqE '\.(internal|local|corp|lan)\b' public/api-specs/ 2>/dev/null; then
+  echo "ERROR: Internal domains found in API specs. Remove them before committing."
+  exit 1
+fi
 npx lint-staged
