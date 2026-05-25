@@ -1,5 +1,10 @@
 export async function apiClient<T>(url: string, options?: RequestInit): Promise<T> {
-  const res = await fetch(url, {
+  const baseUrl =
+    typeof window === 'undefined'
+      ? (process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000')
+      : '';
+  const absoluteUrl = url.startsWith('http') ? url : `${baseUrl}${url}`;
+  const res = await fetch(absoluteUrl, {
     headers: { 'Content-Type': 'application/json' },
     ...options
   });

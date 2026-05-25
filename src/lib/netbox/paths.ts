@@ -18,7 +18,7 @@ export function buildCacheKey(
   params?: Record<string, string>
 ): string {
   const base = `netbox:${entity}:${type}`;
-  if (type === 'detail' || !params) return base;
+  if (!params) return base;
 
   const sorted = Object.keys(params)
     .sort()

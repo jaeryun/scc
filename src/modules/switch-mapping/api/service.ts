@@ -3,13 +3,13 @@ import type { NetBoxDevice } from './types';
 import type { SwitchPortsData, PortMapping } from '../types';
 
 export async function getSwitchesByRole(role: string): Promise<NetBoxDevice[]> {
-  return apiClient<NetBoxDevice[]>(`/api/devices?role=${encodeURIComponent(role)}`);
+  return apiClient<NetBoxDevice[]>(`/api/dcim/devices?role=${encodeURIComponent(role)}`);
 }
 
 export async function getSwitchPorts(deviceId: string): Promise<SwitchPortsData> {
   const [device, interfaces] = await Promise.all([
-    apiClient<any>(`/api/devices/${deviceId}`),
-    apiClient<any[]>(`/api/interfaces?device_id=${encodeURIComponent(deviceId)}`)
+    apiClient<any>(`/api/dcim/devices/${deviceId}`),
+    apiClient<any[]>(`/api/dcim/interfaces?device_id=${encodeURIComponent(deviceId)}`)
   ]);
 
   const ports: PortMapping[] = interfaces.map(

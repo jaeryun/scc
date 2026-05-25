@@ -20,7 +20,7 @@ function toInterface(raw: any): Interface {
 
 export async function getInterfaces(deviceId?: string): Promise<Interface[]> {
   const qs = deviceId ? new URLSearchParams({ device_id: deviceId }).toString() : '';
-  const url = qs ? `/api/interfaces?${qs}` : '/api/interfaces';
+  const url = qs ? `/api/dcim/interfaces?${qs}` : '/api/dcim/interfaces';
   const data = await apiClient<any[]>(url);
   return data.map(toInterface);
 }

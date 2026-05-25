@@ -15,6 +15,16 @@ export interface ViewConfig {
 
 export const views: ViewConfig[] = [
   {
+    id: 'dcim',
+    label: 'DCIM',
+    icon: 'server',
+    navItems: [
+      { title: '개요', href: '/dcim', icon: 'info' },
+      { title: '디바이스', href: '/dcim/devices', icon: 'server' },
+      { title: 'IPAM', href: '/dcim/ipam', icon: 'network' }
+    ]
+  },
+  {
     id: 'home',
     label: 'Home',
     icon: 'home',

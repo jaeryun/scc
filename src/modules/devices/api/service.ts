@@ -17,18 +17,18 @@ function toDevice(raw: any): Device {
 
 export async function getDevices(filters?: DeviceFilters): Promise<Device[]> {
   const qs = filters ? new URLSearchParams(filters as Record<string, string>).toString() : '';
-  const url = qs ? `/api/devices?${qs}` : '/api/devices';
+  const url = qs ? `/api/dcim/devices?${qs}` : '/api/dcim/devices';
   const data = await apiClient<any[]>(url);
   return data.map(toDevice);
 }
 
 export async function getDevice(id: number): Promise<Device> {
-  const data = await apiClient<any>(`/api/devices/${id}`);
+  const data = await apiClient<any>(`/api/dcim/devices/${id}`);
   return toDevice(data);
 }
 
 export async function createDevice(body: Record<string, unknown>): Promise<Device> {
-  const data = await apiClient<any>('/api/devices', {
+  const data = await apiClient<any>('/api/dcim/devices', {
     method: 'POST',
     body: JSON.stringify(body)
   });
@@ -36,7 +36,7 @@ export async function createDevice(body: Record<string, unknown>): Promise<Devic
 }
 
 export async function updateDevice(id: number, body: Record<string, unknown>): Promise<Device> {
-  const data = await apiClient<any>(`/api/devices/${id}`, {
+  const data = await apiClient<any>(`/api/dcim/devices/${id}`, {
     method: 'PUT',
     body: JSON.stringify(body)
   });
@@ -44,5 +44,5 @@ export async function updateDevice(id: number, body: Record<string, unknown>): P
 }
 
 export async function deleteDevice(id: number): Promise<void> {
-  await apiClient<null>(`/api/devices/${id}`, { method: 'DELETE' });
+  await apiClient<null>(`/api/dcim/devices/${id}`, { method: 'DELETE' });
 }
