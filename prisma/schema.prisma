@@ -52,31 +52,3 @@ model ViewSetting {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
-
-model DashboardFolder {
-  id        String   @id @default(cuid())
-  title     String
-  parentId  String?
-  parent    DashboardFolder?  @relation("FolderNesting", fields: [parentId], references: [id])
-  children  DashboardFolder[] @relation("FolderNesting")
-  dashboards Dashboard[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("DemoDashboardFolder")
-}
-
-model Dashboard {
-  id            String   @id @default(cuid())
-  title         String
-  description   String?
-  folderId      String?
-  folder        DashboardFolder? @relation(fields: [folderId], references: [id])
-  schemaVersion Int      @default(1)
-  layout        Json     @default("{\"columns\":12,\"rowHeight\":80}")
-  panels        Json     @default("[]")
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  @@map("DemoDashboard")
-}

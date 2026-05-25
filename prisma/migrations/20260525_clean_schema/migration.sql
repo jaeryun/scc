@@ -1,3 +1,9 @@
+warn The configuration property `package.json#prisma` is deprecated and will be removed in Prisma 7. Please migrate to a Prisma config file (e.g., `prisma.config.ts`).
+For more information, see: https://pris.ly/prisma-config
+
+-- CreateSchema
+CREATE SCHEMA IF NOT EXISTS "public";
+
 -- CreateEnum
 CREATE TYPE "IpStatus" AS ENUM ('FREE', 'ALLOCATED', 'RESERVED', 'DISABLED');
 
@@ -40,45 +46,6 @@ CREATE TABLE "ViewSetting" (
     CONSTRAINT "ViewSetting_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
-CREATE TABLE "Dashboard" (
-    "id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-    "description" TEXT,
-    "layout" JSONB NOT NULL DEFAULT '{"columns":12,"rowHeight":80}',
-    "items" JSONB NOT NULL DEFAULT '[]',
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "Dashboard_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "DemoDashboardFolder" (
-    "id" TEXT NOT NULL,
-    "title" TEXT NOT NULL,
-    "parentId" TEXT,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "DemoDashboardFolder_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "DemoDashboard" (
-    "id" TEXT NOT NULL,
-    "title" TEXT NOT NULL,
-    "description" TEXT,
-    "folderId" TEXT,
-    "schemaVersion" INTEGER NOT NULL DEFAULT 1,
-    "layout" JSONB NOT NULL DEFAULT '{"columns":12,"rowHeight":80}',
-    "panels" JSONB NOT NULL DEFAULT '[]',
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "DemoDashboard_pkey" PRIMARY KEY ("id")
-);
-
 -- CreateIndex
 CREATE UNIQUE INDEX "Subnet_network_key" ON "Subnet"("network");
 
@@ -94,8 +61,3 @@ CREATE UNIQUE INDEX "ViewSetting_viewId_key" ON "ViewSetting"("viewId");
 -- AddForeignKey
 ALTER TABLE "IpAddress" ADD CONSTRAINT "IpAddress_subnetId_fkey" FOREIGN KEY ("subnetId") REFERENCES "Subnet"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
--- AddForeignKey
-ALTER TABLE "DemoDashboardFolder" ADD CONSTRAINT "DemoDashboardFolder_parentId_fkey" FOREIGN KEY ("parentId") REFERENCES "DemoDashboardFolder"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "DemoDashboard" ADD CONSTRAINT "DemoDashboard_folderId_fkey" FOREIGN KEY ("folderId") REFERENCES "DemoDashboardFolder"("id") ON DELETE SET NULL ON UPDATE CASCADE;
