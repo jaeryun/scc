@@ -57,7 +57,8 @@ export function SwitchPortTable({ ports }: SwitchPortTableProps) {
     onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel()
+    getFilteredRowModel: getFilteredRowModel(),
+    initialState: { pagination: { pageSize: 20 } }
   });
 
   return (
