@@ -36,33 +36,6 @@ import { NavGroup } from '@/types';
  */
 export const navGroups: NavGroup[] = [
   {
-    label: 'IPAM',
-    items: [
-      {
-        title: 'IPAM Dashboard',
-        url: '/demo-ipam',
-        icon: 'dashboard',
-        isActive: false,
-        shortcut: ['i', 'i'],
-        items: []
-      },
-      {
-        title: 'Subnets',
-        url: '/demo-ipam/subnets',
-        icon: 'network',
-        isActive: false,
-        items: []
-      },
-      {
-        title: 'IP Assign/Release',
-        url: '/demo-ipam/ip-addresses',
-        icon: 'server',
-        isActive: false,
-        items: []
-      }
-    ]
-  },
-  {
     label: '라이브러리',
     items: [
       {

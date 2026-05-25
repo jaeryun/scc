@@ -21,16 +21,6 @@ export const views: ViewConfig[] = [
     navItems: [{ title: 'SCC 소개', href: '/home', icon: 'info' }]
   },
   {
-    id: 'demo-ipam',
-    label: '(데모)IPAM',
-    icon: 'network',
-    navItems: [
-      { title: '대시보드', href: '/demo-ipam', icon: 'dashboard' },
-      { title: '서브넷 관리', href: '/demo-ipam/subnets', icon: 'network' },
-      { title: 'IP 할당/반납', href: '/demo-ipam/ip-addresses', icon: 'server' }
-    ]
-  },
-  {
     id: 'library',
     label: '라이브러리',
     icon: 'lib',

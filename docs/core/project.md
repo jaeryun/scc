@@ -74,7 +74,6 @@ DATABASE_URL=postgresql://user:password@host:5432/dbname
 ├── docs/                       # 내부 문서
 │   ├── forms.md                # 폼 시스템 가이드
 │   ├── themes.md               # 테마 시스템 가이드
-│   └── nav-rbac.md             # 내비게이션 RBAC 가이드
 ├── scripts/                    # 개발 도구
 │   └── check-migrations.sh     # 마이그레이션 무결성 검사
 ├── Dockerfile                  # Node.js 프로덕션 이미지 (ARG 미사용, --build-arg 불필요)

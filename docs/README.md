@@ -46,7 +46,6 @@
 
 | 파일                                     | 설명        |
 | ---------------------------------------- | ----------- |
-| [navigation/rbac.md](navigation/rbac.md) | RBAC 시스템 |
 
 ## API Reference
 

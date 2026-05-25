@@ -29,19 +29,19 @@ export default function HomePage() {
         <Card className='hover:border-primary/50 transition-colors'>
           <CardHeader>
             <CardTitle className='flex items-center gap-2'>
-              <Icons.network className='h-5 w-5 text-primary' />
-              데모 - IPAM
+              <Icons.code className='h-5 w-5 text-primary' />
+              개발 라이브러리
             </CardTitle>
-            <CardDescription>IP 주소 관리 시스템 데모. 서브넷/IP CRUD, 상태 추적</CardDescription>
+            <CardDescription>재사용 가능한 UI 컴포넌트, 데이터 모듈, API 문서</CardDescription>
           </CardHeader>
           <CardContent>
             <p className='text-sm text-muted-foreground mb-4'>
-              네트워크 인프라를 관리하는 IPAM 시스템의 UI/UX 패턴을 참고하세요. 서브넷 할당, IP 주소
-              상태 추적, 검색 및 필터링 기능을 포함합니다.
+              SCC 웹 개발팀을 위한 재사용 가능한 라이브러리입니다. UI 컴포넌트 카탈로그, 데이터 연동
+              모듈 패턴, 외부 API 연동 레퍼런스를 확인하세요.
             </p>
-            <Link href='/demo-ipam'>
+            <Link href='/library'>
               <Button className='w-full'>
-                IPAM 데모 보기
+                라이브러리 둘러보기
                 <Icons.chevronRight className='ml-2 h-4 w-4' />
               </Button>
             </Link>
