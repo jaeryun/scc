@@ -60,7 +60,11 @@ export function PanelList({ options, isEditing, onOptionsChange }: PanelListProp
   }, [title, rows]);
 
   function handleSave() {
-    onOptionsChange({ ...options, title: draftTitle || undefined, rows: draftRows });
+    const titleChanged = draftTitle !== title;
+    const rowsChanged = JSON.stringify(draftRows) !== JSON.stringify(rows);
+    if (!titleChanged && !rowsChanged) return;
+    const rowsWithoutIds = draftRows.map(({ id: _id, ...rest }) => rest);
+    onOptionsChange({ ...options, title: draftTitle || undefined, rows: rowsWithoutIds });
   }
 
   function updateCell(rowIndex: number, key: string, value: string) {
@@ -82,7 +86,7 @@ export function PanelList({ options, isEditing, onOptionsChange }: PanelListProp
         <div className='flex-1 overflow-auto'>
           {rows.map((row, i) => (
             <div
-              key={i}
+              key={(row as { id?: string }).id ?? String(i)}
               className='flex items-center justify-between px-4 py-2 border-b last:border-b-0'
             >
               {columns.map((col) => (
@@ -111,13 +115,19 @@ export function PanelList({ options, isEditing, onOptionsChange }: PanelListProp
         행 {draftRows.length}개 / 열 {columns.length}개
       </div>
       {draftRows.map((row, rowIndex) => (
-        <div key={rowIndex} className='flex gap-1 items-center'>
+        <div
+          key={(row as { id?: string }).id ?? String(rowIndex)}
+          className='flex gap-1 items-center'
+        >
           {columns.map((col) => (
             <Input
               key={col.key}
               value={row[col.key] ?? ''}
               onChange={(e) => updateCell(rowIndex, col.key, e.target.value)}
               onBlur={handleSave}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') handleSave();
+              }}
               className='flex-1 h-7 text-xs'
               placeholder={col.label}
             />
@@ -126,6 +136,7 @@ export function PanelList({ options, isEditing, onOptionsChange }: PanelListProp
             variant='ghost'
             size='icon'
             className='size-7 shrink-0'
+            aria-label='행 삭제'
             onClick={() => {
               setDraftRows(draftRows.filter((_, i) => i !== rowIndex));
             }}
@@ -138,12 +149,13 @@ export function PanelList({ options, isEditing, onOptionsChange }: PanelListProp
         variant='outline'
         size='sm'
         className='h-7 text-xs'
+        aria-label='행 추가'
         onClick={() => {
-          const newRow: Record<string, string> = {};
+          const newRow: Record<string, unknown> = { id: crypto.randomUUID() };
           columns.forEach((col) => {
             newRow[col.key] = '';
           });
-          setDraftRows([...draftRows, newRow]);
+          setDraftRows([...draftRows, newRow as Record<string, string>]);
         }}
       >
         <Icons.add className='size-3' />행 추가
