@@ -6,6 +6,7 @@ import { PanelText } from './panel-text';
 import { PanelStat } from './panel-stat';
 import { PanelChart } from './panel-chart';
 import { PanelInfoCard } from './panel-info-card';
+import { PanelList } from './panel-list';
 
 export const PANEL_TYPES: PanelType[] = [
   {
@@ -39,6 +40,28 @@ export const PANEL_TYPES: PanelType[] = [
     icon: 'info',
     defaultGridPos: { w: 3, h: 3 },
     defaultOptions: { description: '', status: 'active', color: 'blue', showBorder: true }
+  },
+  {
+    type: 'list',
+    label: '목록',
+    description: '열 기반 데이터 목록 표시',
+    icon: 'listTree',
+    defaultGridPos: { w: 4, h: 4 },
+    defaultOptions: {
+      title: 'Recent Sales',
+      columns: [
+        { key: 'name', label: '이름', type: 'avatar' },
+        { key: 'email', label: '이메일', type: 'text' },
+        { key: 'amount', label: '금액', type: 'amount' }
+      ],
+      rows: [
+        { name: 'Olivia Martin', email: 'olivia@example.com', amount: '+₩1,999.00' },
+        { name: 'Jackson Lee', email: 'jackson@example.com', amount: '+₩39.00' },
+        { name: 'Isabella Nguyen', email: 'isabella@example.com', amount: '+₩299.00' },
+        { name: 'William Kim', email: 'william@example.com', amount: '+₩99.00' },
+        { name: 'Sofia Davis', email: 'sofia@example.com', amount: '+₩39.00' }
+      ]
+    }
   }
 ];
 
@@ -86,6 +109,14 @@ export function renderPanel(
     case 'info-card':
       return (
         <PanelInfoCard
+          options={panel.options}
+          isEditing={isEditing}
+          onOptionsChange={onOptionsChange}
+        />
+      );
+    case 'list':
+      return (
+        <PanelList
           options={panel.options}
           isEditing={isEditing}
           onOptionsChange={onOptionsChange}
