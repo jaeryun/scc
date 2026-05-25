@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { success, failure } from '@/lib/api-response';
-import { prisma } from '@/lib/prisma';
+import { batchMove } from '@/modules/dashboard/api/service';
 
 export async function POST(req: Request) {
   try {
@@ -11,22 +11,9 @@ export async function POST(req: Request) {
       return NextResponse.json(failure('이동할 항목이 없습니다'), { status: 400 });
     }
 
-    await prisma.$transaction(
-      moves.map((m) => {
-        if (m.type === 'dashboard') {
-          return prisma.dashboard.update({
-            where: { id: m.id },
-            data: { folderId: m.targetFolderId }
-          });
-        }
-        return prisma.dashboardFolder.update({
-          where: { id: m.id },
-          data: { parentId: m.targetFolderId }
-        });
-      })
-    );
+    const moved = batchMove(moves);
 
-    return NextResponse.json(success({ moved: moves.length }));
+    return NextResponse.json(success({ moved }));
   } catch (err) {
     console.error('[POST /api/dashboards/batch-move]', err);
     return NextResponse.json(failure('일괄 이동 실패'), { status: 500 });
