@@ -59,12 +59,6 @@ const components = [
     icon: Icons.code
   },
   {
-    title: 'Tooltip & Popover',
-    description: 'Tooltip, Popover, HoverCard 등 호버/클릭 정보 표시',
-    href: '/library/components/tooltip',
-    icon: Icons.info
-  },
-  {
     title: 'Tabs & Accordion',
     description: 'Tabs, Accordion, Collapsible 등 콘텐츠 컨테이너 UI',
     href: '/library/components/tabs-accordion',
