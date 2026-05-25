@@ -9,10 +9,6 @@ import {
   CardAction
 } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { AreaGraph } from '@/components/charts/area-graph';
-import { BarGraph } from '@/components/charts/bar-graph';
-import { PieGraph } from '@/components/charts/pie-graph';
-import { RecentSales } from '@/components/charts/recent-sales';
 import { Icons } from '@/components/icons';
 import { Badge } from '@/components/ui/badge';
 
@@ -117,18 +113,26 @@ export default function OverViewPage() {
               </Card>
             </div>
             <div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-7'>
-              <div className='col-span-4'>
-                <BarGraph />
-              </div>
-              <Card className='col-span-4 md:col-span-3'>
-                <RecentSales />
+              <Card className='col-span-4 p-6 flex items-center justify-center'>
+                <p className='text-muted-foreground text-sm'>
+                  대시보드 모듈에서 위젯 기반 차트를 확인하세요
+                </p>
               </Card>
-              <div className='col-span-4'>
-                <AreaGraph />
-              </div>
-              <div className='col-span-4 md:col-span-3'>
-                <PieGraph />
-              </div>
+              <Card className='col-span-4 md:col-span-3 p-6 flex items-center justify-center'>
+                <p className='text-muted-foreground text-sm'>
+                  대시보드 모듈에서 Recent Sales 위젯을 확인하세요
+                </p>
+              </Card>
+              <Card className='col-span-4 p-6 flex items-center justify-center'>
+                <p className='text-muted-foreground text-sm'>
+                  대시보드 모듈에서 위젯 기반 차트를 확인하세요
+                </p>
+              </Card>
+              <Card className='col-span-4 md:col-span-3 p-6 flex items-center justify-center'>
+                <p className='text-muted-foreground text-sm'>
+                  대시보드 모듈에서 위젯 기반 차트를 확인하세요
+                </p>
+              </Card>
             </div>
           </TabsContent>
         </Tabs>

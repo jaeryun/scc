@@ -1,8 +1,5 @@
 'use client';
 
-import { BarGraph } from '@/components/charts/bar-graph';
-import { AreaGraph } from '@/components/charts/area-graph';
-import { PieGraph } from '@/components/charts/pie-graph';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   ChartConfig,
@@ -53,11 +50,35 @@ const totalAllocation = donutData.reduce((sum, item) => sum + item.value, 0);
 export function ChartDemos() {
   return (
     <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
-      <BarGraph />
+      <Card>
+        <CardHeader>
+          <CardTitle>막대 차트 (Bar)</CardTitle>
+          <CardDescription>그리드 대시보드의 패널 차트 위젯에서 확인하세요</CardDescription>
+        </CardHeader>
+        <CardContent className='h-64 flex items-center justify-center text-muted-foreground text-sm'>
+          대시보드 모듈 → 위젯 추가 → 차트 → 막대
+        </CardContent>
+      </Card>
 
-      <AreaGraph />
+      <Card>
+        <CardHeader>
+          <CardTitle>영역 차트 (Area)</CardTitle>
+          <CardDescription>그리드 대시보드의 패널 차트 위젯에서 확인하세요</CardDescription>
+        </CardHeader>
+        <CardContent className='h-64 flex items-center justify-center text-muted-foreground text-sm'>
+          대시보드 모듈 → 위젯 추가 → 차트 → 영역
+        </CardContent>
+      </Card>
 
-      <PieGraph />
+      <Card>
+        <CardHeader>
+          <CardTitle>파이 차트 (Pie)</CardTitle>
+          <CardDescription>그리드 대시보드의 패널 차트 위젯에서 확인하세요</CardDescription>
+        </CardHeader>
+        <CardContent className='h-64 flex items-center justify-center text-muted-foreground text-sm'>
+          대시보드 모듈 → 위젯 추가 → 차트 → 파이
+        </CardContent>
+      </Card>
 
       <Card>
         <CardHeader>
