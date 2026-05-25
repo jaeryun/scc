@@ -13,9 +13,7 @@ export default function HomePage() {
     <div className='flex min-h-[calc(100vh-3.5rem)] flex-1 flex-col items-center justify-center px-4 py-12'>
       <div className='mx-auto max-w-4xl text-center'>
         <div className='mb-6 flex justify-center'>
-          <div className='flex h-16 w-16 items-center justify-center rounded-2xl bg-primary text-primary-foreground'>
-            <Icons.logo className='h-8 w-8' />
-          </div>
+          <Icons.kakaobank className='h-12 w-12' />
         </div>
         <h1 className='text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl'>
           SE Command Center
@@ -25,7 +23,7 @@ export default function HomePage() {
         </p>
       </div>
 
-      <div className='mt-12 grid w-full max-w-4xl gap-6 md:grid-cols-2'>
+      <div className='mt-12 grid w-full max-w-md gap-6 mx-auto'>
         <Card className='hover:border-primary/50 transition-colors'>
           <CardHeader>
             <CardTitle className='flex items-center gap-2'>
@@ -42,28 +40,6 @@ export default function HomePage() {
             <Link href='/library'>
               <Button className='w-full'>
                 라이브러리 둘러보기
-                <Icons.chevronRight className='ml-2 h-4 w-4' />
-              </Button>
-            </Link>
-          </CardContent>
-        </Card>
-
-        <Card className='hover:border-primary/50 transition-colors'>
-          <CardHeader>
-            <CardTitle className='flex items-center gap-2'>
-              <Icons.dashboard className='h-5 w-5 text-primary' />
-              데모 - 컴포넌트
-            </CardTitle>
-            <CardDescription>다양한 UI 패턴 참고용 (차트, 테이블, 칸반, 폼 등)</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className='text-sm text-muted-foreground mb-4'>
-              shadcn/ui 기반의 대시보드 템플릿에서 사용하는 다양한 UI 컴포넌트와 패턴을 확인하세요.
-              차트, 데이터 테이블, 칸반 보드, 폼 등을 포함합니다.
-            </p>
-            <Link href='/library/modules/dashboard'>
-              <Button className='w-full' variant='outline'>
-                컴포넌트 데모 보기
                 <Icons.chevronRight className='ml-2 h-4 w-4' />
               </Button>
             </Link>
