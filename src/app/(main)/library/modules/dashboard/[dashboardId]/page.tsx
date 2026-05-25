@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
 import PageContainer from '@/components/layout/page-container';
 import { DashboardCanvas } from '@/modules/dashboard/components/dashboard-canvas';
-import { getGridDashboardById } from '@/modules/dashboard/api/service';
+import { getDashboardById } from '@/modules/dashboard/api/service';
 
 export async function generateMetadata(props: {
   params: Promise<{ dashboardId: string }>;
 }): Promise<Metadata> {
   const { dashboardId } = await props.params;
-  const dashboard = await getGridDashboardById(dashboardId);
+  const dashboard = await getDashboardById(dashboardId);
   return {
     title: dashboard ? `Dashboard: ${dashboard.title}` : 'Dashboard: Not Found'
   };
@@ -17,7 +17,7 @@ export default async function DashboardCanvasPage(props: {
   params: Promise<{ dashboardId: string }>;
 }) {
   const { dashboardId } = await props.params;
-  const dashboard = await getGridDashboardById(dashboardId);
+  const dashboard = await getDashboardById(dashboardId);
 
   return (
     <PageContainer

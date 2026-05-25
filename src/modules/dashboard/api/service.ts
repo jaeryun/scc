@@ -1,17 +1,17 @@
 import { prisma } from '@/lib/prisma';
 import type { Prisma } from '@prisma/client';
 import {
-  GridDashboard,
-  GridDashboardFolder,
-  CreateGridDashboardPayload,
-  UpdateGridDashboardPayload,
+  Dashboard,
+  DashboardFolder,
+  CreateDashboardPayload,
+  UpdateDashboardPayload,
   CreateFolderPayload,
   UpdateFolderPayload
 } from './types';
 
-function serializeGridDashboard(
-  raw: Awaited<ReturnType<typeof prisma.gridDashboard.findUnique>>
-): GridDashboard | null {
+function serializeDashboard(
+  raw: Awaited<ReturnType<typeof prisma.dashboard.findUnique>>
+): Dashboard | null {
   if (!raw) return null;
   return {
     id: raw.id,
@@ -19,14 +19,14 @@ function serializeGridDashboard(
     description: raw.description,
     folderId: raw.folderId,
     schemaVersion: raw.schemaVersion,
-    layout: raw.layout as unknown as GridDashboard['layout'],
-    panels: raw.panels as unknown as GridDashboard['panels'],
+    layout: raw.layout as unknown as Dashboard['layout'],
+    panels: raw.panels as unknown as Dashboard['panels'],
     createdAt: raw.createdAt.toISOString(),
     updatedAt: raw.updatedAt.toISOString()
   };
 }
 
-function serializeGridDashboardListRow(raw: {
+function serializeDashboardListRow(raw: {
   id: string;
   title: string;
   description: string | null;
@@ -36,23 +36,23 @@ function serializeGridDashboardListRow(raw: {
   panels: Prisma.JsonValue;
   createdAt: Date;
   updatedAt: Date;
-}): GridDashboard {
+}): Dashboard {
   return {
     id: raw.id,
     title: raw.title,
     description: raw.description,
     folderId: raw.folderId,
     schemaVersion: raw.schemaVersion,
-    layout: raw.layout as unknown as GridDashboard['layout'],
-    panels: raw.panels as unknown as GridDashboard['panels'],
+    layout: raw.layout as unknown as Dashboard['layout'],
+    panels: raw.panels as unknown as Dashboard['panels'],
     createdAt: raw.createdAt.toISOString(),
     updatedAt: raw.updatedAt.toISOString()
   };
 }
 
 function serializeFolder(
-  raw: Awaited<ReturnType<typeof prisma.gridDashboardFolder.findUnique>>
-): GridDashboardFolder | null {
+  raw: Awaited<ReturnType<typeof prisma.dashboardFolder.findUnique>>
+): DashboardFolder | null {
   if (!raw) return null;
   return {
     id: raw.id,
@@ -77,7 +77,7 @@ function serializeFolderWithChildren(raw: {
   }[];
   createdAt: Date;
   updatedAt: Date;
-}): GridDashboardFolder {
+}): DashboardFolder {
   return {
     id: raw.id,
     title: raw.title,
@@ -95,24 +95,22 @@ function serializeFolderWithChildren(raw: {
   };
 }
 
-export async function getGridDashboards(folderId?: string | null): Promise<GridDashboard[]> {
-  const rows = await prisma.gridDashboard.findMany({
+export async function getDashboards(folderId?: string | null): Promise<Dashboard[]> {
+  const rows = await prisma.dashboard.findMany({
     where:
       folderId === undefined ? undefined : folderId === null ? { folderId: null } : { folderId },
     orderBy: { createdAt: 'desc' }
   });
-  return rows.map(serializeGridDashboardListRow);
+  return rows.map(serializeDashboardListRow);
 }
 
-export async function getGridDashboardById(id: string): Promise<GridDashboard | null> {
-  const row = await prisma.gridDashboard.findUnique({ where: { id } });
-  return serializeGridDashboard(row);
+export async function getDashboardById(id: string): Promise<Dashboard | null> {
+  const row = await prisma.dashboard.findUnique({ where: { id } });
+  return serializeDashboard(row);
 }
 
-export async function createGridDashboard(
-  data: CreateGridDashboardPayload
-): Promise<GridDashboard> {
-  const row = await prisma.gridDashboard.create({
+export async function createDashboard(data: CreateDashboardPayload): Promise<Dashboard> {
+  const row = await prisma.dashboard.create({
     data: {
       title: data.title,
       description: data.description ?? null,
@@ -121,14 +119,14 @@ export async function createGridDashboard(
       panels: [] as unknown as Prisma.InputJsonValue
     }
   });
-  return serializeGridDashboard(row)!;
+  return serializeDashboard(row)!;
 }
 
-export async function updateGridDashboard(
+export async function updateDashboard(
   id: string,
-  data: UpdateGridDashboardPayload
-): Promise<GridDashboard | null> {
-  const row = await prisma.gridDashboard.update({
+  data: UpdateDashboardPayload
+): Promise<Dashboard | null> {
+  const row = await prisma.dashboard.update({
     where: { id },
     data: {
       ...(data.title !== undefined && { title: data.title }),
@@ -138,16 +136,16 @@ export async function updateGridDashboard(
       ...(data.panels !== undefined && { panels: data.panels as unknown as Prisma.InputJsonValue })
     }
   });
-  return serializeGridDashboard(row);
+  return serializeDashboard(row);
 }
 
-export async function deleteGridDashboard(id: string): Promise<GridDashboard | null> {
-  const row = await prisma.gridDashboard.delete({ where: { id } });
-  return serializeGridDashboard(row);
+export async function deleteDashboard(id: string): Promise<Dashboard | null> {
+  const row = await prisma.dashboard.delete({ where: { id } });
+  return serializeDashboard(row);
 }
 
-export async function getFolders(parentId?: string | null): Promise<GridDashboardFolder[]> {
-  const rows = await prisma.gridDashboardFolder.findMany({
+export async function getFolders(parentId?: string | null): Promise<DashboardFolder[]> {
+  const rows = await prisma.dashboardFolder.findMany({
     where:
       parentId === undefined ? undefined : parentId === null ? { parentId: null } : { parentId },
     include: { children: true },
@@ -156,17 +154,17 @@ export async function getFolders(parentId?: string | null): Promise<GridDashboar
   return rows.map(serializeFolderWithChildren);
 }
 
-export async function getFolderById(id: string): Promise<GridDashboardFolder | null> {
-  const row = await prisma.gridDashboardFolder.findUnique({
+export async function getFolderById(id: string): Promise<DashboardFolder | null> {
+  const row = await prisma.dashboardFolder.findUnique({
     where: { id },
     include: { children: true }
   });
   return row ? serializeFolderWithChildren(row) : null;
 }
 
-export async function getFolderPath(folderId: string): Promise<GridDashboardFolder[]> {
-  const path: GridDashboardFolder[] = [];
-  let current: GridDashboardFolder | null = await getFolderById(folderId);
+export async function getFolderPath(folderId: string): Promise<DashboardFolder[]> {
+  const path: DashboardFolder[] = [];
+  let current: DashboardFolder | null = await getFolderById(folderId);
   while (current) {
     path.unshift(current);
     if (!current.parentId) break;
@@ -175,8 +173,8 @@ export async function getFolderPath(folderId: string): Promise<GridDashboardFold
   return path;
 }
 
-export async function createFolder(data: CreateFolderPayload): Promise<GridDashboardFolder> {
-  const row = await prisma.gridDashboardFolder.create({
+export async function createFolder(data: CreateFolderPayload): Promise<DashboardFolder> {
+  const row = await prisma.dashboardFolder.create({
     data: {
       title: data.title,
       parentId: data.parentId ?? null
@@ -189,8 +187,8 @@ export async function createFolder(data: CreateFolderPayload): Promise<GridDashb
 export async function updateFolder(
   id: string,
   data: UpdateFolderPayload
-): Promise<GridDashboardFolder | null> {
-  const row = await prisma.gridDashboardFolder.update({
+): Promise<DashboardFolder | null> {
+  const row = await prisma.dashboardFolder.update({
     where: { id },
     data: {
       ...(data.title !== undefined && { title: data.title }),
@@ -201,8 +199,8 @@ export async function updateFolder(
   return serializeFolderWithChildren(row);
 }
 
-export async function deleteFolder(id: string): Promise<GridDashboardFolder | null> {
-  const row = await prisma.gridDashboardFolder.delete({
+export async function deleteFolder(id: string): Promise<DashboardFolder | null> {
+  const row = await prisma.dashboardFolder.delete({
     where: { id },
     include: { children: true }
   });
@@ -214,12 +212,12 @@ export async function isFolderTitleTaken(
   parentId: string | null,
   excludeId?: string
 ): Promise<boolean> {
-  const where: Prisma.GridDashboardFolderWhereInput = {
+  const where: Prisma.DashboardFolderWhereInput = {
     title,
     parentId: parentId ?? null
   };
   if (excludeId) where.id = { not: excludeId };
-  const existing = await prisma.gridDashboardFolder.findFirst({ where });
+  const existing = await prisma.dashboardFolder.findFirst({ where });
   return existing !== null;
 }
 
@@ -228,11 +226,11 @@ export async function isDashboardTitleTaken(
   folderId: string | null,
   excludeId?: string
 ): Promise<boolean> {
-  const where: Prisma.GridDashboardWhereInput = {
+  const where: Prisma.DashboardWhereInput = {
     title,
     folderId: folderId ?? null
   };
   if (excludeId) where.id = { not: excludeId };
-  const existing = await prisma.gridDashboard.findFirst({ where });
+  const existing = await prisma.dashboard.findFirst({ where });
   return existing !== null;
 }

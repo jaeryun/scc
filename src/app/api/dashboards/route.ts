@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 import { success, failure } from '@/lib/api-response';
 import {
-  getGridDashboards,
-  createGridDashboard,
+  getDashboards,
+  createDashboard,
   getFolderById,
   isDashboardTitleTaken
 } from '@/modules/dashboard/api/service';
@@ -13,7 +13,7 @@ export async function GET(req: Request) {
     const folderIdParam = searchParams.get('folderId');
     const folderId =
       folderIdParam === null ? undefined : folderIdParam === '__root__' ? null : folderIdParam;
-    const dashboards = await getGridDashboards(folderId);
+    const dashboards = await getDashboards(folderId);
     return NextResponse.json(success(dashboards));
   } catch (err) {
     console.error('[GET /api/dashboards]', err);
@@ -42,7 +42,7 @@ export async function POST(req: Request) {
         status: 409
       });
     }
-    const dashboard = await createGridDashboard(body);
+    const dashboard = await createDashboard(body);
     return NextResponse.json(success(dashboard), { status: 201 });
   } catch (err) {
     console.error('[POST /api/dashboards]', err);

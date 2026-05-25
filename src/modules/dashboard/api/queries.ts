@@ -1,40 +1,40 @@
 import { queryOptions } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api-client';
-import { GridDashboard, GridDashboardFolder } from './types';
+import { Dashboard, DashboardFolder } from './types';
 
-export const gridDashboardKeys = {
+export const dashboardKeys = {
   all: ['dashboards'] as const,
-  lists: () => [...gridDashboardKeys.all, 'list'] as const,
-  detail: (id: string) => [...gridDashboardKeys.all, 'detail', id] as const,
-  folderLists: () => [...gridDashboardKeys.all, 'folders'] as const
+  lists: () => [...dashboardKeys.all, 'list'] as const,
+  detail: (id: string) => [...dashboardKeys.all, 'detail', id] as const,
+  folderLists: () => [...dashboardKeys.all, 'folders'] as const
 };
 
-export const gridDashboardsQueryOptions = (folderId?: string | null) =>
+export const dashboardsQueryOptions = (folderId?: string | null) =>
   queryOptions({
-    queryKey: [...gridDashboardKeys.lists(), folderId],
+    queryKey: [...dashboardKeys.lists(), folderId],
     queryFn: () => {
       const params = new URLSearchParams();
       if (folderId !== undefined) params.set('folderId', folderId === null ? '__root__' : folderId);
-      return apiClient<GridDashboard[]>(`/api/dashboards?${params.toString()}`);
+      return apiClient<Dashboard[]>(`/api/dashboards?${params.toString()}`);
     }
   });
 
-export const gridDashboardDetailQueryOptions = (id: string) =>
+export const dashboardDetailQueryOptions = (id: string) =>
   queryOptions({
-    queryKey: gridDashboardKeys.detail(id),
-    queryFn: () => apiClient<GridDashboard>(`/api/dashboards/${id}`),
+    queryKey: dashboardKeys.detail(id),
+    queryFn: () => apiClient<Dashboard>(`/api/dashboards/${id}`),
     enabled: !!id
   });
 
 export const foldersQueryOptions = () =>
   queryOptions({
-    queryKey: gridDashboardKeys.folderLists(),
-    queryFn: () => apiClient<GridDashboardFolder[]>('/api/dashboards/folders')
+    queryKey: dashboardKeys.folderLists(),
+    queryFn: () => apiClient<DashboardFolder[]>('/api/dashboards/folders')
   });
 
 export const folderDetailQueryOptions = (id: string) =>
   queryOptions({
-    queryKey: [...gridDashboardKeys.folderLists(), id],
-    queryFn: () => apiClient<GridDashboardFolder>(`/api/dashboards/folders/${id}`),
+    queryKey: [...dashboardKeys.folderLists(), id],
+    queryFn: () => apiClient<DashboardFolder>(`/api/dashboards/folders/${id}`),
     enabled: !!id
   });

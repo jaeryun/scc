@@ -34,18 +34,18 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Label } from '@/components/ui/label';
 import { Icons } from '@/components/icons';
-import { foldersQueryOptions, gridDashboardsQueryOptions } from '../api/queries';
+import { foldersQueryOptions, dashboardsQueryOptions } from '../api/queries';
 import {
-  createGridDashboardMutation,
-  updateGridDashboardMutation,
-  deleteGridDashboardMutation,
+  createDashboardMutation,
+  updateDashboardMutation,
+  deleteDashboardMutation,
   createFolderMutation,
   updateFolderMutation,
   deleteFolderMutation,
   batchMoveMutation,
   type BatchMoveItem
 } from '../api/mutations';
-import type { GridDashboard, GridDashboardFolder } from '../api/types';
+import type { Dashboard, DashboardFolder } from '../api/types';
 
 type BreadcrumbSegment = { id?: string; title: string };
 
@@ -214,7 +214,7 @@ function MoveDialog({
   open: boolean;
   onOpenChange: (open: boolean) => void;
   count: number;
-  folders: GridDashboardFolder[];
+  folders: DashboardFolder[];
   excludeIds?: string[];
   onMove: (folderId: string | null) => void;
   isPending: boolean;
@@ -234,7 +234,7 @@ function MoveDialog({
   }, [folders, excludeIds, moveSearch]);
 
   const folderMap = useMemo(() => {
-    const map = new Map<string | null, GridDashboardFolder[]>();
+    const map = new Map<string | null, DashboardFolder[]>();
     for (const f of filtered) {
       const parent = f.parentId ?? null;
       if (!map.has(parent)) map.set(parent, []);
@@ -244,9 +244,9 @@ function MoveDialog({
   }, [filtered]);
 
   const getParentPath = useCallback(
-    (folder: GridDashboardFolder): string => {
+    (folder: DashboardFolder): string => {
       const parts: string[] = [];
-      let current: GridDashboardFolder | undefined = folder;
+      let current: DashboardFolder | undefined = folder;
       while (current?.parentId) {
         const parent = folders.find((f) => f.id === current!.parentId);
         if (!parent) break;
@@ -272,7 +272,7 @@ function MoveDialog({
   }, []);
 
   const renderFolderRow = useCallback(
-    (folder: GridDashboardFolder, depth: number = 0) => {
+    (folder: DashboardFolder, depth: number = 0) => {
       const children = folderMap.get(folder.id) ?? [];
       const hasChildren = children.length > 0;
       const isExpanded = expandedIds.has(folder.id);
@@ -421,7 +421,7 @@ export function DashboardList() {
 
   const { data: allFolders, isLoading: foldersLoading } = useQuery(foldersQueryOptions());
   const { data: dashboards, isLoading: dashboardsLoading } = useQuery(
-    gridDashboardsQueryOptions(currentFolderId || null)
+    dashboardsQueryOptions(currentFolderId || null)
   );
 
   const currentFolders = useMemo(
@@ -567,17 +567,17 @@ export function DashboardList() {
   });
 
   const createDashboard = useMutation({
-    ...createGridDashboardMutation,
+    ...createDashboardMutation,
     onSuccess(data, variables, context, _mutation) {
-      createGridDashboardMutation.onSuccess?.(data, variables, context, _mutation);
+      createDashboardMutation.onSuccess?.(data, variables, context, _mutation);
       setDashboardDialog({ open: false, mode: 'create', initial: { title: '', description: '' } });
     }
   });
 
   const updateDashboard = useMutation({
-    ...updateGridDashboardMutation,
+    ...updateDashboardMutation,
     onSuccess(data, variables, context, _mutation) {
-      updateGridDashboardMutation.onSuccess?.(data, variables, context, _mutation);
+      updateDashboardMutation.onSuccess?.(data, variables, context, _mutation);
       setDashboardDialog({ open: false, mode: 'create', initial: { title: '', description: '' } });
     }
   });
@@ -591,9 +591,9 @@ export function DashboardList() {
   });
 
   const deleteDashboard = useMutation({
-    ...deleteGridDashboardMutation,
+    ...deleteDashboardMutation,
     onSuccess(data, variables, context, _mutation) {
-      deleteGridDashboardMutation.onSuccess?.(data, variables, context, _mutation);
+      deleteDashboardMutation.onSuccess?.(data, variables, context, _mutation);
       setDeleteTarget(null);
       setBatchDeleteOpen(false);
     }
@@ -656,7 +656,7 @@ export function DashboardList() {
     else deleteDashboard.mutate(deleteTarget.id);
   }, [deleteTarget, deleteFolder, deleteDashboard]);
 
-  const startRename = useCallback((folder: GridDashboardFolder) => {
+  const startRename = useCallback((folder: DashboardFolder) => {
     setEditingFolderId(folder.id);
     setEditFolderTitle(folder.title);
     setTimeout(() => editInputRef.current?.focus(), 0);

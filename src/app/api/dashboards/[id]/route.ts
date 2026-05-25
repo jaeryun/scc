@@ -1,16 +1,16 @@
 import { NextResponse } from 'next/server';
 import { success, failure } from '@/lib/api-response';
 import {
-  getGridDashboardById,
-  updateGridDashboard,
-  deleteGridDashboard,
+  getDashboardById,
+  updateDashboard,
+  deleteDashboard,
   isDashboardTitleTaken
 } from '@/modules/dashboard/api/service';
 
 export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    const dashboard = await getGridDashboardById(id);
+    const dashboard = await getDashboardById(id);
     if (!dashboard) {
       return NextResponse.json(failure('대시보드를 찾을 수 없습니다'), { status: 404 });
     }
@@ -31,7 +31,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
       body.folderId = null;
     }
     if (body.title !== undefined || body.folderId !== undefined) {
-      const existing = await getGridDashboardById(id);
+      const existing = await getDashboardById(id);
       const titleToCheck = body.title?.trim() ?? existing?.title ?? '';
       const folderToCheck =
         body.folderId !== undefined ? (body.folderId ?? null) : (existing?.folderId ?? null);
@@ -42,7 +42,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
         });
       }
     }
-    const dashboard = await updateGridDashboard(id, body);
+    const dashboard = await updateDashboard(id, body);
     if (!dashboard) {
       return NextResponse.json(failure('대시보드를 찾을 수 없습니다'), { status: 404 });
     }
@@ -55,7 +55,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
 export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    const dashboard = await deleteGridDashboard(id);
+    const dashboard = await deleteDashboard(id);
     if (!dashboard) {
       return NextResponse.json(failure('대시보드를 찾을 수 없습니다'), { status: 404 });
     }

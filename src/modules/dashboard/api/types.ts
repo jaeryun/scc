@@ -25,16 +25,16 @@ export interface PanelType {
   defaultOptions: Record<string, unknown>;
 }
 
-export interface GridDashboardFolder {
+export interface DashboardFolder {
   id: string;
   title: string;
   parentId: string | null;
-  children: GridDashboardFolder[];
+  children: DashboardFolder[];
   createdAt: string;
   updatedAt: string;
 }
 
-export interface GridDashboard {
+export interface Dashboard {
   id: string;
   title: string;
   description: string | null;
@@ -49,13 +49,13 @@ export interface GridDashboard {
   updatedAt: string;
 }
 
-export type CreateGridDashboardPayload = {
+export type CreateDashboardPayload = {
   title: string;
   description?: string;
   folderId?: string | null;
 };
 
-export type UpdateGridDashboardPayload = {
+export type UpdateDashboardPayload = {
   title?: string;
   description?: string;
   folderId?: string | null;

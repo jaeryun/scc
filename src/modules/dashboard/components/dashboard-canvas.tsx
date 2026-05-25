@@ -9,8 +9,8 @@ import type { LayoutItem, Layout } from 'react-grid-layout';
 import { Button } from '@/components/ui/button';
 import { WidgetFrame } from '@/components/ui/grid-dashboard/widget-frame';
 import { Icons } from '@/components/icons';
-import { gridDashboardDetailQueryOptions } from '../api/queries';
-import { updateGridDashboardMutation, deleteGridDashboardMutation } from '../api/mutations';
+import { dashboardDetailQueryOptions } from '../api/queries';
+import { updateDashboardMutation, deleteDashboardMutation } from '../api/mutations';
 import { renderPanel } from './widgets/panel-registry';
 import { WidgetAddDialog } from './widget-add-dialog';
 import type { Panel, PanelType } from '../api/types';
@@ -32,14 +32,14 @@ export function DashboardCanvas({ dashboardId }: { dashboardId: string }) {
   const { width, containerRef, mounted } = useContainerWidth();
   const [isEditing, setIsEditing] = useState(false);
 
-  const { data: dashboard, isLoading } = useQuery(gridDashboardDetailQueryOptions(dashboardId));
+  const { data: dashboard, isLoading } = useQuery(dashboardDetailQueryOptions(dashboardId));
 
   const updateMutation = useMutation({
-    ...updateGridDashboardMutation
+    ...updateDashboardMutation
   });
 
   const deleteMutation = useMutation({
-    ...deleteGridDashboardMutation
+    ...deleteDashboardMutation
   });
 
   const panels = dashboard?.panels ?? [];

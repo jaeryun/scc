@@ -14,12 +14,12 @@ export async function POST(req: Request) {
     await prisma.$transaction(
       moves.map((m) => {
         if (m.type === 'dashboard') {
-          return prisma.gridDashboard.update({
+          return prisma.dashboard.update({
             where: { id: m.id },
             data: { folderId: m.targetFolderId }
           });
         }
-        return prisma.gridDashboardFolder.update({
+        return prisma.dashboardFolder.update({
           where: { id: m.id },
           data: { parentId: m.targetFolderId }
         });
