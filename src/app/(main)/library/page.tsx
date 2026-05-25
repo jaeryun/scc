@@ -20,7 +20,7 @@ const reasons = [
   {
     title: 'Demo / Production 분리',
     description:
-      '데모 모듈은 mock-store로 즉시 동작하고, 운영 모듈은 Prisma로 실제 DB에 연결됩니다. service.ts만 교체하면 데모를 운영으로 전환할 수 있습니다.',
+      '데모 모듈은 메모리 저장소(mock-store)로 즉시 동작하고, 운영 모듈은 PostgreSQL 데이터베이스에 연결됩니다. service.ts만 교체하면 데모를 운영으로 전환할 수 있습니다.',
     icon: Icons.gitMerge
   },
   {
@@ -44,7 +44,7 @@ const reasons = [
   {
     title: '공통 인프라 공유',
     description:
-      'shadcn/ui, TanStack Query, Prisma, Zod 등 검증된 라이브러리를 일관된 방식으로 사용합니다. 팀 전체가 동일한 도구를 같은 패턴으로 다룹니다.',
+      'shadcn/ui, TanStack Query, PostgreSQL, 데이터 검증(Zod) 등 검증된 라이브러리를 일관된 방식으로 사용합니다. 팀 전체가 동일한 도구를 같은 패턴으로 다룹니다.',
     icon: Icons.stack3
   }
 ];
@@ -185,10 +185,10 @@ export default function LibraryPage() {
           </Card>
           <Card>
             <CardHeader>
-              <CardTitle className='text-base'>Production 모듈 (Prisma)</CardTitle>
+              <CardTitle className='text-base'>Production 모듈 (데이터베이스 연동)</CardTitle>
               <CardDescription>
-                실제 운영 데이터를 다루는 모듈입니다. src/app/api/ 아래 Route Handler를 통해 Prisma
-                DB에 연결됩니다.
+                실제 운영 데이터를 다루는 모듈입니다. src/app/api/ 아래 Route Handler를 통해
+                PostgreSQL 데이터베이스에 연결됩니다 (Prisma ORM 사용).
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -196,13 +196,13 @@ export default function LibraryPage() {
                 {`src/modules/<name>/api/
 ├── types.ts           # 타입 정의
 ├── schemas.ts         # Zod 검증
-├── *-handlers.ts      # Prisma CRUD 로직
+├── *-handlers.ts      # DB CRUD 로직 (Prisma ORM)
 ├── service.ts         # apiClient() 호출
 ├── queries.ts         # service 함수 호출
 └── mutations.ts       # service 함수 호출
 
 src/app/api/<name>/
-├── route.ts           # Route Handler → handlers → Prisma
+├── route.ts           # Route Handler → handlers → DB (Prisma ORM)
 └── [id]/route.ts`}
               </pre>
             </CardContent>
