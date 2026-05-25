@@ -38,13 +38,14 @@ export function PanelStat({ options, isEditing, onOptionsChange }: PanelStatProp
     setDraftFooter(footer);
   }, [value, unit, title, prefix, trend, trendValue, footer]);
 
-  function handleSave() {
+  function handleSave(newTrend?: string) {
+    const effectiveTrend = newTrend ?? draftTrend;
     const changed =
       draftValue !== value ||
       draftUnit !== unit ||
       draftTitle !== title ||
       draftPrefix !== prefix ||
-      draftTrend !== (trend ?? 'none') ||
+      effectiveTrend !== (trend ?? 'none') ||
       draftTrendValue !== trendValue ||
       draftFooter !== footer;
     if (!changed) return;
@@ -55,7 +56,7 @@ export function PanelStat({ options, isEditing, onOptionsChange }: PanelStatProp
       unit: draftUnit,
       title: draftTitle || undefined,
       prefix: draftPrefix || undefined,
-      trend: draftTrend === 'none' ? undefined : draftTrend,
+      trend: effectiveTrend === 'none' ? undefined : effectiveTrend,
       trendValue: draftTrendValue || undefined,
       footer: draftFooter || undefined
     });
@@ -92,7 +93,7 @@ export function PanelStat({ options, isEditing, onOptionsChange }: PanelStatProp
       <Input
         value={draftTitle}
         onChange={(e) => setDraftTitle(e.target.value)}
-        onBlur={handleSave}
+        onBlur={() => handleSave()}
         onKeyDown={(e) => {
           if (e.key === 'Enter') handleSave();
         }}
@@ -103,7 +104,7 @@ export function PanelStat({ options, isEditing, onOptionsChange }: PanelStatProp
         <Input
           value={draftPrefix}
           onChange={(e) => setDraftPrefix(e.target.value)}
-          onBlur={handleSave}
+          onBlur={() => handleSave()}
           onKeyDown={(e) => {
             if (e.key === 'Enter') handleSave();
           }}
@@ -113,7 +114,7 @@ export function PanelStat({ options, isEditing, onOptionsChange }: PanelStatProp
         <Input
           value={draftValue}
           onChange={(e) => setDraftValue(e.target.value)}
-          onBlur={handleSave}
+          onBlur={() => handleSave()}
           onKeyDown={(e) => {
             if (e.key === 'Enter') handleSave();
           }}
@@ -123,7 +124,7 @@ export function PanelStat({ options, isEditing, onOptionsChange }: PanelStatProp
         <Input
           value={draftUnit}
           onChange={(e) => setDraftUnit(e.target.value)}
-          onBlur={handleSave}
+          onBlur={() => handleSave()}
           onKeyDown={(e) => {
             if (e.key === 'Enter') handleSave();
           }}
@@ -135,8 +136,9 @@ export function PanelStat({ options, isEditing, onOptionsChange }: PanelStatProp
         <select
           value={draftTrend}
           onChange={(e) => {
-            setDraftTrend(e.target.value);
-            handleSave();
+            const newTrend = e.target.value;
+            setDraftTrend(newTrend);
+            handleSave(newTrend);
           }}
           className='h-7 border rounded px-1 text-xs'
         >
@@ -147,7 +149,7 @@ export function PanelStat({ options, isEditing, onOptionsChange }: PanelStatProp
         <Input
           value={draftTrendValue}
           onChange={(e) => setDraftTrendValue(e.target.value)}
-          onBlur={handleSave}
+          onBlur={() => handleSave()}
           onKeyDown={(e) => {
             if (e.key === 'Enter') handleSave();
           }}
@@ -158,7 +160,7 @@ export function PanelStat({ options, isEditing, onOptionsChange }: PanelStatProp
       <Input
         value={draftFooter}
         onChange={(e) => setDraftFooter(e.target.value)}
-        onBlur={handleSave}
+        onBlur={() => handleSave()}
         onKeyDown={(e) => {
           if (e.key === 'Enter') handleSave();
         }}
