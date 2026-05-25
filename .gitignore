@@ -62,3 +62,6 @@ bug*.png
 
 # Speckit
 /specs
+
+# NetBox auto-generated schema
+src/lib/netbox/schema.d.ts

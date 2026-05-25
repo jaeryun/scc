@@ -16,7 +16,10 @@
     "lint:strict": "oxlint --deny-warnings",
     "format": "oxfmt --write .",
     "format:check": "oxfmt --check .",
-    "prepare": "husky"
+    "prepare": "husky",
+    "netbox:fetch-schema": "bash scripts/netbox-fetch-schema.sh",
+    "netbox:generate": "openapi-typescript src/lib/netbox/netbox-openapi-v4.x.json -o src/lib/netbox/schema.d.ts",
+    "netbox:update": "npm run netbox:fetch-schema && npm run netbox:generate"
   },
   "dependencies": {
     "@codemirror/lang-javascript": "^6.2.5",
@@ -76,6 +79,8 @@
     "next-themes": "^0.4.6",
     "nextjs-toploader": "^3.9.17",
     "nuqs": "^2.8.9",
+    "openapi-fetch": "^0.17.0",
+    "openapi-typescript": "^7.13.0",
     "postcss": "8.4.49",
     "prisma": "^6.19.3",
     "radix-ui": "^1.4.3",
