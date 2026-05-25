@@ -29,12 +29,6 @@ const modules = [
     icon: Icons.teams
   },
   {
-    title: 'Switch Mapping',
-    description: '스위치 포트 매핑 시각화',
-    href: '/library/modules/switch-mapping',
-    icon: Icons.network
-  },
-  {
     title: 'React Query',
     description: 'React Query 데이터 페칭 패턴 레퍼런스',
     href: '/library/modules/react-query',

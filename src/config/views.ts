@@ -86,7 +86,6 @@ export const views: ViewConfig[] = [
           { title: '대시보드', href: '/library/modules/dashboard', icon: 'dashboard' },
           { title: '제품', href: '/library/modules/products', icon: 'product' },
           { title: '사용자', href: '/library/modules/users', icon: 'teams' },
-          { title: '스위치 매핑', href: '/library/modules/switch-mapping', icon: 'network' },
           { title: 'React Query', href: '/library/modules/react-query', icon: 'code' },
           { title: '결제', href: '/library/modules/billing', icon: 'billing' },
           { title: '특별', href: '/library/modules/exclusive', icon: 'sparkles' },

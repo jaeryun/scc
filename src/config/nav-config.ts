@@ -235,11 +235,6 @@ export const navGroups: NavGroup[] = [
             shortcut: ['u', 'u']
           },
           {
-            title: '스위치 매핑',
-            url: '/library/modules/switch-mapping',
-            icon: 'network'
-          },
-          {
             title: 'React Query',
             url: '/library/modules/react-query',
             icon: 'code'
