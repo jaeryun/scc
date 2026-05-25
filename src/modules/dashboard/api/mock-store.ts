@@ -9,9 +9,10 @@ import type {
 
 let dashboards: Dashboard[] = [];
 let folders: DashboardFolder[] = [];
+let idCounter = 0;
 
 function uid(): string {
-  return crypto.randomUUID();
+  return `${Date.now().toString(36)}-${(idCounter++).toString(36)}-${Math.random().toString(36).slice(2, 7)}`;
 }
 
 function now(): string {
