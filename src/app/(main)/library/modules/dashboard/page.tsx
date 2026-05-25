@@ -10,7 +10,7 @@ export default function DashboardListPage() {
   return (
     <PageContainer
       pageTitle='Dashboard'
-      pageDescription='폴더와 대시보드를 관리하세요. 데이터는 서버 재시작 시 초기화됩니다.'
+      pageDescription='동적으로 UI 배치가 가능한 대시보드를 통해 원하는 화면을 꾸며보세요. (해당 UI는 Grafana를 모티브로 개발되었습니다.)'
       pageHeaderAction={
         <Badge variant='secondary' className='text-xs font-normal'>
           Demo

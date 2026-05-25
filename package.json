@@ -128,7 +128,5 @@
       "oxfmt --write"
     ]
   },
-  "prisma": {
-    "seed": "tsx prisma/seed.ts"
-  }
+  "prisma": {}
 }

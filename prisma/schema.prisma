@@ -8,43 +8,6 @@ datasource db {
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
-model Subnet {
-  id          String   @id @default(cuid())
-  network     String   @unique
-  description String?
-  vlanId      String?
-  purpose     String?
-  centers     String[] @default([])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  ipAddresses IpAddress[]
-   
-  @@index([network])
-}
-
-model IpAddress {
-  id          String    @id @default(cuid())
-  ip          String
-  status      IpStatus  @default(FREE)
-  hostname    String?
-  description String?
-  subnetId    String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-
-  subnet      Subnet    @relation(fields: [subnetId], references: [id], onDelete: Cascade)
-  
-  @@unique([ip, subnetId])
-}
-
-enum IpStatus {
-  FREE
-  ALLOCATED
-  RESERVED
-  DISABLED
-}
-
 model ViewSetting {
   id        String   @id @default(cuid())
   viewId    String   @unique
