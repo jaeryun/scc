@@ -1,70 +1,61 @@
 import { mutationOptions } from '@tanstack/react-query';
 import { getQueryClient } from '@/lib/query-client';
-import { apiClient } from '@/lib/api-client';
 import { dashboardKeys } from './queries';
 import {
-  Dashboard,
-  DashboardFolder,
   CreateDashboardPayload,
   UpdateDashboardPayload,
   CreateFolderPayload,
   UpdateFolderPayload
 } from './types';
+import {
+  createDashboard,
+  updateDashboard,
+  deleteDashboard,
+  createFolder,
+  updateFolder,
+  deleteFolder,
+  batchMove
+} from './service';
 
 export const createDashboardMutation = mutationOptions({
-  mutationFn: (data: CreateDashboardPayload) =>
-    apiClient<Dashboard>('/api/dashboards', {
-      method: 'POST',
-      body: JSON.stringify(data)
-    }),
+  mutationFn: async (data: CreateDashboardPayload) => createDashboard(data),
   onSuccess: () => {
     getQueryClient().invalidateQueries({ queryKey: dashboardKeys.all });
   }
 });
 
 export const updateDashboardMutation = mutationOptions({
-  mutationFn: ({ id, data }: { id: string; data: UpdateDashboardPayload }) =>
-    apiClient<Dashboard>(`/api/dashboards/${id}`, {
-      method: 'PUT',
-      body: JSON.stringify(data)
-    }),
+  mutationFn: async ({ id, data }: { id: string; data: UpdateDashboardPayload }) =>
+    updateDashboard(id, data),
   onSuccess: () => {
     getQueryClient().invalidateQueries({ queryKey: dashboardKeys.all });
   }
 });
 
 export const deleteDashboardMutation = mutationOptions({
-  mutationFn: (id: string) => apiClient<Dashboard>(`/api/dashboards/${id}`, { method: 'DELETE' }),
+  mutationFn: async (id: string) => deleteDashboard(id),
   onSuccess: () => {
     getQueryClient().invalidateQueries({ queryKey: dashboardKeys.all });
   }
 });
 
 export const createFolderMutation = mutationOptions({
-  mutationFn: (data: CreateFolderPayload) =>
-    apiClient<DashboardFolder>('/api/dashboards/folders', {
-      method: 'POST',
-      body: JSON.stringify(data)
-    }),
+  mutationFn: async (data: CreateFolderPayload) => createFolder(data),
   onSuccess: () => {
     getQueryClient().invalidateQueries({ queryKey: dashboardKeys.all });
   }
 });
 
 export const updateFolderMutation = mutationOptions({
-  mutationFn: ({ id, data }: { id: string; data: UpdateFolderPayload }) =>
-    apiClient<DashboardFolder>(`/api/dashboards/folders/${id}`, {
-      method: 'PUT',
-      body: JSON.stringify(data)
-    }),
+  mutationFn: async ({ id, data }: { id: string; data: UpdateFolderPayload }) =>
+    updateFolder(id, data),
   onSuccess: () => {
     getQueryClient().invalidateQueries({ queryKey: dashboardKeys.all });
   }
 });
 
 export const deleteFolderMutation = mutationOptions({
-  mutationFn: (id: string) =>
-    apiClient<DashboardFolder>(`/api/dashboards/folders/${id}`, { method: 'DELETE' }),
+  mutationFn: async (id: string) => deleteFolder(id),
   onSuccess: () => {
     getQueryClient().invalidateQueries({ queryKey: dashboardKeys.all });
   }
@@ -77,11 +68,7 @@ export type BatchMoveItem = {
 };
 
 export const batchMoveMutation = mutationOptions({
-  mutationFn: (moves: BatchMoveItem[]) =>
-    apiClient<{ moved: number }>('/api/dashboards/batch-move', {
-      method: 'POST',
-      body: JSON.stringify({ moves })
-    }),
+  mutationFn: async (moves: BatchMoveItem[]) => batchMove(moves),
   onSuccess: () => {
     getQueryClient().invalidateQueries({ queryKey: dashboardKeys.all });
   }

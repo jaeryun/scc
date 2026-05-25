@@ -1,6 +1,6 @@
 import { queryOptions } from '@tanstack/react-query';
-import { apiClient } from '@/lib/api-client';
 import { Dashboard, DashboardFolder } from './types';
+import { getDashboards, getDashboardById, getFolders, getFolderById } from './service';
 
 export const dashboardKeys = {
   all: ['dashboards'] as const,
@@ -12,29 +12,25 @@ export const dashboardKeys = {
 export const dashboardsQueryOptions = (folderId?: string | null) =>
   queryOptions({
     queryKey: [...dashboardKeys.lists(), folderId],
-    queryFn: () => {
-      const params = new URLSearchParams();
-      if (folderId !== undefined) params.set('folderId', folderId === null ? '__root__' : folderId);
-      return apiClient<Dashboard[]>(`/api/dashboards?${params.toString()}`);
-    }
+    queryFn: async () => getDashboards(folderId)
   });
 
 export const dashboardDetailQueryOptions = (id: string) =>
   queryOptions({
     queryKey: dashboardKeys.detail(id),
-    queryFn: () => apiClient<Dashboard>(`/api/dashboards/${id}`),
+    queryFn: async () => getDashboardById(id),
     enabled: !!id
   });
 
 export const foldersQueryOptions = () =>
   queryOptions({
     queryKey: dashboardKeys.folderLists(),
-    queryFn: () => apiClient<DashboardFolder[]>('/api/dashboards/folders')
+    queryFn: async () => getFolders()
   });
 
 export const folderDetailQueryOptions = (id: string) =>
   queryOptions({
     queryKey: [...dashboardKeys.folderLists(), id],
-    queryFn: () => apiClient<DashboardFolder>(`/api/dashboards/folders/${id}`),
+    queryFn: async () => getFolderById(id),
     enabled: !!id
   });
