@@ -139,9 +139,11 @@ components/          ← hooks를 통해서만 데이터 접근
 
 | 파일                               | 이전 위치        | 현재 위치            | 판단 근거                                       |
 | ---------------------------------- | ---------------- | -------------------- | ----------------------------------------------- |
-| `components/charts/area-graph.tsx` | modules/overview | `components/charts/` | 순수 recharts 래퍼, overview 삭제해도 의미 있음 |
-| `components/charts/bar-graph.tsx`  | modules/overview | `components/charts/` | recharts BarChart, 도메인 무관 재사용 가능      |
-| `components/charts/pie-graph.tsx`  | modules/overview | `components/charts/` | recharts PieChart, 범용 시각화                  |
+| `components/charts/area-graph.tsx` | modules/dashboard | `components/charts/` | 순수 recharts 래퍼, dashboard 삭제해도 의미 있음 |
+
+| `components/charts/bar-graph.tsx`  | modules/dashboard | `components/charts/` | recharts BarChart, 도메인 무관 재사용 가능      |
+
+| `components/charts/pie-graph.tsx`  | modules/dashboard | `components/charts/` | recharts PieChart, 범용 시각화                  |
 
 ## 컴포넌트 작성 규칙 (요약)
 

@@ -95,18 +95,18 @@ export function getAllSpecs(): ApiSpecMeta[];
 ```
 
 - 새 API 스펙 추가 시 **이 배열에 1줄 추가**하면 인덱스 페이지와 동적 라우트에 자동 반영됨.
-- `id`는 URL slug(`/api-reference/<id>`)와 `public/api-specs/<id>/` 디렉토리 이름 모두에 사용.
+- `id`는 URL slug(`/library/api-reference/<id>`)와 `public/api-specs/<id>/` 디렉토리 이름 모두에 사용.
 
 ## 라우트 구조
 
 | 경로                       | 페이지        | 설명                             |
 | -------------------------- | ------------- | -------------------------------- |
-| `/api-reference`           | 인덱스 페이지 | 카드 그리드로 등록된 API 나열    |
-| `/api-reference/[service]` | 상세 페이지   | Scalar 뷰어 + Quick Start 가이드 |
+| `/library/api-reference`           | 인덱스 페이지 | 카드 그리드로 등록된 API 나열    |
+| `/library/api-reference/[service]` | 상세 페이지   | Scalar 뷰어 + Quick Start 가이드 |
 
-- 인덱스 페이지: `src/app/(main)/api-reference/page.tsx` — RSC, `getAllSpecs()` 직렬 호출
-- 상세 페이지: `src/app/(main)/api-reference/[service]/page.tsx` — RSC, `generateStaticParams()`로 SSG 지원
-- 사이드바 내비게이션: `src/config/views.ts`의 `api-reference` 뷰에서 관리
+- 인덱스 페이지: `src/app/(main)/library/api-reference/page.tsx` — RSC, `getAllSpecs()` 직렬 호출
+- 상세 페이지: `src/app/(main)/library/api-reference/[service]/page.tsx` — RSC, `generateStaticParams()`로 SSG 지원
+- 사이드바 내비게이션: `src/config/views.ts`의 `library` 뷰에서 관리
 
 ## Scalar 설정 및 제약사항
 
@@ -142,7 +142,7 @@ export function getAllSpecs(): ApiSpecMeta[];
 
 1. OpenAPI JSON 파일을 `public/api-specs/<id>/latest.json`에 배치
 2. `api/registry.ts`의 `apiSpecRegistry` 배열에 새 항목 추가
-3. `src/config/views.ts`의 `api-reference` 뷰 `navItems`에 항목 추가
+3. `src/config/views.ts`의 `library` 뷰 `navItems`에 항목 추가
 
 ```typescript
 // registry.ts 예시

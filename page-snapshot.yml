@@ -1,0 +1,132 @@
+- generic [active] [ref=e1]:
+  - region "Notifications alt+T"
+  - generic [ref=e2]:
+    - navigation "Main navigation" [ref=e4]:
+      - generic [ref=e5]:
+        - button "뷰 전환" [ref=e90]:
+          - img [ref=e92]
+        - list [ref=e95]:
+          - listitem [ref=e96]:
+            - link "소개" [ref=e97] [cursor=pointer]:
+              - /url: /library
+              - img [ref=e98]
+              - generic: 소개
+          - listitem [ref=e101]:
+            - link "컴포넌트(UI)" [ref=e102] [cursor=pointer]:
+              - /url: /library/components
+              - img [ref=e103]
+              - generic: 컴포넌트(UI)
+          - listitem [ref=e108]:
+            - link "모듈(UI + Data)" [ref=e109] [cursor=pointer]:
+              - /url: /library/modules
+              - img [ref=e110]
+              - generic: 모듈(UI + Data)
+          - listitem [ref=e114]:
+            - link "API 레퍼런스" [ref=e115] [cursor=pointer]:
+              - /url: /library/api-reference
+              - img [ref=e116]
+              - generic: API 레퍼런스
+        - list [ref=e120]:
+          - listitem [ref=e121]:
+            - button "DA daniel.yun 인프라팀 > 데이터센터팀 · admin" [ref=e122]:
+              - generic [ref=e124]: DA
+              - generic:
+                - generic: daniel.yun
+                - generic: 인프라팀 > 데이터센터팀 · admin
+              - img [ref=e125]
+        - button "Toggle Sidebar" [ref=e128]
+    - main [ref=e14]:
+      - generic [ref=e15]:
+        - generic [ref=e16]:
+          - button "Toggle Sidebar" [ref=e17]:
+            - img
+            - generic [ref=e18]: Toggle Sidebar
+          - navigation "breadcrumb" [ref=e19]:
+            - list [ref=e20]:
+              - listitem [ref=e21]:
+                - link "Library" [ref=e22] [cursor=pointer]:
+                  - /url: /library
+              - listitem [ref=e23]:
+                - img [ref=e24]
+              - listitem [ref=e26]:
+                - link "Modules" [ref=e27] [cursor=pointer]:
+                  - /url: /library/modules
+              - listitem [ref=e28]:
+                - img [ref=e29]
+              - link "Switch-mapping" [disabled] [ref=e31]
+        - generic [ref=e32]:
+          - button "Search... ⌘ K" [ref=e35]:
+            - img
+            - text: Search...
+            - generic:
+              - generic: ⌘
+              - text: K
+          - button "Toggle theme" [ref=e36]:
+            - img
+            - generic [ref=e37]: Toggle theme
+          - generic [ref=e39]:
+            - generic [ref=e40]: Theme
+            - combobox "Theme" [ref=e41]:
+              - generic [ref=e42]:
+                - img
+              - generic: Vercel
+              - generic: T T
+              - img
+          - button "3 Notifications" [ref=e44]:
+            - img
+            - generic [ref=e45]: "3"
+            - generic [ref=e46]: Notifications
+      - generic [ref=e47]:
+        - generic [ref=e49]:
+          - generic [ref=e51]:
+            - heading "Switch Port Mapping" [level=1] [ref=e53]
+            - paragraph [ref=e54]: IB / SAN / UTP 스위치 포트 연결 현황
+          - generic [ref=e55]:
+            - generic [ref=e57]:
+              - generic [ref=e58]:
+                - heading "IB Switch" [level=3] [ref=e59]
+                - paragraph [ref=e60]: No device found
+              - button "Sync" [disabled]:
+                - img
+                - text: Sync
+            - generic [ref=e63]:
+              - generic [ref=e64]:
+                - heading "SAN Switch" [level=3] [ref=e65]
+                - paragraph [ref=e66]: No device found
+              - button "Sync" [disabled]:
+                - img
+                - text: Sync
+            - generic [ref=e69]:
+              - generic [ref=e70]:
+                - heading "UTP Access Switch" [level=3] [ref=e71]
+                - paragraph [ref=e72]: No device found
+              - button "Sync" [disabled]:
+                - img
+                - text: Sync
+        - generic:
+          - generic:
+            - generic:
+              - generic [ref=e74]:
+                - generic:
+                  - heading "Documentation" [level=2]
+                - button "Close info panel" [ref=e76]:
+                  - img
+              - generic [ref=e78]:
+                - generic:
+                  - heading "Getting Started" [level=3]
+                  - paragraph: Learn how to get started with this application.
+                  - generic:
+                    - heading "Learn more" [level=4]
+                    - list:
+                      - listitem:
+                        - link "Installation Guide":
+                          - /url: "#"
+                          - generic [ref=e79] [cursor=pointer]: Installation Guide
+                          - img
+  - generic [ref=e129]:
+    - img [ref=e131]
+    - button "Open Tanstack query devtools" [ref=e179] [cursor=pointer]:
+      - img [ref=e180]
+  - button "Open Next.js Dev Tools" [ref=e86] [cursor=pointer]:
+    - img [ref=e87]
+  - alert [ref=e228]

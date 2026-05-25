@@ -9,7 +9,7 @@ export default function ApiReferenceNotFound() {
         요청하신 API 레퍼런스가 존재하지 않거나 이동되었습니다.
       </p>
       <Button asChild>
-        <Link href='/api-reference'>전체 목록 보기</Link>
+        <Link href='/library/api-reference'>전체 목록 보기</Link>
       </Button>
     </div>
   );

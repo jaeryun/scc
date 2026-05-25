@@ -65,7 +65,7 @@ scc/
 | `modules/users/`         | 사용자 테이블 — React Query + Nuqs 패턴          |
 | `modules/kanban/`        | Kanban 보드 — dnd-kit + Zustand                  |
 | `modules/chat/`          | 채팅 UI                                          |
-| `modules/overview/`      | 대시보드 개요 — Recharts 차트                    |
+| `modules/dashboard/`     | 대시보드 — Recharts 차트                         |
 | `modules/notifications/` | 알림 센터                                        |
 
 ---

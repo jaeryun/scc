@@ -1,7 +1,7 @@
 export const notificationActionRoutes: Record<string, string> = {
-  workspaces: '/demo-logic/workspaces',
-  products: '/demo-logic/products',
-  billing: '/demo-logic/billing',
-  kanban: '/demo-ui/kanban',
-  chat: '/demo-ui/chat'
+  workspaces: '/library/modules/workspaces',
+  products: '/library/modules/products',
+  billing: '/library/modules/billing',
+  kanban: '/library/components/kanban',
+  chat: '/library/components/chat'
 };

@@ -1,16 +1,23 @@
+import { Suspense } from 'react';
 import PageContainer from '@/components/layout/page-container';
+import { WorkspaceView } from '@/modules/workspaces/components/workspace-view';
+import { WorkspaceSkeleton } from '@/modules/workspaces/components/workspace-skeleton';
+import { workspacesInfoContent } from '@/config/infoconfig';
 
 export const metadata = {
-  title: 'Dashboard : Workspaces'
+  title: 'Dashboard : 워크스페이스'
 };
 
 export default function Page() {
   return (
-    <PageContainer pageTitle='Workspaces' pageDescription='Manage your workspaces'>
-      <div className='rounded-lg border border-dashed p-8 text-center'>
-        <h2 className='text-xl font-semibold'>Workspaces</h2>
-        <p className='text-muted-foreground mt-2'>Organization features are currently disabled.</p>
-      </div>
+    <PageContainer
+      pageTitle='워크스페이스'
+      pageDescription='워크스페이스 관리'
+      infoContent={workspacesInfoContent}
+    >
+      <Suspense fallback={<WorkspaceSkeleton />}>
+        <WorkspaceView />
+      </Suspense>
     </PageContainer>
   );
 }

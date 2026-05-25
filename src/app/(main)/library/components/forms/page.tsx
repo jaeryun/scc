@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
 
 export default function Page() {
-  redirect('/demo-ui/forms/basic');
+  redirect('/library/components/forms/basic');
 }

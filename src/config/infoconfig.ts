@@ -126,6 +126,36 @@ export const billingInfoContent: InfobarContent = {
   ]
 };
 
+export const exclusiveInfoContent: InfobarContent = {
+  title: '프리미엄 기능',
+  sections: [
+    {
+      title: 'Overview',
+      description:
+        '프리미엄(특별) 기능 페이지에서는 Pro 플랜 전용 고급 기능을 확인하고 활성화할 수 있습니다. 각 기능은 접근 제어 및 기능 제한(Feature Gating)을 통해 관리되며, 사용자의 구독 등급에 따라 활성화 여부가 결정됩니다.',
+      links: []
+    },
+    {
+      title: 'Access Control',
+      description:
+        '접근 제어 시스템은 사용자의 역할 및 구독 상태에 따라 기능 접근을 제한합니다. 서버 사이드 권한 검증과 클라이언트 사이드 조건부 렌더링을 통해 보안과 사용자 경험을 모두 보장합니다.',
+      links: []
+    },
+    {
+      title: 'Feature Gating',
+      description:
+        '기능 제한(Feature Gating)은 Pro 전용 기능을 단계적으로 출시하거나 특정 사용자 그룹에만 제공할 때 사용합니다. 각 기능은 활성화/비활성화 상태를 가지며, 관리자 콘솔에서 동적으로 제어할 수 있습니다.',
+      links: []
+    },
+    {
+      title: 'Demo Scope',
+      description:
+        '이 데모 페이지는 TanStack Query의 useSuspenseQuery를 사용하여 목업 데이터를 로드합니다. 실제 환경에서는 서비스 함수만 교체하여 실제 API 또는 ORM과 연동할 수 있습니다.',
+      links: []
+    }
+  ]
+};
+
 export const productInfoContent: InfobarContent = {
   title: 'Product Management',
   sections: [

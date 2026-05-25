@@ -63,157 +63,222 @@ export const navGroups: NavGroup[] = [
     ]
   },
   {
-    label: '순수 UI',
+    label: '라이브러리',
     items: [
       {
-        title: 'Kanban',
-        url: '/demo-ui/kanban',
-        icon: 'kanban',
+        title: '소개',
+        url: '/library',
+        icon: 'info',
         isActive: false,
-        shortcut: ['k', 'k'],
+        shortcut: ['l', 'l'],
         items: []
       },
       {
-        title: 'Chat',
-        url: '/demo-ui/chat',
-        icon: 'chat',
+        title: '컴포넌트(UI)',
+        url: '/library/components',
+        icon: 'palette',
         isActive: false,
-        shortcut: ['c', 'c'],
-        items: []
-      },
-      {
-        title: 'Forms',
-        url: '/demo-ui/forms/basic',
-        icon: 'forms',
-        isActive: true,
         items: [
           {
-            title: 'Basic Form',
-            url: '/demo-ui/forms/basic',
+            title: '소개',
+            url: '/library/components',
+            icon: 'info'
+          },
+          {
+            title: '칸반',
+            url: '/library/components/kanban',
+            icon: 'kanban',
+            shortcut: ['k', 'k']
+          },
+          {
+            title: '채팅',
+            url: '/library/components/chat',
+            icon: 'chat',
+            shortcut: ['c', 'c']
+          },
+          {
+            title: '폼',
+            url: '/library/components/forms/basic',
             icon: 'forms',
-            shortcut: ['f', 'f']
+            isActive: true,
+            items: [
+              {
+                title: '기본 폼',
+                url: '/library/components/forms/basic',
+                icon: 'forms',
+                shortcut: ['f', 'f']
+              },
+              {
+                title: '다단계 폼',
+                url: '/library/components/forms/multi-step',
+                icon: 'forms'
+              },
+              {
+                title: '시트 & 다이얼로그',
+                url: '/library/components/forms/sheet-form',
+                icon: 'forms'
+              },
+              {
+                title: '고급 패턴',
+                url: '/library/components/forms/advanced',
+                icon: 'forms'
+              }
+            ]
           },
           {
-            title: 'Multi-Step Form',
-            url: '/demo-ui/forms/multi-step',
-            icon: 'forms'
+            title: '아이콘',
+            url: '/library/components/icons',
+            icon: 'palette'
           },
           {
-            title: 'Sheet & Dialog',
-            url: '/demo-ui/forms/sheet-form',
-            icon: 'forms'
+            title: '알림',
+            url: '/library/components/notifications',
+            icon: 'notification'
           },
           {
-            title: 'Advanced Patterns',
-            url: '/demo-ui/forms/advanced',
-            icon: 'forms'
+            title: '대화상자',
+            url: '/library/components/dialog',
+            icon: 'components'
+          },
+          {
+            title: '코드 블록',
+            url: '/library/components/code-block',
+            icon: 'code'
+          },
+          {
+            title: '탭 & 아코디언',
+            url: '/library/components/tabs-accordion',
+            icon: 'hierarchy'
+          },
+          {
+            title: '테이블',
+            url: '/library/components/table',
+            icon: 'listTree'
+          },
+          {
+            title: '드롭다운 & 컨텍스트',
+            url: '/library/components/dropdown',
+            icon: 'ellipsis'
+          },
+          {
+            title: '커맨드 팔레트',
+            url: '/library/components/command',
+            icon: 'logo'
+          },
+          {
+            title: '차트',
+            url: '/library/components/chart',
+            icon: 'barChart'
+          },
+          {
+            title: '프로필',
+            url: '/library/components/profile',
+            icon: 'teams'
+          },
+          {
+            title: '오버레이',
+            url: '/library/components/tooltip',
+            icon: 'info'
+          },
+          {
+            title: '정적 페이지',
+            url: '/library/components/static-pages',
+            icon: 'page',
+            isActive: false,
+            items: [
+              {
+                title: '소개',
+                url: '/library/components/static-pages',
+                icon: 'info'
+              },
+              {
+                title: '404 Not Found',
+                url: '/library/components/static-pages/not-found',
+                icon: 'slash'
+              },
+              {
+                title: '에러 페이지',
+                url: '/library/components/static-pages/error',
+                icon: 'warning'
+              }
+            ]
           }
         ]
       },
       {
-        title: 'Icons',
-        url: '/demo-ui/icons',
-        icon: 'palette',
-        isActive: false,
-        items: []
-      },
-      {
-        title: 'Notifications',
-        url: '/demo-ui/notifications',
-        icon: 'notification',
-        isActive: false,
-        items: []
-      },
-      {
-        title: 'Profile',
-        url: '/demo-ui/profile',
-        icon: 'teams',
-        isActive: false,
-        items: []
-      }
-    ]
-  },
-  {
-    label: 'UI + Logic',
-    items: [
-      {
-        title: 'Overview',
-        url: '/demo-logic/overview',
-        icon: 'dashboard',
-        isActive: false,
-        shortcut: ['d', 'd'],
-        items: []
-      },
-      {
-        title: 'Products',
-        url: '/demo-logic/products',
-        icon: 'product',
-        isActive: false,
-        shortcut: ['p', 'p'],
-        items: []
-      },
-      {
-        title: 'Users',
-        url: '/demo-logic/users',
-        icon: 'teams',
-        isActive: false,
-        shortcut: ['u', 'u'],
-        items: []
-      },
-      {
-        title: 'Grid Dashboard',
-        url: '/demo-logic/grid-dashboard',
-        icon: 'dashboard',
-        isActive: false,
-        items: []
-      },
-      {
-        title: 'Switch Mapping',
-        url: '/demo-logic/switch-mapping',
-        icon: 'network',
-        isActive: false,
-        items: []
-      },
-      {
-        title: 'React Query',
-        url: '/demo-logic/react-query',
+        title: '모듈(UI + Data)',
+        url: '/library/modules',
         icon: 'code',
         isActive: false,
-        items: []
+        items: [
+          {
+            title: '소개',
+            url: '/library/modules',
+            icon: 'info'
+          },
+          {
+            title: '대시보드',
+            url: '/library/modules/dashboard',
+            icon: 'dashboard',
+            shortcut: ['d', 'd']
+          },
+          {
+            title: '제품',
+            url: '/library/modules/products',
+            icon: 'product',
+            shortcut: ['p', 'p']
+          },
+          {
+            title: '사용자',
+            url: '/library/modules/users',
+            icon: 'teams',
+            shortcut: ['u', 'u']
+          },
+          {
+            title: '스위치 매핑',
+            url: '/library/modules/switch-mapping',
+            icon: 'network'
+          },
+          {
+            title: 'React Query',
+            url: '/library/modules/react-query',
+            icon: 'code'
+          },
+          {
+            title: '결제',
+            url: '/library/modules/billing',
+            icon: 'billing'
+          },
+          {
+            title: '특별',
+            url: '/library/modules/exclusive',
+            icon: 'sparkles'
+          },
+          {
+            title: '워크스페이스',
+            url: '/library/modules/workspaces',
+            icon: 'workspace'
+          }
+        ]
       },
       {
-        title: 'Billing',
-        url: '/demo-logic/billing',
-        icon: 'billing',
+        title: 'API 레퍼런스',
+        url: '/library/api-reference',
+        icon: 'api',
         isActive: false,
-        items: []
-      },
-      {
-        title: 'Exclusive',
-        url: '/demo-logic/exclusive',
-        icon: 'sparkles',
-        isActive: false,
-        items: []
-      },
-      {
-        title: 'Workspaces',
-        url: '/demo-logic/workspaces',
-        icon: 'workspace',
-        isActive: false,
-        items: []
-      }
-    ]
-  },
-  {
-    label: 'API Reference',
-    items: [
-      {
-        title: 'SemaphoreUI',
-        url: '/api-reference/semaphore',
-        icon: 'serverBolt',
-        isActive: false,
-        access: { requireOrg: true },
-        items: []
+        items: [
+          {
+            title: '전체 API',
+            url: '/library/api-reference',
+            icon: 'listTree'
+          },
+          {
+            title: 'SemaphoreUI',
+            url: '/library/api-reference/semaphore',
+            icon: 'serverBolt',
+            access: { requireOrg: true }
+          }
+        ]
       }
     ]
   }

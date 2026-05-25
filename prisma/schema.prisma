@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model Subnet {
@@ -62,26 +63,30 @@ model Dashboard {
   updatedAt   DateTime @updatedAt
 }
 
-model DemoDashboardFolder {
+model GridDashboardFolder {
   id        String   @id @default(cuid())
   title     String
   parentId  String?
-  parent    DemoDashboardFolder?  @relation("FolderNesting", fields: [parentId], references: [id])
-  children  DemoDashboardFolder[] @relation("FolderNesting")
-  dashboards DemoDashboard[]
+  parent    GridDashboardFolder?  @relation("FolderNesting", fields: [parentId], references: [id])
+  children  GridDashboardFolder[] @relation("FolderNesting")
+  dashboards GridDashboard[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("DemoDashboardFolder")
 }
 
-model DemoDashboard {
+model GridDashboard {
   id            String   @id @default(cuid())
   title         String
   description   String?
   folderId      String?
-  folder        DemoDashboardFolder? @relation(fields: [folderId], references: [id])
+  folder        GridDashboardFolder? @relation(fields: [folderId], references: [id])
   schemaVersion Int      @default(1)
   layout        Json     @default("{\"columns\":12,\"rowHeight\":80}")
   panels        Json     @default("[]")
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+
+  @@map("DemoDashboard")
 }

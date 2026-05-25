@@ -61,7 +61,7 @@ export default function HomePage() {
               shadcn/ui 기반의 대시보드 템플릿에서 사용하는 다양한 UI 컴포넌트와 패턴을 확인하세요.
               차트, 데이터 테이블, 칸반 보드, 폼 등을 포함합니다.
             </p>
-            <Link href='/demo-logic/overview'>
+            <Link href='/library/modules/dashboard'>
               <Button className='w-full' variant='outline'>
                 컴포넌트 데모 보기
                 <Icons.chevronRight className='ml-2 h-4 w-4' />

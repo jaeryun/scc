@@ -28,7 +28,7 @@ export function UserNav() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem onClick={() => router.push('/demo-ui/profile')}>
+          <DropdownMenuItem onClick={() => router.push('/library/components/profile')}>
             Profile
           </DropdownMenuItem>
         </DropdownMenuGroup>

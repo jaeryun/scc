@@ -19,7 +19,7 @@
 - `@tabler/icons-react`에서 import → `Icons` 객체에 시맨틱 키로 등록
 - 사용: `import { Icons } from '@/components/icons'` → `<Icons.search className='h-4 w-4' />`
 - `@tabler/icons-react` 직접 임포트 금지
-- 아이콘 쇼케이스: `/demo-components/elements/icons`
+- 아이콘 쇼케이스: `/library/components/icons`
 
 ### ⚠️ 카카오뱅크 브랜드 로고 (`Icons.kakaobank`)
 

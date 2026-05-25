@@ -9,6 +9,9 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
   SidebarRail
 } from '@/components/ui/sidebar';
 import {
@@ -21,12 +24,13 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { useCurrentView } from '@/hooks/use-current-view';
-import { views } from '@/config/views';
+import { views, type NavItem } from '@/config/views';
 import { Icons } from '../icons';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import * as React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { cn } from '@/lib/utils';
 
 const mockUser = {
   imageUrl: '',
@@ -35,6 +39,60 @@ const mockUser = {
   secondary_team: '데이터센터팀',
   role: 'admin'
 };
+
+function NavItemRenderer({ item, pathname }: { item: NavItem; pathname: string }) {
+  const hasChildren = item.items && item.items.length > 0;
+  const isActive = hasChildren
+    ? pathname === item.href ||
+      pathname.startsWith(item.href + '/') ||
+      item.items!.some((child) => pathname === child.href || pathname.startsWith(child.href + '/'))
+    : pathname === item.href;
+  const Icon = item.icon
+    ? (Icons[item.icon as keyof typeof Icons] as React.ComponentType<{ className?: string }>)
+    : null;
+
+  return (
+    <>
+      <SidebarMenuItem>
+        <SidebarMenuButton asChild tooltip={item.title} isActive={!hasChildren && isActive}>
+          <Link href={item.href}>
+            {Icon && <Icon className='size-4' />}
+            <span>{item.title}</span>
+          </Link>
+        </SidebarMenuButton>
+        {hasChildren && isActive && (
+          <SidebarMenuSub>
+            {item.items!.map((child) => {
+              const childHasSubItems = child.items && child.items.length > 0;
+              const childActive = childHasSubItems
+                ? pathname === child.href ||
+                  pathname.startsWith(child.href + '/') ||
+                  child.items!.some(
+                    (sub) => pathname === sub.href || pathname.startsWith(sub.href + '/')
+                  )
+                : pathname === child.href;
+              const ChildIcon = child.icon
+                ? (Icons[child.icon as keyof typeof Icons] as React.ComponentType<{
+                    className?: string;
+                  }>)
+                : null;
+              return (
+                <SidebarMenuSubItem key={child.href}>
+                  <SidebarMenuSubButton asChild isActive={childActive}>
+                    <Link href={child.href}>
+                      {ChildIcon && <ChildIcon className='size-4' />}
+                      <span>{child.title}</span>
+                    </Link>
+                  </SidebarMenuSubButton>
+                </SidebarMenuSubItem>
+              );
+            })}
+          </SidebarMenuSub>
+        )}
+      </SidebarMenuItem>
+    </>
+  );
+}
 
 export default function AppSidebar() {
   const pathname = usePathname();
@@ -61,7 +119,7 @@ export default function AppSidebar() {
             </div>
             <div className='grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden'>
               <span className='truncate font-semibold'>SE Command Center</span>
-              <span className='truncate text-xs text-muted-foreground'>Loading...</span>
+              <span className='truncate text-xs text-sidebar-foreground/70'>Loading...</span>
             </div>
           </div>
         </SidebarHeader>
@@ -90,7 +148,10 @@ export default function AppSidebar() {
                 <span className='truncate font-semibold' suppressHydrationWarning>
                   SE Command Center
                 </span>
-                <span className='truncate text-xs text-muted-foreground' suppressHydrationWarning>
+                <span
+                  className='truncate text-xs text-sidebar-foreground/70'
+                  suppressHydrationWarning
+                >
                   {effectiveView.label}
                 </span>
               </div>
@@ -135,24 +196,9 @@ export default function AppSidebar() {
       <SidebarContent className='overflow-x-hidden'>
         <SidebarGroup className='py-0'>
           <SidebarMenu>
-            {navItems.map((item) => {
-              const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
-              const Icon = item.icon
-                ? (Icons[item.icon as keyof typeof Icons] as React.ComponentType<{
-                    className?: string;
-                  }>)
-                : null;
-              return (
-                <SidebarMenuItem key={item.href}>
-                  <SidebarMenuButton asChild tooltip={item.title} isActive={isActive}>
-                    <Link href={item.href}>
-                      {Icon && <Icon className='size-4' />}
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              );
-            })}
+            {navItems.map((item) => (
+              <NavItemRenderer key={item.href} item={item} pathname={pathname} />
+            ))}
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>

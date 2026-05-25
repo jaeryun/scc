@@ -23,7 +23,7 @@ export default function ApiReferenceIndexPage() {
         {specs.map((spec) => {
           const Icon = Icons[spec.icon as keyof typeof Icons] || Icons.api;
           return (
-            <Link href={`/api-reference/${spec.id}`} key={spec.id} className='block group'>
+            <Link href={`/library/api-reference/${spec.id}`} key={spec.id} className='block group'>
               <Card className='h-full hover:border-primary/50 hover:shadow-md transition-all'>
                 <CardHeader>
                   <CardTitle className='flex items-center gap-2'>

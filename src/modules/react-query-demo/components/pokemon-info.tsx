@@ -26,10 +26,10 @@ export function PokemonInfo() {
       {/* Pokemon selector */}
       <Card>
         <CardHeader>
-          <CardTitle>Pick a Pokemon</CardTitle>
+          <CardTitle>포켓몬 선택</CardTitle>
           <CardDescription>
-            Each selection triggers <code>useSuspenseQuery</code> — cached results are instant, new
-            fetches show the Suspense fallback.
+            선택할 때마다 <code>useSuspenseQuery</code>가 실행되며, 캐시된 결과는 즉시 표시되고
+            새로운 페치는 Suspense 폴백을 보여줍니다.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -62,7 +62,7 @@ export function PokemonInfo() {
             </div>
           </div>
           <CardDescription>
-            Height: {data.height / 10}m &middot; Weight: {data.weight / 10}kg
+            키: {data.height / 10}m &middot; 몸무게: {data.weight / 10}kg
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -90,7 +90,7 @@ export function PokemonInfo() {
         </CardContent>
         <CardFooter>
           <p className='text-muted-foreground text-xs'>
-            Data from PokeAPI &middot; Prefetched on server, hydrated on client
+            PokeAPI 데이터 &middot; 서버에서 프리페치, 클라이언트에서 하이드레이션
           </p>
         </CardFooter>
       </Card>
