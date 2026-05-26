@@ -1,6 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import '@scalar/api-reference-react/style.css';
 
 const ScalarViewer = dynamic(
   () => import('@scalar/api-reference-react').then((mod) => ({ default: mod.ApiReferenceReact })),
@@ -16,10 +17,14 @@ const ScalarViewer = dynamic(
 
 export default function ApiReferenceViewer() {
   return (
-    <div className='h-[calc(100vh-41px)] w-full' role='region' aria-label='API Reference'>
+    <div
+      className='scalar-app h-[calc(100vh-41px)] w-full'
+      role='region'
+      aria-label='API Reference'
+    >
       <ScalarViewer
         configuration={{
-          spec: { url: '/api-specs/internal/latest.json' },
+          url: '/api-specs/internal/latest.json',
           hideDarkModeToggle: true,
           hideSearch: false
         }}
