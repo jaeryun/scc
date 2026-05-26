@@ -18,14 +18,14 @@ const ScalarViewer = dynamic(
 export default function ApiReferenceViewer() {
   return (
     <div
-      className='scalar-app h-[calc(100vh-41px)] w-full'
+      className='scalar-app h-[calc(100vh-56px)] w-full'
       role='region'
       aria-label='API Reference'
     >
       <ScalarViewer
         configuration={{
           url: '/api-specs/internal/latest.json',
-          hideDarkModeToggle: true,
+          hideClientButton: true,
           hideSearch: false
         }}
       />
