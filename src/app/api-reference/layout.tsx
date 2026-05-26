@@ -6,14 +6,14 @@ import '@/styles/scalar-overrides.css';
 export default function ApiReferenceLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className='flex min-h-screen flex-col'>
-      <header className='sticky top-0 z-50 flex h-14 items-center justify-between border-b bg-background/80 px-4 backdrop-blur-md'>
+      <header className='sticky top-0 z-50 flex h-11 items-center justify-between border-b border-white/10 bg-[#111111] px-4'>
         <div className='flex items-center gap-2'>
           <Link
             href='/home'
-            className='inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground'
+            className='inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-white/5 px-2.5 py-1.5 text-sm text-gray-300 transition-colors hover:bg-white/10 hover:text-white'
           >
-            <Icons.arrowLeft className='h-4 w-4' />
-            SCC로 돌아가기
+            <Icons.arrowLeft className='h-3.5 w-3.5' />
+            SCC
           </Link>
         </div>
         <div className='flex items-center gap-2'>
