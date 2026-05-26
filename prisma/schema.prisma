@@ -24,5 +24,4 @@ model NetBoxCache {
   hitCount   Int      @default(0)
 
   @@index([expiresAt])
-  @@index([url(ops: raw("text_pattern_ops"))])
 }

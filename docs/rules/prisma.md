@@ -5,7 +5,7 @@
 - `prisma db push` 사용 시 모든 데이터 삭제 + migration history 불일치 발생
 - `--accept-data-loss` 옵션은 말 그대로 데이터 손실을 의미
 - 개발/스테이징/프로덕션 어디서도 사용 금지
-- 대신 항상 `prisma migrate dev` 사용
+- 대신 항상 `prisma migrate dev` 또는 `prisma migrate deploy` 사용
 
 ## 허용된 명령어
 
@@ -20,6 +20,6 @@
 ## 마이그레이션 네이밍
 
 - 형식: `YYMMDD_무엇을-했는지-설명`
-- 예: `260524_add_batch_move_api`, `260523_add_folder_and_remove_tags`
+- 예: `270524_add_batch_move_api`, `270523_add_folder_and_remove_tags`
 
-> **상세 워크플로는 [`prisma/CLAUDE.md`](/prisma/CLAUDE.md) 참조.**
+> 실무 워크플로와 Shadow DB 설정은 [`prisma/CLAUDE.md`](/prisma/CLAUDE.md) 참조.

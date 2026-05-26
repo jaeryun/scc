@@ -1,38 +1,57 @@
-# DB 스키마 변경 워크플로
+# Prisma 실무 가이드
 
 @docs/rules/prisma.md
 @docs/core/conventions.md
 
-Prisma 마이그레이션 네이밍 및 전체 워크플로는 [`docs/core/conventions.md` 규칙 #16](../docs/core/conventions.md)을 엄격히 준수합니다.
-마이그레이션 생성/적용/검증 절차는 [`docs/rules/prisma.md`](../docs/rules/prisma.md)를 참조하세요.
+규칙 및 네이밍 컨벤션은 [`docs/rules/prisma.md`](../docs/rules/prisma.md)를, 전체 코딩 규칙은 [`docs/core/conventions.md`](../docs/core/conventions.md)를 따릅니다.
 
-## 🚨 `prisma db push` 절대 금지
+## Shadow Database
 
-**`prisma db push`는 사용하지 마십시오.** 이유:
+`prisma migrate dev`는 새 마이그레이션 생성 시 shadow database가 반드시 필요합니다. 내부적으로 shadow DB에 기존 마이그레이션을 모두 적용한 뒤, schema.prisma와 비교해 diff를 추출합니다.
 
-1. **데이터 초기화**: `--accept-data-loss`가 필요할 때마다 기존 테이블이 재생성되고 모든 데이터가 소멸됨
-2. **migrate 이력 불일치**: `db push`는 migration history를 기록하지 않아 추후 `migrate deploy` 실패 원인
-3. **운영 환경 위험**: staging/production에서 절대 사용 불가한 도구를 개발 환경에서도 사용하면 안 됨
+- **전용 DB 사용**: 기존 DB를 shadow 용도로 재사용하면 테이블 충돌이 발생합니다. `prisma_shadow` 같은 전용 빈 DB를 postgres 슈퍼유저 계정으로 생성하세요.
+- **환경 변수**: `.env`와 `.env.local`에 `SHADOW_DATABASE_URL`을 설정합니다.
 
-**올바른 워크플로:**
+```
+SHADOW_DATABASE_URL="postgresql://postgres:POSTGRES@localhost:5432/prisma_shadow"
+```
+
+## 일상 워크플로
 
 ```
 1. prisma/schema.prisma 수정
-2. npx prisma migrate dev --name YYMMDD_설명     → migration 생성 + DB 반영
-3. npx prisma generate                              → Prisma Client 갱신
-4. npm run build                                    → migration 검증 통과 확인
+2. npx prisma migrate dev --name YYMMDD_설명     → migration 생성 + DB 반영 + generate 자동 실행
+3. npm run build                                    → check-migrations.sh 통과 확인
 ```
 
-**DB 이관/재구성 시:**
+## DB 이관 / 재구성
+
+이미 확정된 마이그레이션을 새로운 DB에 순차 적용할 때:
 
 ```
-npx prisma migrate deploy   → 새 DB에 모든 migration 순차 적용 (데이터 보존)
+npx prisma migrate deploy
 ```
 
-## 스키마 파일 위치
+## DB 완전 초기화
+
+개발 중 스키마가 꼬였을 때 처음부터 다시 시작:
+
+```bash
+# 1. DB + shadow DB 모두 드랍 후 재생성
+psql -U postgres -c "DROP DATABASE IF EXISTS coredb;"
+psql -U postgres -c "DROP DATABASE IF EXISTS prisma_shadow;"
+psql -U postgres -c "CREATE DATABASE coredb OWNER app;"
+psql -U postgres -c "CREATE DATABASE prisma_shadow OWNER postgres;"
+
+# 2. 모든 migration 디렉토리 삭제 후 재생성
+rm -rf prisma/migrations/2*
+npx prisma migrate dev --name YYMMDD_init
+```
+
+## 파일 위치
 
 | 경로                   | 설명                                                 |
 | ---------------------- | ---------------------------------------------------- |
 | `prisma/schema.prisma` | DB 스키마 정의 (datasource, generator, model)        |
 | `prisma/migrations/`   | 마이그레이션 SQL 파일 (YYYYMMDD\_설명/migration.sql) |
-| `prisma/seed.ts`       | 데모 데이터 시드 스크립트                            |
+| `.env` / `.env.local`  | DATABASE_URL, SHADOW_DATABASE_URL                    |

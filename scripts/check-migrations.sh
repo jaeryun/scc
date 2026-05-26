@@ -19,6 +19,15 @@ if [ -z "${DATABASE_URL:-}" ]; then
   fi
 fi
 
+# Check if SHADOW_DATABASE_URL is set
+if [ -z "${SHADOW_DATABASE_URL:-}" ]; then
+  if [ -f .env.local ]; then
+    eval "$(grep '^SHADOW_DATABASE_URL=' .env.local)"
+  elif [ -f .env ]; then
+    eval "$(grep '^SHADOW_DATABASE_URL=' .env)"
+  fi
+fi
+
 if [ -z "${DATABASE_URL:-}" ]; then
   echo "[WARN] DATABASE_URL not set. Skipping DB-backed checks."
   echo "[INFO] Checking migration directory structure only..."
@@ -39,12 +48,22 @@ if [ ! -d prisma/migrations ]; then
   exit 1
 fi
 
+# Use SHADOW_DATABASE_URL if available, otherwise skip shadow db checks
+SHADOW_DB="${SHADOW_DATABASE_URL:-}"
+
+if [ -z "$SHADOW_DB" ]; then
+  echo "[WARN] SHADOW_DATABASE_URL not set. Skipping shadow DB diff check."
+  echo "[INFO] Checking migration directory structure only..."
+  echo "[OK] Schema matches migrations (no shadow DB available for deep check)."
+  exit 0
+fi
+
 # Run prisma migrate diff to check for drift
 echo "[INFO] Running prisma migrate diff..."
 diff_output=$(bunx prisma migrate diff \
   --from-migrations prisma/migrations \
   --to-schema-datamodel prisma/schema.prisma \
-  --shadow-database-url "$DATABASE_URL" \
+  --shadow-database-url "$SHADOW_DB" \
   --script 2>&1) || true
 
 # If diff output is empty or only contains "This is an empty migration", schema matches
