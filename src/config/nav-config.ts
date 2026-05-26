@@ -230,5 +230,17 @@ export const navGroups: NavGroup[] = [
         ]
       }
     ]
+  },
+  {
+    label: 'API',
+    items: [
+      {
+        title: 'API Reference',
+        url: '/api-reference',
+        icon: 'api',
+        isActive: false,
+        items: []
+      }
+    ]
   }
 ];

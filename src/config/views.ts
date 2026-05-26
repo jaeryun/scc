@@ -95,6 +95,12 @@ export const views: ViewConfig[] = [
     ]
   },
   {
+    id: 'api-reference',
+    label: 'API Reference',
+    icon: 'api',
+    navItems: [{ title: 'API Reference', href: '/api-reference', icon: 'api' }]
+  },
+  {
     id: 'settings',
     label: '설정',
     icon: 'settings',
