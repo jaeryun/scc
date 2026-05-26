@@ -65,3 +65,6 @@ bug*.png
 
 # NetBox auto-generated schema
 src/lib/netbox/schema.d.ts
+
+# Auto-generated API spec
+public/api-specs/internal/
