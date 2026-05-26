@@ -12,9 +12,6 @@ export default function HomePage() {
   return (
     <div className='flex min-h-[calc(100vh-3.5rem)] flex-1 flex-col items-center justify-center px-4 py-12'>
       <div className='mx-auto max-w-4xl text-center'>
-        <div className='mb-6 flex justify-center'>
-          <Icons.kakaobank className='h-12 w-12' />
-        </div>
         <h1 className='text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl'>
           SE Command Center
         </h1>

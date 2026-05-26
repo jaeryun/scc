@@ -15,6 +15,12 @@ export interface ViewConfig {
 
 export const views: ViewConfig[] = [
   {
+    id: 'home',
+    label: 'Home',
+    icon: 'home',
+    navItems: [{ title: 'SCC 소개', href: '/home', icon: 'info' }]
+  },
+  {
     id: 'dcim',
     label: 'DCIM',
     icon: 'server',
@@ -23,12 +29,6 @@ export const views: ViewConfig[] = [
       { title: '디바이스', href: '/dcim/devices', icon: 'server' },
       { title: 'IPAM', href: '/dcim/ipam', icon: 'network' }
     ]
-  },
-  {
-    id: 'home',
-    label: 'Home',
-    icon: 'home',
-    navItems: [{ title: 'SCC 소개', href: '/home', icon: 'info' }]
   },
   {
     id: 'library',
