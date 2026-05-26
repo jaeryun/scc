@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "next dev -H 0.0.0.0",
     "build": "bun run prebuild && next build",
-    "prebuild": "bash scripts/check-migrations.sh",
+    "prebuild": "bash scripts/check-migrations.sh && bun run generate-api-spec",
+    "generate-api-spec": "bun scripts/generate-api-spec.ts",
     "start": "next start",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix && bun format",
