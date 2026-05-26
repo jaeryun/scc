@@ -91,15 +91,6 @@ export const views: ViewConfig[] = [
           { title: '특별', href: '/library/modules/exclusive', icon: 'sparkles' },
           { title: '워크스페이스', href: '/library/modules/workspaces', icon: 'workspace' }
         ]
-      },
-      {
-        title: 'API 레퍼런스',
-        href: '/library/api-reference',
-        icon: 'api',
-        items: [
-          { title: '전체 API', href: '/library/api-reference', icon: 'listTree' },
-          { title: 'SemaphoreUI', href: '/library/api-reference/semaphore', icon: 'serverBolt' }
-        ]
       }
     ]
   },

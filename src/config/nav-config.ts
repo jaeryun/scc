@@ -228,25 +228,6 @@ export const navGroups: NavGroup[] = [
             icon: 'workspace'
           }
         ]
-      },
-      {
-        title: 'API 레퍼런스',
-        url: '/library/api-reference',
-        icon: 'api',
-        isActive: false,
-        items: [
-          {
-            title: '전체 API',
-            url: '/library/api-reference',
-            icon: 'listTree'
-          },
-          {
-            title: 'SemaphoreUI',
-            url: '/library/api-reference/semaphore',
-            icon: 'serverBolt',
-            access: { requireOrg: true }
-          }
-        ]
       }
     ]
   }
