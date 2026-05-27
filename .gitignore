@@ -69,6 +69,9 @@ page-snapshot.yml
 /.superpowers/
 /docs/superpowers
 
+# Git worktrees
+/.worktrees/
+
 # Speckit
 /specs
 
