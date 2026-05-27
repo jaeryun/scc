@@ -1,8 +1,15 @@
 'use client';
 
 import { Suspense } from 'react';
+import { cn } from '@/lib/utils';
 import { usePrefixes } from '../hooks/use-prefixes';
 import { useIpAddresses } from '../hooks/use-ip-addresses';
+
+const STATUS_CLASS: Record<string, string> = {
+  active: 'bg-[var(--chart-2)]/20 text-[var(--chart-2)]',
+  reserved: 'bg-[var(--chart-4)]/20 text-[var(--chart-4)]',
+  deprecated: 'bg-destructive/20 text-destructive'
+};
 
 function IpListInner({ prefixId }: { prefixId: number }) {
   const { data: ips } = useIpAddresses({ prefix: String(prefixId) });
@@ -37,13 +44,10 @@ function IpListInner({ prefixId }: { prefixId: number }) {
                 <td className='p-2 font-mono font-medium'>{ip.address}</td>
                 <td className='p-2'>
                   <span
-                    className={`inline-flex items-center gap-1.5 px-1.5 py-0.5 rounded text-xs font-medium ${
-                      ip.status === 'active'
-                        ? 'bg-green-100 text-green-700'
-                        : ip.status === 'reserved'
-                          ? 'bg-yellow-100 text-yellow-700'
-                          : 'bg-gray-100 text-gray-600'
-                    }`}
+                    className={cn(
+                      'inline-flex items-center gap-1.5 px-1.5 py-0.5 rounded text-xs font-medium',
+                      STATUS_CLASS[ip.status] ?? 'bg-muted/30 text-muted-foreground'
+                    )}
                   >
                     {ip.status}
                   </span>

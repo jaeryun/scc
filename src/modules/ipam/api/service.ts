@@ -1,7 +1,7 @@
 import { apiClient } from '@/lib/api-client';
-import type { Prefix, IpAddress } from './types';
+import type { Prefix, IpAddress, NetBoxPrefixRaw, NetBoxIpRaw } from './types';
 
-function toPrefix(raw: any): Prefix {
+function toPrefix(raw: NetBoxPrefixRaw): Prefix {
   return {
     id: raw.id,
     prefix: raw.prefix,
@@ -12,11 +12,11 @@ function toPrefix(raw: any): Prefix {
   };
 }
 
-function toIp(raw: any): IpAddress {
+function toIp(raw: NetBoxIpRaw): IpAddress {
   return {
     id: raw.id,
     address: raw.address,
-    status: raw.status?.value ?? raw.status ?? 'active',
+    status: typeof raw.status === 'string' ? raw.status : (raw.status.value ?? 'active'),
     dnsName: raw.dns_name ?? '',
     description: raw.description ?? '',
     assignedObject: raw.assigned_object_type
@@ -28,19 +28,19 @@ function toIp(raw: any): IpAddress {
 export async function getPrefixes(params?: Record<string, string>): Promise<Prefix[]> {
   const qs = params ? new URLSearchParams(params).toString() : '';
   const url = qs ? `/api/ipam/prefixes?${qs}` : '/api/ipam/prefixes';
-  const data = await apiClient<any[]>(url);
+  const data = await apiClient<NetBoxPrefixRaw[]>(url);
   return data.map(toPrefix);
 }
 
 export async function getIpAddresses(params?: Record<string, string>): Promise<IpAddress[]> {
   const qs = params ? new URLSearchParams(params).toString() : '';
   const url = qs ? `/api/ipam/ip-addresses?${qs}` : '/api/ipam/ip-addresses';
-  const data = await apiClient<any[]>(url);
+  const data = await apiClient<NetBoxIpRaw[]>(url);
   return data.map(toIp);
 }
 
 export async function assignIp(prefixId: number): Promise<IpAddress> {
-  const data = await apiClient<any>('/api/ipam/ip-addresses/assign', {
+  const data = await apiClient<NetBoxIpRaw>('/api/ipam/ip-addresses/assign', {
     method: 'POST',
     body: JSON.stringify({ prefixId })
   });
@@ -52,7 +52,7 @@ export async function releaseIp(id: number): Promise<void> {
 }
 
 export async function createPrefix(body: Record<string, unknown>): Promise<Prefix> {
-  const data = await apiClient<any>('/api/ipam/prefixes', {
+  const data = await apiClient<NetBoxPrefixRaw>('/api/ipam/prefixes', {
     method: 'POST',
     body: JSON.stringify(body)
   });

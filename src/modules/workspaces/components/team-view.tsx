@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import {
@@ -30,7 +30,7 @@ import {
 } from '@/components/ui/table';
 import { Icons } from '@/components/icons';
 import { workspaceByIdOptions, teamMembersQueryOptions } from '../api/queries';
-import { updateMemberRoleMutation } from '../api/mutations';
+import { useWorkspaceMutations } from '@/modules/workspaces/hooks/use-workspace-mutations';
 import type { TeamMember } from '../api/types';
 import { TeamSkeleton } from './team-skeleton';
 
@@ -59,16 +59,7 @@ export function TeamView({ workspaceId }: { workspaceId: string }) {
   const { data: workspace } = useQuery(workspaceByIdOptions(workspaceId));
   const { data: members, isLoading } = useQuery(teamMembersQueryOptions(workspaceId));
 
-  const roleMutation = useMutation({
-    ...updateMemberRoleMutation,
-    onSuccess: () => {
-      toast.success('역할이 변경되었습니다');
-      setEditMember(null);
-    },
-    onError: () => {
-      toast.error('역할 변경에 실패했습니다');
-    }
-  });
+  const { updateMemberRoleMutation } = useWorkspaceMutations();
 
   if (isLoading) return <TeamSkeleton />;
 
@@ -79,11 +70,22 @@ export function TeamView({ workspaceId }: { workspaceId: string }) {
 
   const handleSaveRole = () => {
     if (!editMember) return;
-    roleMutation.mutate({
-      workspaceId,
-      memberId: editMember.id,
-      role: newRole
-    });
+    updateMemberRoleMutation.mutate(
+      {
+        workspaceId,
+        memberId: editMember.id,
+        role: newRole
+      },
+      {
+        onSuccess: () => {
+          toast.success('역할이 변경되었습니다');
+          setEditMember(null);
+        },
+        onError: () => {
+          toast.error('역할 변경에 실패했습니다');
+        }
+      }
+    );
   };
 
   return (
@@ -170,8 +172,8 @@ export function TeamView({ workspaceId }: { workspaceId: string }) {
             <Button variant='outline' onClick={() => setEditMember(null)}>
               취소
             </Button>
-            <Button onClick={handleSaveRole} disabled={roleMutation.isPending}>
-              {roleMutation.isPending ? '저장 중...' : '저장'}
+            <Button onClick={handleSaveRole} disabled={updateMemberRoleMutation.isPending}>
+              {updateMemberRoleMutation.isPending ? '저장 중...' : '저장'}
             </Button>
           </DialogFooter>
         </DialogContent>

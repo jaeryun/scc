@@ -27,6 +27,22 @@ SE Command Center — Next.js 16 + shadcn/ui 사내 인프라팀 관리 대시�
 6. (선택) `src/app/api/<name>/route.ts` — API 라우트
 7. (선택) `src/components/icons.tsx` — 새 아이콘 등록
 
+## 작업 완료 전 필수 검증 체크리스트
+
+모든 page.tsx / 기능 추가 시 반드시 아래 항목을 확인한다:
+
+- [ ] `page.tsx`에 `export const metadata: Metadata` 존재 (타입 import 포함)
+- [ ] `cn()`으로 className 병합, 템플릿 리터럴/문자열 연결 금지
+- [ ] Tailwind 정적 색상(`text-red-500`, `bg-blue-500` 등) 대신 CSS 변수 토큰(`text-primary`, `bg-muted/50`) 사용
+- [ ] `any` 타입 사용 금지 (`// @reason` 주석 필수)
+- [ ] 데이터 계층: `api/types.ts` → `api/service.ts` → `api/queries.ts` 완전 분리
+- [ ] `hooks/` 계층 존재: 컴포넌트는 hook을 통해서만 데이터 접근 (직접 `api/service.ts` import 금지)
+- [ ] `useMutation` 인라인 금지 → `api/mutations.ts`에 전용 hook(`useXxxMutations()`) 정의 후 `hooks/`에서 re-export
+- [ ] Query Key Factory(`entityKeys.all/list/detail`) 사용, 문자열 하드코딩 금지
+- [ ] API route: Zod 스키마 `.parse()` 검증 사용, 수동 타입 체크 금지
+- [ ] `bun tsc --noEmit` 통과
+- [ ] `bun run build` 성공
+
 📚 [전체 문서 맵](./docs/README.md)
 @docs/core/project.md
 @docs/core/behavior.md

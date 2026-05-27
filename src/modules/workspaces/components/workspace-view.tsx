@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -26,7 +26,7 @@ import {
 import { Icons } from '@/components/icons';
 import { formatDate } from '@/lib/format';
 import { workspacesQueryOptions } from '../api/queries';
-import { createWorkspaceMutation } from '../api/mutations';
+import { useWorkspaceMutations } from '@/modules/workspaces/hooks/use-workspace-mutations';
 import type { Workspace } from '../api/types';
 import { WorkspaceSkeleton } from './workspace-skeleton';
 
@@ -38,24 +38,26 @@ export function WorkspaceView() {
 
   const { data: workspaces, isLoading } = useQuery(workspacesQueryOptions());
 
-  const createMutation = useMutation({
-    ...createWorkspaceMutation,
-    onSuccess: () => {
-      toast.success('워크스페이스가 생성되었습니다');
-      setCreateOpen(false);
-      setName('');
-      setDescription('');
-    },
-    onError: () => {
-      toast.error('워크스페이스 생성에 실패했습니다');
-    }
-  });
+  const { createWorkspaceMutation } = useWorkspaceMutations();
 
   if (isLoading) return <WorkspaceSkeleton />;
 
   const handleCreate = () => {
     if (!name.trim()) return;
-    createMutation.mutate({ name: name.trim(), description: description.trim() });
+    createWorkspaceMutation.mutate(
+      { name: name.trim(), description: description.trim() },
+      {
+        onSuccess: () => {
+          toast.success('워크스페이스가 생성되었습니다');
+          setName('');
+          setDescription('');
+          setCreateOpen(false);
+        },
+        onError: () => {
+          toast.error('워크스페이스 생성에 실패했습니다');
+        }
+      }
+    );
   };
 
   return (
@@ -128,8 +130,11 @@ export function WorkspaceView() {
             <Button variant='outline' onClick={() => setCreateOpen(false)}>
               취소
             </Button>
-            <Button onClick={handleCreate} disabled={createMutation.isPending || !name.trim()}>
-              {createMutation.isPending ? '생성 중...' : '생성'}
+            <Button
+              onClick={handleCreate}
+              disabled={createWorkspaceMutation.isPending || !name.trim()}
+            >
+              {createWorkspaceMutation.isPending ? '생성 중...' : '생성'}
             </Button>
           </DialogFooter>
         </DialogContent>

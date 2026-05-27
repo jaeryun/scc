@@ -12,8 +12,7 @@ import {
   SheetTitle
 } from '@/components/ui/sheet';
 import { Icons } from '@/components/icons';
-import { useMutation } from '@tanstack/react-query';
-import { createUserMutation, updateUserMutation } from '../api/mutations';
+import { useUserMutations } from '@/modules/users/hooks/use-user-mutations';
 import type { User } from '../api/types';
 import { toast } from 'sonner';
 import * as z from 'zod';
@@ -34,24 +33,7 @@ interface UserFormSheetProps {
 export function UserFormSheet({ user, open, onOpenChange }: UserFormSheetProps) {
   const isEdit = !!user;
 
-  const createMutation = useMutation({
-    ...createUserMutation,
-    onSuccess: () => {
-      toast.success('User created successfully');
-      onOpenChange(false);
-      form.reset();
-    },
-    onError: () => toast.error('Failed to create user')
-  });
-
-  const updateMutation = useMutation({
-    ...updateUserMutation,
-    onSuccess: () => {
-      toast.success('User updated successfully');
-      onOpenChange(false);
-    },
-    onError: () => toast.error('Failed to update user')
-  });
+  const { createUserMutation, updateUserMutation } = useUserMutations();
 
   const form = useAppForm({
     defaultValues: {
@@ -66,16 +48,37 @@ export function UserFormSheet({ user, open, onOpenChange }: UserFormSheetProps) 
     },
     onSubmit: async ({ value }) => {
       if (isEdit) {
-        await updateMutation.mutateAsync({ id: user.id, values: value });
+        await updateUserMutation.mutateAsync(
+          { id: user.id, values: value },
+          {
+            onSuccess: () => {
+              toast.success('User updated successfully');
+              form.reset();
+              onOpenChange(false);
+            },
+            onError: () => {
+              toast.error('Failed to update user');
+            }
+          }
+        );
       } else {
-        await createMutation.mutateAsync(value);
+        await createUserMutation.mutateAsync(value, {
+          onSuccess: () => {
+            toast.success('User created successfully');
+            form.reset();
+            onOpenChange(false);
+          },
+          onError: () => {
+            toast.error('Failed to create user');
+          }
+        });
       }
     }
   });
 
   const { FormTextField, FormSelectField } = useFormFields<UserFormValues>();
 
-  const isPending = createMutation.isPending || updateMutation.isPending;
+  const isPending = createUserMutation.isPending || updateUserMutation.isPending;
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>

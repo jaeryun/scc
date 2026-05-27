@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback, useMemo, useRef } from 'react';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -34,17 +34,9 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Label } from '@/components/ui/label';
 import { Icons } from '@/components/icons';
+import { cn } from '@/lib/utils';
 import { foldersQueryOptions, dashboardsQueryOptions } from '../api/queries';
-import {
-  createDashboardMutation,
-  updateDashboardMutation,
-  deleteDashboardMutation,
-  createFolderMutation,
-  updateFolderMutation,
-  deleteFolderMutation,
-  batchMoveMutation,
-  type BatchMoveItem
-} from '../api/mutations';
+import { useDashboardMutations } from '@/modules/dashboard/hooks/use-dashboard-mutations';
 import type { Dashboard, DashboardFolder } from '../api/types';
 
 type BreadcrumbSegment = { id?: string; title: string };
@@ -282,9 +274,10 @@ function MoveDialog({
         <div key={folder.id}>
           <button
             onClick={() => selectTarget(folder.id)}
-            className={`flex w-full items-center gap-1.5 px-2 py-1.5 text-sm rounded hover:bg-muted/50 transition-colors ${
-              selectedTarget === folder.id ? 'bg-primary/10 text-primary font-medium' : ''
-            }`}
+            className={cn(
+              'flex w-full items-center gap-1.5 px-2 py-1.5 text-sm rounded hover:bg-muted/50 transition-colors',
+              selectedTarget === folder.id && 'bg-primary/10 text-primary font-medium'
+            )}
           >
             <span
               role='button'
@@ -300,9 +293,11 @@ function MoveDialog({
                   toggleExpand(folder.id);
                 }
               }}
-              className={`shrink-0 flex items-center justify-center w-4 h-4 text-muted-foreground hover:text-foreground cursor-pointer transition-transform ${
-                hasChildren ? '' : 'invisible'
-              } ${isExpanded ? 'rotate-90' : ''}`}
+              className={cn(
+                'shrink-0 flex items-center justify-center w-4 h-4 text-muted-foreground hover:text-foreground cursor-pointer transition-transform',
+                !hasChildren && 'invisible',
+                isExpanded && 'rotate-90'
+              )}
             >
               <Icons.chevronRight className='h-3.5 w-3.5' />
             </span>
@@ -363,9 +358,10 @@ function MoveDialog({
             <div className='py-1'>
               <button
                 onClick={() => selectTarget(null)}
-                className={`flex w-full items-center gap-2 px-2 py-1.5 text-sm rounded hover:bg-muted/50 transition-colors ${
-                  selectedTarget === null ? 'bg-primary/10 text-primary font-medium' : ''
-                }`}
+                className={cn(
+                  'flex w-full items-center gap-2 px-2 py-1.5 text-sm rounded hover:bg-muted/50 transition-colors',
+                  selectedTarget === null && 'bg-primary/10 text-primary font-medium'
+                )}
               >
                 <Icons.home className='h-4 w-4 shrink-0 text-muted-foreground' />
                 <span>최상위 (폴더 없음)</span>
@@ -541,85 +537,52 @@ export function DashboardList() {
     [router, searchParams, clearSelection]
   );
 
-  const createFolder = useMutation({
-    ...createFolderMutation,
-    onSuccess(data, variables, context, _mutation) {
-      createFolderMutation.onSuccess?.(data, variables, context, _mutation);
-      setFolderDialogOpen(false);
-    }
-  });
-
-  const renameFolder = useMutation({
-    ...updateFolderMutation,
-    onSuccess(data, variables, context, _mutation) {
-      updateFolderMutation.onSuccess?.(data, variables, context, _mutation);
-      setEditingFolderId(null);
-    }
-  });
-
-  const deleteFolder = useMutation({
-    ...deleteFolderMutation,
-    onSuccess(data, variables, context, _mutation) {
-      deleteFolderMutation.onSuccess?.(data, variables, context, _mutation);
-      setDeleteTarget(null);
-      setBatchDeleteOpen(false);
-    }
-  });
-
-  const createDashboard = useMutation({
-    ...createDashboardMutation,
-    onSuccess(data, variables, context, _mutation) {
-      createDashboardMutation.onSuccess?.(data, variables, context, _mutation);
-      setDashboardDialog({ open: false, mode: 'create', initial: { title: '', description: '' } });
-    }
-  });
-
-  const updateDashboard = useMutation({
-    ...updateDashboardMutation,
-    onSuccess(data, variables, context, _mutation) {
-      updateDashboardMutation.onSuccess?.(data, variables, context, _mutation);
-      setDashboardDialog({ open: false, mode: 'create', initial: { title: '', description: '' } });
-    }
-  });
-
-  const batchMove = useMutation({
-    ...batchMoveMutation,
-    onSuccess(data, variables, context, _mutation) {
-      batchMoveMutation.onSuccess?.(data, variables, context, _mutation);
-      setMoveDialogOpen(false);
-    }
-  });
-
-  const deleteDashboard = useMutation({
-    ...deleteDashboardMutation,
-    onSuccess(data, variables, context, _mutation) {
-      deleteDashboardMutation.onSuccess?.(data, variables, context, _mutation);
-      setDeleteTarget(null);
-      setBatchDeleteOpen(false);
-    }
-  });
+  const {
+    createFolderMutation,
+    updateFolderMutation,
+    deleteFolderMutation,
+    createDashboardMutation,
+    updateDashboardMutation,
+    deleteDashboardMutation,
+    batchMoveMutation
+  } = useDashboardMutations();
 
   const handleFolderSave = useCallback(
     (title: string) => {
-      createFolder.mutate({ title, parentId: currentFolderId || null });
+      createFolderMutation.mutate(
+        { title, parentId: currentFolderId || null },
+        { onSuccess: () => setFolderDialogOpen(false) }
+      );
     },
-    [currentFolderId, createFolder]
+    [currentFolderId, createFolderMutation, setFolderDialogOpen]
   );
 
   const handleDashboardSave = useCallback(
     (data: { title: string; description: string }) => {
       if (dashboardDialog.mode === 'create') {
-        createDashboard.mutate({ ...data, folderId: currentFolderId || null });
+        createDashboardMutation.mutate(
+          { ...data, folderId: currentFolderId || null },
+          { onSuccess: () => setDashboardDialog((prev) => ({ ...prev, open: false })) }
+        );
       } else if (dashboardDialog.editingId) {
-        updateDashboard.mutate({ id: dashboardDialog.editingId, data });
+        updateDashboardMutation.mutate(
+          { id: dashboardDialog.editingId, data },
+          { onSuccess: () => setDashboardDialog((prev) => ({ ...prev, open: false })) }
+        );
       }
     },
-    [dashboardDialog, currentFolderId, createDashboard, updateDashboard]
+    [
+      dashboardDialog,
+      currentFolderId,
+      createDashboardMutation,
+      updateDashboardMutation,
+      setDashboardDialog
+    ]
   );
 
   const handleBatchMove = useCallback(
     (targetFolderId: string | null) => {
-      const moves: BatchMoveItem[] = [
+      const moves: { type: 'dashboard' | 'folder'; id: string; targetFolderId: string | null }[] = [
         ...sortedDashboards
           .filter((d) => selectedIds.has(`d-${d.id}`) && d.folderId !== targetFolderId)
           .map((d) => ({ type: 'dashboard' as const, id: d.id, targetFolderId })),
@@ -633,28 +596,37 @@ export function DashboardList() {
           .map((f) => ({ type: 'folder' as const, id: f.id, targetFolderId }))
       ];
       if (moves.length > 0) {
-        batchMove.mutate(moves);
+        batchMoveMutation.mutate(moves);
       } else {
         setMoveDialogOpen(false);
       }
       clearSelection();
     },
-    [sortedDashboards, sortedFolders, selectedIds, batchMove, clearSelection]
+    [sortedDashboards, sortedFolders, selectedIds, batchMoveMutation, clearSelection]
   );
 
   const handleBatchDelete = useCallback(() => {
     const selectedDashboards = sortedDashboards.filter((d) => selectedIds.has(`d-${d.id}`));
     const selectedFolders = sortedFolders.filter((f) => selectedIds.has(`f-${f.id}`));
-    for (const d of selectedDashboards) deleteDashboard.mutate(d.id);
-    for (const f of selectedFolders) deleteFolder.mutate(f.id);
+    for (const d of selectedDashboards) deleteDashboardMutation.mutate(d.id);
+    for (const f of selectedFolders) deleteFolderMutation.mutate(f.id);
     clearSelection();
-  }, [sortedDashboards, sortedFolders, selectedIds, deleteDashboard, deleteFolder, clearSelection]);
+  }, [
+    sortedDashboards,
+    sortedFolders,
+    selectedIds,
+    deleteDashboardMutation,
+    deleteFolderMutation,
+    clearSelection
+  ]);
 
   const handleSingleDelete = useCallback(() => {
     if (!deleteTarget) return;
-    if (deleteTarget.type === 'folder') deleteFolder.mutate(deleteTarget.id);
-    else deleteDashboard.mutate(deleteTarget.id);
-  }, [deleteTarget, deleteFolder, deleteDashboard]);
+    if (deleteTarget.type === 'folder')
+      deleteFolderMutation.mutate(deleteTarget.id, { onSuccess: () => setDeleteTarget(null) });
+    else
+      deleteDashboardMutation.mutate(deleteTarget.id, { onSuccess: () => setDeleteTarget(null) });
+  }, [deleteTarget, deleteFolderMutation, deleteDashboardMutation, setDeleteTarget]);
 
   const startRename = useCallback((folder: DashboardFolder) => {
     setEditingFolderId(folder.id);
@@ -669,8 +641,11 @@ export function DashboardList() {
       setEditingFolderId(null);
       return;
     }
-    renameFolder.mutate({ id: editingFolderId, data: { title: trimmed } });
-  }, [editingFolderId, editFolderTitle, allFolders, renameFolder]);
+    updateFolderMutation.mutate(
+      { id: editingFolderId, data: { title: trimmed } },
+      { onSuccess: () => setEditingFolderId(null) }
+    );
+  }, [editingFolderId, editFolderTitle, allFolders, updateFolderMutation, setEditingFolderId]);
 
   const cancelRename = useCallback(() => {
     setEditingFolderId(null);
@@ -771,8 +746,8 @@ export function DashboardList() {
           if (!open) setFolderDialogOpen(false);
         }}
         onSave={handleFolderSave}
-        isPending={createFolder.isPending}
-        error={createFolder.error?.message}
+        isPending={createFolderMutation.isPending}
+        error={createFolderMutation.error?.message}
       />
 
       <DashboardDialog
@@ -789,8 +764,8 @@ export function DashboardList() {
         mode={dashboardDialog.mode}
         initial={dashboardDialog.initial}
         onSave={handleDashboardSave}
-        isPending={createDashboard.isPending || updateDashboard.isPending}
-        error={createDashboard.error?.message ?? updateDashboard.error?.message}
+        isPending={createDashboardMutation.isPending || updateDashboardMutation.isPending}
+        error={createDashboardMutation.error?.message ?? updateDashboardMutation.error?.message}
       />
 
       <MoveDialog
@@ -802,7 +777,7 @@ export function DashboardList() {
         folders={allFoldersFlat}
         excludeIds={[...selectedIds].filter((k) => k.startsWith('f-')).map((k) => k.slice(2))}
         onMove={handleBatchMove}
-        isPending={batchMove.isPending}
+        isPending={batchMoveMutation.isPending}
       />
 
       {isLoading && (
@@ -1067,7 +1042,9 @@ export function DashboardList() {
               onClick={handleSingleDelete}
               className='bg-destructive text-destructive-foreground hover:bg-destructive/90'
             >
-              {deleteFolder.isPending || deleteDashboard.isPending ? '삭제 중...' : '삭제'}
+              {deleteFolderMutation.isPending || deleteDashboardMutation.isPending
+                ? '삭제 중...'
+                : '삭제'}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -1092,7 +1069,7 @@ export function DashboardList() {
               onClick={handleBatchDelete}
               className='bg-destructive text-destructive-foreground hover:bg-destructive/90'
             >
-              {deleteFolder.isPending || deleteDashboard.isPending
+              {deleteFolderMutation.isPending || deleteDashboardMutation.isPending
                 ? '삭제 중...'
                 : `${selectionCount}개 삭제`}
             </AlertDialogAction>

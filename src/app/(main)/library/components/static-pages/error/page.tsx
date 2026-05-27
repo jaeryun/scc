@@ -35,9 +35,9 @@ export default function ErrorDemoPage() {
         {/* 503 Maintenance */}
         <Card className='border-dashed p-12 text-center'>
           <div className='mb-6 flex justify-center'>
-            <div className='flex h-24 w-24 items-center justify-center rounded-full bg-amber-500/10'>
+            <div className='flex h-24 w-24 items-center justify-center rounded-full bg-[var(--chart-4)]/10'>
               <svg
-                className='h-12 w-12 text-amber-500'
+                className='h-12 w-12 text-[var(--chart-4)]'
                 fill='none'
                 stroke='currentColor'
                 strokeWidth={1.5}

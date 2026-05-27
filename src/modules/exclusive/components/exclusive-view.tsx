@@ -1,8 +1,8 @@
 'use client';
 
-import { useSuspenseQuery } from '@tanstack/react-query';
-import { premiumFeaturesOptions, accessStatsOptions } from '../api/queries';
+import { usePremiumFeatures, useAccessStats } from '../hooks/use-exclusive';
 import { Icons } from '@/components/icons';
+import { cn } from '@/lib/utils';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -14,16 +14,18 @@ function FeatureCard({ feature }: { feature: PremiumFeature }) {
 
   return (
     <Card
-      className={`group relative overflow-hidden transition-all duration-300 hover:shadow-lg ${
+      className={cn(
+        'group relative overflow-hidden transition-all duration-300 hover:shadow-lg',
         feature.enabled ? 'border-primary/40 bg-primary/5' : 'border-muted bg-muted/10'
-      }`}
+      )}
     >
       <CardHeader>
         <div className='flex items-center justify-between'>
           <div
-            className={`flex h-10 w-10 items-center justify-center rounded-lg transition-colors ${
+            className={cn(
+              'flex h-10 w-10 items-center justify-center rounded-lg transition-colors',
               feature.enabled ? 'bg-primary/15 text-primary' : 'bg-muted text-muted-foreground'
-            }`}
+            )}
           >
             {Icon && <Icon className='h-5 w-5' />}
           </div>
@@ -55,7 +57,7 @@ function HeroBanner() {
 }
 
 function AccessStatusCard() {
-  const { data: stats } = useSuspenseQuery(accessStatsOptions());
+  const { data: stats } = useAccessStats();
   const progressPercent = Math.round((stats.featuresEnabled / stats.featuresTotal) * 100);
 
   return (
@@ -105,7 +107,7 @@ function UpgradeCTA() {
 }
 
 export function ExclusiveView() {
-  const { data: features } = useSuspenseQuery(premiumFeaturesOptions());
+  const { data: features } = usePremiumFeatures();
 
   return (
     <div className='space-y-6'>

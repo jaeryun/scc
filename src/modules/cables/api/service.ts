@@ -1,13 +1,13 @@
 import { apiClient } from '@/lib/api-client';
-import type { Cable } from './types';
+import type { Cable, NetBoxCableRaw } from './types';
 
-function toCable(raw: any): Cable {
+function toCable(raw: NetBoxCableRaw): Cable {
   const a = raw.a_terminations?.[0];
   const b = raw.b_terminations?.[0];
   return {
     id: raw.id,
-    type: raw.type?.value ?? raw.type ?? null,
-    status: raw.status?.value ?? raw.status ?? 'connected',
+    type: typeof raw.type === 'string' ? raw.type : (raw.type?.value ?? null),
+    status: typeof raw.status === 'string' ? raw.status : (raw.status.value ?? 'connected'),
     label: raw.label ?? '',
     aDevice: a?.device?.name ?? '',
     aInterface: a?.name ?? '',
@@ -19,17 +19,17 @@ function toCable(raw: any): Cable {
 export async function getCables(params?: Record<string, string>): Promise<Cable[]> {
   const qs = params ? new URLSearchParams(params).toString() : '';
   const url = qs ? `/api/dcim/cables?${qs}` : '/api/dcim/cables';
-  const data = await apiClient<any[]>(url);
+  const data = await apiClient<NetBoxCableRaw[]>(url);
   return data.map(toCable);
 }
 
 export async function getCable(id: number): Promise<Cable> {
-  const data = await apiClient<any>(`/api/dcim/cables/${id}`);
+  const data = await apiClient<NetBoxCableRaw>(`/api/dcim/cables/${id}`);
   return toCable(data);
 }
 
 export async function createCable(body: Record<string, unknown>): Promise<Cable> {
-  const data = await apiClient<any>('/api/dcim/cables', {
+  const data = await apiClient<NetBoxCableRaw>('/api/dcim/cables', {
     method: 'POST',
     body: JSON.stringify(body)
   });

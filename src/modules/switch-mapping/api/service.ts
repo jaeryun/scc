@@ -1,5 +1,5 @@
 import { apiClient } from '@/lib/api-client';
-import type { NetBoxDevice } from './types';
+import type { NetBoxDevice, NetBoxInterface, NetBoxInterfaceLinkPeer } from './types';
 import type { SwitchPortsData, PortMapping } from '../types';
 
 export async function getSwitchesByRole(role: string): Promise<NetBoxDevice[]> {
@@ -8,23 +8,23 @@ export async function getSwitchesByRole(role: string): Promise<NetBoxDevice[]> {
 
 export async function getSwitchPorts(deviceId: string): Promise<SwitchPortsData> {
   const [device, interfaces] = await Promise.all([
-    apiClient<any>(`/api/dcim/devices/${deviceId}`),
-    apiClient<any[]>(`/api/dcim/interfaces?device_id=${encodeURIComponent(deviceId)}`)
+    apiClient<NetBoxDevice>(`/api/dcim/devices/${deviceId}`),
+    apiClient<NetBoxInterface[]>(`/api/dcim/interfaces?device_id=${encodeURIComponent(deviceId)}`)
   ]);
 
   const ports: PortMapping[] = interfaces.map(
-    (iface: any): PortMapping => ({
+    (iface: NetBoxInterface): PortMapping => ({
       id: String(iface.id),
       switchName: device.name ?? '(unnamed)',
       switchPortName: iface.name,
       hostName:
         iface.link_peers
-          ?.map((p: any) => p.device?.name)
+          ?.map((p: NetBoxInterfaceLinkPeer) => p.device?.name)
           .filter(Boolean)
           .join(', ') ?? null,
       hostPortName:
         iface.link_peers
-          ?.map((p: any) => p.name)
+          ?.map((p: NetBoxInterfaceLinkPeer) => p.name)
           .filter(Boolean)
           .join(', ') ?? null,
       status: iface.enabled ? 'up' : 'down',

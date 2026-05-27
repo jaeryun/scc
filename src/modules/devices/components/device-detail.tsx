@@ -1,6 +1,7 @@
 'use client';
 
 import { Suspense } from 'react';
+import { cn } from '@/lib/utils';
 import { useDevice } from '@/modules/devices/hooks/use-devices';
 import { useInterfaces } from '@/modules/interfaces/hooks/use-interfaces';
 
@@ -19,7 +20,10 @@ function DetailInner({ id }: { id: number }) {
           <div className='text-sm text-muted-foreground'>Status</div>
           <div className='flex items-center gap-2'>
             <span
-              className={`w-2 h-2 rounded-full ${device.status === 'active' ? 'bg-green-500' : 'bg-gray-400'}`}
+              className={cn(
+                'w-2 h-2 rounded-full',
+                device.status === 'active' ? 'bg-[var(--chart-2)]' : 'bg-muted'
+              )}
             />
             <span className='text-lg font-semibold capitalize'>{device.status}</span>
           </div>

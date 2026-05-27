@@ -1,25 +1,16 @@
 'use client';
 
 import React from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { viewSettingsQueryOptions, viewSettingKeys } from '@/modules/view-settings/api/queries';
-import { updateViewSetting } from '@/modules/view-settings/api/service';
+import { useViewSettings } from '@/modules/view-settings/hooks/use-view-settings';
+import { useViewSettingsMutations } from '@/modules/view-settings/hooks/use-view-settings-mutations';
 import { views } from '@/config/views';
 import { Icons } from '@/components/icons';
 import IconPicker from './icon-picker';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function ViewSettingsForm() {
-  const queryClient = useQueryClient();
-  const { data: viewSettings, isLoading } = useQuery(viewSettingsQueryOptions());
-
-  const mutation = useMutation({
-    mutationFn: ({ viewId, icon }: { viewId: string; icon: string }) =>
-      updateViewSetting(viewId, { icon }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: viewSettingKeys.all });
-    }
-  });
+  const { data: viewSettings, isLoading } = useViewSettings();
+  const { updateMutation } = useViewSettingsMutations();
 
   const viewIconMap = React.useMemo(() => {
     const map = new Map<string, string>();
@@ -75,7 +66,7 @@ export default function ViewSettingsForm() {
                 <IconPicker
                   value={currentIcon}
                   onChange={(icon) => {
-                    mutation.mutate({ viewId: view.id, icon });
+                    updateMutation.mutate({ viewId: view.id, icon });
                   }}
                 />
               </div>

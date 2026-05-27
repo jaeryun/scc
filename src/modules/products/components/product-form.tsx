@@ -3,9 +3,8 @@
 import { useAppForm, useFormFields } from '@/components/ui/tanstack-form';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { createProductMutation, updateProductMutation } from '../api/mutations';
 import type { Product } from '../api/types';
-import { useMutation } from '@tanstack/react-query';
+import { useProductMutations } from '@/modules/products/hooks/use-product-mutations';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import * as z from 'zod';
@@ -22,27 +21,7 @@ export default function ProductForm({
   const router = useRouter();
   const isEdit = !!initialData;
 
-  const createMutation = useMutation({
-    ...createProductMutation,
-    onSuccess: () => {
-      toast.success('Product created successfully');
-      router.push('/library/modules/products');
-    },
-    onError: () => {
-      toast.error('Failed to create product');
-    }
-  });
-
-  const updateMutation = useMutation({
-    ...updateProductMutation,
-    onSuccess: () => {
-      toast.success('Product updated successfully');
-      router.push('/library/modules/products');
-    },
-    onError: () => {
-      toast.error('Failed to update product');
-    }
-  });
+  const { createProductMutation, updateProductMutation } = useProductMutations();
 
   const form = useAppForm({
     defaultValues: {
@@ -64,9 +43,28 @@ export default function ProductForm({
       };
 
       if (isEdit) {
-        updateMutation.mutate({ id: initialData.id, values: payload });
+        updateProductMutation.mutate(
+          { id: initialData.id, values: payload },
+          {
+            onSuccess: () => {
+              toast.success('Product updated successfully');
+              router.push('/library/modules/products');
+            },
+            onError: () => {
+              toast.error('Failed to update product');
+            }
+          }
+        );
       } else {
-        createMutation.mutate(payload);
+        createProductMutation.mutate(payload, {
+          onSuccess: () => {
+            toast.success('Product created successfully');
+            router.push('/library/modules/products');
+          },
+          onError: () => {
+            toast.error('Failed to create product');
+          }
+        });
       }
     }
   });

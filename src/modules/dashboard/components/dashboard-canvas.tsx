@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { GridLayout, useContainerWidth } from 'react-grid-layout';
 import { verticalCompactor } from 'react-grid-layout/core';
@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { WidgetFrame } from '@/components/ui/grid-dashboard/widget-frame';
 import { Icons } from '@/components/icons';
 import { dashboardDetailQueryOptions } from '../api/queries';
-import { updateDashboardMutation, deleteDashboardMutation } from '../api/mutations';
+import { useDashboardMutations } from '@/modules/dashboard/hooks/use-dashboard-mutations';
 import { renderPanel } from './widgets/panel-registry';
 import { WidgetAddDialog } from './widget-add-dialog';
 import type { Panel, PanelType } from '../api/types';
@@ -34,13 +34,7 @@ export function DashboardCanvas({ dashboardId }: { dashboardId: string }) {
 
   const { data: dashboard, isLoading } = useQuery(dashboardDetailQueryOptions(dashboardId));
 
-  const updateMutation = useMutation({
-    ...updateDashboardMutation
-  });
-
-  const deleteMutation = useMutation({
-    ...deleteDashboardMutation
-  });
+  const { updateDashboardMutation, deleteDashboardMutation } = useDashboardMutations();
 
   const panels = dashboard?.panels ?? [];
 
@@ -58,12 +52,12 @@ export function DashboardCanvas({ dashboardId }: { dashboardId: string }) {
         })
         .filter(Boolean) as Panel[];
 
-      updateMutation.mutate({
+      updateDashboardMutation.mutate({
         id: dashboardId,
         data: { panels: updatedPanels }
       });
     },
-    [isEditing, dashboard, panels, dashboardId, updateMutation]
+    [isEditing, dashboard, panels, dashboardId, updateDashboardMutation]
   );
 
   const addPanel = useCallback(
@@ -80,41 +74,41 @@ export function DashboardCanvas({ dashboardId }: { dashboardId: string }) {
         },
         options: { ...panelType.defaultOptions }
       };
-      updateMutation.mutate({
+      updateDashboardMutation.mutate({
         id: dashboardId,
         data: { panels: [...panels, newPanel] }
       });
     },
-    [panels, dashboardId, updateMutation]
+    [panels, dashboardId, updateDashboardMutation]
   );
 
   const removePanel = useCallback(
     (panelId: string) => {
-      updateMutation.mutate({
+      updateDashboardMutation.mutate({
         id: dashboardId,
         data: { panels: panels.filter((p) => p.id !== panelId) }
       });
     },
-    [panels, dashboardId, updateMutation]
+    [panels, dashboardId, updateDashboardMutation]
   );
 
   const updatePanelOptions = useCallback(
     (panelId: string, newOptions: Record<string, unknown>) => {
-      updateMutation.mutate({
+      updateDashboardMutation.mutate({
         id: dashboardId,
         data: {
           panels: panels.map((p) => (p.id === panelId ? { ...p, options: newOptions } : p))
         }
       });
     },
-    [panels, dashboardId, updateMutation]
+    [panels, dashboardId, updateDashboardMutation]
   );
 
   const handleDelete = useCallback(async () => {
     if (!confirm('이 대시보드를 삭제하시겠습니까?')) return;
-    await deleteMutation.mutateAsync(dashboardId);
+    await deleteDashboardMutation.mutateAsync(dashboardId);
     router.push('/library/modules/dashboard');
-  }, [dashboardId, deleteMutation, router]);
+  }, [dashboardId, deleteDashboardMutation, router]);
 
   if (isLoading) {
     return (

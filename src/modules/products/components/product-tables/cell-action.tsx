@@ -8,12 +8,11 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { deleteProductMutation } from '../../api/mutations';
+import { useProductMutations } from '@/modules/products/hooks/use-product-mutations';
 import type { Product } from '../../api/types';
 import { Icons } from '@/components/icons';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 interface CellActionProps {
@@ -24,24 +23,25 @@ export function CellAction({ data }: CellActionProps) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
-  const deleteMutation = useMutation({
-    ...deleteProductMutation,
-    onSuccess: () => {
-      toast.success('Product deleted successfully');
-      setOpen(false);
-    },
-    onError: () => {
-      toast.error('Failed to delete product');
-    }
-  });
+  const { deleteProductMutation } = useProductMutations();
 
   return (
     <>
       <AlertModal
         isOpen={open}
         onClose={() => setOpen(false)}
-        onConfirm={() => deleteMutation.mutate(data.id)}
-        loading={deleteMutation.isPending}
+        onConfirm={() =>
+          deleteProductMutation.mutate(data.id, {
+            onSuccess: () => {
+              toast.success('Product deleted successfully');
+              setOpen(false);
+            },
+            onError: () => {
+              toast.error('Failed to delete product');
+            }
+          })
+        }
+        loading={deleteProductMutation.isPending}
       />
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>

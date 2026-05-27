@@ -2,6 +2,12 @@ import Link from 'next/link';
 import PageContainer from '@/components/layout/page-container';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'DCIM',
+  description: 'Data Center Infrastructure Management'
+};
 
 const sections = [
   {

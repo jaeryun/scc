@@ -10,8 +10,8 @@ import { cn } from '@/lib/utils';
 import type { Conversation } from '../utils/types';
 
 const statusDotColor = {
-  online: 'bg-green-500',
-  offline: 'bg-red-500'
+  online: 'bg-[var(--chart-2)]',
+  offline: 'bg-destructive'
 } as const;
 
 interface ConversationListProps {

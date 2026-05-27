@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { DataTableColumnHeader } from '@/components/ui/table/data-table-column-header';
+import { cn } from '@/lib/utils';
 import type { ColumnDef, Column } from '@tanstack/react-table';
 import type { Device } from '../../api/types';
 
@@ -17,6 +18,15 @@ const STATUS_MAP: Record<
   failed: { variant: 'destructive', label: 'Failed' },
   inventory: { variant: 'secondary', label: 'Inventory' },
   decommissioning: { variant: 'secondary', label: 'Decommissioning' }
+};
+
+const STATUS_DOT_CLASS: Record<string, string> = {
+  active: 'bg-[var(--chart-2)]',
+  failed: 'bg-destructive',
+  planned: 'bg-[var(--chart-1)]',
+  staged: 'bg-primary',
+  inventory: 'bg-muted',
+  decommissioning: 'bg-muted'
 };
 
 export const columns: ColumnDef<Device>[] = [
@@ -101,17 +111,10 @@ export const columns: ColumnDef<Device>[] = [
       return (
         <Badge variant={conf.variant}>
           <span
-            className={`mr-1 inline-block w-1.5 h-1.5 rounded-full ${
-              status === 'active'
-                ? 'bg-green-500'
-                : status === 'failed'
-                  ? 'bg-red-500'
-                  : status === 'planned'
-                    ? 'bg-cyan-500'
-                    : status === 'staged'
-                      ? 'bg-blue-500'
-                      : 'bg-gray-400'
-            }`}
+            className={cn(
+              'mr-1 inline-block w-1.5 h-1.5 rounded-full',
+              STATUS_DOT_CLASS[status] ?? 'bg-muted'
+            )}
           />
           {conf.label}
         </Badge>

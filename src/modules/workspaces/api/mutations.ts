@@ -1,29 +1,34 @@
-import { mutationOptions } from '@tanstack/react-query';
-import { getQueryClient } from '@/lib/query-client';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createWorkspace, updateMemberRole } from './service';
 import { workspaceKeys } from './queries';
 import type { CreateWorkspacePayload, UpdateMemberRolePayload } from './types';
 
-export const createWorkspaceMutation = mutationOptions({
-  mutationFn: (data: CreateWorkspacePayload) => createWorkspace(data),
-  onSuccess: () => {
-    getQueryClient().invalidateQueries({ queryKey: workspaceKeys.all });
-  }
-});
+export function useWorkspaceMutations() {
+  const queryClient = useQueryClient();
 
-export const updateMemberRoleMutation = mutationOptions({
-  mutationFn: ({
-    workspaceId,
-    memberId,
-    role
-  }: {
-    workspaceId: string;
-    memberId: string;
-    role: UpdateMemberRolePayload['role'];
-  }) => updateMemberRole(workspaceId, memberId, role),
-  onSuccess: (_data, variables) => {
-    getQueryClient().invalidateQueries({
-      queryKey: workspaceKeys.members(variables.workspaceId)
-    });
-  }
-});
+  const createWorkspaceMutation = useMutation({
+    mutationFn: (data: CreateWorkspacePayload) => createWorkspace(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: workspaceKeys.all });
+    }
+  });
+
+  const updateMemberRoleMutation = useMutation({
+    mutationFn: ({
+      workspaceId,
+      memberId,
+      role
+    }: {
+      workspaceId: string;
+      memberId: string;
+      role: UpdateMemberRolePayload['role'];
+    }) => updateMemberRole(workspaceId, memberId, role),
+    onSuccess: (_data, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: workspaceKeys.members(variables.workspaceId)
+      });
+    }
+  });
+
+  return { createWorkspaceMutation, updateMemberRoleMutation };
+}

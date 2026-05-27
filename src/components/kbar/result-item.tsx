@@ -1,5 +1,6 @@
 import type { ActionId, ActionImpl } from 'kbar';
 import * as React from 'react';
+import { cn } from '@/lib/utils';
 
 const ResultItem = React.forwardRef(
   (
@@ -23,7 +24,7 @@ const ResultItem = React.forwardRef(
     return (
       <div
         ref={ref}
-        className={`relative z-10 flex cursor-pointer items-center justify-between px-4 py-3`}
+        className={cn('relative z-10 flex cursor-pointer items-center justify-between px-4 py-3')}
       >
         {active && (
           <div

@@ -15,6 +15,7 @@ export interface NetBoxInterface {
   label: string;
   type: { value: string; label: string };
   speed: number | null;
+  mtu: number | null;
   enabled: boolean;
   link_peers: NetBoxInterfaceLinkPeer[];
 }

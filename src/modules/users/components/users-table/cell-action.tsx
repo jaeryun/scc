@@ -8,11 +8,10 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { deleteUserMutation } from '../../api/mutations';
+import { useUserMutations } from '@/modules/users/hooks/use-user-mutations';
 import type { User } from '../../api/types';
 import { Icons } from '@/components/icons';
 import { useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { UserFormSheet } from '../user-form-sheet';
 
@@ -24,24 +23,25 @@ export function CellAction({ data }: CellActionProps) {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
 
-  const deleteMutation = useMutation({
-    ...deleteUserMutation,
-    onSuccess: () => {
-      toast.success('User deleted successfully');
-      setDeleteOpen(false);
-    },
-    onError: () => {
-      toast.error('Failed to delete user');
-    }
-  });
+  const { deleteUserMutation } = useUserMutations();
 
   return (
     <>
       <AlertModal
         isOpen={deleteOpen}
         onClose={() => setDeleteOpen(false)}
-        onConfirm={() => deleteMutation.mutate(data.id)}
-        loading={deleteMutation.isPending}
+        onConfirm={() =>
+          deleteUserMutation.mutate(data.id, {
+            onSuccess: () => {
+              toast.success('User deleted successfully');
+              setDeleteOpen(false);
+            },
+            onError: () => {
+              toast.error('Failed to delete user');
+            }
+          })
+        }
+        loading={deleteUserMutation.isPending}
       />
       <UserFormSheet user={data} open={editOpen} onOpenChange={setEditOpen} />
       <DropdownMenu modal={false}>

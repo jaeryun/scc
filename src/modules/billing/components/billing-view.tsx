@@ -1,11 +1,10 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { plansQueryOptions, subscriptionQueryOptions, invoicesQueryOptions } from '../api/queries';
+import { usePlans, useSubscription, useInvoices } from '../hooks/use-billing';
 import type { Plan, Invoice } from '../api/types';
 
 function statusVariant(status: string) {
@@ -60,8 +59,8 @@ function formatCurrency(amount: number) {
 }
 
 function CurrentPlanCard() {
-  const { data: subscription, isLoading } = useQuery(subscriptionQueryOptions());
-  const { data: plans } = useQuery(plansQueryOptions());
+  const { data: subscription, isLoading } = useSubscription();
+  const { data: plans } = usePlans();
 
   const currentPlan = plans?.find((p) => p.id === subscription?.planId);
 
@@ -108,7 +107,7 @@ function CurrentPlanCard() {
 }
 
 function AvailablePlans() {
-  const { data: plans, isLoading } = useQuery(plansQueryOptions());
+  const { data: plans, isLoading } = usePlans();
 
   if (isLoading) {
     return (
@@ -181,7 +180,7 @@ function AvailablePlans() {
 }
 
 function PaymentHistory() {
-  const { data: invoices, isLoading } = useQuery(invoicesQueryOptions());
+  const { data: invoices, isLoading } = useInvoices();
 
   if (isLoading) {
     return (

@@ -2,8 +2,9 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Icons } from '@/components/icons';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import type { Metadata } from 'next';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'SE Command Center',
   description: 'AI 기반 개발을 위한 일관된 웹 애플리케이션 프레임워크'
 };

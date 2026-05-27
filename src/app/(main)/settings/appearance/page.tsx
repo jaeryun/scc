@@ -1,4 +1,10 @@
 import PageContainer from '@/components/layout/page-container';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: '설정 - 외형',
+  description: '테마 및 외형 설정을 관리합니다.'
+};
 
 export default function SettingsAppearancePage() {
   return (

@@ -1,4 +1,10 @@
 import PageContainer from '@/components/layout/page-container';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: '설정 - 일반',
+  description: '일반적인 애플리케이션 설정을 관리합니다.'
+};
 
 export default function SettingsGeneralPage() {
   return (
