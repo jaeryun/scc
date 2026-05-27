@@ -52,8 +52,17 @@ yarn-error.log*
 # Playwright MCP temp files
 .playwright-mcp/
 
-# Debug screenshots
+# Serena
+/.serena/
+
+# Husky internals
+/.husky/_/
+
+# Debug screenshots & snapshots
 bug*.png
+page-*
+*-screenshot.png
+page-snapshot.yml
 !/public/*.png
 
 # Superpowers
@@ -65,6 +74,7 @@ bug*.png
 
 # NetBox auto-generated schema
 src/lib/netbox/schema.d.ts
+src/lib/netbox/netbox-openapi-v4.x.json
 
 # Auto-generated API spec
 public/api-specs/internal/

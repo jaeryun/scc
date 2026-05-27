@@ -9,4 +9,4 @@ if grep -rqE '\.(internal|local|corp|lan)\b' public/api-specs/ 2>/dev/null; then
   echo "ERROR: Internal domains found in API specs. Remove them before committing."
   exit 1
 fi
-npx lint-staged
+bunx lint-staged
