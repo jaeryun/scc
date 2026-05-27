@@ -130,6 +130,9 @@
     "@types/react-dom": "19.2.3"
   },
   "lint-staged": {
+    "!(scripts)/**/*.{ts,tsx}": [
+      "oxlint"
+    ],
     "!(scripts)/**/*.{js,jsx,tsx,ts,css,less,scss,sass}": [
       "oxfmt --write"
     ]

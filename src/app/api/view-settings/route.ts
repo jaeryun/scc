@@ -6,7 +6,7 @@ export async function GET() {
   try {
     const merged = await getMergedViewSettings();
     return NextResponse.json(success(merged));
-  } catch (error) {
+  } catch {
     return NextResponse.json(failure('뷰 설정 조회 실패'), { status: 500 });
   }
 }

@@ -90,12 +90,16 @@ export default async function SubnetDetailPage({ params }) {
 
 ## 3. 뮤테이션 상세 예제
 
-### 방식 1 — `mutationOptions` (신규 권장)
-
-`api/mutations.ts`에 `mutationOptions`로 미리 정의하여 재사용:
+`api/mutations.ts`에 `mutationOptions`로 공유 설정을 정의하고, 컴포넌트에서 spread로 UI 콜백을 조합합니다.
 
 ```typescript
 // api/mutations.ts
+import { mutationOptions } from '@tanstack/react-query';
+import { getQueryClient } from '@/lib/query-client';
+import { createSubnet, updateSubnet, deleteSubnet } from './service';
+import type { CreateSubnetPayload, UpdateSubnetPayload } from './types';
+import { subnetKeys } from './queries';
+
 export const createSubnetMutation = mutationOptions({
   mutationFn: (data: CreateSubnetPayload) => createSubnet(data),
   onSuccess: () => {
@@ -103,27 +107,42 @@ export const createSubnetMutation = mutationOptions({
   }
 });
 
-// 컴포넌트에서 사용
-const mutation = useMutation(createSubnetMutation);
+export const updateSubnetMutation = mutationOptions({
+  mutationFn: ({ id, data }: { id: number; data: UpdateSubnetPayload }) =>
+    updateSubnet(id, data),
+  onSuccess: () => {
+    getQueryClient().invalidateQueries({ queryKey: subnetKeys.all });
+  }
+});
+
+export const deleteSubnetMutation = mutationOptions({
+  mutationFn: (id: number) => deleteSubnet(id),
+  onSuccess: () => {
+    getQueryClient().invalidateQueries({ queryKey: subnetKeys.all });
+  }
+});
 ```
-
-### 방식 2 — 인라인 `useMutation` (간단한 케이스)
-
-훅 파일에 인라인으로 정의:
 
 ```typescript
-// hooks/use-subnet-mutations.ts
-export function useSubnetMutations() {
-  const queryClient = useQueryClient();
-  const createMutation = useMutation({
-    mutationFn: (data: CreateSubnetPayload) => createSubnet(data),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: subnetKeys.all })
-  });
-  return { createMutation };
-}
-```
+// 컴포넌트 — spread로 공유 설정 + UI 콜백 조합
+import { createSubnetMutation } from '../../api/mutations';
 
-**컴포넌트 내부에서 `useMutation` 인라인 정의는 금지** — 항상 `mutations.ts` 또는 전용 훅으로 분리합니다.
+const createMutation = useMutation({
+  ...createSubnetMutation,
+  onSuccess: () => {
+    toast.success('서브넷이 생성되었습니다');
+    router.push('/dashboard/subnets');
+  }
+});
+
+const deleteMutation = useMutation({
+  ...deleteSubnetMutation,
+  onSuccess: () => {
+    toast.success('삭제되었습니다');
+    setDeleteOpen(false);
+  }
+});
+```
 
 ### 뮤테이션 + 토스트
 

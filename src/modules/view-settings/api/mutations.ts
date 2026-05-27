@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { updateViewSetting } from './service';
 import { viewSettingKeys } from './queries';
-import type { UpdateViewSettingPayload } from './types';
 
 export function useViewSettingsMutations() {
   const queryClient = useQueryClient();

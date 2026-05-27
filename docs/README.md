@@ -62,7 +62,17 @@
 
 | 파일                                           | 설명                      |
 | ---------------------------------------------- | ------------------------- |
-| [decisions/template.md](decisions/template.md) | 아키텍처 결정 기록 템플릿 |
+| [decisions/template.md](decisions/template.md)                          | 아키텍처 결정 기록 템플릿                   |
+| [decisions/adr-002-netbox-data-model-validation.md](decisions/adr-002-netbox-data-model-validation.md) | NetBox 데이터 모델 검증 (ADR-002) |
+
+## Research
+
+| 파일                                                                             | 설명                               |
+| -------------------------------------------------------------------------------- | ---------------------------------- |
+| [research/netbox-cable-connection.md](research/netbox-cable-connection.md)       | NetBox 케이블 연결 조사             |
+| [research/netbox-device-interface-module.md](research/netbox-device-interface-module.md) | NetBox 디바이스 인터페이스 모듈 |
+| [research/netbox-host-scope.md](research/netbox-host-scope.md)                   | NetBox 호스트 스코프               |
+| [research/netbox-review-validation.md](research/netbox-review-validation.md)     | NetBox 검증 검토                   |
 
 ## 인프라
 

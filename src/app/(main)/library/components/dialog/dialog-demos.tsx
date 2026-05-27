@@ -39,7 +39,6 @@ import {
   SheetTrigger
 } from '@/components/ui/sheet';
 import { toast } from 'sonner';
-import { Icons } from '@/components/icons';
 
 export function DialogDemos() {
   return (
@@ -258,7 +257,7 @@ function WideDialog() {
           </div>
           <div className='rounded-lg border p-4'>
             <p className='text-xs text-muted-foreground'>상태</p>
-            <Badge variant='secondary' className='bg-emerald-500/10 text-emerald-400'>
+            <Badge variant='secondary' className='bg-[var(--chart-2)]/10 text-[var(--chart-2)]'>
               정상
             </Badge>
           </div>

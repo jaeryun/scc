@@ -1,6 +1,7 @@
 # 데이터 패턴 — Cheat Sheet
 
 > 빠른 참조용. 전체 가이드는 [data/patterns.md](./patterns.md) 및 [data/ipam-reference.md](./ipam-reference.md) 참조.
+> 심화 패턴: [data/patterns.md](./patterns.md), [data/external-api-types.md](./external-api-types.md)
 
 ## 데이터 계층 구조 (3파일)
 
@@ -33,7 +34,7 @@ export const entityKeys = {
 ## 금지사항
 
 - ❌ 컴포넌트 내 직접 `fetch()` / Prisma 호출
-- ❌ 컴포넌트 내 `useMutation` 인라인 정의 → `mutations.ts` 또는 전용 훅으로 분리
+- ❌ 컴포넌트 내 `useMutation({mutationFn: ...})` 인라인 정의 금지 → `api/mutations.ts`에 `mutationOptions`로 분리 후 spread 조합
 - ❌ 쿼리 키 문자열 하드코딩 → 항상 쿼리 키 팩토리 사용
 - ❌ `service.ts` 외부에서 `apiClient` 직접 호출
 

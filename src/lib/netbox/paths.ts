@@ -21,7 +21,7 @@ export function buildCacheKey(
   if (!params) return base;
 
   const sorted = Object.keys(params)
-    .sort()
+    .toSorted()
     .map((k) => `${k}=${params[k]}`)
     .join('&');
   return `${base}:${sorted}`;

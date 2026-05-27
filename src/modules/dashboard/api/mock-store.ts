@@ -175,9 +175,9 @@ export function getDashboards(folderId?: string | null): Dashboard[] {
       folderId === null ? d.folderId === null : d.folderId === folderId
     );
   }
-  return result
-    .slice()
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  return result.toSorted(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  );
 }
 
 export function getDashboardById(id: string): Dashboard | null {

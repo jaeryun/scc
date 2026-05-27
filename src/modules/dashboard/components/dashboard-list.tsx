@@ -37,9 +37,19 @@ import { Icons } from '@/components/icons';
 import { cn } from '@/lib/utils';
 import { foldersQueryOptions, dashboardsQueryOptions } from '../api/queries';
 import { useDashboardMutations } from '@/modules/dashboard/hooks/use-dashboard-mutations';
-import type { Dashboard, DashboardFolder } from '../api/types';
+import type { DashboardFolder } from '../api/types';
 
 type BreadcrumbSegment = { id?: string; title: string };
+
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleString('ko-KR', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+}
 
 function FolderDialog({
   open,
@@ -660,15 +670,6 @@ export function DashboardList() {
       <Icons.chevronUp className='ml-1 h-3.5 w-3.5' />
     );
   };
-
-  const formatDate = (iso: string) =>
-    new Date(iso).toLocaleString('ko-KR', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
 
   const isLoading = foldersLoading || dashboardsLoading;
   const hasItems = filteredFolders.length > 0 || filteredDashboards.length > 0;

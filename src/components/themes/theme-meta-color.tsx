@@ -19,7 +19,7 @@ export function ThemeMetaColor() {
           .querySelector('meta[name="theme-color"]')
           ?.setAttribute('content', META_THEME_COLORS.dark);
       }
-    } catch (_) {}
+    } catch {}
   }, []);
 
   return null;

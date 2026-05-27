@@ -40,7 +40,7 @@ export function ThemeModeToggle() {
         <Button
           variant='outline'
           size='icon'
-          className='group/toggle size-8 rounded-md border-white/10 bg-transparent text-gray-300 hover:bg-white/10 hover:text-white'
+          className='group/toggle size-8 rounded-md border-white/10 bg-transparent text-muted-foreground hover:bg-white/10 hover:text-white'
           onClick={handleThemeToggle}
         >
           <Icons.brightness />

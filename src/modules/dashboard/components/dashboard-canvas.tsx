@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { GridLayout, useContainerWidth } from 'react-grid-layout';
@@ -36,7 +36,7 @@ export function DashboardCanvas({ dashboardId }: { dashboardId: string }) {
 
   const { updateDashboardMutation, deleteDashboardMutation } = useDashboardMutations();
 
-  const panels = dashboard?.panels ?? [];
+  const panels = useMemo(() => dashboard?.panels ?? [], [dashboard?.panels]);
 
   const handleLayoutChange = useCallback(
     (newLayout: Layout) => {

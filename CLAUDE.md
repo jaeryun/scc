@@ -37,7 +37,7 @@ SE Command Center — Next.js 16 + shadcn/ui 사내 인프라팀 관리 대시�
 - [ ] `any` 타입 사용 금지 (`// @reason` 주석 필수)
 - [ ] 데이터 계층: `api/types.ts` → `api/service.ts` → `api/queries.ts` 완전 분리
 - [ ] `hooks/` 계층 존재: 컴포넌트는 hook을 통해서만 데이터 접근 (직접 `api/service.ts` import 금지)
-- [ ] `useMutation` 인라인 금지 → `api/mutations.ts`에 전용 hook(`useXxxMutations()`) 정의 후 `hooks/`에서 re-export
+- [ ] `useMutation({mutationFn: ...})` 인라인 금지 → `api/mutations.ts`에 `mutationOptions`로 정의 후 컴포넌트에서 spread 조합
 - [ ] Query Key Factory(`entityKeys.all/list/detail`) 사용, 문자열 하드코딩 금지
 - [ ] API route: Zod 스키마 `.parse()` 검증 사용, 수동 타입 체크 금지
 - [ ] `bun tsc --noEmit` 통과

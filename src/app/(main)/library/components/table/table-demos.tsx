@@ -86,11 +86,6 @@ function statusVariant(status: ServerStatus) {
   }
 }
 
-function getStatusBadgeStyle(status: ServerStatus) {
-  if (status === '경고') return 'outline';
-  return undefined;
-}
-
 function SortArrow({
   column,
   sortKey,
@@ -167,7 +162,7 @@ function SortableTable() {
     }
   }
 
-  const sorted = [...servers].sort((a, b) => {
+  const sorted = servers.toSorted((a, b) => {
     if (!sortKey) return 0;
     const result = compareServer(a, b, sortKey);
     return sortDir === 'asc' ? result : -result;

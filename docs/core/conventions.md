@@ -13,7 +13,7 @@
 - [필수] **뷰 시스템** — 새 뷰는 `src/config/views.ts` + `src/app/(views)/` 하위 라우트 그룹. 뷰 `id`는 라우트 세그먼트명과 일치
 - [필수] **데이터 계층** — `types.ts` → `service.ts` → `queries.ts` → `hooks` 순서. 컴포넌트에서 직접 `apiClient`/`fetch`/Prisma 호출 금지. mock-api 직접 임포트 금지
   - 모든 API 모듈은 다음 파일을 반드시 포함: `api/types.ts`, `api/service.ts`, `api/queries.ts`
-  - CRUD 존재 시 `api/mutations.ts`도 필수 (+ `hooks/use-<name>-mutations.ts` re-export)
+  - CRUD 존재 시 `api/mutations.ts`도 필수 (`mutationOptions` 정의, 컴포넌트에서 직접 import)
   - 위 파일 중 하나라도 누락 시 컴포넌트에서 직접 api 호출로 이어짐
 - [필수] **RBAC 내비게이션** — `nav-config.ts` 아이템 추가 시 `access` 속성 필수 (`requireOrg`, `permission`, `role`), 누락 시 무조건 노출됨
 - [권장] **기존 패턴 따르기** — 유사 컴포넌트가 이미 존재하는지 확인 후 신규 생성
@@ -50,6 +50,7 @@
 - [권장] **객체 정의에 `interface` 우선** — 병합/확장성 고려. Union type, mapped type은 `type` 사용
 - [필수] **환경 변수** — 클라이언트 접근만 `NEXT_PUBLIC_` 접두사. 비밀키는 절대 `NEXT_PUBLIC_` 사용 금지
 - → [rules/typescript.md](../rules/typescript.md)
+- → [data/external-api-types.md](../data/external-api-types.md) — 외부 API 응답 타입 모델링
 
 ## UI & 스타일
 
@@ -66,20 +67,29 @@
 ## API & 데이터
 
 - [필수] **쿼리 키** — 문자열 하드코딩 금지, 키 팩토리(`entityKeys.all/list/detail`) 사용
-- [필수] **Mutation hook 패턴** — `mutationOptions` export 후 컴포넌트에서 `useMutation({...options})` 인라인 호출 금지.
+- [필수] **Mutation 패턴** — `api/mutations.ts`에 `mutationOptions`로 정의 후 컴포넌트에서 spread로 조합. 인라인 `useMutation({mutationFn: ...})` 금지.
   ```typescript
-  // ❌ 금지
-  export const createProductMutation = mutationOptions({ mutationFn: createProduct, onSuccess: ... });
-  // → 컴포넌트: const m = useMutation({ ...createProductMutation, onSuccess: () => { ... } });
+  // api/mutations.ts — 공유 설정
+  import { mutationOptions } from '@tanstack/react-query';
+  import { getQueryClient } from '@/lib/query-client';
 
-  // ✅ 올바름
-  export function useProductMutations() {
-    const queryClient = useQueryClient();
-    const createProductMutation = useMutation({ mutationFn: createProduct, onSuccess: () => queryClient.invalidateQueries(...) });
-    return { createProductMutation, ... };
-  }
-  // → 컴포넌트: const { createProductMutation } = useProductMutations();
+  export const createProductMutation = mutationOptions({
+    mutationFn: (data: CreatePayload) => createProduct(data),
+    onSuccess: () => {
+      getQueryClient().invalidateQueries({ queryKey: productKeys.all });
+    }
+  });
+
+  // 컴포넌트 — spread로 공유 설정 + UI 콜백 조합
+  const mutation = useMutation({
+    ...createProductMutation,
+    onSuccess: () => {
+      toast.success('생성 완료');
+      router.push('/dashboard/products');
+    }
+  });
   ```
+  `mutationOptions`는 `queryOptions`와 대칭되는 TanStack Query 공식 추상화. React 외부(테스트, 유틸리티)에서도 사용 가능. `getQueryClient()`는 SSR/클라이언트 양쪽에서 정확히 동작.
 - [필수] **API 에러 구분** — `ZodError`(400)와 서버 에러(500) 엄격 구분. `apiClient`의 `res.ok` 체크 활용. `global-error.tsx`는 `<html>`/`<body>` 태그 필수 (레이아웃 없이 마운트됨)
 - [필수] **apiClient headers** — `options.headers`가 기본 `Content-Type: application/json`을 덮어쓰므로, `Content-Type` 변경이 필요할 때만 명시적 오버라이드
 - [필수] **Prisma** — `prisma db push` **절대 금지** (기존 데이터 전량 삭제, migration 이력 파괴). 스키마 변경은 반드시 `prisma migrate dev` → `prisma generate` → `migrate deploy` 워크플로만 사용. DB 이관 시에도 `migrate deploy`만 허용.

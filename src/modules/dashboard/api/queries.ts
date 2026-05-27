@@ -1,5 +1,5 @@
 import { queryOptions } from '@tanstack/react-query';
-import { Dashboard, DashboardFolder } from './types';
+
 import { getDashboards, getDashboardById, getFolders, getFolderById } from './service';
 
 export const dashboardKeys = {

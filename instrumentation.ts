@@ -3,7 +3,7 @@ export async function register() {
     const { prisma } = await import('@/lib/prisma');
     try {
       await prisma.$connect();
-      console.log('[startup] Database connected');
+      console.warn('[startup] Database connected');
     } catch (err) {
       console.error('[startup] Database connection failed:', err);
       process.exit(1);

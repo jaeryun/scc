@@ -1,12 +1,9 @@
 'use client';
 
-import * as React from 'react';
 import {
   ColumnDef,
   PaginationState,
-  SortingState,
   Updater,
-  flexRender,
   getCoreRowModel,
   getFacetedRowModel,
   getFacetedUniqueValues,
@@ -15,7 +12,7 @@ import {
   getSortedRowModel,
   useReactTable
 } from '@tanstack/react-table';
-import { useQueryState, useQueryStates, parseAsInteger } from 'nuqs';
+import { useQueryState, parseAsInteger } from 'nuqs';
 
 interface UseDataTableProps<TData> {
   data: TData[];

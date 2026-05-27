@@ -27,12 +27,14 @@ export async function fetchAndCache(url: string, data: unknown): Promise<void> {
   await prisma.netBoxCache.upsert({
     where: { url },
     update: {
+      // oxlint-disable-next-line typescript-eslint/no-explicit-any -- @reason: Prisma Json 필드는 서드파티 타입 제약
       data: data as any,
       expiresAt: new Date(now.getTime() + ttl * 1000),
       staleUntil: new Date(now.getTime() + 86400 * 1000)
     },
     create: {
       url,
+      // oxlint-disable-next-line typescript-eslint/no-explicit-any -- @reason: Prisma Json 필드는 서드파티 타입 제약
       data: data as any,
       expiresAt: new Date(now.getTime() + ttl * 1000),
       staleUntil: new Date(now.getTime() + 86400 * 1000)

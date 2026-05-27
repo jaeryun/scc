@@ -10,7 +10,7 @@ export default function ApiReferenceLayout({ children }: { children: React.React
         <div className='flex items-center gap-2'>
           <Link
             href='/home'
-            className='inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-white/5 px-2.5 py-1.5 text-sm text-gray-300 transition-colors hover:bg-white/10 hover:text-white'
+            className='inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-white/5 px-2.5 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-white/10 hover:text-white'
           >
             <Icons.arrowLeft className='h-3.5 w-3.5' />
             SCC

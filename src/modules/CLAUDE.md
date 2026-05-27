@@ -106,13 +106,7 @@ export async function GET() {
 
 ## 쿼리 키 컨벤션
 
-```typescript
-export const itemKeys = {
-  all: ['items'] as const,
-  lists: () => [...itemKeys.all, 'list'] as const,     // 복수형 통일
-  detail: (id: string) => [...itemKeys.all, 'detail', id] as const,
-};
-```
+@docs/data/cheat-sheet.md의 쿼리 키 팩토리 패턴 사용.
 
 - 키 네임스페이스는 모듈명과 일치시킨다 (예: `subnets`, `ip-addresses`, `dashboards`)
 - `lists`(복수형) 사용 — `list`(단수)와 혼용 금지
@@ -125,5 +119,42 @@ export const itemKeys = {
 | `src/modules/dashboard/` | Demo | mock-store + in-memory seed 패턴 |
 | `src/modules/products/` | Demo | `@/constants/mock-api` 공유 상수 패턴 |
 | `src/app/api/ipam/` | Production API | Route Handler + Zod 검증 + 계층 분리 |
+
+## 개별 모듈 CLAUDE.md 템플릿
+
+복잡한 모듈은 다음 템플릿으로 문서화한다. 간단한 모듈은 생략 가능.
+
+```markdown
+# {Name} 모듈
+
+## 아키텍처
+
+데이터 흐름: 컴포넌트 → hooks → queries.ts → service.ts → {데이터소스}
+
+## 데이터 모델
+
+<!-- types.ts에서 정의된 주요 타입과 인터페이스 -->
+
+## API 엔드포인트
+
+<!-- 서비스 함수와 매핑되는 API 경로 -->
+
+## 모듈 특이사항
+
+<!-- 다른 모듈과 다른 특별한 규칙, 패턴, 제약사항 -->
+```
+
+### 모듈 문서화 판단 기준
+
+- **작성 권장**: 특이한 데이터 페칭 패턴, 복잡한 필터/폼, 비표준 아키텍처
+- **생략 가능**: 단순 CRUD, 표준 mock-api 패턴만 사용
+
+### 정규 예시
+
+| 모듈 | 파일 | 특징 |
+|------|------|------|
+| `ipam/` | CLAUDE.md 없음 | `src/modules/CLAUDE.md`로 충분 |
+| `products/` | `CLAUDE.md` | mock-api + Server Component fetch 패턴 |
+| `users/` | `CLAUDE.md` | mock-api + prefetchQuery 패턴 |
 
 ## 컴포넌트 배치
