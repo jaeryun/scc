@@ -1,8 +1,8 @@
 # 기능 모듈 컨벤션
 
-@docs/data/cheat-sheet.md
-@docs/forms/cheat-sheet.md
-@docs/architecture/component-guide.md
+@docs/rules/data-layer.md
+@docs/rules/forms.md
+@docs/patterns/component-patterns.md
 
 ## 🚨 핵심 규칙
 
@@ -36,7 +36,7 @@
 1. `src/modules/<name>/api/` — `types.ts` → `service.ts` → `queries.ts`
 2. `src/modules/<name>/hooks/` — `use-<name>s.ts` (조회 훅만, mutation은 hooks 불필요)
 3. `src/modules/<name>/components/` — UI 컴포넌트
-4. `src/app/(views)/<view>/` 또는 `src/app/dashboard/<name>/page.tsx`
+4. `src/app/(main)/<view-id>/page.tsx`
 5. `src/config/views.ts` 또는 `src/config/nav-config.ts` 네비게이션 아이템 등록
 6. (Production만) `src/app/api/<name>/route.ts` — API 라우트
 7. (선택) `src/components/icons.tsx` — 새 아이콘 등록
@@ -106,7 +106,7 @@ export async function GET() {
 
 ## 쿼리 키 컨벤션
 
-@docs/data/cheat-sheet.md의 쿼리 키 팩토리 패턴 사용.
+@docs/rules/data-layer.md의 쿼리 키 팩토리 패턴 사용.
 
 - 키 네임스페이스는 모듈명과 일치시킨다 (예: `subnets`, `ip-addresses`, `dashboards`)
 - `lists`(복수형) 사용 — `list`(단수)와 혼용 금지

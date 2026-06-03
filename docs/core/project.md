@@ -40,18 +40,16 @@ DATABASE_URL=postgresql://user:password@host:5432/dbname
 │   │   ├── (main)/             # 뷰별 라우트 그룹 (Select 드롭다운 전환)
 │   │   └── api/                # API 라우트 핸들러
 │   ├── modules/               # 기능 모듈 (도메인별)
-│   │   ├── auth/               # 인증 (Phase 2)
-│   │   ├── chat/               # 채팅
-│   │   ├── elements/           # UI 요소 데모
-│   │   ├── forms/              # 폼 데모
+│   │   ├── demo/               # Demo modules (in-memory mock data)
+│   │   │   ├── billing/        # 빌링 데모
+│   │   │   ├── chat/           # 채팅 데모
+│   │   │   └── ...             # 기타 데모 모듈
 │   │   ├── ipam/               # IPAM: 서브넷/IP 관리 (api/, hooks/, components/)
-│   │   ├── kanban/             # 칸반 보드
-│   │   ├── notifications/      # 알림
-│   │   ├── overview/           # 대시보드 개요
-│   │   ├── products/           # 상품 관리
-│   │   ├── profile/            # 사용자 프로필
-│   │   ├── react-query-demo/   # React Query 데모
-│   │   ├── users/              # 사용자 관리
+│   │   ├── cables/             # 케이블 관리
+│   │   ├── devices/            # 디바이스 관리
+│   │   ├── interfaces/         # 인터페이스 관리
+│   │   ├── sites/              # 사이트 관리
+│   │   ├── switch-mapping/     # 스위치 매핑
 │   │   └── view-settings/      # 뷰 설정
 │   ├── components/             # 공통 컴포넌트
 │   │   ├── ui/                 # shadcn/ui 기반 (직접 수정 금지)
@@ -71,14 +69,12 @@ DATABASE_URL=postgresql://user:password@host:5432/dbname
 │   ├── schema.prisma           # Prisma 스키마 정의
 │   ├── migrations/             # 마이그레이션 SQL
 │   └── seed.ts                 # 데모 데이터 시드
-├── docs/                       # 내부 문서
-│   ├── core/                   # 핵심 규칙 (conventions, behavior, loading-policy)
-│   ├── data/                   # 데이터 패턴 (cheat-sheet, patterns, ipam-reference)
-│   ├── forms/                  # 폼 시스템 가이드
-│   ├── themes/                 # 테마 시스템 가이드
-│   ├── architecture/           # 빌드/배포/컴포넌트 가이드
-│   ├── onboarding/             # 온보딩 (quickstart, first-feature)
-│   └── review/                 # 감사 및 수정 계획
+├── docs/                       # Project docs (core/rules/patterns/domain/archive)
+│   ├── core/                   # Project constitution (project, conventions, architecture, behavior, build-deploy)
+│   ├── rules/                  # SCC-specific coding rules (react, typescript, styling, naming, data-layer, forms, prisma)
+│   ├── patterns/               # Implementation patterns with code examples
+│   ├── domain/                 # Business domain knowledge (dcim, settings, shared)
+│   └── archive/                # Historical records (AI agents: do not read)
 ├── scripts/                    # 개발 도구
 │   └── check-migrations.sh     # 마이그레이션 무결성 검사
 ├── Dockerfile                  # Node.js 프로덕션 이미지 (ARG 미사용, --build-arg 불필요)
@@ -89,7 +85,7 @@ DATABASE_URL=postgresql://user:password@host:5432/dbname
 
 ## 배포
 
-[Docker 빌드 & 배포 상세 → docs/architecture/build-deploy.md](../architecture/build-deploy.md)
+[Docker 빌드 & 배포 상세 → build-deploy.md](./build-deploy.md)
 
 ## 외부 문서
 

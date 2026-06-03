@@ -8,4 +8,4 @@
 
 ## 테마 시스템
 
-10개 내장 테마 (레지스트리: `src/components/themes/theme.config.ts`). CSS: `src/styles/themes/<name>.css`. 폰트: `src/components/themes/font.config.ts`. 사용자 변경은 `/settings/appearance`. → [docs/themes/cheat-sheet.md](../docs/themes/cheat-sheet.md)
+10개 내장 테마 (레지스트리: `src/components/themes/theme.config.ts`). CSS: `src/styles/themes/<name>.css`. 폰트: `src/components/themes/font.config.ts`. 사용자 변경은 `/settings/appearance`. → [docs/patterns/theme-patterns.md](../docs/patterns/theme-patterns.md)
