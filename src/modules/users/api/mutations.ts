@@ -1,32 +1,27 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { mutationOptions } from '@tanstack/react-query';
 import { createUser, updateUser, deleteUser } from './service';
 import { userKeys } from './queries';
+import { getQueryClient } from '@/lib/query-client';
 import type { UserMutationPayload } from './types';
 
-export function useUserMutations() {
-  const queryClient = useQueryClient();
+export const createUserMutation = mutationOptions({
+  mutationFn: (data: UserMutationPayload) => createUser(data),
+  onSuccess: () => {
+    getQueryClient().invalidateQueries({ queryKey: userKeys.all });
+  }
+});
 
-  const createUserMutation = useMutation({
-    mutationFn: (data: UserMutationPayload) => createUser(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: userKeys.all });
-    }
-  });
+export const updateUserMutation = mutationOptions({
+  mutationFn: ({ id, values }: { id: string; values: UserMutationPayload }) =>
+    updateUser(id, values),
+  onSuccess: () => {
+    getQueryClient().invalidateQueries({ queryKey: userKeys.all });
+  }
+});
 
-  const updateUserMutation = useMutation({
-    mutationFn: ({ id, values }: { id: string; values: UserMutationPayload }) =>
-      updateUser(id, values),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: userKeys.all });
-    }
-  });
-
-  const deleteUserMutation = useMutation({
-    mutationFn: (id: string) => deleteUser(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: userKeys.all });
-    }
-  });
-
-  return { createUserMutation, updateUserMutation, deleteUserMutation };
-}
+export const deleteUserMutation = mutationOptions({
+  mutationFn: (id: string) => deleteUser(id),
+  onSuccess: () => {
+    getQueryClient().invalidateQueries({ queryKey: userKeys.all });
+  }
+});

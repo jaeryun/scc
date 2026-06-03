@@ -1,7 +1,7 @@
 'use client';
 
 import { Suspense } from 'react';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useDevices } from '@/modules/devices/hooks/use-devices';
 import {
   getCoreRowModel,
   getFacetedRowModel,
@@ -13,11 +13,10 @@ import {
 } from '@tanstack/react-table';
 import { DataTable } from '@/components/ui/table/data-table';
 import { DataTableToolbar } from '@/components/ui/table/data-table-toolbar';
-import { devicesQueryOptions } from '../../api/queries';
 import { columns } from './columns';
 
 function DeviceTableInner() {
-  const { data: devices } = useSuspenseQuery(devicesQueryOptions());
+  const { data: devices } = useDevices();
 
   const table = useReactTable({
     data: devices,

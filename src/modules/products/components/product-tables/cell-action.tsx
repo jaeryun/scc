@@ -8,7 +8,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { useProductMutations } from '@/modules/products/hooks/use-product-mutations';
+import { useMutation } from '@tanstack/react-query';
+import { deleteProductMutation as deleteProdMut } from '../../api/mutations';
 import type { Product } from '../../api/types';
 import { Icons } from '@/components/icons';
 import { useRouter } from 'next/navigation';
@@ -23,7 +24,7 @@ export function CellAction({ data }: CellActionProps) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
-  const { deleteProductMutation } = useProductMutations();
+  const deleteProductMutation = useMutation({ ...deleteProdMut });
 
   return (
     <>

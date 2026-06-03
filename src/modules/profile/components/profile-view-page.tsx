@@ -134,6 +134,7 @@ export default function ProfileViewPage() {
                           type='button'
                           variant='ghost'
                           size='icon'
+                          aria-label='경력 항목 제거'
                           onClick={() => field.removeValue(i)}
                         >
                           <Icons.close className='h-4 w-4' />

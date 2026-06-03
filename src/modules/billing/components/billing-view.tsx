@@ -3,6 +3,7 @@
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { usePlans, useSubscription, useInvoices } from '../hooks/use-billing';
 import type { Plan, Invoice } from '../api/types';
@@ -139,7 +140,7 @@ function AvailablePlans() {
       <h3 className='text-lg font-semibold'>요금제</h3>
       <div className='grid gap-4 md:grid-cols-3'>
         {plans.map((plan: Plan) => (
-          <Card key={plan.id} className={plan.popular ? 'border-primary' : ''}>
+          <Card key={plan.id} className={cn(plan.popular && 'border-primary')}>
             <CardHeader>
               <div className='flex items-center justify-between'>
                 <CardTitle>{plan.name}</CardTitle>

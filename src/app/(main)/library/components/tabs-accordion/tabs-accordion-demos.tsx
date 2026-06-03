@@ -397,7 +397,7 @@ function NestedCollapsible() {
               <span className='text-sm font-medium'>인프라 설정</span>
             </div>
             <CollapsibleTrigger asChild>
-              <Button variant='ghost' size='icon' className='size-8'>
+              <Button variant='ghost' size='icon' className='size-8' aria-label='섹션 펼치기'>
                 <Icons.chevronDown className='size-4' />
               </Button>
             </CollapsibleTrigger>
@@ -462,7 +462,7 @@ function InfoItem({
             <span className='text-sm'>{label}</span>
           </div>
           <CollapsibleTrigger asChild>
-            <Button variant='ghost' size='icon' className='size-7'>
+            <Button variant='ghost' size='icon' className='size-7' aria-label='선택 펼치기'>
               <Icons.chevronDown className='size-3.5' />
             </Button>
           </CollapsibleTrigger>

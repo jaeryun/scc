@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import {
@@ -30,7 +30,7 @@ import {
 } from '@/components/ui/table';
 import { Icons } from '@/components/icons';
 import { workspaceByIdOptions, teamMembersQueryOptions } from '../api/queries';
-import { useWorkspaceMutations } from '@/modules/workspaces/hooks/use-workspace-mutations';
+import { updateMemberRoleMutation as updateRoleMut } from '../api/mutations';
 import type { TeamMember } from '../api/types';
 import { TeamSkeleton } from './team-skeleton';
 
@@ -59,7 +59,7 @@ export function TeamView({ workspaceId }: { workspaceId: string }) {
   const { data: workspace } = useQuery(workspaceByIdOptions(workspaceId));
   const { data: members, isLoading } = useQuery(teamMembersQueryOptions(workspaceId));
 
-  const { updateMemberRoleMutation } = useWorkspaceMutations();
+  const updateMemberRoleMutation = useMutation({ ...updateRoleMut });
 
   if (isLoading) return <TeamSkeleton />;
 

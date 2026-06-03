@@ -8,7 +8,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { useUserMutations } from '@/modules/users/hooks/use-user-mutations';
+import { useMutation } from '@tanstack/react-query';
+import { deleteUserMutation as deleteUserMut } from '../../api/mutations';
 import type { User } from '../../api/types';
 import { Icons } from '@/components/icons';
 import { useState } from 'react';
@@ -23,7 +24,7 @@ export function CellAction({ data }: CellActionProps) {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
 
-  const { deleteUserMutation } = useUserMutations();
+  const deleteUserMutation = useMutation({ ...deleteUserMut });
 
   return (
     <>

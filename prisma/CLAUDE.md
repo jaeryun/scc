@@ -38,9 +38,9 @@ bunx prisma migrate deploy
 
 ```bash
 # 1. DB + shadow DB 모두 드랍 후 재생성
-psql -U postgres -c "DROP DATABASE IF EXISTS coredb;"
+psql -U postgres -c "DROP DATABASE IF EXISTS scc;"
 psql -U postgres -c "DROP DATABASE IF EXISTS prisma_shadow;"
-psql -U postgres -c "CREATE DATABASE coredb OWNER app;"
+psql -U postgres -c "CREATE DATABASE scc OWNER scc;"
 psql -U postgres -c "CREATE DATABASE prisma_shadow OWNER postgres;"
 
 # 2. 모든 migration 디렉토리 삭제 후 재생성

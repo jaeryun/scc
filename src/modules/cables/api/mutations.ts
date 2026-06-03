@@ -1,20 +1,18 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { mutationOptions } from '@tanstack/react-query';
 import { createCable, deleteCable } from './service';
 import { cableKeys } from './queries';
+import { getQueryClient } from '@/lib/query-client';
 
-export function useCableMutations() {
-  const queryClient = useQueryClient();
-  const invalidate = () => queryClient.invalidateQueries({ queryKey: cableKeys.all });
+export const createCableMutation = mutationOptions({
+  mutationFn: createCable,
+  onSuccess: () => {
+    getQueryClient().invalidateQueries({ queryKey: cableKeys.all });
+  }
+});
 
-  const createMutation = useMutation({
-    mutationFn: createCable,
-    onSuccess: invalidate
-  });
-
-  const deleteMutation = useMutation({
-    mutationFn: deleteCable,
-    onSuccess: invalidate
-  });
-
-  return { createMutation, deleteMutation };
-}
+export const deleteCableMutation = mutationOptions({
+  mutationFn: deleteCable,
+  onSuccess: () => {
+    getQueryClient().invalidateQueries({ queryKey: cableKeys.all });
+  }
+});

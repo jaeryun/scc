@@ -1,12 +1,20 @@
 import PageContainer from '@/components/layout/page-container';
 import { Badge } from '@/components/ui/badge';
 import { DashboardList } from '@/modules/dashboard/components/dashboard-list';
+import { dashboardsQueryOptions, foldersQueryOptions } from '@/modules/dashboard/api/queries';
+import { getQueryClient } from '@/lib/query-client';
+import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
+import { Suspense } from 'react';
 
 export const metadata = {
   title: 'Dashboard: Library'
 };
 
 export default function DashboardListPage() {
+  const queryClient = getQueryClient();
+  void queryClient.prefetchQuery(dashboardsQueryOptions(null));
+  void queryClient.prefetchQuery(foldersQueryOptions());
+
   return (
     <PageContainer
       pageTitle='Dashboard'
@@ -17,7 +25,11 @@ export default function DashboardListPage() {
         </Badge>
       }
     >
-      <DashboardList />
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <Suspense fallback={<div className='h-32 animate-pulse bg-muted rounded-lg' />}>
+          <DashboardList />
+        </Suspense>
+      </HydrationBoundary>
     </PageContainer>
   );
 }

@@ -12,7 +12,11 @@ import {
   SheetTitle
 } from '@/components/ui/sheet';
 import { Icons } from '@/components/icons';
-import { useUserMutations } from '@/modules/users/hooks/use-user-mutations';
+import { useMutation } from '@tanstack/react-query';
+import {
+  createUserMutation as createUserMut,
+  updateUserMutation as updateUserMut
+} from '../api/mutations';
 import type { User } from '../api/types';
 import { toast } from 'sonner';
 import * as z from 'zod';
@@ -33,7 +37,8 @@ interface UserFormSheetProps {
 export function UserFormSheet({ user, open, onOpenChange }: UserFormSheetProps) {
   const isEdit = !!user;
 
-  const { createUserMutation, updateUserMutation } = useUserMutations();
+  const createUserMutation = useMutation({ ...createUserMut });
+  const updateUserMutation = useMutation({ ...updateUserMut });
 
   const form = useAppForm({
     defaultValues: {

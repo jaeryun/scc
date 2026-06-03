@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -26,7 +26,7 @@ import {
 import { Icons } from '@/components/icons';
 import { formatDate } from '@/lib/format';
 import { workspacesQueryOptions } from '../api/queries';
-import { useWorkspaceMutations } from '@/modules/workspaces/hooks/use-workspace-mutations';
+import { createWorkspaceMutation as createWsMut } from '../api/mutations';
 import type { Workspace } from '../api/types';
 import { WorkspaceSkeleton } from './workspace-skeleton';
 
@@ -38,7 +38,7 @@ export function WorkspaceView() {
 
   const { data: workspaces, isLoading } = useQuery(workspacesQueryOptions());
 
-  const { createWorkspaceMutation } = useWorkspaceMutations();
+  const createWorkspaceMutation = useMutation({ ...createWsMut });
 
   if (isLoading) return <WorkspaceSkeleton />;
 

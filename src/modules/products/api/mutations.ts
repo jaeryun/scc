@@ -1,32 +1,27 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { mutationOptions } from '@tanstack/react-query';
 import { createProduct, updateProduct, deleteProduct } from './service';
 import { productKeys } from './queries';
+import { getQueryClient } from '@/lib/query-client';
 import type { ProductMutationPayload } from './types';
 
-export function useProductMutations() {
-  const queryClient = useQueryClient();
+export const createProductMutation = mutationOptions({
+  mutationFn: (data: ProductMutationPayload) => createProduct(data),
+  onSuccess: () => {
+    getQueryClient().invalidateQueries({ queryKey: productKeys.all });
+  }
+});
 
-  const createProductMutation = useMutation({
-    mutationFn: (data: ProductMutationPayload) => createProduct(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: productKeys.all });
-    }
-  });
+export const updateProductMutation = mutationOptions({
+  mutationFn: ({ id, values }: { id: number; values: ProductMutationPayload }) =>
+    updateProduct(id, values),
+  onSuccess: () => {
+    getQueryClient().invalidateQueries({ queryKey: productKeys.all });
+  }
+});
 
-  const updateProductMutation = useMutation({
-    mutationFn: ({ id, values }: { id: number; values: ProductMutationPayload }) =>
-      updateProduct(id, values),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: productKeys.all });
-    }
-  });
-
-  const deleteProductMutation = useMutation({
-    mutationFn: (id: number) => deleteProduct(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: productKeys.all });
-    }
-  });
-
-  return { createProductMutation, updateProductMutation, deleteProductMutation };
-}
+export const deleteProductMutation = mutationOptions({
+  mutationFn: (id: number) => deleteProduct(id),
+  onSuccess: () => {
+    getQueryClient().invalidateQueries({ queryKey: productKeys.all });
+  }
+});

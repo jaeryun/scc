@@ -4,7 +4,11 @@ import { useAppForm, useFormFields } from '@/components/ui/tanstack-form';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Product } from '../api/types';
-import { useProductMutations } from '@/modules/products/hooks/use-product-mutations';
+import { useMutation } from '@tanstack/react-query';
+import {
+  createProductMutation as createProdMut,
+  updateProductMutation as updateProdMut
+} from '../api/mutations';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import * as z from 'zod';
@@ -21,7 +25,8 @@ export default function ProductForm({
   const router = useRouter();
   const isEdit = !!initialData;
 
-  const { createProductMutation, updateProductMutation } = useProductMutations();
+  const createProductMutation = useMutation({ ...createProdMut });
+  const updateProductMutation = useMutation({ ...updateProdMut });
 
   const form = useAppForm({
     defaultValues: {

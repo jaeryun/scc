@@ -3,6 +3,7 @@ import { success, failure } from '@/lib/api-response';
 import { invalidateCache } from '@/lib/netbox/cache';
 import { envSchema } from '@/lib/netbox/env';
 import { NetBoxHttpError } from '@/lib/netbox/errors';
+import { z, ZodError } from 'zod';
 
 function netboxClient() {
   const env = envSchema.parse(process.env);
@@ -16,9 +17,13 @@ function netboxClient() {
   };
 }
 
+const assignIpSchema = z.object({
+  prefixId: z.number().or(z.string())
+});
+
 export async function POST(req: NextRequest) {
   try {
-    const { prefixId } = await req.json();
+    const { prefixId } = assignIpSchema.parse(await req.json());
     const { baseUrl, headers } = netboxClient();
 
     const res = await fetch(`${baseUrl}/api/ipam/prefixes/${prefixId}/available-ips/?limit=1`, {
@@ -44,6 +49,12 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(success(created), { status: 201 });
   } catch (error) {
+    if (error instanceof ZodError) {
+      return NextResponse.json(
+        failure(error.issues.map((i) => `${i.path.join('.')}: ${i.message}`).join(', ')),
+        { status: 400 }
+      );
+    }
     if (error instanceof NetBoxHttpError) {
       return NextResponse.json(failure(error.sanitizedMessage), {
         status: error.status

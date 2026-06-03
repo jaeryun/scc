@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback, useMemo } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { GridLayout, useContainerWidth } from 'react-grid-layout';
 import { verticalCompactor } from 'react-grid-layout/core';
@@ -10,7 +10,10 @@ import { Button } from '@/components/ui/button';
 import { WidgetFrame } from '@/components/ui/grid-dashboard/widget-frame';
 import { Icons } from '@/components/icons';
 import { dashboardDetailQueryOptions } from '../api/queries';
-import { useDashboardMutations } from '@/modules/dashboard/hooks/use-dashboard-mutations';
+import {
+  updateDashboardMutation as updateDashMut,
+  deleteDashboardMutation as deleteDashMut
+} from '../api/mutations';
 import { renderPanel } from './widgets/panel-registry';
 import { WidgetAddDialog } from './widget-add-dialog';
 import type { Panel, PanelType } from '../api/types';
@@ -34,7 +37,8 @@ export function DashboardCanvas({ dashboardId }: { dashboardId: string }) {
 
   const { data: dashboard, isLoading } = useQuery(dashboardDetailQueryOptions(dashboardId));
 
-  const { updateDashboardMutation, deleteDashboardMutation } = useDashboardMutations();
+  const updateDashboardMutation = useMutation({ ...updateDashMut });
+  const deleteDashboardMutation = useMutation({ ...deleteDashMut });
 
   const panels = useMemo(() => dashboard?.panels ?? [], [dashboard?.panels]);
 

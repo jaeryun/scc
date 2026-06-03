@@ -1,32 +1,25 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { mutationOptions } from '@tanstack/react-query';
 import { createPrefix, assignIp, releaseIp } from './service';
 import { prefixKeys, ipKeys } from './queries';
+import { getQueryClient } from '@/lib/query-client';
 
-export function usePrefixMutations() {
-  const queryClient = useQueryClient();
-  const invalidate = () => queryClient.invalidateQueries({ queryKey: prefixKeys.all });
+export const createPrefixMutation = mutationOptions({
+  mutationFn: createPrefix,
+  onSuccess: () => {
+    getQueryClient().invalidateQueries({ queryKey: prefixKeys.all });
+  }
+});
 
-  const createMutation = useMutation({
-    mutationFn: createPrefix,
-    onSuccess: invalidate
-  });
+export const assignIpMutation = mutationOptions({
+  mutationFn: assignIp,
+  onSuccess: () => {
+    getQueryClient().invalidateQueries({ queryKey: ipKeys.all });
+  }
+});
 
-  return { createMutation };
-}
-
-export function useIpMutations() {
-  const queryClient = useQueryClient();
-  const invalidate = () => queryClient.invalidateQueries({ queryKey: ipKeys.all });
-
-  const assignMutation = useMutation({
-    mutationFn: assignIp,
-    onSuccess: invalidate
-  });
-
-  const releaseMutation = useMutation({
-    mutationFn: releaseIp,
-    onSuccess: invalidate
-  });
-
-  return { assignMutation, releaseMutation };
-}
+export const releaseIpMutation = mutationOptions({
+  mutationFn: releaseIp,
+  onSuccess: () => {
+    getQueryClient().invalidateQueries({ queryKey: ipKeys.all });
+  }
+});

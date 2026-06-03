@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback, useMemo, useRef } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -36,7 +36,15 @@ import { Label } from '@/components/ui/label';
 import { Icons } from '@/components/icons';
 import { cn } from '@/lib/utils';
 import { foldersQueryOptions, dashboardsQueryOptions } from '../api/queries';
-import { useDashboardMutations } from '@/modules/dashboard/hooks/use-dashboard-mutations';
+import {
+  createDashboardMutation as createDashMut,
+  updateDashboardMutation as updateDashMut,
+  deleteDashboardMutation as deleteDashMut,
+  createFolderMutation as createFolderMut,
+  updateFolderMutation as updateFolderMut,
+  deleteFolderMutation as deleteFolderMut,
+  batchMoveMutation as batchMoveMut
+} from '../api/mutations';
 import type { DashboardFolder } from '../api/types';
 
 type BreadcrumbSegment = { id?: string; title: string };
@@ -547,15 +555,13 @@ export function DashboardList() {
     [router, searchParams, clearSelection]
   );
 
-  const {
-    createFolderMutation,
-    updateFolderMutation,
-    deleteFolderMutation,
-    createDashboardMutation,
-    updateDashboardMutation,
-    deleteDashboardMutation,
-    batchMoveMutation
-  } = useDashboardMutations();
+  const createDashboardMutation = useMutation({ ...createDashMut });
+  const updateDashboardMutation = useMutation({ ...updateDashMut });
+  const deleteDashboardMutation = useMutation({ ...deleteDashMut });
+  const createFolderMutation = useMutation({ ...createFolderMut });
+  const updateFolderMutation = useMutation({ ...updateFolderMut });
+  const deleteFolderMutation = useMutation({ ...deleteFolderMut });
+  const batchMoveMutation = useMutation({ ...batchMoveMut });
 
   const handleFolderSave = useCallback(
     (title: string) => {

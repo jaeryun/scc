@@ -6,6 +6,7 @@ import { buildCacheKey } from '@/lib/netbox/paths';
 import { withRetry } from '@/lib/netbox/retry';
 import { envSchema } from '@/lib/netbox/env';
 import { NetBoxHttpError } from '@/lib/netbox/errors';
+import { z, ZodError } from 'zod';
 
 function netboxClient() {
   const env = envSchema.parse(process.env);
@@ -18,6 +19,15 @@ function netboxClient() {
     }
   };
 }
+
+const prefixCreateSchema = z
+  .object({
+    prefix: z.string().min(1),
+    site: z.number().optional(),
+    description: z.string().optional(),
+    status: z.string().optional()
+  })
+  .strip();
 
 export async function GET(req: NextRequest) {
   const params = Object.fromEntries(req.nextUrl.searchParams) as Record<string, string>;
@@ -40,7 +50,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
+    const body = prefixCreateSchema.parse(await req.json());
     const { baseUrl, headers } = netboxClient();
 
     const res = await fetch(`${baseUrl}/api/ipam/prefixes/`, {
@@ -59,6 +69,12 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(success(resBody), { status: 201 });
   } catch (error) {
+    if (error instanceof ZodError) {
+      return NextResponse.json(
+        failure(error.issues.map((i) => `${i.path.join('.')}: ${i.message}`).join(', ')),
+        { status: 400 }
+      );
+    }
     if (error instanceof NetBoxHttpError) {
       return NextResponse.json(failure(error.sanitizedMessage), {
         status: error.status

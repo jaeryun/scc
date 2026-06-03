@@ -1,24 +1,13 @@
 import { queryOptions } from '@tanstack/react-query';
+import { fetchPokemon } from './service';
 
-export type Pokemon = {
-  id: number;
-  name: string;
-  sprites: {
-    front_shiny: string;
-    front_default: string;
-  };
-  types: { type: { name: string } }[];
-  stats: { base_stat: number; stat: { name: string } }[];
-  height: number;
-  weight: number;
+export const pokemonKeys = {
+  all: ['pokemon'] as const,
+  detail: (id: number) => [...pokemonKeys.all, id] as const
 };
 
 export const pokemonOptions = (id: number = 25) =>
   queryOptions({
-    queryKey: ['pokemon', id],
-    queryFn: async (): Promise<Pokemon> => {
-      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
-      if (!response.ok) throw new Error('Failed to fetch pokemon');
-      return response.json();
-    }
+    queryKey: pokemonKeys.detail(id),
+    queryFn: () => fetchPokemon(id)
   });

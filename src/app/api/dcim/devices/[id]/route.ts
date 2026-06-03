@@ -5,6 +5,7 @@ import { buildCacheKey } from '@/lib/netbox/paths';
 import { withRetry } from '@/lib/netbox/retry';
 import { envSchema } from '@/lib/netbox/env';
 import { NetBoxHttpError } from '@/lib/netbox/errors';
+import { z, ZodError } from 'zod';
 
 function netboxClient() {
   const env = envSchema.parse(process.env);
@@ -46,10 +47,20 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
   }
 }
 
+const deviceUpdateSchema = z
+  .object({
+    name: z.string().min(1).optional(),
+    device_type: z.number().optional(),
+    role: z.number().optional(),
+    site: z.number().optional(),
+    status: z.string().optional()
+  })
+  .strip();
+
 export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    const body = await req.json();
+    const body = deviceUpdateSchema.parse(await req.json());
     const { baseUrl, headers } = netboxClient();
 
     const res = await fetch(`${baseUrl}/api/dcim/devices/${id}/`, {
@@ -70,6 +81,12 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
 
     return NextResponse.json(success(resBody));
   } catch (error) {
+    if (error instanceof ZodError) {
+      return NextResponse.json(
+        failure(error.issues.map((i) => `${i.path.join('.')}: ${i.message}`).join(', ')),
+        { status: 400 }
+      );
+    }
     if (error instanceof NetBoxHttpError) {
       return NextResponse.json(failure(error.sanitizedMessage), {
         status: error.status

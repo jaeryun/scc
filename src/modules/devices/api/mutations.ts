@@ -1,26 +1,26 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { mutationOptions } from '@tanstack/react-query';
 import { createDevice, updateDevice, deleteDevice } from './service';
 import { deviceKeys } from './queries';
+import { getQueryClient } from '@/lib/query-client';
 
-export function useDeviceMutations() {
-  const queryClient = useQueryClient();
-  const invalidate = () => queryClient.invalidateQueries({ queryKey: deviceKeys.all });
+export const createDeviceMutation = mutationOptions({
+  mutationFn: createDevice,
+  onSuccess: () => {
+    getQueryClient().invalidateQueries({ queryKey: deviceKeys.all });
+  }
+});
 
-  const createMutation = useMutation({
-    mutationFn: createDevice,
-    onSuccess: invalidate
-  });
+export const updateDeviceMutation = mutationOptions({
+  mutationFn: ({ id, body }: { id: number; body: Record<string, unknown> }) =>
+    updateDevice(id, body),
+  onSuccess: () => {
+    getQueryClient().invalidateQueries({ queryKey: deviceKeys.all });
+  }
+});
 
-  const updateMutation = useMutation({
-    mutationFn: ({ id, body }: { id: number; body: Record<string, unknown> }) =>
-      updateDevice(id, body),
-    onSuccess: invalidate
-  });
-
-  const deleteMutation = useMutation({
-    mutationFn: deleteDevice,
-    onSuccess: invalidate
-  });
-
-  return { createMutation, updateMutation, deleteMutation };
-}
+export const deleteDeviceMutation = mutationOptions({
+  mutationFn: deleteDevice,
+  onSuccess: () => {
+    getQueryClient().invalidateQueries({ queryKey: deviceKeys.all });
+  }
+});

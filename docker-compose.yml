@@ -3,9 +3,9 @@ services:
   db:
     image: postgres:16-alpine
     environment:
-      POSTGRES_USER: app
-      POSTGRES_PASSWORD: app
-      POSTGRES_DB: coredb
+      POSTGRES_USER: scc
+      POSTGRES_PASSWORD: SCC
+      POSTGRES_DB: scc
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
@@ -16,7 +16,7 @@ services:
     ports:
       - '3000:3000'
     environment:
-      DATABASE_URL: postgresql://app:app@db:5432/coredb
+      DATABASE_URL: postgresql://scc:SCC@db:5432/scc
     depends_on:
       - db
 

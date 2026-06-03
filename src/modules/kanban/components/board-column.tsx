@@ -29,7 +29,7 @@ export function TaskColumn({ value, tasks, ...props }: TaskColumnProps) {
           </Badge>
         </div>
         <KanbanColumnHandle asChild>
-          <Button variant='ghost' size='icon'>
+          <Button variant='ghost' size='icon' aria-label='드래그 핸들'>
             <Icons.gripVertical className='h-4 w-4' />
           </Button>
         </KanbanColumnHandle>

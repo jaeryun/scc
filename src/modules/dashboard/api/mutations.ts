@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { mutationOptions } from '@tanstack/react-query';
 import { dashboardKeys } from './queries';
 import {
   createDashboard,
@@ -9,6 +9,7 @@ import {
   deleteFolder,
   batchMove
 } from './service';
+import { getQueryClient } from '@/lib/query-client';
 import type {
   CreateDashboardPayload,
   UpdateDashboardPayload,
@@ -16,69 +17,55 @@ import type {
   UpdateFolderPayload
 } from './types';
 
-export function useDashboardMutations() {
-  const queryClient = useQueryClient();
+export const createDashboardMutation = mutationOptions({
+  mutationFn: async (data: CreateDashboardPayload) => createDashboard(data),
+  onSuccess: () => {
+    getQueryClient().invalidateQueries({ queryKey: dashboardKeys.all });
+  }
+});
 
-  const createDashboardMutation = useMutation({
-    mutationFn: async (data: CreateDashboardPayload) => createDashboard(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: dashboardKeys.all });
-    }
-  });
+export const updateDashboardMutation = mutationOptions({
+  mutationFn: async ({ id, data }: { id: string; data: UpdateDashboardPayload }) =>
+    updateDashboard(id, data),
+  onSuccess: () => {
+    getQueryClient().invalidateQueries({ queryKey: dashboardKeys.all });
+  }
+});
 
-  const updateDashboardMutation = useMutation({
-    mutationFn: async ({ id, data }: { id: string; data: UpdateDashboardPayload }) =>
-      updateDashboard(id, data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: dashboardKeys.all });
-    }
-  });
+export const deleteDashboardMutation = mutationOptions({
+  mutationFn: async (id: string) => deleteDashboard(id),
+  onSuccess: () => {
+    getQueryClient().invalidateQueries({ queryKey: dashboardKeys.all });
+  }
+});
 
-  const deleteDashboardMutation = useMutation({
-    mutationFn: async (id: string) => deleteDashboard(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: dashboardKeys.all });
-    }
-  });
+export const createFolderMutation = mutationOptions({
+  mutationFn: async (data: CreateFolderPayload) => createFolder(data),
+  onSuccess: () => {
+    getQueryClient().invalidateQueries({ queryKey: dashboardKeys.all });
+  }
+});
 
-  const createFolderMutation = useMutation({
-    mutationFn: async (data: CreateFolderPayload) => createFolder(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: dashboardKeys.all });
-    }
-  });
+export const updateFolderMutation = mutationOptions({
+  mutationFn: async ({ id, data }: { id: string; data: UpdateFolderPayload }) =>
+    updateFolder(id, data),
+  onSuccess: () => {
+    getQueryClient().invalidateQueries({ queryKey: dashboardKeys.all });
+  }
+});
 
-  const updateFolderMutation = useMutation({
-    mutationFn: async ({ id, data }: { id: string; data: UpdateFolderPayload }) =>
-      updateFolder(id, data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: dashboardKeys.all });
-    }
-  });
+export const deleteFolderMutation = mutationOptions({
+  mutationFn: async (id: string) => deleteFolder(id),
+  onSuccess: () => {
+    getQueryClient().invalidateQueries({ queryKey: dashboardKeys.all });
+  }
+});
 
-  const deleteFolderMutation = useMutation({
-    mutationFn: async (id: string) => deleteFolder(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: dashboardKeys.all });
-    }
-  });
-
-  const batchMoveMutation = useMutation({
-    mutationFn: async (
-      moves: Array<{ type: 'dashboard' | 'folder'; id: string; targetFolderId: string | null }>
-    ) => batchMove(moves),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: dashboardKeys.all });
-    }
-  });
-
-  return {
-    createDashboardMutation,
-    updateDashboardMutation,
-    deleteDashboardMutation,
-    createFolderMutation,
-    updateFolderMutation,
-    deleteFolderMutation,
-    batchMoveMutation
-  };
-}
+export const batchMoveMutation = mutationOptions({
+  mutationFn: async (
+    moves: Array<{ type: 'dashboard' | 'folder'; id: string; targetFolderId: string | null }>
+  ) => batchMove(moves),
+  onSuccess: () => {
+    getQueryClient().invalidateQueries({ queryKey: dashboardKeys.all });
+  }
+});

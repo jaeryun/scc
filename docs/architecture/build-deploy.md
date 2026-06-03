@@ -34,7 +34,7 @@ docker build -f Dockerfile.bun -t scc-app:bun .
 docker compose up -d
 ```
 
-- PostgreSQL: `postgresql://app:app@db:5432/coredb`
+- PostgreSQL: `postgresql://scc:SCC@db:5432/scc`
 - 애플리케이션: `http://localhost:3000`
 - `docker compose` 상에서는 `DATABASE_URL`이 컨테이너 내부 DB 주소를 가리켜야 함
 

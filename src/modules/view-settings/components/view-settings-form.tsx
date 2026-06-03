@@ -2,7 +2,8 @@
 
 import React from 'react';
 import { useViewSettings } from '@/modules/view-settings/hooks/use-view-settings';
-import { useViewSettingsMutations } from '@/modules/view-settings/hooks/use-view-settings-mutations';
+import { useMutation } from '@tanstack/react-query';
+import { updateViewSettingMutation as updateViewMut } from '../api/mutations';
 import { views } from '@/config/views';
 import { Icons } from '@/components/icons';
 import IconPicker from './icon-picker';
@@ -10,7 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function ViewSettingsForm() {
   const { data: viewSettings, isLoading } = useViewSettings();
-  const { updateMutation } = useViewSettingsMutations();
+  const updateMutation = useMutation({ ...updateViewMut });
 
   const viewIconMap = React.useMemo(() => {
     const map = new Map<string, string>();

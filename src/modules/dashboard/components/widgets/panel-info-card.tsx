@@ -36,10 +36,10 @@ const STATUS_LABEL: Record<string, string> = {
 };
 
 const BORDER_COLORS: Record<string, string> = {
-  blue: 'border-l-blue-500',
-  green: 'border-l-green-500',
-  amber: 'border-l-amber-500',
-  red: 'border-l-red-500'
+  blue: 'border-l-primary',
+  green: 'border-l-success',
+  amber: 'border-l-warning',
+  red: 'border-l-destructive'
 };
 
 interface PanelInfoCardProps {
@@ -82,14 +82,14 @@ export function PanelInfoCard({ options, isEditing, onOptionsChange }: PanelInfo
     <div
       className={cn(
         'h-full flex flex-col p-4',
-        showBorder && `border-l-4 ${BORDER_COLORS[color] ?? 'border-l-blue-500'}`
+        showBorder && `border-l-4 ${BORDER_COLORS[color] ?? BORDER_COLORS.blue}`
       )}
     >
       {isEditing && (
         <div className='flex justify-end mb-2'>
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
             <DialogTrigger asChild>
-              <Button variant='ghost' size='icon' className='size-7'>
+              <Button variant='ghost' size='icon' className='size-7' aria-label='설정'>
                 <Icons.settings className='size-4' />
               </Button>
             </DialogTrigger>
