@@ -1,23 +1,23 @@
-# Core conventions
+# 핵심 규칙
 
-> Detailed rules in the `rules/` directory. This file contains only project-level decisions.
+> 상세 규칙은 `rules/` 디렉토리 참조. 이 파일은 프로젝트 수준의 결정 사항만 포함.
 
-## Must follow
+## 필수 사항
 
-- `cn()` for className merging -- string concatenation, template literals forbidden
-- Icons only from `@/components/icons` -- use `Icons.name`
-- `bun tsc --noEmit` + `bun run build` must pass
+- className 병합은 `cn()` 사용 -- 문자열 연결, 템플릿 리터럴 금지
+- 아이콘은 `@/components/icons`에서만 임포트 -- `Icons.name` 사용
+- `bun tsc --noEmit` + `bun run build` 반드시 통과
 
-## Rule references
+## 규칙 참조
 
-| Rule | File |
+| 규칙 | 파일 |
 |------|------|
-| React components | `rules/react.md` |
+| React 컴포넌트 | `rules/react.md` |
 | TypeScript | `rules/typescript.md` |
-| Styling | `rules/styling.md` |
-| Naming | `rules/naming.md` |
-| Data layer | `rules/data-layer.md` |
-| Forms | `rules/forms.md` |
+| 스타일링 | `rules/styling.md` |
+| 네이밍 | `rules/naming.md` |
+| 데이터 계층 | `rules/data-layer.md` |
+| 폼 | `rules/forms.md` |
 | Prisma | `rules/prisma.md` |
-| Architecture | `architecture.md` |
-| AI behavior | `behavior.md` |
+| 아키텍처 | `architecture.md` |
+| AI 행동 원칙 | `behavior.md` |

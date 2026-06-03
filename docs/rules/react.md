@@ -1,38 +1,38 @@
-# React rules
+# React 규칙
 
-## Component definition (required)
+## 컴포넌트 정의 (필수)
 
-- `function ComponentName() {}` -- function declarations, no arrow functions
-- Props interface: `{ComponentName}Props`
+- `function ComponentName() {}` -- 함수 선언문, 화살표 함수 금지
+- Props 인터페이스: `{ComponentName}Props`
 
-## Server/client boundary (required)
+## 서버/클라이언트 경계 (필수)
 
-- Server components by default, `'use client'` only when browser APIs/events/hooks needed
+- 서버 컴포넌트 기본, 브라우저 API/이벤트/훅 필요 시에만 `'use client'`
 
-## Data fetching (required)
+## 데이터 페칭 (필수)
 
-- Server prefetch + client hydration: `void queryClient.prefetchQuery(...)` + `<HydrationBoundary>` + `<Suspense fallback>`. All three required together.
-- Conditional fetching/enabled: `useQuery` + explicit `isLoading`/`isError` handling
+- 서버 prefetch + 클라이언트 hydration: `void queryClient.prefetchQuery(...)` + `<HydrationBoundary>` + `<Suspense fallback>`. 세 가지 모두 필수 조합.
+- 조건부 페칭/enabled: `useQuery` + 명시적 `isLoading`/`isError` 처리
 
-## Error boundaries (required)
+## 에러 바운더리 (필수)
 
-- Every new route group must include both `error.tsx` + `loading.tsx`
-- Root: `app/global-error.tsx` (must include `<html>`/`<body>`)
-- `error.tsx` does NOT catch errors in same-segment `layout.tsx` -- place higher if needed
+- 모든 신규 라우트 그룹은 `error.tsx` + `loading.tsx` 모두 포함 필수
+- 루트: `app/global-error.tsx` (`<html>`/`<body>` 포함 필수)
+- `error.tsx`는 동일 세그먼트의 `layout.tsx` 에러를 잡지 못함 -- 필요 시 상위에 배치
 
-## Page conventions (required)
+## 페이지 규칙 (필수)
 
-- `PageContainer` props (`pageTitle`, `pageDescription`, `pageHeaderAction`) -- never import `<Heading>` directly
-- `export const metadata: Metadata` or `generateMetadata` on every `page.tsx`
+- `PageContainer` props (`pageTitle`, `pageDescription`, `pageHeaderAction`) -- `<Heading>` 직접 임포트 금지
+- 모든 `page.tsx`에 `export const metadata: Metadata` 또는 `generateMetadata` 필수
 
-## Button loading (required)
+## 버튼 로딩 (필수)
 
-- `<Button isLoading={isPending}>` for manual buttons
-- `<form.SubmitButton>` auto-handles loading/disable states
+- 수동 버튼: `<Button isLoading={isPending}>`
+- `<form.SubmitButton>`은 로딩/비활성화 상태 자동 처리
 
-## Accessibility (required)
+## 접근성 (필수)
 
-- Icon-only `<Button>`: `aria-label` required
-- Loading states (`Skeleton`, `PageSkeleton`): `aria-hidden="true"`
-- Single `<h1>` per page
-- Skip Link (`#main-content`) on every layout
+- 아이콘 전용 `<Button>`: `aria-label` 필수
+- 로딩 상태 (`Skeleton`, `PageSkeleton`): `aria-hidden="true"`
+- 페이지당 단일 `<h1>`
+- 모든 레이아웃에 Skip Link (`#main-content`) 제공

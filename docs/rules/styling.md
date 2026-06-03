@@ -1,24 +1,24 @@
-# Styling rules
+# 스타일링 규칙
 
-## className merging (required)
+## className 병합 (필수)
 
-- `cn()` for all className merging -- no string concatenation, template literals, or `!important` suffix
+- 모든 className 병합에 `cn()` 사용 -- 문자열 연결, 템플릿 리터럴, `!important` 접미사 금지
 
-## Theme colors only (required)
+## 테마 색상만 사용 (필수)
 
-- Tailwind static colors (`text-red-500`, `bg-blue-600`, etc.) **absolutely forbidden**
-- Always use shadcn CSS variable tokens:
-  - Primary elements: `bg-primary`, `text-primary-foreground`, `ring-primary/30`
-  - Secondary/disabled: `text-muted-foreground`, `text-muted-foreground/40`
-  - Background/hover: `bg-muted/50`, `hover:bg-muted/50`
-  - Destructive: `text-destructive`, `bg-destructive`
-  - Warning: `text-warning`, `bg-warning/20`
-  - Success: `text-success`, `bg-success`
-  - Info: `text-info`, `bg-info`
-  - Card/popover: `bg-card`, `bg-popover`
-  - Chart: `text-[--chart-1]` through `text-[--chart-5]`
-  - Static-to-token mapping: green -> success, red -> destructive, blue -> primary, gray/zinc -> muted / muted-foreground, amber -> warning
+- Tailwind 정적 색상 (`text-red-500`, `bg-blue-600` 등) **절대 금지**
+- 항상 shadcn CSS 변수 토큰 사용:
+  - 주요 요소: `bg-primary`, `text-primary-foreground`, `ring-primary/30`
+  - 보조/비활성: `text-muted-foreground`, `text-muted-foreground/40`
+  - 배경/호버: `bg-muted/50`, `hover:bg-muted/50`
+  - 파괴적: `text-destructive`, `bg-destructive`
+  - 경고: `text-warning`, `bg-warning/20`
+  - 성공: `text-success`, `bg-success`
+  - 정보: `text-info`, `bg-info`
+  - 카드/팝오버: `bg-card`, `bg-popover`
+  - 차트: `text-[--chart-1]` ~ `text-[--chart-5]`
+  - 정적 색상→토큰 매핑: green → success, red → destructive, blue → primary, gray/zinc → muted / muted-foreground, amber → warning
 
-## shadcn/ui (required)
+## shadcn/ui (필수)
 
-- Never modify `src/components/ui/` directly -- extend only
+- `src/components/ui/` 직접 수정 금지 -- 확장만 허용
