@@ -31,7 +31,7 @@ Mutation은 `api/mutations.ts`의 `mutationOptions`를 컴포넌트에서 직접
 3. `src/modules/<name>/api/queries.ts` — `queryOptions()` + 쿼리 키 팩토리
 4. `src/modules/<name>/hooks/` — `use-<name>s.ts` (조회 훅만. mutation은 `api/mutations.ts`의 `mutationOptions`를 컴포넌트에서 직접 import)
 5. `src/modules/<name>/components/` — UI 컴포넌트
-6. `src/app/(views)/<view>/` 또는 `src/app/dashboard/<name>/page.tsx` — 페이지 등록
+6. `src/app/(main)/<view>/` 또는 `src/app/dashboard/<name>/page.tsx` — 페이지 등록
 7. `src/config/nav-config.ts` — 내비게이션 아이템 등록 (`access` 속성 필수)
 
 ## 핵심 원칙

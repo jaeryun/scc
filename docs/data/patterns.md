@@ -10,7 +10,7 @@
 **서버 컴포넌트 — `void prefetchQuery`:**
 
 ```typescript
-// app/(views)/subnets/page.tsx
+// app/(main)/subnets/page.tsx
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { getQueryClient } from '@/lib/query-client';
 import { subnetsQueryOptions } from '@/modules/ipam/api/queries';
@@ -211,7 +211,7 @@ modules/<name>/
   api/queries.ts              ← 쿼리 옵션 정의
   components/<name>-tables/
     columns.tsx               ← 컬럼 정의 (header, accessorKey, cell, filterFn)
-  app/(views)/<name>/page.tsx ← 서버 컴포넌트 (prefetch + HydrationBoundary)
+  app/(main)/<name>/page.tsx ← 서버 컴포넌트 (prefetch + HydrationBoundary)
 ```
 
 ### 컬럼 정의 예시
