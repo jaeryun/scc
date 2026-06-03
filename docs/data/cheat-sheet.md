@@ -38,6 +38,34 @@ export const entityKeys = {
 - ❌ 쿼리 키 문자열 하드코딩 → 항상 쿼리 키 팩토리 사용
 - ❌ `service.ts` 외부에서 `apiClient` 직접 호출
 
+## Mutation 패턴 (권장)
+
+```typescript
+// api/mutations.ts — 공유 설정 (React 독립적)
+import { mutationOptions } from '@tanstack/react-query';
+import { getQueryClient } from '@/lib/query-client';
+
+export const createItemMutation = mutationOptions({
+  mutationFn: (data: CreatePayload) => createItem(data),
+  onSuccess: () => {
+    getQueryClient().invalidateQueries({ queryKey: itemKeys.all });
+  }
+});
+
+// 컴포넌트 — spread로 공유 설정 + UI 콜백 조합
+import { useMutation } from '@tanstack/react-query';
+import { createItemMutation } from '../api/mutations';
+
+const mutation = useMutation({
+  ...createItemMutation,
+  onSuccess: () => {
+    toast.success('생성 완료');
+  }
+});
+```
+
+> ⚠️ 컴포넌트의 `onSuccess`가 `mutationOptions`의 `onSuccess`를 덮어쓰므로, `invalidateQueries`가 필요한 경우 컴포넌트에서도 명시적으로 호출해야 한다.
+
 ## 임포트 경로
 
 | 용도                          | 경로                    |

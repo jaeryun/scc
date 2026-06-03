@@ -27,9 +27,9 @@
 - [필수] **데이터 페칭 전략**
   - 서버 prefetch + client hydration → `useSuspenseQuery` (선언적 로딩, `<Suspense>` 필수)
   - 조건부 페칭(`enabled`), 점진적 렌더링 → `useQuery` + `isLoading`/`isError` 직접 처리
-- [필수] **에러 바운더리**
+- [필수] **에러 바운더리 + 로딩** — 신규 라우트 그룹 생성 시 `error.tsx` + `loading.tsx` **필수 동시 생성**.
   - 루트: `app/global-error.tsx` (치명적 에러, `<html>`/`<body>` 필수)
-  - 페이지 단위: `page.tsx`와 동일 디렉토리에 `error.tsx`
+  - 라우트 그룹: `src/app/(main)/`, `src/app/(main)/dcim/` 등 섹션 레벨에 배치
   - ⚠️ `error.tsx`는 동일 세그먼트의 `layout.tsx` 에러를 잡지 못함 → 필요 시 상위 배치
 - [필수] **페이지 헤더** — `PageContainer` props (`pageTitle`, `pageDescription`, `pageHeaderAction`) 사용, `<Heading>` 직접 임포트 금지
 - [필수] **메타데이터** — `page.tsx`마다 `Metadata` export 또는 `generateMetadata` 사용
@@ -90,6 +90,7 @@
   });
   ```
   `mutationOptions`는 `queryOptions`와 대칭되는 TanStack Query 공식 추상화. React 외부(테스트, 유틸리티)에서도 사용 가능. `getQueryClient()`는 SSR/클라이언트 양쪽에서 정확히 동작.
+- [필수] **Zod 스키마 `.strip()`** — NetBox 등 외부 API proxy 라우트의 Zod 스키마는 `.strip()` 사용 (알 수 없는 필드 제거). `.passthrough()`는 검증되지 않은 필드를 전달하므로 금지.
 - [필수] **API 에러 구분** — `ZodError`(400)와 서버 에러(500) 엄격 구분. `apiClient`의 `res.ok` 체크 활용. `global-error.tsx`는 `<html>`/`<body>` 태그 필수 (레이아웃 없이 마운트됨)
 - [필수] **apiClient headers** — `options.headers`가 기본 `Content-Type: application/json`을 덮어쓰므로, `Content-Type` 변경이 필요할 때만 명시적 오버라이드
 - [필수] **Prisma** — `prisma db push` **절대 금지** (기존 데이터 전량 삭제, migration 이력 파괴). 스키마 변경은 반드시 `prisma migrate dev` → `prisma generate` → `migrate deploy` 워크플로만 사용. DB 이관 시에도 `migrate deploy`만 허용.

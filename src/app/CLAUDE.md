@@ -78,3 +78,4 @@ export default function GlobalError({ error, reset }: { error: Error; reset: () 
 2. `src/app/(main)/<view-id>/page.tsx` → 페이지 생성
 3. `PageContainer`로 래핑, `pageTitle`/`pageDescription` props 사용
 4. 데이터 페칭: [../modules/CLAUDE.md](../modules/CLAUDE.md)의 `prefetchQuery` + `useSuspenseQuery` 패턴 참조
+5. **필수**: 신규 라우트 그룹에 `error.tsx` + `loading.tsx` **동시 생성** (→ [에러 처리](#에러-처리) 템플릿 사용)

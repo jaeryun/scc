@@ -42,20 +42,35 @@ return NextResponse.json(failure('서버 오류'), { status: 500 });
 
 ## Zod 유효성 검사
 
-요청 본문 검증은 Zod 스키마 + `.parse()`:
+요청 본문 검증은 Zod 스키마 + `.parse()`. 모든 스키마는 **반드시 `.strip()`**을 사용한다 (알 수 없는 필드 제거). `.passthrough()`는 검증되지 않은 필드를 통과시키므로 **금지**.
 
 ```typescript
-import { subnetSchema } from '@/modules/ipam/schemas';
+import { z } from 'zod';
+
+const createSchema = z.object({
+  name: z.string().min(1),
+  type: z.number(),
+}).strip(); // ← NetBox 등 strict validation API 대응 필수
 
 export async function POST(req: Request) {
-  const body = await req.json();
-  const parsed = subnetSchema.parse(body); // 실패 시 ZodError → catch
-  // ...
+  try {
+    const parsed = createSchema.parse(await req.json());
+    // ...
+  } catch (error) {
+    if (error instanceof ZodError) {
+      return NextResponse.json(
+        failure(error.issues.map(i => `${i.path.join('.')}: ${i.message}`).join(', ')),
+        { status: 400 }
+      );
+    }
+    // ...
+  }
 }
 ```
 
 - 스키마는 `src/modules/<name>/schemas.ts`에 정의
 - `.parse()` 실패 시 `ZodError`가 throw되므로 try/catch로 감싸서 처리
+- 에러 메시지는 `error.issues.map().join(', ')`으로 모든 필드 오류를 포함
 
 ## 에러 핸들링
 
