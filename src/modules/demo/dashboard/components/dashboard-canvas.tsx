@@ -111,7 +111,7 @@ export function DashboardCanvas({ dashboardId }: { dashboardId: string }) {
   const handleDelete = useCallback(async () => {
     if (!confirm('이 대시보드를 삭제하시겠습니까?')) return;
     await deleteDashboardMutation.mutateAsync(dashboardId);
-    router.push('/library/modules/dashboard');
+    router.push('/demo/modules/dashboard');
   }, [dashboardId, deleteDashboardMutation, router]);
 
   if (isLoading) {

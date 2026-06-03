@@ -35,7 +35,7 @@ export default function HomePage() {
               SCC 웹 개발팀을 위한 재사용 가능한 라이브러리입니다. UI 컴포넌트 카탈로그, 데이터 연동
               모듈 패턴, 외부 API 연동 레퍼런스를 확인하세요.
             </p>
-            <Link href='/library'>
+            <Link href='/demo'>
               <Button className='w-full'>
                 라이브러리 둘러보기
                 <Icons.chevronRight className='ml-2 h-4 w-4' />

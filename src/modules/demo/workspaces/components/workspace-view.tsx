@@ -91,7 +91,7 @@ export function WorkspaceView() {
               <Button
                 variant='outline'
                 size='sm'
-                onClick={() => router.push(`/library/modules/workspaces/team/${ws.id}`)}
+                onClick={() => router.push(`/demo/modules/workspaces/team/${ws.id}`)}
               >
                 <Icons.teams className='mr-1 h-4 w-4' />팀 관리
               </Button>

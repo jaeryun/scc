@@ -36,11 +36,11 @@ import { NavGroup } from '@/types';
  */
 export const navGroups: NavGroup[] = [
   {
-    label: '라이브러리',
+    label: '데모',
     items: [
       {
         title: '소개',
-        url: '/library',
+        url: '/demo',
         icon: 'info',
         isActive: false,
         shortcut: ['l', 'l'],
@@ -48,130 +48,130 @@ export const navGroups: NavGroup[] = [
       },
       {
         title: '컴포넌트(UI)',
-        url: '/library/components',
+        url: '/demo/components',
         icon: 'palette',
         isActive: false,
         items: [
           {
             title: '소개',
-            url: '/library/components',
+            url: '/demo/components',
             icon: 'info'
           },
           {
             title: '칸반',
-            url: '/library/components/kanban',
+            url: '/demo/components/kanban',
             icon: 'kanban',
             shortcut: ['k', 'k']
           },
           {
             title: '채팅',
-            url: '/library/components/chat',
+            url: '/demo/components/chat',
             icon: 'chat',
             shortcut: ['c', 'c']
           },
           {
             title: '폼',
-            url: '/library/components/forms/basic',
+            url: '/demo/components/forms/basic',
             icon: 'forms',
             isActive: true,
             items: [
               {
                 title: '기본 폼',
-                url: '/library/components/forms/basic',
+                url: '/demo/components/forms/basic',
                 icon: 'forms',
                 shortcut: ['f', 'f']
               },
               {
                 title: '다단계 폼',
-                url: '/library/components/forms/multi-step',
+                url: '/demo/components/forms/multi-step',
                 icon: 'forms'
               },
               {
                 title: '시트 & 다이얼로그',
-                url: '/library/components/forms/sheet-form',
+                url: '/demo/components/forms/sheet-form',
                 icon: 'forms'
               },
               {
                 title: '고급 패턴',
-                url: '/library/components/forms/advanced',
+                url: '/demo/components/forms/advanced',
                 icon: 'forms'
               }
             ]
           },
           {
             title: '아이콘',
-            url: '/library/components/icons',
+            url: '/demo/components/icons',
             icon: 'palette'
           },
           {
             title: '알림',
-            url: '/library/components/notifications',
+            url: '/demo/components/notifications',
             icon: 'notification'
           },
           {
             title: '대화상자',
-            url: '/library/components/dialog',
+            url: '/demo/components/dialog',
             icon: 'components'
           },
           {
             title: '코드 블록',
-            url: '/library/components/code-block',
+            url: '/demo/components/code-block',
             icon: 'code'
           },
           {
             title: '탭 & 아코디언',
-            url: '/library/components/tabs-accordion',
+            url: '/demo/components/tabs-accordion',
             icon: 'hierarchy'
           },
           {
             title: '테이블',
-            url: '/library/components/table',
+            url: '/demo/components/table',
             icon: 'listTree'
           },
           {
             title: '드롭다운 & 컨텍스트',
-            url: '/library/components/dropdown',
+            url: '/demo/components/dropdown',
             icon: 'ellipsis'
           },
           {
             title: '커맨드 팔레트',
-            url: '/library/components/command',
+            url: '/demo/components/command',
             icon: 'logo'
           },
           {
             title: '차트',
-            url: '/library/components/chart',
+            url: '/demo/components/chart',
             icon: 'barChart'
           },
           {
             title: '프로필',
-            url: '/library/components/profile',
+            url: '/demo/components/profile',
             icon: 'teams'
           },
           {
             title: '오버레이',
-            url: '/library/components/tooltip',
+            url: '/demo/components/tooltip',
             icon: 'info'
           },
           {
             title: '정적 페이지',
-            url: '/library/components/static-pages',
+            url: '/demo/components/static-pages',
             icon: 'page',
             isActive: false,
             items: [
               {
                 title: '소개',
-                url: '/library/components/static-pages',
+                url: '/demo/components/static-pages',
                 icon: 'info'
               },
               {
                 title: '404 Not Found',
-                url: '/library/components/static-pages/not-found',
+                url: '/demo/components/static-pages/not-found',
                 icon: 'slash'
               },
               {
                 title: '에러 페이지',
-                url: '/library/components/static-pages/error',
+                url: '/demo/components/static-pages/error',
                 icon: 'warning'
               }
             ]
@@ -180,51 +180,51 @@ export const navGroups: NavGroup[] = [
       },
       {
         title: '모듈(UI + Data)',
-        url: '/library/modules',
+        url: '/demo/modules',
         icon: 'code',
         isActive: false,
         items: [
           {
             title: '소개',
-            url: '/library/modules',
+            url: '/demo/modules',
             icon: 'info'
           },
           {
             title: '대시보드',
-            url: '/library/modules/dashboard',
+            url: '/demo/modules/dashboard',
             icon: 'dashboard',
             shortcut: ['d', 'd']
           },
           {
             title: '제품',
-            url: '/library/modules/products',
+            url: '/demo/modules/products',
             icon: 'product',
             shortcut: ['p', 'p']
           },
           {
             title: '사용자',
-            url: '/library/modules/users',
+            url: '/demo/modules/users',
             icon: 'teams',
             shortcut: ['u', 'u']
           },
           {
             title: 'React Query',
-            url: '/library/modules/react-query',
+            url: '/demo/modules/react-query',
             icon: 'code'
           },
           {
             title: '결제',
-            url: '/library/modules/billing',
+            url: '/demo/modules/billing',
             icon: 'billing'
           },
           {
             title: '특별',
-            url: '/library/modules/exclusive',
+            url: '/demo/modules/exclusive',
             icon: 'sparkles'
           },
           {
             title: '워크스페이스',
-            url: '/library/modules/workspaces',
+            url: '/demo/modules/workspaces',
             icon: 'workspace'
           }
         ]

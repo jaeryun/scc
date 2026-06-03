@@ -13,13 +13,13 @@ const pages = [
   {
     title: '404 Not Found',
     description: '페이지를 찾을 수 없을 때 표시되는 UI입니다.',
-    href: '/library/components/static-pages/not-found',
+    href: '/demo/components/static-pages/not-found',
     badge: '404'
   },
   {
     title: '에러 페이지',
     description: '500, 502, 503 등 서버 에러 상태를 표시하는 UI 모음입니다.',
-    href: '/library/components/static-pages/error',
+    href: '/demo/components/static-pages/error',
     badge: '5xx'
   }
 ];

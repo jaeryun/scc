@@ -88,7 +88,7 @@ export default function LibraryPage() {
         <div>
           <h3 className='text-lg font-semibold mb-4'>무엇이 있는지</h3>
           <div className='grid grid-cols-1 gap-6 md:grid-cols-3'>
-            <Link href='/library/components' className='group'>
+            <Link href='/demo/components' className='group'>
               <Card className='h-full hover:border-primary/50 hover:shadow-md transition-all'>
                 <CardHeader>
                   <div className='mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors'>
@@ -113,7 +113,7 @@ export default function LibraryPage() {
               </Card>
             </Link>
 
-            <Link href='/library/modules' className='group'>
+            <Link href='/demo/modules' className='group'>
               <Card className='h-full hover:border-primary/50 hover:shadow-md transition-all'>
                 <CardHeader>
                   <div className='mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors'>
@@ -141,7 +141,7 @@ export default function LibraryPage() {
               </Card>
             </Link>
 
-            <Link href='/library/api-reference' className='group'>
+            <Link href='/demo/api-reference' className='group'>
               <Card className='h-full hover:border-primary/50 hover:shadow-md transition-all'>
                 <CardHeader>
                   <div className='mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors'>

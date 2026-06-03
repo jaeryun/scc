@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  redirect('/library/components/forms/basic');
+  redirect('/demo/components/forms/basic');
 }

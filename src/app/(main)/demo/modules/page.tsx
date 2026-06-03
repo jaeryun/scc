@@ -13,43 +13,43 @@ const modules = [
   {
     title: 'Dashboard',
     description: '차트, 통계, 매출 요약 대시보드 예시',
-    href: '/library/modules/dashboard',
+    href: '/demo/modules/dashboard',
     icon: Icons.dashboard
   },
   {
     title: 'Products',
     description: 'TanStack Query + nuqs 기반 상품 CRUD',
-    href: '/library/modules/products',
+    href: '/demo/modules/products',
     icon: Icons.product
   },
   {
     title: 'Users',
     description: '사용자 목록 및 관리',
-    href: '/library/modules/users',
+    href: '/demo/modules/users',
     icon: Icons.teams
   },
   {
     title: 'React Query',
     description: 'React Query 데이터 페칭 패턴 레퍼런스',
-    href: '/library/modules/react-query',
+    href: '/demo/modules/react-query',
     icon: Icons.code
   },
   {
     title: 'Billing',
     description: '구독 및 결제 관리',
-    href: '/library/modules/billing',
+    href: '/demo/modules/billing',
     icon: Icons.billing
   },
   {
     title: 'Exclusive',
     description: '프리미엄 기능 데모',
-    href: '/library/modules/exclusive',
+    href: '/demo/modules/exclusive',
     icon: Icons.sparkles
   },
   {
     title: 'Workspaces',
     description: '팀 워크스페이스 관리',
-    href: '/library/modules/workspaces',
+    href: '/demo/modules/workspaces',
     icon: Icons.workspace
   }
 ];
