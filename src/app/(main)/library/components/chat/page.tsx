@@ -1,4 +1,4 @@
-import ChatViewPage from '@/modules/chat/components/chat-view-page';
+import ChatViewPage from '@/modules/demo/chat/components/chat-view-page';
 import PageContainer from '@/components/layout/page-container';
 
 export const metadata = {

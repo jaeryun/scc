@@ -1,7 +1,7 @@
 import PageContainer from '@/components/layout/page-container';
 import { Badge } from '@/components/ui/badge';
-import { DashboardList } from '@/modules/dashboard/components/dashboard-list';
-import { dashboardsQueryOptions, foldersQueryOptions } from '@/modules/dashboard/api/queries';
+import { DashboardList } from '@/modules/demo/dashboard/components/dashboard-list';
+import { dashboardsQueryOptions, foldersQueryOptions } from '@/modules/demo/dashboard/api/queries';
 import { getQueryClient } from '@/lib/query-client';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import { Suspense } from 'react';

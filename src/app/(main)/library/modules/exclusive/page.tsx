@@ -1,8 +1,8 @@
 import { Suspense } from 'react';
 import PageContainer from '@/components/layout/page-container';
 import { exclusiveInfoContent } from '@/config/infoconfig';
-import { ExclusiveView } from '@/modules/exclusive/components/exclusive-view';
-import { ExclusiveSkeleton } from '@/modules/exclusive/components/exclusive-skeleton';
+import { ExclusiveView } from '@/modules/demo/exclusive/components/exclusive-view';
+import { ExclusiveSkeleton } from '@/modules/demo/exclusive/components/exclusive-skeleton';
 
 export const metadata = {
   title: 'Dashboard : 특별'

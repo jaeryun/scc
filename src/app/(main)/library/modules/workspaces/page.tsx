@@ -1,9 +1,9 @@
 import { Suspense } from 'react';
 import PageContainer from '@/components/layout/page-container';
-import { WorkspaceView } from '@/modules/workspaces/components/workspace-view';
-import { WorkspaceSkeleton } from '@/modules/workspaces/components/workspace-skeleton';
+import { WorkspaceView } from '@/modules/demo/workspaces/components/workspace-view';
+import { WorkspaceSkeleton } from '@/modules/demo/workspaces/components/workspace-skeleton';
 import { workspacesInfoContent } from '@/config/infoconfig';
-import { workspacesQueryOptions } from '@/modules/workspaces/api/queries';
+import { workspacesQueryOptions } from '@/modules/demo/workspaces/api/queries';
 import { getQueryClient } from '@/lib/query-client';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 

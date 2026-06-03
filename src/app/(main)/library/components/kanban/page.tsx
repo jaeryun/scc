@@ -1,4 +1,4 @@
-import KanbanViewPage from '@/modules/kanban/components/kanban-view-page';
+import KanbanViewPage from '@/modules/demo/kanban/components/kanban-view-page';
 import PageContainer from '@/components/layout/page-container';
 
 export const metadata = {

@@ -12,8 +12,8 @@ import {
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import * as z from 'zod';
-import { productSchema, type ProductFormValues } from '@/modules/products/schemas/product';
-import { categoryOptions } from '@/modules/products/constants/product-options';
+import { productSchema, type ProductFormValues } from '@/modules/demo/products/schemas/product';
+import { categoryOptions } from '@/modules/demo/products/constants/product-options';
 
 export default function ProductForm({
   initialData,

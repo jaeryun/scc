@@ -1,9 +1,12 @@
 import { Suspense } from 'react';
 import PageContainer from '@/components/layout/page-container';
-import { TeamView } from '@/modules/workspaces/components/team-view';
-import { TeamSkeleton } from '@/modules/workspaces/components/team-skeleton';
+import { TeamView } from '@/modules/demo/workspaces/components/team-view';
+import { TeamSkeleton } from '@/modules/demo/workspaces/components/team-skeleton';
 import { teamInfoContent } from '@/config/infoconfig';
-import { workspaceByIdOptions, teamMembersQueryOptions } from '@/modules/workspaces/api/queries';
+import {
+  workspaceByIdOptions,
+  teamMembersQueryOptions
+} from '@/modules/demo/workspaces/api/queries';
 import { getQueryClient } from '@/lib/query-client';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 

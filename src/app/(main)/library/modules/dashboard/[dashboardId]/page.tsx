@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import PageContainer from '@/components/layout/page-container';
-import { DashboardCanvas } from '@/modules/dashboard/components/dashboard-canvas';
-import { getDashboardById } from '@/modules/dashboard/api/service';
+import { DashboardCanvas } from '@/modules/demo/dashboard/components/dashboard-canvas';
+import { getDashboardById } from '@/modules/demo/dashboard/api/service';
 
 export async function generateMetadata(props: {
   params: Promise<{ dashboardId: string }>;

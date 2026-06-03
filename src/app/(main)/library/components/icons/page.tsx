@@ -1,4 +1,4 @@
-import IconsViewPage from '@/modules/elements/components/icons-view-page';
+import IconsViewPage from '@/modules/demo/elements/components/icons-view-page';
 import PageContainer from '@/components/layout/page-container';
 
 export const metadata = {

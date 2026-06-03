@@ -1,4 +1,4 @@
-import ProfileViewPage from '@/modules/profile/components/profile-view-page';
+import ProfileViewPage from '@/modules/demo/profile/components/profile-view-page';
 import PageContainer from '@/components/layout/page-container';
 
 export const metadata = {

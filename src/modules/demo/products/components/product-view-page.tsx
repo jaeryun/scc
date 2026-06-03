@@ -1,7 +1,7 @@
 'use client';
 
 import { Suspense } from 'react';
-import { useProductById } from '@/modules/products/hooks/use-products';
+import { useProductById } from '@/modules/demo/products/hooks/use-products';
 import type { Product } from '../api/types';
 import { notFound } from 'next/navigation';
 import ProductForm from './product-form';

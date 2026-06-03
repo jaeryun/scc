@@ -1,8 +1,8 @@
 import { Suspense } from 'react';
 import PageContainer from '@/components/layout/page-container';
-import { PokemonInfo } from '@/modules/react-query-demo/components/pokemon-info';
-import { PokemonSkeleton } from '@/modules/react-query-demo/components/pokemon-skeleton';
-import { reactQueryInfoContent } from '@/modules/react-query-demo/info-content';
+import { PokemonInfo } from '@/modules/demo/react-query-demo/components/pokemon-info';
+import { PokemonSkeleton } from '@/modules/demo/react-query-demo/components/pokemon-skeleton';
+import { reactQueryInfoContent } from '@/modules/demo/react-query-demo/info-content';
 
 export const metadata = {
   title: 'React Query'

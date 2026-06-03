@@ -4,7 +4,7 @@ import { Icons } from '@/components/icons';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { KanbanColumn, KanbanColumnHandle } from '@/components/ui/kanban';
-import type { Task } from '@/modules/kanban/utils/store';
+import type { Task } from '@/modules/demo/kanban/utils/store';
 import { TaskCard } from './task-card';
 
 const COLUMN_TITLES: Record<string, string> = {

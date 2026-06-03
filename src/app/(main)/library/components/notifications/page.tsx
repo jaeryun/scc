@@ -1,4 +1,4 @@
-import NotificationsPage from '@/modules/notifications/components/notifications-page';
+import NotificationsPage from '@/modules/demo/notifications/components/notifications-page';
 import PageContainer from '@/components/layout/page-container';
 
 export const metadata = {

@@ -3,10 +3,10 @@
 import { useCallback, useRef } from 'react';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Kanban, KanbanBoard as KanbanBoardPrimitive, KanbanOverlay } from '@/components/ui/kanban';
-import { useTaskStore } from '@/modules/kanban/utils/store';
+import { useTaskStore } from '@/modules/demo/kanban/utils/store';
 import { TaskColumn } from './board-column';
 import { TaskCard } from './task-card';
-import { createRestrictToContainer } from '@/modules/kanban/utils/restrict-to-container';
+import { createRestrictToContainer } from '@/modules/demo/kanban/utils/restrict-to-container';
 
 export function KanbanBoard() {
   const { columns, setColumns } = useTaskStore();

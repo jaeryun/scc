@@ -1,13 +1,13 @@
 import PageContainer from '@/components/layout/page-container';
 import { billingInfoContent } from '@/config/infoconfig';
-import BillingView from '@/modules/billing/components/billing-view';
-import BillingSkeleton from '@/modules/billing/components/billing-skeleton';
+import BillingView from '@/modules/demo/billing/components/billing-view';
+import BillingSkeleton from '@/modules/demo/billing/components/billing-skeleton';
 import { Suspense } from 'react';
 import {
   plansQueryOptions,
   subscriptionQueryOptions,
   invoicesQueryOptions
-} from '@/modules/billing/api/queries';
+} from '@/modules/demo/billing/api/queries';
 import { getQueryClient } from '@/lib/query-client';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 
