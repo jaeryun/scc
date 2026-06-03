@@ -1,4 +1,4 @@
-# dcim/ -- DCIM domain
+# dcim/ -- DCIM 도메인
 
-This directory holds DCIM-related domain knowledge (IPAM, Devices, Cables, Sites, etc.).
-Currently scaffolded -- content will be added as the domain matures.
+이 디렉토리는 DCIM 관련 도메인 지식(IPAM, 장비, 케이블, 사이트 등)을 포함합니다.
+현재는 스캐폴드 상태 -- 도메인이 성숙해짐에 따라 콘텐츠가 추가될 예정입니다.

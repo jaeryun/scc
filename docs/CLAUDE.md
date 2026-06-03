@@ -1,19 +1,19 @@
-# docs/ -- SCC project docs
+# docs/ -- SCC 프로젝트 문서
 
-This directory holds all documentation for the SCC project.
+이 디렉토리는 SCC 프로젝트의 모든 문서를 포함합니다.
 
-## Structure
+## 구조
 
-| Directory | Purpose | Loaded |
+| 디렉토리 | 목적 | 로딩 시점 |
 |-----------|---------|--------|
-| `core/` | Project constitution - identity, constraints, core decisions | Always |
-| `rules/` | Coding rules - SCC-specific decisions that must be followed | On violation |
-| `patterns/` | Implementation patterns - code examples, "how to do it" | During implementation |
-| `domain/` | Business domain knowledge - per-view/shared concepts | During domain work |
-| `archive/` | Historical records - audits, reviews, past branch artifacts | Never |
+| `core/` | 프로젝트 헌장 - 정체성, 제약, 핵심 결정사항 | 항상 |
+| `rules/` | 코딩 규칙 - 반드시 따라야 하는 SCC 고유 결정사항 | 위반 시 |
+| `patterns/` | 구현 패턴 - 코드 예제, "실행 방법" | 구현 중 |
+| `domain/` | 비즈니스 도메인 지식 - 뷰별/공유 개념 | 도메인 작업 중 |
+| `archive/` | 히스토리 기록 - 감사, 리뷰, 과거 브랜치 산출물 | 로딩 안 함 |
 
-## Key paths
+## 주요 경로
 
-- Project overview -> `core/project.md`
-- Coding rules -> `core/conventions.md` -> `rules/`
-- Implementation patterns -> `patterns/`
+- 프로젝트 개요 -> `core/project.md`
+- 코딩 규칙 -> `core/conventions.md` -> `rules/`
+- 구현 패턴 -> `patterns/`

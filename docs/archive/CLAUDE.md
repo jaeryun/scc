@@ -1,10 +1,10 @@
-# archive/ -- Historical records
+# archive/ -- 히스토리 기록
 
-This directory stores **past branch work artifacts, audits, and research results**.
-**AI agents: do NOT read this directory.** These are not current, valid documents.
+이 디렉토리는 **과거 브랜치 작업 산출물, 감사, 리서치 결과**를 보관합니다.
+**AI 에이전트: 이 디렉토리를 읽지 마세요.** 현재 유효한 문서가 아닙니다.
 
-- `audits/`       -- Convention audit reports
-- `reviews/`      -- Code review records
-- `research/`     -- Technology research results
-- `decisions/`    -- ADR (Architecture Decision Records)
-- `superpowers/`  -- Design specs and implementation plans from past feature branches
+- `audits/`       -- 컨벤션 감사 보고서
+- `reviews/`      -- 코드 리뷰 기록
+- `research/`     -- 기술 리서치 결과
+- `decisions/`    -- ADR (아키텍처 결정 기록)
+- `superpowers/`  -- 과거 기능 브랜치의 설계 명세 및 구현 계획

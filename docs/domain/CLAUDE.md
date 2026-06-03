@@ -1,9 +1,9 @@
-# domain/ -- Business domain knowledge
+# domain/ -- 비즈니스 도메인 지식
 
-Describes business concepts, external systems, and data models the project deals with.
+프로젝트가 다루는 비즈니스 개념, 외부 시스템, 데이터 모델을 설명합니다.
 
-Currently scaffolded only. Domain knowledge will be filled in as the project matures.
+현재는 스캐폴드 상태입니다. 도메인 지식은 프로젝트가 성숙해짐에 따라 채워질 예정입니다.
 
-- `dcim/`     -- DCIM view (IPAM, Devices, Cables, Sites, etc.)
-- `settings/` -- Settings view
-- `shared/`   -- Concepts shared across views (NetBox integration, etc.)
+- `dcim/`     -- DCIM 뷰 (IPAM, 장비, 케이블, 사이트 등)
+- `settings/` -- 설정 뷰
+- `shared/`   -- 여러 뷰에서 공유되는 개념 (NetBox 연동 등)

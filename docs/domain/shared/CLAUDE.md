@@ -1,4 +1,4 @@
-# shared/ -- Shared domain concepts
+# shared/ -- 공유 도메인 개념
 
-This directory holds domain knowledge shared across multiple views (NetBox integration, etc.).
-Currently scaffolded -- content will be added as the domain matures.
+이 디렉토리는 여러 뷰에서 공유되는 도메인 지식(NetBox 연동 등)을 포함합니다.
+현재는 스캐폴드 상태 -- 도메인이 성숙해짐에 따라 콘텐츠가 추가될 예정입니다.
