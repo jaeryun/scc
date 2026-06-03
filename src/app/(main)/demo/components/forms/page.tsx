@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: '라이브러리 - 폼',
+  title: '데모 - 폼',
   description: '폼 컴포넌트 및 패턴'
 };
 

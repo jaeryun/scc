@@ -116,8 +116,8 @@ export async function GET() {
 | 모듈 | 유형 | 참조 대상 |
 |------|------|-----------|
 | `src/modules/ipam/` | Production | Prisma + Zod + apiClient 전체 패턴 |
-| `src/modules/dashboard/` | Demo | mock-store + in-memory seed 패턴 |
-| `src/modules/products/` | Demo | `@/constants/mock-api` 공유 상수 패턴 |
+| `src/modules/demo/dashboard/` | Demo | mock-store + in-memory seed 패턴 |
+| `src/modules/demo/products/` | Demo | `@/constants/mock-api` 공유 상수 패턴 |
 | `src/app/api/ipam/` | Production API | Route Handler + Zod 검증 + 계층 분리 |
 
 ## 개별 모듈 CLAUDE.md 템플릿
@@ -154,7 +154,7 @@ export async function GET() {
 | 모듈 | 파일 | 특징 |
 |------|------|------|
 | `ipam/` | CLAUDE.md 없음 | `src/modules/CLAUDE.md`로 충분 |
-| `products/` | `CLAUDE.md` | mock-api + Server Component fetch 패턴 |
-| `users/` | `CLAUDE.md` | mock-api + prefetchQuery 패턴 |
+| `demo/products/` | `CLAUDE.md` | mock-api + Server Component fetch 패턴 |
+| `demo/users/` | `CLAUDE.md` | mock-api + prefetchQuery 패턴 |
 
 ## 컴포넌트 배치

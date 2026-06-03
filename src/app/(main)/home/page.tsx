@@ -37,7 +37,7 @@ export default function HomePage() {
             </p>
             <Link href='/demo'>
               <Button className='w-full'>
-                라이브러리 둘러보기
+                데모 둘러보기
                 <Icons.chevronRight className='ml-2 h-4 w-4' />
               </Button>
             </Link>

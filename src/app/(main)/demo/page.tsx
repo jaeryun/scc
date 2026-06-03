@@ -6,8 +6,8 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: '라이브러리',
-  description: 'SCC 웹 개발을 위한 재사용 가능한 라이브러리'
+  title: '데모',
+  description: 'SCC 웹 개발을 위한 재사용 가능한 컴포넌트 및 모듈 데모'
 };
 
 const reasons = [
@@ -49,23 +49,23 @@ const reasons = [
   }
 ];
 
-export default function LibraryPage() {
+export default function DemoPage() {
   return (
     <PageContainer
-      pageTitle='라이브러리'
+      pageTitle='데모'
       pageDescription='SCC 웹 개발팀을 위한 재사용 가능한 컴포넌트, 모듈, API 문서 컬렉션입니다.'
     >
       <div className='space-y-10 max-w-4xl'>
         <div className='prose prose-neutral dark:prose-invert max-w-none'>
           <p className='text-base text-muted-foreground leading-relaxed'>
-            SCC Command Center는 <strong>인프라팀 내부 운영 도구</strong>입니다. 이 라이브러리는
-            단순한 데모 페이지가 아니라, 팀이 일관된 방식으로 기능을 개발할 수 있도록{' '}
+            SCC Command Center는 <strong>인프라팀 내부 운영 도구</strong>입니다. 이 데모는 단순한
+            쇼케이스가 아니라, 팀이 일관된 방식으로 기능을 개발할 수 있도록{' '}
             <strong>개발 패턴을 표준화하고 재사용성을 극대화</strong>하기 위해 설계되었습니다.
           </p>
         </div>
 
         <div>
-          <h3 className='text-lg font-semibold mb-4'>이 라이브러리가 존재하는 이유</h3>
+          <h3 className='text-lg font-semibold mb-4'>이 데모가 존재하는 이유</h3>
           <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
             {reasons.map((item) => (
               <Card key={item.title}>
