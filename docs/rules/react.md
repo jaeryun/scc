@@ -1,7 +1,38 @@
-# React 규칙
+# React rules
 
-- 함수 선언문으로 컴포넌트 정의: `function ComponentName() {}`
-- Props 인터페이스: `{ComponentName}Props`
-- `cn()`으로 className 병합
-- 기본적으로 서버 컴포넌트, `'use client'`는 필요 시만
-- `useSuspenseQuery` + `void prefetchQuery()` + `HydrationBoundary` 패턴
+## Component definition (required)
+
+- `function ComponentName() {}` -- function declarations, no arrow functions
+- Props interface: `{ComponentName}Props`
+
+## Server/client boundary (required)
+
+- Server components by default, `'use client'` only when browser APIs/events/hooks needed
+
+## Data fetching (required)
+
+- Server prefetch + client hydration: `void queryClient.prefetchQuery(...)` + `<HydrationBoundary>` + `<Suspense fallback>`. All three required together.
+- Conditional fetching/enabled: `useQuery` + explicit `isLoading`/`isError` handling
+
+## Error boundaries (required)
+
+- Every new route group must include both `error.tsx` + `loading.tsx`
+- Root: `app/global-error.tsx` (must include `<html>`/`<body>`)
+- `error.tsx` does NOT catch errors in same-segment `layout.tsx` -- place higher if needed
+
+## Page conventions (required)
+
+- `PageContainer` props (`pageTitle`, `pageDescription`, `pageHeaderAction`) -- never import `<Heading>` directly
+- `export const metadata: Metadata` or `generateMetadata` on every `page.tsx`
+
+## Button loading (required)
+
+- `<Button isLoading={isPending}>` for manual buttons
+- `<form.SubmitButton>` auto-handles loading/disable states
+
+## Accessibility (required)
+
+- Icon-only `<Button>`: `aria-label` required
+- Loading states (`Skeleton`, `PageSkeleton`): `aria-hidden="true"`
+- Single `<h1>` per page
+- Skip Link (`#main-content`) on every layout

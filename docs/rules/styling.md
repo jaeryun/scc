@@ -1,16 +1,24 @@
----
-paths:
-  - '**/*.{tsx,css}'
----
+# Styling rules
 
-# 스타일링 규칙
+## className merging (required)
 
-- `cn()`으로 className 병합 필수 (Tailwind 충돌 방지)
-- 반응형 mobile-first: `sm:` → `md:` → `lg:` 순서
-- Tailwind v4 `@import 'tailwindcss'` 구문 사용
-- `@apply` 지시문 사용 금지 (컴포넌트와 스타일 결합)
-- 커스텀 CSS 최소화, Tailwind 유틸리티 우선
-- 다크모드: `dark:` 접두사 사용
-- OKLCH 색상 포맷: `oklch(lightness chroma hue)`
-- 테마 CSS: `src/styles/themes/<name>.css`에 위치
-- 전역 스타일: `src/styles/globals.css`에만 배치
+- `cn()` for all className merging -- no string concatenation, template literals, or `!important` suffix
+
+## Theme colors only (required)
+
+- Tailwind static colors (`text-red-500`, `bg-blue-600`, etc.) **absolutely forbidden**
+- Always use shadcn CSS variable tokens:
+  - Primary elements: `bg-primary`, `text-primary-foreground`, `ring-primary/30`
+  - Secondary/disabled: `text-muted-foreground`, `text-muted-foreground/40`
+  - Background/hover: `bg-muted/50`, `hover:bg-muted/50`
+  - Destructive: `text-destructive`, `bg-destructive`
+  - Warning: `text-warning`, `bg-warning/20`
+  - Success: `text-success`, `bg-success`
+  - Info: `text-info`, `bg-info`
+  - Card/popover: `bg-card`, `bg-popover`
+  - Chart: `text-[--chart-1]` through `text-[--chart-5]`
+  - Static-to-token mapping: green -> success, red -> destructive, blue -> primary, gray/zinc -> muted / muted-foreground, amber -> warning
+
+## shadcn/ui (required)
+
+- Never modify `src/components/ui/` directly -- extend only

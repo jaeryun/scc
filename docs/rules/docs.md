@@ -1,6 +1,13 @@
-# 문서 규칙
+# Documentation rules
 
-- 한글로 작성
-- 기술 용어, 코드 블록, 파일 경로, URL은 영어 원문 유지
-- 번역 시 마크다운 구조, 인덴트, 코드 펜스 보존
-- 불필요한 설명, 서론, 결론 포함 금지
+## Language
+
+- Written in Korean
+- Technical terms, code blocks, file paths, URLs kept in original English
+- Preserve markdown structure, indentation, code fences when translating
+- No unnecessary explanation, introduction, or conclusion
+
+## AI agent instruction
+
+- `@docs` prefix always refers to `docs/` directory at project root
+- Never read `docs/archive/` -- it contains outdated historical records

@@ -1,40 +1,40 @@
-# 명명 규칙
+# Naming rules
 
-> 실제 코드베이스 관행 기준. 모든 신규 코드는 이 규칙을 따른다.
+> Based on actual codebase conventions. All new code must follow these rules.
 
-## 파일명
+## Files
 
 - **kebab-case**: `use-nav.ts`, `api-client.ts`, `nav-config.ts`, `app-sidebar.tsx`
-- **예외**: `schema.prisma`, `middleware.ts`, `layout.tsx`, `page.tsx`, `route.ts` 등 Next.js 규약 파일
+- **Exceptions**: `schema.prisma`, `middleware.ts`, `layout.tsx`, `page.tsx`, `route.ts` (Next.js convention files)
 
-## 컴포넌트
+## Components
 
 - **PascalCase**: `AppSidebar.tsx`, `SubmitButton.tsx`, `DataTable.tsx`
-- 정의: `function ComponentName() {}` (화살표 함수 금지)
+- Definition: `function ComponentName() {}` (no arrow functions)
 
-## 훅
+## Hooks
 
-- **`use` 접두사 + camelCase**: `useSubnets`, `useCurrentView`, `useQueryStates`
-- 파일명: `use-<name>.ts` (kebab-case)
+- **`use` prefix + camelCase**: `useSubnets`, `useCurrentView`, `useQueryStates`
+- File name: `use-<name>.ts` (kebab-case)
 
-## 타입/인터페이스
+## Types/interfaces
 
 - **PascalCase**: `NavItem`, `ViewConfig`, `SubnetDetail`
-- Props: `{ComponentName}Props` (예: `AppSidebarProps`)
+- Props: `{ComponentName}Props` (e.g. `AppSidebarProps`)
 
-## 유틸 함수
+## Utility functions
 
 - **camelCase**: `cn`, `formatBytes`, `getQueryClient`
 
-## Zod 스키마
+## Zod schemas
 
-- **camelCase + Schema 접미사**: `productSchema`, `subnetSchema`, `ipAddressSchema`
+- **camelCase + Schema suffix**: `productSchema`, `subnetSchema`, `ipAddressSchema`
 
-## 디렉토리
+## Directories
 
 - **kebab-case**: `demo-components`, `react-query-demo`, `view-settings`
 
-## API 라우트
+## API routes
 
 - **kebab-case**: `ip-addresses`, `view-settings`, `products`
-- 동적 세그먼트: `[id]` (대괄호)
+- Dynamic segments: `[id]` (bracket notation)

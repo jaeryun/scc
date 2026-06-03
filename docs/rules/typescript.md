@@ -1,7 +1,20 @@
-# TypeScript 규칙
+# TypeScript rules
 
-- Strict 모드 활성화 (`tsconfig.json`)
-- 공개 함수에 명시적 반환 타입 사용
-- 객체 정의에 `type`보다 `interface` 우선
-- `@/*` 별칭으로 src에서 임포트
-- 폼 값 타입은 `z.infer<typeof schema>`로 추론
+## `any` forbidden (required)
+
+- Use `unknown` + type guard instead
+- Third-party generic constraints, TanStack Form + Zod mismatches: allow with `// @reason` comment
+
+## Object types (recommended)
+
+- `interface` first for object definitions (merge/extend friendly)
+- `type` for unions and mapped types
+
+## Environment variables (required)
+
+- Only `NEXT_PUBLIC_` prefix for client-accessible variables
+- Never expose secrets via `NEXT_PUBLIC_`
+
+## Form types (required)
+
+- Always `z.infer<typeof schema>` for form value types -- never type manually
