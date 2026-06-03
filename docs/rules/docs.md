@@ -1,13 +1,68 @@
-# Documentation rules
+# 문서화 규칙
 
-## Language
+> 모든 프로젝트 문서는 한국어로 작성한다. 기술 용어, 코드 블록, 파일 경로, URL은 원문 표기를 유지한다.
 
-- Written in Korean
-- Technical terms, code blocks, file paths, URLs kept in original English
-- Preserve markdown structure, indentation, code fences when translating
-- No unnecessary explanation, introduction, or conclusion
+---
 
-## AI agent instruction
+## 언어
 
-- `@docs` prefix always refers to `docs/` directory at project root
-- Never read `docs/archive/` -- it contains outdated historical records
+- [필수] **모든 문서는 한국어로 작성** — README, 가이드, 규칙, 아키텍처 문서, 코드 주석 등 프로젝트 내 모든 문서가 대상
+- [필수] **기술 용어 원문 유지** — 프레임워크명, 라이브러리명, API명, 디자인 패턴명 등 고유명사는 영어 그대로 표기
+  ```markdown
+  React Query의 `useSuspenseQuery`는 서버 prefetch와 함께 사용한다.
+  Zod 스키마로 `.parse()` 검증 후 Prisma 쿼리를 실행한다.
+  ```
+- [필수] **코드 블록, 파일 경로, URL 원문 유지** — 번역하지 않고 그대로 삽입
+- [필수] **불필요한 서론/결론 금지** — 문서는 간결하게 핵심만 전달. "안녕하세요", "이상입니다", "잘 부탁드립니다" 등 미사여구 배제
+- [권장] **마크다운 구조 유지** — 제목 계층, 코드 펜스, 들여쓰기 등 구조 요소는 번역 시에도 그대로 유지
+
+---
+
+## CLAUDE.md 파일
+
+- [필수] **디렉토리마다 CLAUDE.md** — 모든 주요 디렉토리는 자신의 목적과 내용을 설명하는 `CLAUDE.md`를 가진다
+- [필수] **CLAUDE.md 최소 내용** — 다음 세 가지를 반드시 포함:
+  1. 디렉토리의 목적 (한 문장)
+  2. 포함된 파일/서브디렉토리 목록과 각각의 역할
+  3. 컨텍스트 로딩 시점 (항상 / 도메인 작업 시 / 위반 시 등)
+- [필수] **한국어로 작성** — CLAUDE.md 본문도 한국어로 작성 (기술 용어, 파일 경로 예외)
+- [권장] **200줄 이하 유지** — 컨텍스트 윈도우 효율을 위해 간결하게 유지
+
+### 예시 구조
+
+```markdown
+# <디렉토리명>/ -- <한 줄 목적>
+
+<간략한 설명>.
+
+- `<파일명>.md` -- <역할 설명>
+- `<파일명>.md` -- <역할 설명>
+```
+
+---
+
+## 문서 구조
+
+- [필수] **디렉토리별 역할 분리** — 아래 구조를 준수한다:
+
+| 디렉토리 | 목적 | 로딩 시점 |
+|-----------|---------|--------|
+| `docs/core/` | 프로젝트 헌장 (정체성, 제약, 핵심 결정) | 항상 |
+| `docs/rules/` | 코딩 규칙 (SCC 고유 결정사항) | 위반 시 / 해당 파일 작업 시 |
+| `docs/patterns/` | 구현 패턴과 코드 예제 | 구현 중 |
+| `docs/domain/` | 비즈니스 도메인 지식 | 도메인 작업 시 |
+| `docs/archive/` | 감사, 리뷰, 과거 산출물 | 로딩 금지 |
+
+- [필수] **`docs/archive/` 읽기 금지** — AI 에이전트는 절대 `docs/archive/`를 읽지 않는다. 오래된 히스토리 기록이 포함되어 있음
+- [필수] **`@docs` 접두사** — `@docs`는 항상 프로젝트 루트의 `docs/` 디렉토리를 가리킨다
+- [필수] **`[필수]`/`[권장]` 태그** — 모든 규칙 항목은 `[필수]`(반드시 준수, 위반 시 PR 승인 불가) 또는 `[권장]`(원칙적으로 준수, 예외 가능) 태그를 붙인다
+- [권장] **파일명 kebab-case** — 모든 문서 파일명은 kebab-case 사용 (예: `data-layer.md`, `build-deploy.md`)
+
+---
+
+## AI 에이전트 지침
+
+- [필수] **요청 시에만 문서 생성** — 사용자가 명시적으로 요청한 경우에만 새 문서 파일을 생성한다. 자발적 문서 생성 금지
+- [필수] **기존 문서 수정 최소화** — 현재 작업과 직접 관련된 부분만 수정. 인접 섹션 "개선" 금지
+- [필수] **README.md 자동 생성 금지** — 사용자가 명시적으로 요청하지 않는 한 README.md 또는 요약 마크다운 파일을 생성하지 않는다
+- [권장] **문서 현행화** — 동일한 실수 2회 발생 시 관련 문서에 규칙 추가
