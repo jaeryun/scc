@@ -13,23 +13,23 @@ src/modules/ipam/
 │   ├── types.ts         # 데이터 타입, 필터, 페이로드
 │   ├── service.ts       # apiClient 호출 전용
 │   ├── queries.ts       # queryOptions + 쿼리 키 팩토리
-│   └── mutations.ts     # useMutation 옵션 정의
+│   └── mutations.ts     # mutationOptions 정의 (컴포넌트에서 직접 import)
 ├── hooks/
-│   ├── use-subnets.ts           # 서브넷 목록 조회 훅
-│   ├── use-subnet-mutations.ts  # 서브넷 뮤테이션 훅
-│   ├── use-ip-addresses.ts      # IP 주소 목록 조회 훅
-│   └── use-ip-mutations.ts      # IP 뮤테이션 훅
+│   ├── use-prefixes.ts          # 서브넷 조회 훅
+│   └── use-ip-addresses.ts      # IP 주소 조회 훅
 ├── components/           # UI 컴포넌트
 ├── schemas.ts            # Zod 유효성 검사 스키마
 └── types.ts              # 도메인 공통 타입
 ```
+
+Mutation은 `api/mutations.ts`의 `mutationOptions`를 컴포넌트에서 직접 `useMutation({ ...xxxMutation })`으로 import합니다. hooks 래퍼 파일은 필요하지 않습니다.
 
 ## 신규 기능 7단계 워크플로
 
 1. `src/modules/<name>/api/types.ts` — 응답 타입, 필터 타입, 뮤테이션 페이로드 정의
 2. `src/modules/<name>/api/service.ts` — `apiClient` 호출 전용 (외부에서 직접 호출 금지)
 3. `src/modules/<name>/api/queries.ts` — `queryOptions()` + 쿼리 키 팩토리
-4. `src/modules/<name>/hooks/` — `use-<name>s.ts`, `use-<name>-mutations.ts`
+4. `src/modules/<name>/hooks/` — `use-<name>s.ts` (조회 훅만. mutation은 `api/mutations.ts`의 `mutationOptions`를 컴포넌트에서 직접 import)
 5. `src/modules/<name>/components/` — UI 컴포넌트
 6. `src/app/(views)/<view>/` 또는 `src/app/dashboard/<name>/page.tsx` — 페이지 등록
 7. `src/config/nav-config.ts` — 내비게이션 아이템 등록 (`access` 속성 필수)

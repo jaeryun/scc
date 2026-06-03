@@ -5,17 +5,17 @@
 - **항상 로딩**: 루트 CLAUDE.md에서 `@docs/core/*.md` 로 `@import`. 모든 세션, 모든 디렉토리 작업에 필수.
 - **컨텍스트 로딩**: 디렉토리별 CLAUDE.md에서 `@import`. 해당 디렉토리 작업 시에만 필요.
 
-## 항상 로딩 — 총 297줄
+## 항상 로딩 — 총 500줄
 
 | 파일                          | 줄수 | 역할                     |
 | ----------------------------- | ---- | ------------------------ |
-| `CLAUDE.md` (루트)            | 31   | 프로젝트 진입점          |
-| `docs/README.md`              | 60   | 문서 맵                  |
-| `docs/core/project.md`        | 89   | 프로젝트 개요, 빌드 명령 |
-| `docs/core/behavior.md`       | 30   | AI 행동 원칙             |
-| `docs/core/conventions.md`    | 51   | 25 + 10개 코딩 규칙      |
+| `CLAUDE.md` (루트)            | 49   | 프로젝트 진입점          |
+| `docs/README.md`              | 89   | 문서 맵                  |
+| `docs/core/project.md`        | 91   | 프로젝트 개요, 빌드 명령 |
+| `docs/core/behavior.md`       | 35   | AI 행동 원칙             |
+| `docs/core/conventions.md`    | 197  | 코딩 규칙                |
 | `docs/rules/docs.md`          | 6    | 문서화 규칙              |
-| `docs/core/loading-policy.md` | 30   | 로딩 정책 (자기 자신)    |
+| `docs/core/loading-policy.md` | 33   | 로딩 정책 (자기 자신)    |
 
 ## 컨텍스트 로딩
 

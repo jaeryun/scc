@@ -20,7 +20,7 @@ SE Command Center — Next.js 16 + shadcn/ui 사내 인프라팀 관리 대시�
 ## 신규 기능 추가 워크플로
 
 1. `src/modules/<name>/api/` — `types.ts` → `service.ts` → `queries.ts`
-2. `src/modules/<name>/hooks/` — `use-<name>s.ts`, `use-<name>-mutations.ts`
+2. `src/modules/<name>/hooks/` — `use-<name>s.ts` (조회 훅만, mutation은 hooks 불필요)
 3. `src/modules/<name>/components/` — UI 컴포넌트
 4. `src/app/(views)/<view>/` 또는 `src/app/dashboard/<name>/page.tsx`
 5. `src/config/views.ts` 또는 `src/config/nav-config.ts` 네비게이션 아이템 등록
