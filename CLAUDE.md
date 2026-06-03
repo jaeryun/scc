@@ -19,6 +19,8 @@ SE Command Center — Next.js 16 + shadcn/ui 사내 인프라팀 관리 대시�
 
 ## 신규 기능 추가 워크플로
 
+> 상세 가이드: [docs/onboarding/first-feature.md](./docs/onboarding/first-feature.md) — IPAM 따라하며 배우기
+
 1. `src/modules/<name>/api/` — `types.ts` → `service.ts` → `queries.ts`
 2. `src/modules/<name>/hooks/` — `use-<name>s.ts` (조회 훅만, mutation은 hooks 불필요)
 3. `src/modules/<name>/components/` — UI 컴포넌트

@@ -72,8 +72,13 @@ DATABASE_URL=postgresql://user:password@host:5432/dbname
 │   ├── migrations/             # 마이그레이션 SQL
 │   └── seed.ts                 # 데모 데이터 시드
 ├── docs/                       # 내부 문서
-│   ├── forms.md                # 폼 시스템 가이드
-│   ├── themes.md               # 테마 시스템 가이드
+│   ├── core/                   # 핵심 규칙 (conventions, behavior, loading-policy)
+│   ├── data/                   # 데이터 패턴 (cheat-sheet, patterns, ipam-reference)
+│   ├── forms/                  # 폼 시스템 가이드
+│   ├── themes/                 # 테마 시스템 가이드
+│   ├── architecture/           # 빌드/배포/컴포넌트 가이드
+│   ├── onboarding/             # 온보딩 (quickstart, first-feature)
+│   └── review/                 # 감사 및 수정 계획
 ├── scripts/                    # 개발 도구
 │   └── check-migrations.sh     # 마이그레이션 무결성 검사
 ├── Dockerfile                  # Node.js 프로덕션 이미지 (ARG 미사용, --build-arg 불필요)
