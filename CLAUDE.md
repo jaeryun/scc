@@ -5,7 +5,7 @@ SE Command Center — Next.js 16 + shadcn/ui 사내 인프라팀 관리 대시�
 
 ## 주요 참조
 
-- [docs/core/loading-policy.md](./docs/core/loading-policy.md) — CLAUDE.md 로딩 정책
+- [docs/common/foundation/loading-policy.md](./docs/common/foundation/loading-policy.md) — CLAUDE.md 로딩 정책
 - [docs/forms/guide.md](./docs/forms/guide.md) — 폼 시스템: TanStack Form + Zod
 - [docs/themes/guide.md](./docs/themes/guide.md) — 테마 시스템: OKLCH 색상, 폰트
 - [docs/data/cheat-sheet.md](./docs/data/cheat-sheet.md) — 데이터 패턴 빠른 참조
@@ -15,7 +15,7 @@ SE Command Center — Next.js 16 + shadcn/ui 사내 인프라팀 관리 대시�
 
 ## 코딩 컨벤션
 
-→ 모든 코딩 규칙은 [conventions.md](./docs/core/conventions.md) 참조
+→ 모든 코딩 규칙은 [conventions.md](./docs/common/foundation/conventions.md) 참조
 
 ## 신규 기능 추가 워크플로
 
@@ -46,6 +46,6 @@ SE Command Center — Next.js 16 + shadcn/ui 사내 인프라팀 관리 대시�
 - [ ] `bun run build` 성공
 
 📚 [전체 문서 맵](./docs/README.md)
-@docs/core/project.md
-@docs/core/behavior.md
-@docs/core/conventions.md
+@docs/common/foundation/project.md
+@docs/common/foundation/behavior.md
+@docs/common/foundation/conventions.md

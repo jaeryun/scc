@@ -1,6 +1,6 @@
 # 유틸리티 컨벤션
 
-@docs/core/conventions.md
+@docs/common/foundation/conventions.md
 
 ## 원칙
 

@@ -1,6 +1,6 @@
 # src/ 소스코드 컨벤션
 
-모든 공통 코딩 규칙은 @docs/core/conventions.md 및 @docs/rules/react.md 참조.
+모든 공통 코딩 규칙은 @docs/common/foundation/conventions.md 및 @docs/common/rules/react.md 참조.
 
 ## 뷰 시스템
 
@@ -8,4 +8,4 @@
 
 ## 테마 시스템
 
-10개 내장 테마 (레지스트리: `src/components/themes/theme.config.ts`). CSS: `src/styles/themes/<name>.css`. 폰트: `src/components/themes/font.config.ts`. 사용자 변경은 `/settings/appearance`. → [docs/patterns/theme-patterns.md](../docs/patterns/theme-patterns.md)
+10개 내장 테마 (레지스트리: `src/components/themes/theme.config.ts`). CSS: `src/styles/themes/<name>.css`. 폰트: `src/components/themes/font.config.ts`. 사용자 변경은 `/settings/appearance`. → [docs/common/dev-patterns/theme-patterns.md](../docs/common/dev-patterns/theme-patterns.md)

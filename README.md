@@ -142,7 +142,7 @@ bunx prisma generate       # Prisma Client 재생성
 
 | 문서                                | 설명                       |
 | ----------------------------------- | -------------------------- |
-| `docs/core/conventions.md`          | 코딩 컨벤션 (25개 규칙)    |
+| `docs/common/foundation/conventions.md` | 코딩 컨벤션 (25개 규칙)    |
 | `docs/onboarding/quickstart.md`     | 5분 개발 서버 가이드       |
 | `docs/onboarding/first-feature.md`  | IPAM 신규 기능 따라하기    |
 | `docs/data/cheat-sheet.md`          | 데이터 페칭 패턴 빠른 참조 |

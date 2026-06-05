@@ -147,7 +147,7 @@ components/          ← hooks를 통해서만 데이터 접근
 
 ## 컴포넌트 작성 규칙 (요약)
 
-> 상세 규칙은 [docs/core/conventions.md](../core/conventions.md) 참조
+> 상세 규칙은 [docs/common/foundation/conventions.md](../foundation/conventions.md) 참조
 
 1. 함수 선언문 사용: `function ComponentName() {}`
 2. Props 인터페이스: `{ComponentName}Props`

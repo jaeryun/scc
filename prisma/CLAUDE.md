@@ -1,9 +1,9 @@
 # Prisma 실무 가이드
 
-@docs/rules/prisma.md
-@docs/core/conventions.md
+@docs/common/rules/prisma.md
+@docs/common/foundation/conventions.md
 
-규칙 및 네이밍 컨벤션은 [`docs/rules/prisma.md`](../docs/rules/prisma.md)를, 전체 코딩 규칙은 [`docs/core/conventions.md`](../docs/core/conventions.md)를 따릅니다.
+규칙 및 네이밍 컨벤션은 [`docs/common/rules/prisma.md`](../docs/common/rules/prisma.md)를, 전체 코딩 규칙은 [`docs/common/foundation/conventions.md`](../docs/common/foundation/conventions.md)를 따릅니다.
 
 ## Shadow Database
 

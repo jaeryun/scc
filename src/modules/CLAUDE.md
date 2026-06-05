@@ -1,8 +1,8 @@
 # 기능 모듈 컨벤션
 
-@docs/rules/data-layer.md
-@docs/rules/forms.md
-@docs/patterns/component-patterns.md
+@docs/common/rules/data-layer.md
+@docs/common/rules/forms.md
+@docs/common/dev-patterns/component-patterns.md
 
 ## 🚨 핵심 규칙
 
@@ -106,7 +106,7 @@ export async function GET() {
 
 ## 쿼리 키 컨벤션
 
-@docs/rules/data-layer.md의 쿼리 키 팩토리 패턴 사용.
+@docs/common/rules/data-layer.md의 쿼리 키 팩토리 패턴 사용.
 
 - 키 네임스페이스는 모듈명과 일치시킨다 (예: `subnets`, `ip-addresses`, `dashboards`)
 - `lists`(복수형) 사용 — `list`(단수)와 혼용 금지

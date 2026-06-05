@@ -47,10 +47,13 @@
 
 | 디렉토리 | 목적 | 로딩 시점 |
 |-----------|---------|--------|
-| `docs/core/` | 프로젝트 헌장 (정체성, 제약, 핵심 결정) | 항상 |
-| `docs/rules/` | 코딩 규칙 (SCC 고유 결정사항) | 위반 시 / 해당 파일 작업 시 |
-| `docs/patterns/` | 구현 패턴과 코드 예제 | 구현 중 |
-| `docs/domain/` | 비즈니스 도메인 지식 | 도메인 작업 시 |
+| `docs/common/foundation/` | 프로젝트 헌장 (정체성, 제약, 핵심 결정) | 항상 |
+| `docs/common/rules/` | 코딩 규칙 (SCC 고유 결정사항) | 위반 시 / 해당 파일 작업 시 |
+| `docs/common/dev-patterns/` | 구현 패턴과 코드 예제 | 구현 중 |
+| `docs/common/operation/` | 운영 가이드 (빌드, 배포, 장애 대응) | 운영 시 |
+| `docs/common/reference/` | 참조 자료 (API 문서, 데이터 모델, env 변수) | 필요 시 |
+| `docs/common/adr/` | 아키텍처 결정 기록 | 결정 검토 시 |
+| `docs/views/` | 뷰별 도메인 지식 | 뷰 작업 중 |
 | `docs/archive/` | 감사, 리뷰, 과거 산출물 | 로딩 금지 |
 
 - [필수] **`docs/archive/` 읽기 금지** — AI 에이전트는 절대 `docs/archive/`를 읽지 않는다. 오래된 히스토리 기록이 포함되어 있음
