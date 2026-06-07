@@ -23,4 +23,4 @@
 
 - `src/components/` → 순수 UI, 도메인 타입 의존성 없음
 - `src/modules/<name>/components/` → 도메인 타입에 의존
-- 상세 기준: `docs/common/dev-patterns/component-patterns.md`
+- 상세 기준: `docs/common/development/component-patterns.md`

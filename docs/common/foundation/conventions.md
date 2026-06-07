@@ -1,6 +1,6 @@
 # 핵심 규칙
 
-> 상세 규칙은 `rules/` 디렉토리 참조. 이 파일은 프로젝트 수준의 결정 사항만 포함.
+> 상세 규칙은 `development/` 디렉토리 참조. 이 파일은 프로젝트 수준의 결정 사항만 포함.
 
 ## 필수 사항
 
@@ -12,12 +12,12 @@
 
 | 규칙 | 파일 |
 |------|------|
-| React 컴포넌트 | `rules/react.md` |
-| TypeScript | `rules/typescript.md` |
-| 스타일링 | `rules/styling.md` |
-| 네이밍 | `rules/naming.md` |
-| 데이터 계층 | `rules/data-layer.md` |
-| 폼 | `rules/forms.md` |
-| Prisma | `rules/prisma.md` |
+| React 컴포넌트 | `development/react.md` |
+| TypeScript | `development/typescript.md` |
+| 스타일링 | `development/styling.md` |
+| 네이밍 | `development/naming.md` |
+| 데이터 계층 | `development/data-layer.md` |
+| 폼 | `development/forms.md` |
+| Prisma | `development/prisma.md` |
 | 아키텍처 | `architecture.md` |
 | AI 행동 원칙 | `behavior.md` |

@@ -49,7 +49,7 @@ cp .env.example .env.local
 | `DATABASE_URL`     | PostgreSQL 연결 문자열 (필수)                  |
 | `BUILD_STANDALONE` | standalone 출력 활성화 (Docker 배포 시 `true`) |
 
-- **Phase 1**: 폐쇄망, 외부 CDN 불가 — `images.unoptimized: true`
+- 폐쇄망, 외부 CDN 불가 — `images.unoptimized: true`
 - `NEXT_PUBLIC_*` 변수: 빌드 시점 포함, 런타임 시크릿은 `-e`로 Docker 주입
 
 ## Prisma 워크플로

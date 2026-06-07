@@ -4,4 +4,4 @@ paths:
   - '**/*.prisma'
 ---
 
-@docs/common/rules/prisma.md
+@docs/common/development/prisma.md

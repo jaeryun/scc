@@ -1,11 +1,9 @@
 # 프로젝트 개요
 
-## Phase 1 제약
+## 제약
 
-- 인증 없음 (Clerk/Sentry 제거), 향후 Keycloak SSO
 - 폐쇄망 — 외부 CDN/리소스 사용 불가
 - 좌상단 Select 드롭다운으로 뷰 전환 (`src/config/views.ts`, 라우트 그룹 `src/app/(main)/`)
-- IPAM Demo: 서브넷/IP CRUD (`src/modules/ipam/`)
 
 ## 기술 스택
 
@@ -22,8 +20,7 @@ TanStack React Query, TanStack Table, TanStack Form + Zod, Zustand, Nuqs, Rechar
 # 데이터베이스 (필수)
 DATABASE_URL=postgresql://user:password@host:5432/dbname
 
-# Phase 1: 인증 없음 (Clerk/Sentry 제거, 관련 환경변수 불필요)
-# 향후 Keycloak SSO 도입 시 인증 관련 환경변수 추가 예정
+# 인증 관련 환경변수는 SSO 도입 시 추가
 ```
 
 - 폐쇄망 환경이므로 외부 CDN/리소스 사용 불가 (Google Fonts, 외부 이미지 등)
@@ -69,12 +66,10 @@ DATABASE_URL=postgresql://user:password@host:5432/dbname
 │   ├── schema.prisma           # Prisma 스키마 정의
 │   ├── migrations/             # 마이그레이션 SQL
 │   └── seed.ts                 # 데모 데이터 시드
-├── docs/                       # Project docs (core/rules/patterns/domain/archive)
-│   ├── core/                   # Project constitution (project, conventions, architecture, behavior, build-deploy)
-│   ├── rules/                  # SCC-specific coding rules (react, typescript, styling, naming, data-layer, forms, prisma)
-│   ├── patterns/               # Implementation patterns with code examples
-│   ├── domain/                 # Business domain knowledge (dcim, settings, shared)
-│   └── archive/                # Historical records (AI agents: do not read)
+├── docs/                       # 프로젝트 문서 (common/, views/, archive/)
+│   ├── common/                  # 공통 기반 (foundation, development, operations, reference, decisions)
+│   ├── views/                   # 뷰별 도메인 지식 (dcim, settings, home, demo)
+│   └── archive/                 # 과거 산출물 (AI 에이전트 읽기 금지)
 ├── scripts/                    # 개발 도구
 │   └── check-migrations.sh     # 마이그레이션 무결성 검사
 ├── Dockerfile                  # Node.js 프로덕션 이미지 (ARG 미사용, --build-arg 불필요)
