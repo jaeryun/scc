@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 
-export default function DemoError({ error, reset }: { error: Error; reset: () => void }) {
+export default function DemoError({ reset }: { error: Error; reset: () => void }) {
   return (
     <div className='flex flex-1 items-center justify-center p-6'>
       <div className='text-center space-y-3'>
