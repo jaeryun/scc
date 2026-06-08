@@ -10,6 +10,16 @@ Push 전에 밀릴 커밋들(`git push`로 원격에 올라갈 모든 커밋)을
 
 ## 절차
 
+### 0. 사전 점검
+
+작업 트리가 깨끗한지 확인:
+
+```bash
+git status --porcelain -- docs/
+```
+
+docs/ 외 변경이 있으면 진행 중단하고 차단. docs/만 더럽거나 깨끗하면 계속.
+
 ### 1. 밀릴 커밋 확인
 
 ```bash
@@ -36,13 +46,13 @@ git rev-parse --abbrev-ref @{push} 2>/dev/null && \
 
 ### 4. 문서 변경 커밋
 
-문서 변경이 있을 때만:
+변경한 파일 목록을 변수로 기록해둔다. 문서 변경이 있을 때만:
 
 ```bash
-git add docs/ && git commit -m "docs: sync documentation"
+git add <변경한 파일들> && git commit -m "docs: sync documentation"
 ```
 
-변경이 없으면 커밋 생략.
+변경이 없으면 `DOC_COMMITTED=false` 플래그만 기록하고 커밋 생략.
 
 ### 5. 검증
 
@@ -55,32 +65,37 @@ prompt: "@docs/common/development/docs.md를 읽고 그 지침을 숙지한 후,
 <변경한 문서 파일 목록>
 
 규칙 위반이 있으면 구체적인 위반 내용과 수정 방법을 보고하라.
-규칙을 모두 지켰으면 '검증 통과'라고만 답하라."
+규칙을 모두 지켰으면 응답 마지막 줄에 VERIFICATION: PASS 라고만 출력하라."
 ```
 
-이 검증은 docs.md에서 규칙을 실시간으로 읽어 판단하므로, docs.md가 업데이트되어도 검증 로직이 outdate되지 않는다.
+이 검증은 docs.md에서 규칙을 실시간으로 읽어 판단하므로, docs.md가 업데이트되어도 검증 로직이 뒤처지지 않는다.
 
 ### 5a. 검증 결과 위반이 있으면 수정
 
 서브에이전트가 보고한 위반 항목을 하나씩 수정한다. 수정이 끝나면:
 
 ```bash
-git add <수정한 파일들> && git commit --amend --no-edit
+git add <수정한 파일들>
 ```
+
+그리고:
+- Step 4에서 커밋을 생성했으면 `git commit --amend --no-edit`
+- Step 4에서 커밋을 생성하지 않았으면 `git commit -m "docs: sync documentation"`
 
 그 후 **5단계로 돌아가 재검증**. 위반이 0건이 될 때까지 5→5a를 반복한다.
 
 ### 5b. 검증 통과
 
-서브에이전트가 "검증 통과"를 반환하면 검증 완료. 6단계로 진행.
+서브에이전트가 `VERIFICATION: PASS`를 반환하면 검증 완료. 6단계로 진행.
 
 ### 6. 결과 보고 및 push 승인/차단
 
-최종 응답은 반드시 JSON으로 출력한다:
+최종 응답은 반드시 JSON으로 출력한다. summary 필드에 작업 내역을 포함한다:
 
 **승인 시:**
 ```json
 {
+  "summary": "생성: docs/views/dcim/CLAUDE.md, 갱신: docs/views/dcim/index.md",
   "hookSpecificOutput": {
     "hookEventName": "PreToolUse",
     "permissionDecision": "allow"
@@ -91,12 +106,11 @@ git add <수정한 파일들> && git commit --amend --no-edit
 **차단 시:**
 ```json
 {
+  "summary": "docs/views/dcim/ 신규 모듈 문서 누락",
   "hookSpecificOutput": {
     "hookEventName": "PreToolUse",
     "permissionDecision": "deny",
-    "permissionDecisionReason": "docs/views/dcim/ 새로운 모듈 문서 누락 — CLAUDE.md 생성 필요"
+    "permissionDecisionReason": "docs/views/dcim/ 신규 모듈 문서 누락 — CLAUDE.md 생성 필요"
   }
 }
 ```
-
-JSON 앞에 생성/갱신/삭제된 문서 목록과 판단 근거를 간략히 기술한다.
