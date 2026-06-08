@@ -6,6 +6,13 @@
         "matcher": "Bash",
         "hooks": [
           {
+            "type": "prompt",
+            "if": "Bash(git commit*)",
+            "prompt": "A git commit is about to be made. The tool input is: $ARGUMENTS. Read the commit message from the command and check if it follows conventional commits format (feat:, fix:, chore:, docs:, refactor:, test:, style:, ci:, perf:, build:, revert:). If it does, return {\"ok\": true}. If not, return {\"ok\": false, \"reason\": \"Commit message must follow conventional commits (feat:, fix:, chore:, etc.)\"}.",
+            "statusMessage": "커밋 메시지 검사 중...",
+            "timeout": 10
+          },
+          {
             "type": "agent",
             "if": "Bash(git push*)",
             "prompt": "Read .claude/skills/doc-sync.md and execute its steps to verify unpushed changes are documented. Create a docs-only commit if needed. Return {\"ok\": true} if documentation is current (or was successfully updated), {\"ok\": false, \"reason\": \"...\"} if it cannot be completed. $ARGUMENTS",
