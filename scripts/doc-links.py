@@ -15,26 +15,42 @@ import sys
 from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Optional
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 ARCHIVE_DIR = PROJECT_ROOT / "docs" / "archive"
-EXCLUDE_DIRS = {ARCHIVE_DIR, PROJECT_ROOT / "node_modules", PROJECT_ROOT / ".git"}
 
 MARKER_START = "<!-- LINK STATUS START -->"
 MARKER_END = "<!-- LINK STATUS END -->"
 
 
-def collect_md_files() -> set[Path]:
+SKIP_DIRS = {
+    "node_modules", ".git", ".next", ".turbo", "dist", "build",
+    "__pycache__", ".venv", "venv",
+}
+
+
+def _is_under_archive(path: Path) -> bool:
+    """path가 docs/archive/ 아래인지 확인 (Python 3.9 호환)."""
+    try:
+        path.relative_to(ARCHIVE_DIR)
+        return True
+    except ValueError:
+        return False
+
+
+def collect_md_files() -> set:
     """프로젝트 전체 .md 파일 수집 (archive/ 등 제외)."""
-    md_files: set[Path] = set()
+    md_files: set = set()
     for root, dirs, files in os.walk(PROJECT_ROOT):
         root_path = Path(root)
-        # 아카이브, node_modules, .git 제외
-        if root_path == ARCHIVE_DIR or root_path in EXCLUDE_DIRS:
+        # archive/ 아래는 건너뛰기
+        if _is_under_archive(root_path):
+            dirs.clear()
             continue
-        # node_modules, .git, .next 등 숨김 디렉토리 제외
-        dirs[:] = [d for d in dirs if not d.startswith(".") or d == ".claude"]
+        # 제외 디렉토리 필터
+        dirs[:] = [d for d in dirs if d not in SKIP_DIRS and not d.startswith(".")]
         for f in files:
             if f.endswith(".md"):
                 md_files.add((root_path / f).resolve())
@@ -46,7 +62,7 @@ def collect_md_files() -> set[Path]:
     return md_files
 
 
-def find_target(link: str, src_file: Path, md_files: set[Path]) -> Path | None:
+def find_target(link: str, src_file: Path, md_files: set) -> Optional[Path]:
     """링크 대상을 실제 파일 경로로 resolve. 실패 시 None."""
     # @docs/... 절대경로
     if link.startswith("docs/"):
@@ -128,31 +144,30 @@ def build_section(dir_path: Path, md_files_in_dir: list[Path], refs_to: dict[Pat
     return "\n".join(lines) + "\n"
 
 
-def update_index_md(dir_path: Path, refs_to: dict[Path, set[Path]], dry_run: bool) -> None:
+def update_index_md(dir_path: Path, refs_to: dict, md_files: set, dry_run: bool) -> None:
     """하나의 index.md 파일을 갱신."""
     index_path = dir_path / "index.md"
     if not index_path.exists():
         return
 
     # 이 디렉토리 내 .md 파일들 (index.md, CLAUDE.md 포함)
-    md_files_in_dir = sorted(
-        [p for p in refs_to.keys() if p.parent == dir_path]
-        + [p for p in collect_md_files() if p.parent == dir_path and p not in refs_to],
+    dir_files = sorted(
+        [p for p in refs_to if p.parent == dir_path]
+        + [p for p in md_files if p.parent == dir_path and p not in refs_to],
     )
-    # 중복 제거
     seen = set()
-    md_files_in_dir = [p for p in md_files_in_dir if not (p in seen or seen.add(p))]
+    dir_files = [p for p in dir_files if not (p in seen or seen.add(p))]
 
-    if not md_files_in_dir:
+    if not dir_files:
         return
 
-    section = build_section(dir_path, md_files_in_dir, refs_to)
+    section = build_section(dir_path, dir_files, refs_to)
     content = index_path.read_text()
 
     if MARKER_START in content and MARKER_END in content:
         new_content = re.sub(
             rf"{re.escape(MARKER_START)}.*?{re.escape(MARKER_END)}",
-            section.strip(),
+            section.rstrip(),
             content,
             flags=re.DOTALL,
         )
@@ -182,12 +197,13 @@ def update_index_md(dir_path: Path, refs_to: dict[Path, set[Path]], dry_run: boo
         print(f"  갱신: {index_path.relative_to(PROJECT_ROOT)}")
 
 
-def collect_index_dirs() -> list[Path]:
-    """docs/ 하위에서 index.md가 존재하는 모든 디렉토리."""
+def collect_index_dirs() -> list:
+    """docs/ 하위에서 index.md가 존재하는 모든 디렉토리 (archive/ 제외)."""
     dirs = []
     for root, subdirs, files in os.walk(PROJECT_ROOT / "docs"):
         root_path = Path(root)
-        if root_path == ARCHIVE_DIR or root_path >= ARCHIVE_DIR:
+        if _is_under_archive(root_path):
+            subdirs.clear()
             continue
         if "index.md" in files:
             dirs.append(root_path)
@@ -214,7 +230,7 @@ def main() -> None:
     print("\n📝 index.md 갱신 중...")
     index_dirs = collect_index_dirs()
     for d in index_dirs:
-        update_index_md(d, refs_to, dry_run)
+        update_index_md(d, refs_to, md_files, dry_run)
 
     if dry_run:
         print("\n✅ DRY-RUN 완료 — 실제 적용하려면 -n 없이 실행하세요.")

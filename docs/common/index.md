@@ -60,3 +60,15 @@
 **API는 처음에 한 뷰에서만 사용되어도 `common/reference/api/`에 둔다.** API는 본질적으로 계약이며, 소비자가 늘어나는 건 시간 문제다.
 
 **정말 애매하면:** 좁은 범위(`views/`)에 먼저 두고, 실제로 공유 필요성이 생기면 `common/`으로 승격한다.
+
+
+<!-- LINK STATUS START -->
+## 🔗 링크 상태
+
+> ⚠️ `scripts/doc-links.py` 자동 생성 — 직접 수정 금지 · 2026-06-07 16:36 UTC
+
+| 파일 | 피참조 |
+|:-----|:-------|
+| `index.md` | docs/CLAUDE.md, CLAUDE.md |
+| `CLAUDE.md` | 🟢 auto-loading |
+<!-- LINK STATUS END -->

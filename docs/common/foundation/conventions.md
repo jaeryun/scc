@@ -12,12 +12,12 @@
 
 | 규칙 | 파일 |
 |------|------|
-| React 컴포넌트 | `development/react.md` |
-| TypeScript | `development/typescript.md` |
-| 스타일링 | `development/styling.md` |
-| 네이밍 | `development/naming.md` |
-| 데이터 계층 | `development/data-layer.md` |
-| 폼 | `development/forms.md` |
-| Prisma | `development/prisma.md` |
-| 아키텍처 | `architecture.md` |
-| AI 행동 원칙 | `behavior.md` |
+| React 컴포넌트 | [react.md](../development/react.md) |
+| TypeScript | [typescript.md](../development/typescript.md) |
+| 스타일링 | [styling.md](../development/styling.md) |
+| 네이밍 | [naming.md](../development/naming.md) |
+| 데이터 계층 | [data-layer.md](../development/data-layer.md) |
+| 폼 | [forms.md](../development/forms.md) |
+| Prisma | [prisma.md](../development/prisma.md) |
+| 아키텍처 | [architecture.md](architecture.md) |
+| AI 행동 원칙 | [behavior.md](behavior.md) |

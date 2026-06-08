@@ -20,3 +20,28 @@
 - [form-patterns.md](form-patterns.md) — TanStack Form 패턴
 - [theme-patterns.md](theme-patterns.md) — OKLCH 테마 패턴
 - [first-feature.md](first-feature.md) — 신규 입문자 IPAM 따라하기
+
+
+<!-- LINK STATUS START -->
+## 🔗 링크 상태
+
+> ⚠️ `scripts/doc-links.py` 자동 생성 — 직접 수정 금지 · 2026-06-07 16:36 UTC
+
+| 파일 | 피참조 |
+|:-----|:-------|
+| `component-patterns.md` | index.md, src/components/CLAUDE.md, src/modules/CLAUDE.md |
+| `data-layer.md` | .claude/rules/data-layer.md, index.md, docs/common/foundation/conventions.md, src/modules/CLAUDE.md |
+| `data-patterns.md` | index.md |
+| `docs.md` | .claude/rules/docs.md, index.md, docs/common/index.md |
+| `first-feature.md` | index.md |
+| `form-patterns.md` | index.md, src/components/CLAUDE.md |
+| `forms.md` | .claude/rules/forms.md, index.md, docs/common/foundation/conventions.md, src/modules/CLAUDE.md |
+| `naming.md` | .claude/rules/naming.md, index.md, docs/common/foundation/conventions.md |
+| `prisma.md` | .claude/rules/prisma.md, index.md, docs/common/foundation/conventions.md |
+| `react.md` | .claude/rules/react.md, index.md, docs/common/foundation/conventions.md, src/CLAUDE.md |
+| `styling.md` | .claude/rules/styling.md, index.md, docs/common/foundation/conventions.md |
+| `theme-patterns.md` | index.md, src/CLAUDE.md, src/components/CLAUDE.md |
+| `typescript.md` | .claude/rules/typescript.md, index.md, docs/common/foundation/conventions.md |
+| `index.md` | CLAUDE.md |
+| `CLAUDE.md` | 🟢 auto-loading |
+<!-- LINK STATUS END -->

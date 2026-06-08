@@ -15,3 +15,15 @@
 - **새 하위 디렉토리는 3개 이상 파일이 예상될 때만 생성** — 1-2개는 `reference/` 루트에 플랫하게
 
 현재는 스캐폴드 — 프로젝트가 성숙해짐에 따라 콘텐츠가 추가됩니다.
+
+
+<!-- LINK STATUS START -->
+## 🔗 링크 상태
+
+> ⚠️ `scripts/doc-links.py` 자동 생성 — 직접 수정 금지 · 2026-06-07 16:36 UTC
+
+| 파일 | 피참조 |
+|:-----|:-------|
+| `index.md` | CLAUDE.md |
+| `CLAUDE.md` | 🟢 auto-loading |
+<!-- LINK STATUS END -->

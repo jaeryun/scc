@@ -6,3 +6,15 @@
 - `settings/` -- 설정 뷰
 - `home/` -- 홈 뷰
 - `demo/` -- 데모 쇼케이스 뷰
+
+
+<!-- LINK STATUS START -->
+## 🔗 링크 상태
+
+> ⚠️ `scripts/doc-links.py` 자동 생성 — 직접 수정 금지 · 2026-06-07 16:36 UTC
+
+| 파일 | 피참조 |
+|:-----|:-------|
+| `index.md` | CLAUDE.md |
+| `CLAUDE.md` | 🟢 auto-loading |
+<!-- LINK STATUS END -->
