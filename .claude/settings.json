@@ -8,7 +8,7 @@
           {
             "type": "agent",
             "if": "Bash(git push*)",
-            "prompt": "Use the doc-sync skill to verify unpushed changes are documented. Create a docs-only commit if needed, then approve the push. If documentation cannot be completed, block the push.",
+            "prompt": "Read .claude/skills/doc-sync.md and execute its steps to verify unpushed changes are documented. Create a docs-only commit if needed. Return {\"ok\": true} if documentation is current (or was successfully updated), {\"ok\": false, \"reason\": \"...\"} if it cannot be completed. $ARGUMENTS",
             "statusMessage": "문서 동기화 중...",
             "timeout": 300
           }

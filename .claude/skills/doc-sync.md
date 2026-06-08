@@ -90,27 +90,14 @@ git add <수정한 파일들>
 
 ### 6. 결과 보고 및 push 승인/차단
 
-최종 응답은 반드시 JSON으로 출력한다. summary 필드에 작업 내역을 포함한다:
+Agent hook(prompt hook 포함)의 결정 형식에 맞춰 최종 응답을 반드시 JSON으로 출력한다.
 
 **승인 시:**
 ```json
-{
-  "summary": "생성: docs/views/dcim/CLAUDE.md, 갱신: docs/views/dcim/index.md",
-  "hookSpecificOutput": {
-    "hookEventName": "PreToolUse",
-    "permissionDecision": "allow"
-  }
-}
+{"ok": true}
 ```
 
 **차단 시:**
 ```json
-{
-  "summary": "docs/views/dcim/ 신규 모듈 문서 누락",
-  "hookSpecificOutput": {
-    "hookEventName": "PreToolUse",
-    "permissionDecision": "deny",
-    "permissionDecisionReason": "docs/views/dcim/ 신규 모듈 문서 누락 — CLAUDE.md 생성 필요"
-  }
-}
+{"ok": false, "reason": "docs/views/dcim/ 신규 모듈 문서 누락 — CLAUDE.md 생성 필요"}
 ```
