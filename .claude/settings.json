@@ -6,11 +6,11 @@
         "matcher": "Bash",
         "hooks": [
           {
-            "type": "prompt",
+            "type": "agent",
             "if": "Bash(git commit*)",
-            "prompt": "A git commit is about to be made. The tool input is: $ARGUMENTS. Read the commit message from the command and check if it follows conventional commits format (feat:, fix:, chore:, docs:, refactor:, test:, style:, ci:, perf:, build:, revert:). If it does, return {\"ok\": true}. If not, return {\"ok\": false, \"reason\": \"Commit message must follow conventional commits (feat:, fix:, chore:, etc.)\"}.",
-            "statusMessage": "커밋 메시지 검사 중...",
-            "timeout": 10
+            "prompt": "A git commit is about to be made. The tool input is: $ARGUMENTS. Read the commit message from the tool_input.command field. Check if the message follows conventional commits format (feat:, fix:, chore:, docs:, refactor:, test:, style:, ci:, perf:, build:, revert:). If it does, return {\"ok\": true}. If not, return {\"ok\": false, \"reason\": \"Commit message must follow conventional commits format.\"}.",
+            "statusMessage": "커밋 메시지 검사 중(agent)...",
+            "timeout": 30
           },
           {
             "type": "agent",
