@@ -1,3 +1,19 @@
 {
-  "autoMemoryEnabled": true
+  "autoMemoryEnabled": true,
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "agent",
+            "if": "Bash(git push*)",
+            "prompt": "Use the doc-sync skill to verify unpushed changes are documented. Create a docs-only commit if needed, then approve the push. If documentation cannot be completed, block the push.",
+            "statusMessage": "문서 동기화 중...",
+            "timeout": 300
+          }
+        ]
+      }
+    ]
+  }
 }
