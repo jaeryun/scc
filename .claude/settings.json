@@ -8,9 +8,9 @@
           {
             "type": "agent",
             "if": "Bash(git push*)",
-            "prompt": "Read .claude/skills/doc-sync.md and execute its steps to verify unpushed changes are documented. Create a docs-only commit if needed. Return {\"ok\": true} if documentation is current (or was successfully updated), {\"ok\": false, \"reason\": \"...\"} if it cannot be completed. $ARGUMENTS",
-            "statusMessage": "문서 동기화 중...",
-            "timeout": 300
+            "prompt": "1. Use the Read tool to read the file .claude/skills/doc-sync.md. 2. If the file exists, return {\"ok\": true}. 3. If the file does not exist, return {\"ok\": false, \"reason\": \"doc-sync.md not found\"}.",
+            "statusMessage": "테스트: Read 도구 접근 확인...",
+            "timeout": 30
           }
         ]
       }
