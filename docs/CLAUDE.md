@@ -1,6 +1,6 @@
 # docs/ — AI 로딩 정책
 
-@docs/index.md
+@index.md
 
 | 디렉토리 | 로딩 시점 |
 |----------|-----------|
@@ -12,4 +12,4 @@
 | `views/` | 해당 뷰 작업 시 |
 | `archive/` | 로딩 금지 |
 
-문서 배치 판단이 필요하면 → `@docs/common/CLAUDE.md`에서 common/ 로딩 정책 확인 후 `@docs/common/index.md`의 결정 트리 참조.
+문서 배치 판단이 필요하면 → `@common/CLAUDE.md`에서 common/ 로딩 정책 확인 후 `@common/index.md`의 결정 트리 참조.

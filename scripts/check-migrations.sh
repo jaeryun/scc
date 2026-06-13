@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
-set -euo pipefail
+# check-migrations.sh — Prisma 마이그레이션 무결성 검사
+#
+# schema.prisma와 마이그레이션 파일이 일치하는지 확인합니다.
+# DATABASE_URL이 없으면 디렉토리 구조만 검사하고,
+# SHADOW_DATABASE_URL이 있으면 shadow DB로 diff까지 수행합니다.
+#
+# 실행: package.json prebuild → build 시 자동 호출
 
-# Migration Integrity Check
-# Verifies that prisma/schema.prisma matches the latest migration state.
-# Exit 0 = OK, Exit 1 = drift detected.
+set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
@@ -12,14 +16,14 @@ cd "$PROJECT_DIR"
 
 echo "=== Migration Integrity Check ==="
 
-# Check if DATABASE_URL is set
+# .env.local에서 DATABASE_URL 자동 로드
 if [ -z "${DATABASE_URL:-}" ]; then
   if [ -f .env.local ]; then
     export $(grep DATABASE_URL .env.local | xargs)
   fi
 fi
 
-# Check if SHADOW_DATABASE_URL is set
+# .env.local 또는 .env에서 SHADOW_DATABASE_URL 자동 로드
 if [ -z "${SHADOW_DATABASE_URL:-}" ]; then
   if [ -f .env.local ]; then
     eval "$(grep '^SHADOW_DATABASE_URL=' .env.local)"
@@ -28,11 +32,11 @@ if [ -z "${SHADOW_DATABASE_URL:-}" ]; then
   fi
 fi
 
+# DB 접속 없으면 마이그레이션 디렉토리 존재 여부만 확인
 if [ -z "${DATABASE_URL:-}" ]; then
   echo "[WARN] DATABASE_URL not set. Skipping DB-backed checks."
   echo "[INFO] Checking migration directory structure only..."
 
-  # At minimum, verify migrations directory exists with at least one migration
   migration_count=$(find prisma/migrations -maxdepth 2 -name 'migration.sql' 2>/dev/null | wc -l)
   if [ "$migration_count" -eq 0 ]; then
     echo "[ERROR] No migration files found in prisma/migrations/"
@@ -42,15 +46,14 @@ if [ -z "${DATABASE_URL:-}" ]; then
   exit 0
 fi
 
-# Verify migrations directory exists
 if [ ! -d prisma/migrations ]; then
   echo "[ERROR] prisma/migrations/ directory not found."
   exit 1
 fi
 
-# Use SHADOW_DATABASE_URL if available, otherwise skip shadow db checks
 SHADOW_DB="${SHADOW_DATABASE_URL:-}"
 
+# SHADOW_DB 없으면 deep diff 건너뜀
 if [ -z "$SHADOW_DB" ]; then
   echo "[WARN] SHADOW_DATABASE_URL not set. Skipping shadow DB diff check."
   echo "[INFO] Checking migration directory structure only..."
@@ -58,7 +61,7 @@ if [ -z "$SHADOW_DB" ]; then
   exit 0
 fi
 
-# Run prisma migrate diff to check for drift
+# prisma migrate diff로 실제 스키마 불일치(drift) 검출
 echo "[INFO] Running prisma migrate diff..."
 diff_output=$(bunx prisma migrate diff \
   --from-migrations prisma/migrations \
@@ -66,13 +69,13 @@ diff_output=$(bunx prisma migrate diff \
   --shadow-database-url "$SHADOW_DB" \
   --script 2>&1) || true
 
-# If diff output is empty or only contains "This is an empty migration", schema matches
+# 빈 마이그레이션만 반환되면 일치
 if echo "$diff_output" | grep -q "This is an empty migration"; then
   echo "[OK] Schema matches migrations. No drift detected."
   exit 0
 fi
 
-# If the diff contains actual SQL, there's drift
+# CREATE/ALTER/DROP SQL이 포함되어 있으면 불일치
 if echo "$diff_output" | grep -qiE "CREATE|ALTER|DROP"; then
   echo "=============================================="
   echo "[ERROR] SCHEMA DRIFT DETECTED!"

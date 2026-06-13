@@ -17,7 +17,6 @@
 - 제품: `src/modules/<name>/` + Prisma + apiClient + API 라우트
 - 데모: `src/modules/demo/<name>/` + 인메모리 mock 데이터
 - 제품 코드는 `@/modules/demo/*`에서 절대 임포트 금지
-- 경계 검사: `bash scripts/check-demo-imports.sh`
 
 ## 컴포넌트 배치
 

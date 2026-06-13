@@ -1,3 +1,9 @@
+// generate-api-spec.ts — API 라우트 스캔 → OpenAPI 스펙 생성
+//
+// src/app/api/ 하위 route.ts 파일을 스캔해 HTTP 메서드(GET, POST 등)를 추출하고,
+// OpenAPI 3.1.0 JSON 스펙을 public/api-specs/internal/latest.json 으로 내보냅니다.
+// 실행: package.json prebuild → build 시 자동 호출
+
 import { readFileSync, readdirSync, statSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { join, dirname, relative, basename } from 'node:path';
 
@@ -8,6 +14,7 @@ interface RouteInfo {
   methods: string[];
 }
 
+// src/app/api/ 하위에서 route.ts 파일을 재귀 수집
 function walkDir(dir: string): string[] {
   const results: string[] = [];
   if (!existsSync(dir)) return results;
@@ -23,6 +30,7 @@ function walkDir(dir: string): string[] {
   return results;
 }
 
+// 각 route.ts에서 export된 HTTP 메서드(GET/POST/PUT/PATCH/DELETE) 추출
 function scanRoutes(): RouteInfo[] {
   const routeFiles = walkDir(API_ROOT);
 
@@ -46,10 +54,12 @@ function scanRoutes(): RouteInfo[] {
     .sort((a, b) => a.path.localeCompare(b.path));
 }
 
+// [param] → {param} (OpenAPI 경로 파라미터 형식)
 function extractParams(path: string): string {
   return path.replace(/\[(\w+)\]/g, '{$1}');
 }
 
+// 경로 첫 세그먼트를 OpenAPI tag로 사용
 function getTag(path: string): string {
   const segments = path.split('/').filter(Boolean);
   if (segments.length === 0) return 'root';
@@ -64,6 +74,7 @@ function scanTags(routes: RouteInfo[]): { name: string; description: string }[] 
   }));
 }
 
+// OpenAPI 3.1.0 스펙 객체 생성
 function generateOpenApiSpec(routes: RouteInfo[]) {
   const tags = scanTags(routes);
 

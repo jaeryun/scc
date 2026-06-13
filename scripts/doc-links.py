@@ -9,6 +9,17 @@ docs/ 하위 각 index.md 하단에 백링크 상태 테이블을 삽입/갱신�
   python3 scripts/doc-links.py -n     # dry-run: 터미널에만 출력
 """
 
+#!/usr/bin/env python3
+"""문서 링크 그래프 분석 및 index.md 링크 상태 섹션 자동 생성.
+
+프로젝트 전체 .md 파일의 상호 참조를 분석하여,
+docs/ 하위 각 index.md 하단에 백링크 상태 테이블을 삽입/갱신합니다.
+
+사용법:
+  python3 scripts/doc-links.py        # 모든 index.md 갱신
+  python3 scripts/doc-links.py -n     # dry-run: 터미널에만 출력
+"""
+
 import os
 import re
 import sys
@@ -19,12 +30,14 @@ from typing import Optional
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
+# archive/ 디렉토리는 분석 대상에서 제외
 ARCHIVE_DIR = PROJECT_ROOT / "docs" / "archive"
 
+# index.md 하단에 삽입되는 마커 — 이 사이의 내용이 자동 갱신됨
 MARKER_START = "<!-- LINK STATUS START -->"
 MARKER_END = "<!-- LINK STATUS END -->"
 
-
+# .md 수집 시 건너뛸 디렉토리
 SKIP_DIRS = {
     "node_modules", ".git", ".next", ".turbo", "dist", "build",
     "__pycache__", ".venv", "venv",
@@ -41,15 +54,16 @@ def _is_under_archive(path: Path) -> bool:
 
 
 def collect_md_files() -> set:
-    """프로젝트 전체 .md 파일 수집 (archive/ 등 제외)."""
+    """프로젝트 전체 .md 파일 수집 (archive/ 등 제외).
+
+    숨김 디렉토리는 기본 제외하지만 .claude/rules/ 는 명시적으로 포함.
+    """
     md_files: set = set()
     for root, dirs, files in os.walk(PROJECT_ROOT):
         root_path = Path(root)
-        # archive/ 아래는 건너뛰기
         if _is_under_archive(root_path):
             dirs.clear()
             continue
-        # 제외 디렉토리 필터
         dirs[:] = [d for d in dirs if d not in SKIP_DIRS and not d.startswith(".")]
         for f in files:
             if f.endswith(".md"):
@@ -63,18 +77,24 @@ def collect_md_files() -> set:
 
 
 def find_target(link: str, src_file: Path, md_files: set) -> Optional[Path]:
-    """링크 대상을 실제 파일 경로로 resolve. 실패 시 None."""
-    # @docs/... 절대경로
+    """링크 대상을 실제 파일 경로로 resolve. 실패 시 None.
+
+    @docs/... 절대경로와 상대경로를 모두 처리.
+    """
     if link.startswith("docs/"):
         target = (PROJECT_ROOT / link).resolve()
         return target if target in md_files else None
-    # 상대경로
     target = (src_file.parent / link).resolve()
     return target if target in md_files else None
 
 
 def parse_references(md_files: set[Path]) -> dict[Path, set[Path]]:
-    """파일 -> 피참조자 집합 (누가 이 파일을 참조하는지)."""
+    """파일 -> 피참조자 집합 (누가 이 파일을 참조하는지).
+
+    두 가지 참조 패턴을 인식:
+      - [text](path.md)  — 일반 마크다운 링크
+      - @docs/path.md    — 프로젝트 절대경로 표기
+    """
     refs_to: dict[Path, set[Path]] = defaultdict(set)
 
     # [text](path.md) 패턴
@@ -109,7 +129,11 @@ def relative_display(target: Path, base_dir: Path) -> str:
 def build_table_rows(
     dir_path: Path, md_files_in_dir: list[Path], refs_to: dict[Path, set[Path]]
 ) -> list[str]:
-    """한 디렉토리 분량의 링크 상태 테이블 행 생성."""
+    """한 디렉토리 분량의 링크 상태 테이블 행 생성.
+
+    CLAUDE.md는 항상 auto-loading 표시,
+    나머지는 참조 파일 목록 또는 orphan 경고.
+    """
     rows: list[str] = []
     for f in sorted(md_files_in_dir, key=lambda p: (p.name == "CLAUDE.md", p.name == "index.md", p.name)):
         name = f.name
@@ -127,7 +151,10 @@ def build_table_rows(
 
 
 def build_section(dir_path: Path, md_files_in_dir: list[Path], refs_to: dict[Path, set[Path]]) -> str:
-    """링크 상태 섹션 전체 문자열 생성."""
+    """링크 상태 섹션 전체 문자열 생성.
+
+    MARKER_START ~ MARKER_END 사이에 자동 생성됨.
+    """
     now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     lines = [
         "",
@@ -145,12 +172,15 @@ def build_section(dir_path: Path, md_files_in_dir: list[Path], refs_to: dict[Pat
 
 
 def update_index_md(dir_path: Path, refs_to: dict, md_files: set, dry_run: bool) -> None:
-    """하나의 index.md 파일을 갱신."""
+    """하나의 index.md 파일을 갱신.
+
+    기존에 마커가 있으면 해당 섹션만 교체, 없으면 파일 하단에 추가.
+    """
     index_path = dir_path / "index.md"
     if not index_path.exists():
         return
 
-    # 이 디렉토리 내 .md 파일들 (index.md, CLAUDE.md 포함)
+    # 이 디렉토리 내 .md 파일들 (index.md, CLAUDE.md 포함), 중복 제거
     dir_files = sorted(
         [p for p in refs_to if p.parent == dir_path]
         + [p for p in md_files if p.parent == dir_path and p not in refs_to],
@@ -164,6 +194,7 @@ def update_index_md(dir_path: Path, refs_to: dict, md_files: set, dry_run: bool)
     section = build_section(dir_path, dir_files, refs_to)
     content = index_path.read_text()
 
+    # 마커가 이미 있으면 교체, 없으면 하단에 추가
     if MARKER_START in content and MARKER_END in content:
         new_content = re.sub(
             rf"{re.escape(MARKER_START)}.*?{re.escape(MARKER_END)}",
@@ -178,7 +209,6 @@ def update_index_md(dir_path: Path, refs_to: dict, md_files: set, dry_run: bool)
         print(f"\n{'='*60}")
         print(f"DRY-RUN: {index_path.relative_to(PROJECT_ROOT)}")
         print(f"{'='*60}")
-        # 변경된 부분만 출력
         added = new_content[len(content):]
         if added:
             print(added)
@@ -222,7 +252,6 @@ def main() -> None:
     print("🔗 참조 분석 중...")
     refs_to = parse_references(md_files)
 
-    # 연결 수 통계
     total_links = sum(len(v) for v in refs_to.values())
     orphans = len([f for f in md_files if f not in refs_to])
     print(f"  {total_links}개 참조 연결, orphan {orphans}개")
