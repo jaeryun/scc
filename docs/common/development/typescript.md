@@ -35,7 +35,7 @@ const routes = {
   home: '/',
   settings: '/settings',
 } satisfies Record<string, string>;
-// routes.home은 '' (리터럴), satisfies가 Record<string, string> 검증
+// routes.home은 '/' (리터럴), satisfies가 Record<string, string> 검증
 
 // Bad: as는 추론 손실
 const routes = {
