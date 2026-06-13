@@ -1,5 +1,9 @@
 # React 규칙
 
+<!-- 관련 Skills: vercel-react-best-practices (React 19 hooks, 성능),
+                  next-best-practices (RSC, error.tsx, metadata)
+     이 문서는 프로젝트 고유 결정만 기술합니다. -->
+
 ## 컴포넌트 정의 (필수)
 
 - `function ComponentName() {}` -- 함수 선언문, 화살표 함수 금지
