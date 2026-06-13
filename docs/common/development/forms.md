@@ -1,5 +1,9 @@
 # 폼 규칙
 
+<!-- 관련 Skills: 해당 없음 (프로젝트 고유 추상화)
+     이 문서는 프로젝트 폼 추상화(useAppForm, useFormFields<T>()) 규칙만 기술합니다.
+     일반 폼 패턴은 form-patterns.md 참조. -->
+
 ## 필수 도구 (필수)
 
 - 모든 폼에 `useAppForm` + `useFormFields<T>()` 사용
