@@ -1,5 +1,8 @@
 # 스타일링 규칙
 
+<!-- 관련 Skills: shadcn (UI 컴포넌트, semantic colors)
+     이 문서는 프로젝트 고유 규칙만 기술합니다 (정적 색상 금지 등). -->
+
 ## className 병합 (필수)
 
 - 모든 className 병합에 `cn()` 사용 -- 문자열 연결, 템플릿 리터럴, `!important` 접미사 금지
