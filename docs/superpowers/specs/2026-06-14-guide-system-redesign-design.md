@@ -141,7 +141,7 @@ AI 에이전트(및 사람)가 SCC 프로젝트의 표준 패턴으로 일관된
 - Vitest (단위/통합) + Playwright (E2E)
 - 파일 컨벤션: `*.test.ts(x)`, `*.spec.ts(x)` 구분
 - 디렉터리: 모듈 내 `__tests__/` 또는 co-location
-- TDD 기대: 새 기능/버그 수정 시 테스트 먼저 (선택적 강제 — fail 시 PR 코멘트)
+- TDD 기대: 새 기능/버그 수정 시 테스트 선행. PR에서 미준수 시 코드 리뷰 단계에서 코멘트 (soft enforcement, 도구 강제 없음)
 - 커버리지: 핵심 비즈니스 로직 (api/, lib/) 의무, UI는 권장
 - Mocking: MSW (네트워크), vi.mock (모듈)
 - Skills `playwright-best-practices` 참조
