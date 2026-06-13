@@ -19,16 +19,23 @@
 |----------|------|---------|
 | `development/` | 코딩 규칙 + 구현 패턴 | 규칙, 패턴, 컨벤션 |
 | `react.md` | React 컴포넌트 규칙 | React, 컴포넌트 |
-| `typescript.md` | TypeScript 규칙 | TypeScript, 타입 |
+| `typescript.md` | TypeScript 규칙 (확장됨) | TypeScript, 타입 |
 | `styling.md` | 스타일링 규칙 | cn(), Tailwind, CSS |
 | `naming.md` | 파일명/변수명 컨벤션 | 네이밍, kebab-case |
 | `data-layer.md` | 데이터 페칭 계층 규칙 | service, queries, hooks |
 | `forms.md` | TanStack Form + Zod 규칙 | 폼, TanStack, Zod |
-| `prisma.md` | Prisma 스키마/마이그레이션 규칙 | Prisma, 스키마 |
+| `prisma.md` | Prisma 스키마/마이그레이션 규칙 (확장됨) | Prisma, 스키마 |
+| `server-actions.md` | Server Actions 규칙 | Server Actions, mutation |
+| `state-management.md` | 상태 관리 규칙 (Zustand) | Zustand, store |
+| `testing.md` | 테스팅 규칙 | Vitest, Playwright, TDD |
 | `component-patterns.md` | 컴포넌트 배치/작성 패턴 | 컴포넌트, 패턴 |
 | `data-patterns.md` | React Query 패턴 | React Query, 패턴 |
-| `form-patterns.md` | TanStack Form 패턴 | 폼, 패턴 |
-| `theme-patterns.md` | OKLCH 테마 패턴 | 테마, OKLCH |
+| `form-patterns.md` | 폼 패턴 인덱스 (4개 파일로 분할됨) | 폼, 패턴 |
+| `form-setup-patterns.md` | 폼 설정 패턴 | useAppForm, 필드 어댑터 |
+| `form-validation-patterns.md` | 폼 유효성 검사 패턴 | Zod, onBlur/onChange |
+| `form-submission-patterns.md` | 폼 제출 패턴 | mutation, 토스트 |
+| `form-sheet-dialog-patterns.md` | Sheet/Dialog 폼 패턴 | Sheet, Dialog, 외부 제출 |
+| `theme-patterns.md` | 테마 패턴 (슬림화됨) | 테마, OKLCH |
 | `first-feature.md` | 신규 입문자 IPAM 따라하기 | 입문, IPAM |
 | `index.md` | 이 파일 — development/ 디렉터리 구조 | 인덱스 |
 | `CLAUDE.md` | AI 에이전트 로딩 지침 | AI, 로딩 |
