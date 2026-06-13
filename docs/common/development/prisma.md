@@ -113,7 +113,7 @@ await db.ipAddress.createMany({ data: ips.map((ip) => ({ ...ip, subnetId: subnet
 
 - `prisma migrate dev`는 shadow DB로 변경 검증
 - shadow DB는 `prisma migrate dev` 실행 시 자동 생성/삭제
-- Docker compose로 띄운 Postgres 사용 권장 (`.env`의 `DATABASE_URL_SHADOW`)
+- Docker compose로 띄운 Postgres 사용 권장 (`.env`의 `SHADOW_DATABASE_URL` — Prisma 표준)
 - shadow DB는 `prisma migrate reset`으로 정리 가능
 
 ## 금지 패턴
