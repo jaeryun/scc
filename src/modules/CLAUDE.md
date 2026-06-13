@@ -1,8 +1,10 @@
 # 기능 모듈 컨벤션
 
-@docs/common/development/data-layer.md
-@docs/common/development/forms.md
-@docs/common/development/component-patterns.md
+@index.md
+
+@../../docs/common/development/data-layer.md
+@../../docs/common/development/forms.md
+@../../docs/common/development/component-patterns.md
 
 ## 🚨 핵심 규칙
 
@@ -40,17 +42,6 @@
 5. `src/config/views.ts` 또는 `src/config/nav-config.ts` 네비게이션 아이템 등록
 6. (Production만) `src/app/api/<name>/route.ts` — API 라우트
 7. (선택) `src/components/icons.tsx` — 새 아이콘 등록
-
-## 파일 구조 규칙
-
-```
-src/modules/<name>/api/
-├── types.ts        # 타입 정의 (필수)
-├── service.ts      # 데이터 접근 계층 (필수) — mock-store 직접 호출 또는 apiClient 사용
-├── queries.ts      # TanStack Query 옵션 (필수)
-├── mutations.ts    # TanStack Mutation 옵션 (CRUD 있을 때만)
-└── mock-store.ts   # Demo 모듈 전용: in-memory 데이터 저장소 + seed
-```
 
 ## Demo 모듈: mock-store 패턴
 
@@ -106,19 +97,10 @@ export async function GET() {
 
 ## 쿼리 키 컨벤션
 
-@docs/common/development/data-layer.md의 쿼리 키 팩토리 패턴 사용.
+@../../docs/common/development/data-layer.md의 쿼리 키 팩토리 패턴 사용.
 
 - 키 네임스페이스는 모듈명과 일치시킨다 (예: `subnets`, `ip-addresses`, `dashboards`)
 - `lists`(복수형) 사용 — `list`(단수)와 혼용 금지
-
-## 정규 참조 구현
-
-| 모듈 | 유형 | 참조 대상 |
-|------|------|-----------|
-| `src/modules/ipam/` | Production | Prisma + Zod + apiClient 전체 패턴 |
-| `src/modules/demo/dashboard/` | Demo | mock-store + in-memory seed 패턴 |
-| `src/modules/demo/products/` | Demo | `@/constants/mock-api` 공유 상수 패턴 |
-| `src/app/api/ipam/` | Production API | Route Handler + Zod 검증 + 계층 분리 |
 
 ## 개별 모듈 CLAUDE.md 템플릿
 

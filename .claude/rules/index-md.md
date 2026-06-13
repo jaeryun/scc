@@ -3,4 +3,4 @@ paths:
   - "**/index.md"
 ---
 
-@../docs/common/documents/index-md.md
+@../../docs/common/documents/index-md.md

@@ -1,7 +1,7 @@
 # reference/data-models/ — 데이터 모델
 
+@index.md
+
 DB 스키마, 엔티티 관계, 핵심 타입 정의를 담습니다. 특정 모듈의 구현 상세가 아닌, 프로젝트 전체가 공유하는 데이터 계약을 기술합니다.
 
 **로딩 시점:** 필요 시
-
-> 구조와 파일 목록은 `@docs/common/reference/data-models/index.md` 참조.

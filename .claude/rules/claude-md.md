@@ -3,4 +3,4 @@ paths:
   - "**/CLAUDE.md"
 ---
 
-@../docs/common/documents/claude-md.md
+@../../docs/common/documents/claude-md.md

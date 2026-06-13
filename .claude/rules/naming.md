@@ -3,4 +3,4 @@ paths:
   - '**/*.{ts,tsx}'
 ---
 
-@docs/common/development/naming.md
+@../../docs/common/development/naming.md

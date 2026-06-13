@@ -23,7 +23,7 @@ git status --porcelain
 
 ### 2. 규칙 로딩
 
-`@docs/common/development/docs.md` 를 Read로 읽는다.
+`@docs/common/documents/general.md` 를 Read로 읽는다.
 문서 배치, 형식, 언어, CLAUDE.md/index.md 역할 분리, views/common 경계 등
 모든 판단 기준은 이 파일에 있다. 스킬 본문은 규칙을 중복 기술하지 않는다.
 
@@ -36,11 +36,11 @@ git status --porcelain
 
 ### 4. 검증
 
-서브에이전트에게 검증을 위임한다. 서브에이전트는 docs.md를 읽고 규칙을 숙지한 후
+서브에이전트에게 검증을 위임한다. 서브에이전트는 general.md를 읽고 규칙을 숙지한 후
 변경된 문서를 검증하고, 위반 사항을 보고만 한다 (직접 수정하지 않는다):
 
 ```
-@docs/common/development/docs.md 를 읽고 그 규칙을 숙지한 후,
+@docs/common/documents/general.md 를 읽고 그 규칙을 숙지한 후,
 다음 파일들이 규칙을 위반한 부분이 있는지 검증하라:
 
 <변경한 문서 파일 목록>

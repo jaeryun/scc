@@ -80,7 +80,7 @@ DATABASE_URL=postgresql://user:password@host:5432/dbname
 
 ## 배포
 
-[Docker 빌드 & 배포 상세 → build-deploy.md](./build-deploy.md)
+[Docker 빌드 & 배포 상세 → build-deploy.md](../operations/build-deploy.md)
 
 ## 외부 문서
 

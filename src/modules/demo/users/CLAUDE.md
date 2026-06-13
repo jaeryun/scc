@@ -1,6 +1,8 @@
 # Users 모듈
 
-@src/modules/CLAUDE.md 템플릿 적용.
+@index.md
+
+@../../CLAUDE.md 템플릿 적용.
 
 ## 아키텍처: mock-api 직접 호출
 

@@ -3,4 +3,4 @@ paths:
   - '**/*.tsx'
 ---
 
-@docs/common/development/react.md
+@../../docs/common/development/react.md

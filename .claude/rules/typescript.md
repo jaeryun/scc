@@ -3,4 +3,4 @@ paths:
   - '**/*.{ts,tsx}'
 ---
 
-@docs/common/development/typescript.md
+@../../docs/common/development/typescript.md

@@ -6,4 +6,4 @@ paths:
   - '**/api/**'
 ---
 
-@docs/common/development/data-layer.md
+@../../docs/common/development/data-layer.md

@@ -1,17 +1,9 @@
 # 공통 컴포넌트 컨벤션
 
+@index.md
+
 컴포넌트 작성 규칙, shadcn, 접근성 → [docs/common/foundation/conventions.md](../../docs/common/foundation/conventions.md) 참조.
-컴포넌트 배치 가이드 → @docs/common/development/component-patterns.md
-
-## 디렉토리 구조
-
-- `ui/` — shadcn 원본 (직접 수정 금지, 확장만)
-- `charts/` — Recharts 래퍼
-- `kanban/` — dnd-kit 기반 칸반 UI
-- `layout/` — 레이아웃, 사이드바, 뷰 전환 → [layout/CLAUDE.md](layout/CLAUDE.md)
-- `forms/` — TanStack Form + Zod → [docs/common/development/form-patterns.md](../../docs/common/development/form-patterns.md)
-- `themes/` — OKLCH 테마 → [docs/common/development/theme-patterns.md](../../docs/common/development/theme-patterns.md)
-- `icons.tsx` — 아이콘 레지스트리
+컴포넌트 배치 가이드 → @../../docs/common/development/component-patterns.md
 
 ## 아이콘 시스템
 

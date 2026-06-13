@@ -1,11 +1,25 @@
-# foundation/ — 프로젝트 헌장
+# foundation/ — 구조와 파일 목록
 
-SCC 프로젝트의 정체성, 제약, 아키텍처, 행동 원칙을 정의합니다. 루트 CLAUDE.md에서 항상 로딩됩니다.
+## 디렉터리 용도
 
-- [project.md](project.md) — 프로젝트 개요, 기술 스택, 제약사항, 빌드 명령, 디렉토리 구조
-- [architecture.md](architecture.md) — 모듈 기반 구조, 뷰 시스템, 데모/제품 경계, 컴포넌트 배치
-- [behavior.md](behavior.md) — AI 행동 원칙 (구현 전/중/후, 목표 주도 실행, CLAUDE.md 현행화)
-- [conventions.md](conventions.md) — 핵심 코딩 규칙 (cn(), 아이콘, tsc/build) + development/ 규칙 포인터
+SCC 프로젝트의 정체성, 제약, 아키텍처, 행동 원칙을 정의합니다.
+
+## 디렉터리 구조
+
+| 디렉토리/파일 | 용도 | 키워드 |
+|----------|------|---------|
+| `foundation/` | 프로젝트 헌장 | 헌장, 정체성, 제약 |
+| `project.md` | 프로젝트 개요, 기술 스택, 제약사항, 디렉터리 구조 | 프로젝트, 기술스택, 환경설정 |
+| `architecture.md` | 모듈 기반 구조, 뷰 시스템, 데모/제품 경계, 컴포넌트 배치 | 아키텍처, 모듈, 뷰 |
+| `behavior.md` | AI 행동 원칙 (구현 전, 중, 후) | 행동원칙, 구현, 검증 |
+| `conventions.md` | 핵심 코딩 규칙 (cn(), 아이콘, tsc/build) | 규칙, cn, 아이콘 |
+| `index.md` | 이 파일 — foundation/ 디렉터리 구조 | 인덱스 |
+| `CLAUDE.md` | AI 에이전트 로딩 지침 | AI, 로딩 |
+
+## 포함 금지 항목
+
+- AI 지침 — 로딩 시점, 행동 규칙은 CLAUDE.md에서 관리
+- 뷰별 문서 — [views/](../../views/) 에 배치
 
 
 <!-- LINK STATUS START -->

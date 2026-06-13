@@ -4,4 +4,4 @@ paths:
   - '**/*.tsx'
 ---
 
-@docs/common/development/forms.md
+@../../docs/common/development/forms.md

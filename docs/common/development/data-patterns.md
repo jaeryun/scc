@@ -1,7 +1,7 @@
 # 데이터 패턴 상세 가이드
 
 > `src/modules/CLAUDE.md`에서 핵심 규칙을 먼저 확인하고, 이 문서는 상세 예제와 심화 패턴을 제공합니다.
-> 규칙 요약: [data-layer.md](../rules/data-layer.md)
+> 규칙 요약: [data-layer.md](data-layer.md)
 
 ## 1. React Query 상세 패턴
 

@@ -4,7 +4,7 @@
 
 - 공통 UI → `src/components/`
 - 도메인 데이터 + UI → `src/modules/<name>/`
-- → component-patterns.md
+- 상세: [component-patterns.md](../development/component-patterns.md)
 
 ## 뷰 시스템
 
@@ -22,4 +22,4 @@
 
 - `src/components/` → 순수 UI, 도메인 타입 의존성 없음
 - `src/modules/<name>/components/` → 도메인 타입에 의존
-- 상세 기준: `docs/common/development/component-patterns.md`
+- 상세 기준: [component-patterns.md](../development/component-patterns.md)

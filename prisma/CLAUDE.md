@@ -1,9 +1,10 @@
 # Prisma 실무 가이드
 
-@docs/common/rules/prisma.md
-@docs/common/foundation/conventions.md
+@index.md
+@../docs/common/development/prisma.md
+@../docs/common/foundation/conventions.md
 
-규칙 및 네이밍 컨벤션은 [`docs/common/rules/prisma.md`](../docs/common/rules/prisma.md)를, 전체 코딩 규칙은 [`docs/common/foundation/conventions.md`](../docs/common/foundation/conventions.md)를 따릅니다.
+규칙 및 네이밍 컨벤션은 [`docs/common/development/prisma.md`](../docs/common/development/prisma.md)를, 전체 코딩 규칙은 [`docs/common/foundation/conventions.md`](../docs/common/foundation/conventions.md)를 따릅니다.
 
 ## Shadow Database
 
@@ -48,10 +49,4 @@ rm -rf prisma/migrations/2*
 bunx prisma migrate dev --name YYMMDD_init
 ```
 
-## 파일 위치
-
-| 경로                   | 설명                                                 |
-| ---------------------- | ---------------------------------------------------- |
-| `prisma/schema.prisma` | DB 스키마 정의 (datasource, generator, model)        |
-| `prisma/migrations/`   | 마이그레이션 SQL 파일 (YYYYMMDD\_설명/migration.sql) |
-| `.env.local`           | DATABASE_URL, SHADOW_DATABASE_URL                    |
+환경변수(`DATABASE_URL`, `SHADOW_DATABASE_URL`)는 `.env.local`에 설정합니다.

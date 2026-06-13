@@ -1,5 +1,7 @@
 # App Router 컨벤션
 
+@index.md
+
 서버 컴포넌트, 메타데이터 등 공통 규칙 → [docs/common/foundation/conventions.md](../../docs/common/foundation/conventions.md) 참조.
 데이터 페칭 패턴 → [../modules/CLAUDE.md](../modules/CLAUDE.md) 참조.
 API 라우트 규칙 → [api/CLAUDE.md](api/CLAUDE.md) 참조.
@@ -9,18 +11,6 @@ API 라우트 규칙 → [api/CLAUDE.md](api/CLAUDE.md) 참조.
 - App Router 전용, Pages Router 금지 (`pages/` 디렉토리 없음)
 - 뷰별 라우트 그룹: `src/app/(main)/<view-id>/page.tsx`
 - 각 뷰 그룹은 독립적인 `layout.tsx` 가질 수 있음
-
-## 파일 컨벤션
-
-| 파일               | 역할                                               |
-| ------------------ | -------------------------------------------------- |
-| `layout.tsx`       | 공유 레이아웃 (중첩 가능)                          |
-| `page.tsx`         | 라우트의 실제 페이지                               |
-| `loading.tsx`      | Suspense fallback (page 로딩 중)                   |
-| `error.tsx`        | 에러 바운더리 (`'use client'` 필수)                |
-| `not-found.tsx`    | 404 페이지                                         |
-| `global-error.tsx` | 루트 에러 바운더리 (`<html>`, `<body>` 포함 필수)  |
-| `route.ts`         | API 라우트 핸들러 → [api/CLAUDE.md](api/CLAUDE.md) |
 
 ## 에러 처리
 

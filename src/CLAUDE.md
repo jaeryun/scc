@@ -1,6 +1,8 @@
 # src/ 소스코드 컨벤션
 
-모든 공통 코딩 규칙은 @docs/common/foundation/conventions.md 및 @docs/common/development/react.md 참조.
+@index.md
+
+모든 공통 코딩 규칙은 @../docs/common/foundation/conventions.md 및 @../docs/common/development/react.md 참조.
 
 ## 뷰 시스템
 

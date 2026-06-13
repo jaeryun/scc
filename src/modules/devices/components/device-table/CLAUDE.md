@@ -1,4 +1,6 @@
-# Devices 모듈
+# Devices 모듈 — device-table
+
+@index.md
 
 ## 페이지 래퍼 규칙
 
@@ -28,7 +30,3 @@ export default function DevicesPage() {
 }
 ```
 
-## 컴포넌트 구조
-
-- `columns.tsx` — TanStack Table 컬럼 정의 (accessorKey, filter, cell 렌더링)
-- `index.tsx` — `useReactTable` + `DataTable` + `DataTableToolbar`

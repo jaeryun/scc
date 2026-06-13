@@ -3,4 +3,4 @@ paths:
   - '**/*.{tsx,css}'
 ---
 
-@docs/common/development/styling.md
+@../../docs/common/development/styling.md
