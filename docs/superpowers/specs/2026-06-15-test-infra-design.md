@@ -23,7 +23,7 @@ SCC 프로젝트에 자동화된 테스트 파이프라인을 도입한다.
 
 | # | 항목 | 결정 |
 |---|------|------|
-| R1 | 컨테이너 이미지 | **사전 구성된 단일 이미지** — Bun + Playwright(브라우저 포함) + Postgres client가 사전 설치된 이미지. CI 안에서 다운로드 단계 없음. 정확한 태그명은 운영팀 제공 (placeholder: `scc-ci-runner:latest`) |
+| R1 | 컨테이너 이미지 | **우리가 정의한 단일 이미지** — 프로젝트 루트의 `Dockerfile.ci-runner`로 정의. 운영팀이 사내 레지스트리에 빌드/푸시. `.gitlab-ci.yml`은 그 태그를 참조 (placeholder: `registry.scc.local/ci-runner:1.0.0`) |
 | R2 | GitLab 러너 | k8s 기반 — `image:` 자유 지정 가능. DinD 불필요 |
 | R3 | 통합 테스트 DB 격리 | **truncate + seed** 방식 (트랜잭션-롤백 방식 채택 안 함 — Prisma `$transaction` 중첩 회피) |
 | R4 | E2E 브랜치 | **main에서만** |
@@ -69,6 +69,7 @@ SCC 프로젝트에 자동화된 테스트 파이프라인을 도입한다.
 
 ```
 scc/
+├── Dockerfile.ci-runner                # 신규 — CI 러너 이미지 정의 (Bun + Playwright + 브라우저)
 ├── vitest.config.ts                    # 신규
 ├── vitest.setup.ts                     # 신규
 ├── playwright.config.ts                # 신규
@@ -240,6 +241,36 @@ export default defineConfig({
 }
 ```
 
+## 6.6 `Dockerfile.ci-runner` (R1)
+
+> 운영팀이 사내 레지스트리에 빌드/푸시하는 이미지 정의. **CI 안에서 다운로드 단계 없음.** 정확한 Bun/Playwright 버전은 빌드 시점에 맞춰 결정. 태그 예: `registry.scc.local/ci-runner:1.0.0`.
+
+```dockerfile
+# Bun + Playwright(브라우저 포함) + 최소 시스템 도구
+FROM oven/bun:1.2.10-debian
+
+# Playwright 브라우저 다운로드 + 시스템 의존성 설치
+# (Chromium만 — Firefox/WebKit은 우리 e2e에서 사용 안 함)
+RUN bunx playwright@1.60.0 install --with-deps chromium
+
+# 이미지 메타
+LABEL org.opencontainers.image.source="https://github.com/scc/scc"
+LABEL org.opencontainers.image.description="SCC CI runner: Bun + Playwright + Chromium"
+```
+
+**왜 이렇게 정의하나**:
+- `oven/bun:1.2.10-debian` — Bun 공식 debian 베이스 (Alpine은 glibc 미스 매치로 Playwright 비호출)
+- `playwright install --with-deps chromium` — Chromium + 시스템 의존성 한 번에 설치
+- **Firefox/WebKit 제외** — 우리 e2e는 Chromium만 사용 (속도/용량 절약)
+- **`psql`은 의도적으로 제외** — CI에서 Prisma로만 DB 접근. `psql` 필요 시 사후 추가
+- **Postgres 서버는 별도 `services:`** — k8s 러너가 `postgres:16` pull (R1의 CI 러너 이미지와 별개)
+
+**운영팀 전달 사항**:
+- 빌드 명령: `docker build -f Dockerfile.ci-runner -t registry.scc.local/ci-runner:1.0.0 .`
+- Bun/Playwright 버전은 SCC 측이 결정해서 Dockerfile에 핀
+- GitHub Actions `mcr.microsoft.com/playwright`처럼 `:vX.Y.Z` 형식의 버전 태그 권장
+- 레지스트리 push 후 `image:` 라인의 태그를 그 값으로 교체
+
 ## 7. GitLab CI 파이프라인
 
 ### 7.1 잡 구성
@@ -257,9 +288,9 @@ export default defineConfig({
 
 ```yaml
 default:
-  # 사전 구성된 CI 러너 이미지 (Bun + Playwright + Postgres client 사전 설치)
-  # 정확한 태그명은 운영팀이 제공 — placeholder
-  image: scc-ci-runner:latest
+  # 우리 프로젝트가 정의한 CI 러너 이미지 (Dockerfile.ci-runner 기반)
+  # 운영팀이 사내 레지스트리에 빌드/푸시 — 정확한 태그로 교체
+  image: registry.scc.local/ci-runner:1.0.0
   tags: [scc-runner]
 
 variables:
@@ -495,6 +526,9 @@ bun test:e2e
 
 ## 11. 완료 기준 (DoD)
 
+- [ ] `Dockerfile.ci-runner` 정의 (Bun + Playwright Chromium + 시스템 의존성)
+- [ ] 운영팀에 이미지 빌드/푸시 요청 — 사내 레지스트리에 `registry.scc.local/ci-runner:1.0.0` 존재
+- [ ] `.gitlab-ci.yml`의 `image:` 라인이 운영팀이 push한 실제 태그와 일치
 - [ ] `bun install` 후 `bun test:unit` 통과
 - [ ] `docker compose -f docker-compose.test.yml up` 후 `bun test:integration` 통과
 - [ ] `bun test:coverage` 시 80% 임계값 충족
