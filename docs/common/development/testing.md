@@ -50,7 +50,7 @@ src/modules/ipam/
 | `src/components/ui/` (shadcn) | 면제 | shadcn이 보장 |
 | `src/components/`, `src/modules/<name>/components/` (도메인) | 권장 | 정성적 검토 |
 
-- `bun run test:coverage`로 측정
+- `vitest run --coverage`로 측정 (테스트 인프라 셋업 후)
 - PR에 커버리지 리포트 첨부 권장
 
 ## Mocking 규칙
