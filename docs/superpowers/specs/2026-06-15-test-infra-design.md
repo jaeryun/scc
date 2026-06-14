@@ -54,7 +54,10 @@ SCC 프로젝트에 자동화된 테스트 파이프라인을 도입한다.
 
 ### 4.3 핵심 원칙
 
-1. **단위 테스트는 `vi.mock('@/lib/prisma')`** — SQL 자체는 검증 안 함. 비즈니스 로직(검증, 분기, 부수효과 순서)에 집중
+1. **단위 테스트의 mock 전략은 데이터 접근 방식에 따라 다름**:
+   - **Prisma 직접 호출 모듈** (`view-settings/api/*.ts`, `demo/*/api/service.ts`): `vi.mock('@/lib/prisma')` — SQL 자체는 검증 안 함, 비즈니스 로직에 집중
+   - **`apiClient` 호출 모듈** (`ipam/api/service.ts`, `cables/api/service.ts` 등): `vi.mock('@/lib/api-client')` — HTTP 호출을 가짜로 대체
+   - **순수 유틸** (`src/lib/utils.ts`의 `formatBytes`, `cn` 등): mock 불필요
 2. **통합 테스트는 truncate+seed** — 각 테스트 전 `scc_test` DB를 truncate 후 시드 주입. 실 SQL/제약조건/트랜잭션 회귀 검증
 3. **컴포넌트 테스트는 MSW** — `apiClient`를 거치는 모든 네트워크 표준화
 4. **E2E는 main에서만** — 비용 대비 효과. develop/staging은 unit + integration으로 커버
@@ -375,11 +378,13 @@ export async function seedTestDb() {
 
 ## 9. 샘플 테스트 (첫 PR에 포함)
 
-### 9.1 `src/lib/format.test.ts`
+### 9.1 `src/lib/utils.test.ts` — 단위, mock 불필요
+
+`src/lib/format.ts`가 아닌 `src/lib/utils.ts`에 `formatBytes`가 존재함 (lib/index.md 기준).
 
 ```ts
 import { describe, it, expect } from 'vitest';
-import { formatBytes } from './format';
+import { formatBytes } from './utils';
 
 describe('formatBytes', () => {
   it('formats bytes into human readable string', () => {
@@ -389,47 +394,82 @@ describe('formatBytes', () => {
 });
 ```
 
-### 9.2 `src/modules/ipam/api/service.test.ts`
+### 9.2 `src/modules/view-settings/api/get-view-settings-handler.test.ts` — 단위, Prisma mock
+
+`view-settings`는 Prisma를 직접 호출하는 모듈이라 `vi.mock('@/lib/prisma')` 패턴의 정석 사례. IPAM은 `apiClient`만 거치므로 다른 패턴 필요.
 
 ```ts
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 vi.mock('@/lib/prisma', () => ({
   prisma: {
-    subnet: { create: vi.fn(), findFirst: vi.fn() },
+    viewSetting: {
+      findUnique: vi.fn(),
+    },
   },
 }));
 
 import { prisma } from '@/lib/prisma';
-import { createSubnet } from './service';
+import { getViewSettingsHandler } from './get-view-settings-handler';
 
-describe('createSubnet', () => {
+describe('getViewSettingsHandler', () => {
   beforeEach(() => vi.clearAllMocks());
 
-  it('CIDR 중복이면 에러 throw', async () => {
-    vi.mocked(prisma.subnet.findFirst).mockResolvedValue({ id: 1 } as any);
-    await expect(
-      createSubnet({ siteId: 1, networkCidr: '10.0.0.0/24' })
-    ).rejects.toThrow(/already exists/i);
+  it('설정이 없으면 기본값 반환', async () => {
+    vi.mocked(prisma.viewSetting.findUnique).mockResolvedValue(null);
+    // ... 구현된 기본값 구조에 맞춰 검증
   });
 
-  it('CIDR 중복 아니면 subnet 생성', async () => {
-    vi.mocked(prisma.subnet.findFirst).mockResolvedValue(null);
-    vi.mocked(prisma.subnet.create).mockResolvedValue({ id: 99 } as any);
-    const result = await createSubnet({ siteId: 1, networkCidr: '10.0.0.0/24' });
-    expect(result.id).toBe(99);
+  it('설정이 있으면 그대로 반환', async () => {
+    vi.mocked(prisma.viewSetting.findUnique).mockResolvedValue({
+      userId: 'u1',
+      // ... 실제 컬럼 구조에 맞춤
+    } as any);
+    // ...
   });
 });
 ```
 
-### 9.3 `e2e/example.spec.ts`
+> 위 시그니처는 구현 시점에 `get-view-settings-handler.ts`의 실제 export와 Prisma `viewSetting` 모델에 맞춰 확정.
+
+### 9.3 `src/modules/ipam/api/service.test.ts` — 단위, apiClient mock (보조 예시)
+
+IPAM service는 `apiClient`를 거치므로 `vi.mock('@/lib/api-client')`로 mock.
+
+```ts
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+
+vi.mock('@/lib/api-client', () => ({
+  apiClient: vi.fn(),
+}));
+
+import { apiClient } from '@/lib/api-client';
+import { createPrefix } from './service';
+
+describe('createPrefix', () => {
+  beforeEach(() => vi.clearAllMocks());
+
+  it('apiClient에 POST 요청을 위임', async () => {
+    vi.mocked(apiClient).mockResolvedValue({
+      id: 1, prefix: '10.0.0.0/24', description: '', vlan: null, site: null, role: null,
+    });
+    await createPrefix({ prefix: '10.0.0.0/24' });
+    expect(apiClient).toHaveBeenCalledWith(
+      '/api/ipam/prefixes',
+      expect.objectContaining({ method: 'POST' })
+    );
+  });
+});
+```
+
+### 9.4 `e2e/example.spec.ts`
 
 ```ts
 import { test, expect } from '@playwright/test';
 
 test('메인 페이지 로드', async ({ page }) => {
   await page.goto('/');
-  await expect(page).toHaveTitle(/SCC/);
+  await expect(page).toHaveTitle(/SE Command Center/);
 });
 ```
 
@@ -461,7 +501,7 @@ bun test:e2e
 - [ ] GitLab CI: develop MR에서 `+ integration + build` 통과
 - [ ] GitLab CI: main 머지 후 `+ e2e` 통과
 - [ ] `docs/common/development/testing.md` 갱신 (실제 셋업 결과 반영)
-- [ ] 첫 PR에 `src/lib/format.test.ts` + `src/modules/ipam/api/service.test.ts` + `e2e/example.spec.ts` 포함
+- [ ] 첫 PR에 `src/lib/utils.test.ts` + `src/modules/view-settings/api/get-view-settings-handler.test.ts` + `src/modules/ipam/api/service.test.ts` + `e2e/example.spec.ts` 포함
 
 ## 12. 후속 작업 (이번 스코프 밖)
 
