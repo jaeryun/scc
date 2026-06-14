@@ -34,13 +34,14 @@ SCC 프로젝트의 모든 문서를 담는 루트 디렉터리.
 - 아카이브 문서 — [archive/](archive/) 로 이동 후 링크 제거
 
 
+
 <!-- LINK STATUS START -->
 ## 🔗 링크 상태
 
-> ⚠️ `scripts/doc-links.py` 자동 생성 — 직접 수정 금지 · 2026-06-07 16:36 UTC
+> ⚠️ `scripts/doc-links.py` 자동 생성 — 직접 수정 금지 · 2026-06-14 09:20 UTC
 
 | 파일 | 피참조 |
 |:-----|:-------|
-| `index.md` | README.md, CLAUDE.md |
+| `index.md` | README.md |
 | `CLAUDE.md` | 🟢 auto-loading |
 <!-- LINK STATUS END -->

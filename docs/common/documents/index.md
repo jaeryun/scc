@@ -21,3 +21,19 @@
 
 - AI 지침
 - `@` 참조
+
+<!-- LINK STATUS START -->
+## 🔗 링크 상태
+
+> ⚠️ `scripts/doc-links.py` 자동 생성 — 직접 수정 금지 · 2026-06-14 09:20 UTC
+
+| 파일 | 피참조 |
+|:-----|:-------|
+| `claude-md.md` | 🔴 없음 — orphan 확인 필요 |
+| `general.md` | 🔴 없음 — orphan 확인 필요 |
+| `index-md.md` | 🔴 없음 — orphan 확인 필요 |
+| `readme-md.md` | 🔴 없음 — orphan 확인 필요 |
+| `rules-md.md` | 🔴 없음 — orphan 확인 필요 |
+| `index.md` | 🔴 없음 — orphan 확인 필요 |
+| `CLAUDE.md` | 🟢 auto-loading |
+<!-- LINK STATUS END -->

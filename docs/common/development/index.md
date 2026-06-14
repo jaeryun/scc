@@ -47,25 +47,33 @@
 - 문서화 규칙 — `docs.md`가 삭제되고 [documents/](../documents/) 로 이동됨
 
 
+
 <!-- LINK STATUS START -->
 ## 🔗 링크 상태
 
-> ⚠️ `scripts/doc-links.py` 자동 생성 — 직접 수정 금지 · 2026-06-07 16:36 UTC
+> ⚠️ `scripts/doc-links.py` 자동 생성 — 직접 수정 금지 · 2026-06-14 09:20 UTC
 
 | 파일 | 피참조 |
 |:-----|:-------|
-| `component-patterns.md` | index.md, src/components/CLAUDE.md, src/modules/CLAUDE.md |
-| `data-layer.md` | .claude/rules/data-layer.md, index.md, docs/common/foundation/conventions.md, src/modules/CLAUDE.md |
-| `data-patterns.md` | index.md |
-| `first-feature.md` | index.md |
-| `form-patterns.md` | index.md, src/components/CLAUDE.md |
-| `forms.md` | .claude/rules/forms.md, index.md, docs/common/foundation/conventions.md, src/modules/CLAUDE.md |
-| `naming.md` | .claude/rules/naming.md, index.md, docs/common/foundation/conventions.md |
-| `prisma.md` | .claude/rules/prisma.md, index.md, docs/common/foundation/conventions.md |
-| `react.md` | .claude/rules/react.md, index.md, docs/common/foundation/conventions.md, src/CLAUDE.md |
-| `styling.md` | .claude/rules/styling.md, index.md, docs/common/foundation/conventions.md |
-| `theme-patterns.md` | index.md, src/CLAUDE.md, src/components/CLAUDE.md |
-| `typescript.md` | .claude/rules/typescript.md, index.md, docs/common/foundation/conventions.md |
-| `index.md` | CLAUDE.md |
+| `component-patterns.md` | docs/common/foundation/architecture.md |
+| `data-layer.md` | data-patterns.md, docs/common/foundation/conventions.md |
+| `data-patterns.md` | 🔴 없음 — orphan 확인 필요 |
+| `form-patterns.md` | form-setup-patterns.md, form-sheet-dialog-patterns.md, form-submission-patterns.md, form-validation-patterns.md |
+| `form-setup-patterns.md` | form-patterns.md |
+| `form-sheet-dialog-patterns.md` | form-patterns.md |
+| `form-submission-patterns.md` | form-patterns.md |
+| `form-validation-patterns.md` | form-patterns.md |
+| `forms.md` | form-patterns.md, form-setup-patterns.md, form-sheet-dialog-patterns.md, form-submission-patterns.md, form-validation-patterns.md, docs/common/foundation/conventions.md |
+| `guide-system-audit.md` | 🔴 없음 — orphan 확인 필요 |
+| `naming.md` | docs/common/foundation/conventions.md |
+| `prisma.md` | docs/common/foundation/conventions.md, prisma/CLAUDE.md |
+| `react.md` | docs/common/foundation/conventions.md |
+| `server-actions.md` | 🔴 없음 — orphan 확인 필요 |
+| `state-management.md` | 🔴 없음 — orphan 확인 필요 |
+| `styling.md` | theme-patterns.md, docs/common/foundation/conventions.md |
+| `testing.md` | 🔴 없음 — orphan 확인 필요 |
+| `theme-patterns.md` | src/CLAUDE.md |
+| `typescript.md` | docs/common/foundation/conventions.md |
+| `index.md` | docs/common/documents/general.md |
 | `CLAUDE.md` | 🟢 auto-loading |
 <!-- LINK STATUS END -->

@@ -22,17 +22,18 @@ SCC 프로젝트의 정체성, 제약, 아키텍처, 행동 원칙을 정의합�
 - 뷰별 문서 — [views/](../../views/) 에 배치
 
 
+
 <!-- LINK STATUS START -->
 ## 🔗 링크 상태
 
-> ⚠️ `scripts/doc-links.py` 자동 생성 — 직접 수정 금지 · 2026-06-07 16:36 UTC
+> ⚠️ `scripts/doc-links.py` 자동 생성 — 직접 수정 금지 · 2026-06-14 09:20 UTC
 
 | 파일 | 피참조 |
 |:-----|:-------|
-| `architecture.md` | CLAUDE.md, conventions.md, index.md |
-| `behavior.md` | CLAUDE.md, conventions.md, index.md |
-| `conventions.md` | CLAUDE.md, docs/common/development/component-patterns.md, index.md, prisma/CLAUDE.md, src/CLAUDE.md, src/app/CLAUDE.md, src/app/api/CLAUDE.md, src/components/CLAUDE.md, src/lib/CLAUDE.md |
-| `project.md` | CLAUDE.md, index.md |
+| `architecture.md` | CLAUDE.md, conventions.md |
+| `behavior.md` | CLAUDE.md, conventions.md |
+| `conventions.md` | CLAUDE.md, docs/common/development/component-patterns.md, prisma/CLAUDE.md, src/app/CLAUDE.md, src/app/api/CLAUDE.md, src/components/CLAUDE.md |
+| `project.md` | CLAUDE.md |
 | `index.md` | CLAUDE.md |
 | `CLAUDE.md` | 🟢 auto-loading |
 <!-- LINK STATUS END -->

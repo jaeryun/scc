@@ -19,14 +19,15 @@
 - 뷰별 운영 문서 — [views/](../../views/) 에 배치
 
 
+
 <!-- LINK STATUS START -->
 ## 🔗 링크 상태
 
-> ⚠️ `scripts/doc-links.py` 자동 생성 — 직접 수정 금지 · 2026-06-07 16:36 UTC
+> ⚠️ `scripts/doc-links.py` 자동 생성 — 직접 수정 금지 · 2026-06-14 09:20 UTC
 
 | 파일 | 피참조 |
 |:-----|:-------|
-| `build-deploy.md` | index.md |
-| `index.md` | CLAUDE.md |
+| `build-deploy.md` | docs/common/foundation/project.md |
+| `index.md` | 🔴 없음 — orphan 확인 필요 |
 | `CLAUDE.md` | 🟢 auto-loading |
 <!-- LINK STATUS END -->

@@ -17,13 +17,14 @@ SCC 소개 및 기술 스택 개요 페이지에 관한 문서입니다.
 - AI 지침 — 로딩 시점, 행동 규칙은 CLAUDE.md에서 관리
 
 
+
 <!-- LINK STATUS START -->
 ## 🔗 링크 상태
 
-> ⚠️ `scripts/doc-links.py` 자동 생성 — 직접 수정 금지 · 2026-06-07 16:36 UTC
+> ⚠️ `scripts/doc-links.py` 자동 생성 — 직접 수정 금지 · 2026-06-14 09:20 UTC
 
 | 파일 | 피참조 |
 |:-----|:-------|
-| `index.md` | CLAUDE.md |
+| `index.md` | 🔴 없음 — orphan 확인 필요 |
 | `CLAUDE.md` | 🟢 auto-loading |
 <!-- LINK STATUS END -->

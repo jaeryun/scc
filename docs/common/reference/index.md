@@ -27,13 +27,14 @@
 - 뷰별 문서 — 특정 뷰 전용 API/데이터라도 [views/](../../views/) 대신 reference/에 배치 (API는 계약)
 
 
+
 <!-- LINK STATUS START -->
 ## 🔗 링크 상태
 
-> ⚠️ `scripts/doc-links.py` 자동 생성 — 직접 수정 금지 · 2026-06-07 16:36 UTC
+> ⚠️ `scripts/doc-links.py` 자동 생성 — 직접 수정 금지 · 2026-06-14 09:20 UTC
 
 | 파일 | 피참조 |
 |:-----|:-------|
-| `index.md` | CLAUDE.md |
+| `index.md` | 🔴 없음 — orphan 확인 필요 |
 | `CLAUDE.md` | 🟢 auto-loading |
 <!-- LINK STATUS END -->
