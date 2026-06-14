@@ -23,11 +23,11 @@ SCC 프로젝트에 자동화된 테스트 파이프라인을 도입한다.
 
 | # | 항목 | 결정 |
 |---|------|------|
-| R1 | 컨테이너 이미지 | **공식 이미지 사용** (mirror 안 함). image: `oven/bun:1`, `postgres:16`, `mcr.microsoft.com/playwright:v1.60.0` |
+| R1 | 컨테이너 이미지 | **사전 구성된 단일 이미지** — Bun + Playwright(브라우저 포함) + Postgres client가 사전 설치된 이미지. CI 안에서 다운로드 단계 없음. 정확한 태그명은 운영팀 제공 (placeholder: `scc-ci-runner:latest`) |
 | R2 | GitLab 러너 | k8s 기반 — `image:` 자유 지정 가능. DinD 불필요 |
 | R3 | 통합 테스트 DB 격리 | **truncate + seed** 방식 (트랜잭션-롤백 방식 채택 안 함 — Prisma `$transaction` 중첩 회피) |
 | R4 | E2E 브랜치 | **main에서만** |
-| R5 | 캐시 | GitLab cache (key: `${CI_COMMIT_REF_SLUG}`, paths: `node_modules/.cache`, `.bun/cache`) |
+| R5 | 캐시 | GitLab cache (key: `${CI_COMMIT_REF_SLUG}`, paths: `node_modules/.cache`, `.bun/cache`). Playwright 브라우저는 이미지에 포함되어 캐시 불필요 |
 | R6 | Playwright 패키지 | **`playwright` → `@playwright/test` 교체** |
 
 ## 4. 아키텍처
@@ -257,12 +257,14 @@ export default defineConfig({
 
 ```yaml
 default:
-  image: oven/bun:1
+  # 사전 구성된 CI 러너 이미지 (Bun + Playwright + Postgres client 사전 설치)
+  # 정확한 태그명은 운영팀이 제공 — placeholder
+  image: scc-ci-runner:latest
   tags: [scc-runner]
 
 variables:
+  # 서비스 컨테이너용 Postgres — k8s 러너가 pull 가능해야 함
   POSTGRES_IMAGE: postgres:16
-  DOCKER_TLS_CERTDIR: ""
 
 .cache-bun: &bun-cache
   key: ${CI_COMMIT_REF_SLUG}
@@ -332,7 +334,7 @@ e2e:
     - bun install --frozen-lockfile
     - bunx prisma migrate deploy
     - bun run db:e2e:seed
-    - bunx playwright install --with-deps chromium
+    # Playwright 브라우저는 사전 설치된 이미지에 포함 → 설치 단계 생략
     - bun run build && bun start &
     - bunx playwright test
   rules:
