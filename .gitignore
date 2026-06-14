@@ -65,15 +65,9 @@ page-*
 page-snapshot.yml
 !/public/*.png
 
-# Superpowers
-/.superpowers/
-/docs/superpowers
-
 # Git worktrees
 /.worktrees/
 
-# Speckit
-/specs
 
 # NetBox auto-generated schema
 src/lib/netbox/schema.d.ts
