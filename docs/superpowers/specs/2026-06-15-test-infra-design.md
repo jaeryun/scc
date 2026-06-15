@@ -23,7 +23,7 @@ SCC 프로젝트에 자동화된 테스트 파이프라인을 도입한다.
 
 | # | 항목 | 결정 |
 |---|------|------|
-| R1 | 컨테이너 이미지 | **우리가 정의한 단일 이미지** — 프로젝트 루트의 `Dockerfile.ci-runner`로 정의. 운영팀이 사내 레지스트리에 빌드/푸시. `.gitlab-ci.yml`은 그 태그를 참조 (placeholder: `registry.scc.local/ci-runner:1.0.0`) |
+| R1 | 컨테이너 이미지 | **우리가 정의한 단일 이미지** — 프로젝트 루트의 `Dockerfile.ci-runner`로 정의. 사내 레지스트리에 빌드/푸시. `.gitlab-ci.yml`은 그 태그를 참조 (placeholder: `registry.scc.local/ci-runner:1.0.0`) |
 | R2 | GitLab 러너 | k8s 기반 — `image:` 자유 지정 가능. DinD 불필요 |
 | R3 | 통합 테스트 DB 격리 | **truncate + seed** 방식 (트랜잭션-롤백 방식 채택 안 함 — Prisma `$transaction` 중첩 회피) |
 | R4 | E2E 브랜치 | **main에서만** |
@@ -243,7 +243,7 @@ export default defineConfig({
 
 ## 6.6 `Dockerfile.ci-runner` (R1)
 
-> 운영팀이 사내 레지스트리에 빌드/푸시하는 이미지 정의. **CI 안에서 다운로드 단계 없음.** 정확한 Bun/Playwright 버전은 빌드 시점에 맞춰 결정. 태그 예: `registry.scc.local/ci-runner:1.0.0`.
+> 사내 레지스트리에 빌드/푸시하는 이미지 정의. **CI 안에서 다운로드 단계 없음.** 정확한 Bun/Playwright 버전은 빌드 시점에 맞춰 결정. 태그 예: `registry.scc.local/ci-runner:1.0.0`.
 
 ```dockerfile
 # Bun + Playwright(브라우저 포함) + 최소 시스템 도구
@@ -265,10 +265,10 @@ LABEL org.opencontainers.image.description="SCC CI runner: Bun + Playwright + Ch
 - **`psql`은 의도적으로 제외** — CI에서 Prisma로만 DB 접근. `psql` 필요 시 사후 추가
 - **Postgres 서버는 별도 `services:`** — k8s 러너가 `postgres:16` pull (R1의 CI 러너 이미지와 별개)
 
-**운영팀 전달 사항**:
+**빌드/푸시 절차**:
 - 빌드 명령: `docker build -f Dockerfile.ci-runner -t registry.scc.local/ci-runner:1.0.0 .`
-- Bun/Playwright 버전은 SCC 측이 결정해서 Dockerfile에 핀
-- GitHub Actions `mcr.microsoft.com/playwright`처럼 `:vX.Y.Z` 형식의 버전 태그 권장
+- Bun/Playwright 버전은 이 프로젝트에서 결정해서 Dockerfile에 핀
+- `mcr.microsoft.com/playwright`처럼 `:vX.Y.Z` 형식의 버전 태그 권장
 - 레지스트리 push 후 `image:` 라인의 태그를 그 값으로 교체
 
 ## 7. GitLab CI 파이프라인
@@ -288,8 +288,8 @@ LABEL org.opencontainers.image.description="SCC CI runner: Bun + Playwright + Ch
 
 ```yaml
 default:
-  # 우리 프로젝트가 정의한 CI 러너 이미지 (Dockerfile.ci-runner 기반)
-  # 운영팀이 사내 레지스트리에 빌드/푸시 — 정확한 태그로 교체
+  # 우리가 정의한 CI 러너 이미지 (Dockerfile.ci-runner 기반)
+  # 사내 레지스트리에 빌드/푸시 — 정확한 태그로 교체
   image: registry.scc.local/ci-runner:1.0.0
   tags: [scc-runner]
 
@@ -527,8 +527,8 @@ bun test:e2e
 ## 11. 완료 기준 (DoD)
 
 - [ ] `Dockerfile.ci-runner` 정의 (Bun + Playwright Chromium + 시스템 의존성)
-- [ ] 운영팀에 이미지 빌드/푸시 요청 — 사내 레지스트리에 `registry.scc.local/ci-runner:1.0.0` 존재
-- [ ] `.gitlab-ci.yml`의 `image:` 라인이 운영팀이 push한 실제 태그와 일치
+- [ ] 사내 레지스트리에 `registry.scc.local/ci-runner:1.0.0` 푸시 완료
+- [ ] `.gitlab-ci.yml`의 `image:` 라인이 실제 푸시한 태그와 일치
 - [ ] `bun install` 후 `bun test:unit` 통과
 - [ ] `docker compose -f docker-compose.test.yml up` 후 `bun test:integration` 통과
 - [ ] `bun test:coverage` 시 80% 임계값 충족
