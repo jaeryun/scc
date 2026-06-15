@@ -4,8 +4,8 @@
      이 문서는 프로젝트 테스트 규칙(프레임워크 선택, 컨벤션, TDD 기대)만 기술합니다.
      일반 TDD 방법론은 유저 레벨 자유. -->
 
-> **현 상태 (2026-06-14):** Playwright는 설치되어 있으나 실제 테스트 코드는 작성되지 않음.
-> 이 문서는 앞으로의 테스트 작성 규칙을 정의한다.
+> **현 상태 (2026-06-15):** Vitest + Playwright 인프라 셋업 완료. 단위/통합/E2E 3계층 동작.
+> 상세 셋업 내용: `docs/superpowers/specs/2026-06-15-test-infra-design.md`
 
 ## 프레임워크 (필수)
 
@@ -60,6 +60,13 @@ src/modules/ipam/
 - Prisma mocking: `vi.mock('@/lib/prisma')` 또는 통합 테스트 시 test DB
 - 실 DB/외부 API 호출은 통합/E2E 테스트에서만
 
+## 통합 테스트 격리
+
+- `scc_test` DB는 `scripts/test-seed.ts`로 truncate + seed
+- `scc_e2e` DB는 `scripts/e2e-seed.ts`로 truncate + seed
+- DB 자동 생성: `src/test-utils/create-test-db.ts`의 `ensureTestDatabase()`
+- 트랜잭션-롤백 방식 채택 안 함 (Prisma `$transaction` 중첩 회피)
+
 ## E2E 작성 패턴
 
 Skills `playwright-best-practices` 참조. 프로젝트 규칙:
@@ -68,6 +75,22 @@ Skills `playwright-best-practices` 참조. 프로젝트 규칙:
 - 픽스처: `e2e/fixtures/` (인증된 사용자, 시드 데이터 등)
 - 직렬화(`workers: 1`) 기본 — 병렬은 분리 후 단계적 적용
 - CI 환경 변수: `BASE_URL` (Playwright 설정에서 사용)
+
+## GitLab CI
+
+- 6개 잡: `lint`, `type-check`, `unit`, `integration`, `build`, `e2e`
+- 단일 CI 러너 이미지: `registry.scc.local/ci-runner:1.0.0` (정의: `Dockerfile.ci-runner`)
+- 브랜치별 발화:
+
+| 잡 | feature | develop | staging | main |
+|----|---------|---------|---------|------|
+| lint, type-check, unit | ✅ | ✅ | ✅ | ✅ |
+| integration, build | ❌ | ✅ | ✅ | ✅ |
+| e2e | ❌ | ❌ | ❌ | ✅ |
+
+- 통합/E2E 잡의 `services:`는 GitLab CI 표준 Postgres 서비스 사용
+- 커버리지는 unit 잡에서 측정, MR에 리포트 첨부
+- 캐시: `node_modules/.cache`, `.bun/cache` (key: `${CI_COMMIT_REF_SLUG}`)
 
 ## 새 프레임워크 도입
 
