@@ -1,0 +1,19 @@
+services:
+  postgres-test:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: scc
+      POSTGRES_PASSWORD: scc
+      POSTGRES_DB: scc
+    ports:
+      - '5433:5432'
+    volumes:
+      - pgdata-test:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U scc']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata-test:
