@@ -1,0 +1,9 @@
+# Bun + Playwright(Chromium) 사전 설치된 CI 러너 이미지
+# 사용: docker build -f Dockerfile.ci-runner -t registry.scc.local/ci-runner:1.0.0 .
+FROM oven/bun:1.2.10-debian
+
+# Playwright Chromium + 시스템 의존성
+RUN bunx playwright@1.60.0 install --with-deps chromium
+
+LABEL org.opencontainers.image.source="https://github.com/scc/scc"
+LABEL org.opencontainers.image.description="SCC CI runner: Bun + Playwright + Chromium"
