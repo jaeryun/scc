@@ -1,0 +1,94 @@
+default:
+  image: registry.scc.local/ci-runner:1.0.0
+  tags: [scc-runner]
+
+variables:
+  POSTGRES_IMAGE: postgres:16
+  GLOBAL_PATH: $PATH:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
+
+.cache-bun: &bun-cache
+  key: ${CI_COMMIT_REF_SLUG}
+  paths: [.bun/cache, node_modules/.cache]
+  policy: pull-push
+
+stages:
+  - test
+  - build
+
+lint:
+  stage: test
+  script: [bun install --frozen-lockfile, bun lint]
+  cache: *bun-cache
+
+type-check:
+  stage: test
+  script: [bun install --frozen-lockfile, bun tsc --noEmit]
+  cache: *bun-cache
+
+unit:
+  stage: test
+  script: [bun install --frozen-lockfile, bunx vitest run --coverage]
+  coverage: '/All files\s*\|\s*([\d.]+)/'
+  artifacts:
+    when: always
+    paths: [./coverage]
+    reports:
+      coverage_report: coverage/coverage-summary.json
+  cache: *bun-cache
+
+.integration-base: &integration-base
+  services:
+    - name: ${POSTGRES_IMAGE}
+      alias: postgres
+  variables:
+    POSTGRES_DB: scc
+    POSTGRES_USER: scc
+    POSTGRES_PASSWORD: scc
+    DATABASE_URL: "postgresql://scc:scc@postgres:5432/scc_test"
+
+integration:
+  <<: *integration-base
+  stage: test
+  script:
+    - bun install --frozen-lockfile
+    - bunx prisma migrate deploy
+    - bun run db:test:seed
+    - bunx vitest run --include='**/*.integration.test.ts'
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^(develop|staging|main)$/
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^(develop|staging|main)$/
+  needs: [unit]
+
+build:
+  stage: build
+  script:
+    - bun install --frozen-lockfile
+    - bun run prebuild
+    - bun run build
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^(develop|staging|main)$/
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^(develop|staging|main)$/
+  needs: [integration]
+
+e2e:
+  stage: test
+  services:
+    - name: ${POSTGRES_IMAGE}
+      alias: postgres
+  variables:
+    POSTGRES_DB: scc
+    POSTGRES_USER: scc
+    POSTGRES_PASSWORD: scc
+    DATABASE_URL: "postgresql://scc:scc@postgres:5432/scc_e2e"
+    BASE_URL: "http://localhost:3000"
+    CI: "true"
+  script:
+    - bun install --frozen-lockfile
+    - bunx prisma migrate deploy
+    - bun run db:e2e:seed
+    - bun run build
+    - bun start &
+    - bunx playwright test
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+  needs: [integration]
