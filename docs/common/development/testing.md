@@ -5,7 +5,7 @@
      일반 TDD 방법론은 유저 레벨 자유. -->
 
 > **현 상태 (2026-06-15):** Vitest + Playwright 인프라 셋업 완료. 단위/통합/E2E 3계층 동작.
-> 상세 셋업 내용: `docs/superpowers/specs/2026-06-15-test-infra-design.md`
+> 결정 이력: [`docs/common/decisions/adr-001-test-infra.md`](../decisions/adr-001-test-infra.md)
 
 ## 프레임워크 (필수)
 
@@ -59,6 +59,23 @@ src/modules/ipam/
 - 모듈 mocking: `vi.mock()` (Vitest)
 - Prisma mocking: `vi.mock('@/lib/prisma')` 또는 통합 테스트 시 test DB
 - 실 DB/외부 API 호출은 통합/E2E 테스트에서만
+
+### 모듈별 mock 전략 (필수)
+
+데이터 접근 방식에 따라 mock 대상이 다름. 모듈 작성 시 본인이 속한 케이스를 식별하고 맞는 패턴 적용:
+
+| 모듈 유형 | 예시 | mock 대상 | 이유 |
+|----------|------|----------|------|
+| Prisma 직접 호출 | `view-settings/api/*`, `demo/*/api/service.ts` | `vi.mock('@/lib/prisma')` | SQL 자체 검증 불필요, 비즈니스 로직에 집중 |
+| `apiClient` 호출 (HTTP) | `ipam/api/service.ts`, `cables/api/service.ts` | `vi.mock('@/lib/api-client')` | HTTP 호출을 가짜로 대체, 응답 매핑 검증 |
+| 순수 유틸 | `src/lib/utils.ts` (`formatBytes`, `cn`) | mock 불필요 | I/O 없음, 직접 호출·검증 |
+
+### Mock 작성 원칙
+
+- **비즈니스 로직에 집중** — SQL/HTTP 자체는 통합 테스트에서 검증, 단위 테스트는 분기/검증/부수효과 순서 확인
+- **타입 정확히** — `as any` 사용 금지 (oxlint 정책). Prisma 모델은 `@prisma/client`의 타입을 import해서 사용
+- **호출 인자 검증** — URL, method, body를 `expect().toHaveBeenCalledWith(...)` 또는 `mock.calls[0]` 디스트럭처링으로 확인
+- **테스트 간 격리** — `beforeEach(() => vi.clearAllMocks())` 기본
 
 ## 통합 테스트 격리
 
