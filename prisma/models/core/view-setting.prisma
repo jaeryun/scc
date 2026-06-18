@@ -1,0 +1,7 @@
+model ViewSetting {
+  id        String   @id @default(cuid())
+  viewId    String   @unique
+  icon      String   @default("dashboard")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
