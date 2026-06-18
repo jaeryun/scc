@@ -62,10 +62,17 @@ DATABASE_URL=postgresql://user:password@host:5432/dbname
 │   ├── constants/              # 상수 정의
 │   ├── styles/                 # 전역 스타일
 │   └── types/                  # 공통 타입 정의
-├── prisma/                     # DB 스키마 + 마이그레이션 + 시드
-│   ├── schema.prisma           # Prisma 스키마 정의
-│   ├── migrations/             # 마이그레이션 SQL
-│   └── seed.ts                 # 데모 데이터 시드
+├── prisma/                     # DB 스키마 + 마이그레이션 + 시드 (multi-file, Prisma 7)
+│   ├── models/                  # 1 모델 = 1 파일 (folder-based)
+│   │   ├── schema.prisma        # generator + datasource
+│   │   └── <domain>/            # 도메인별 디렉터리
+│   ├── config/                  # prisma.config.ts
+│   ├── generated/               # Prisma 7 client 출력 (gitignore)
+│   ├── migrations/              # 마이그레이션 SQL
+│   ├── seeds/                   # 시드 데이터
+│   ├── scripts/                 # check-prisma, squash-migrations
+│   ├── CLAUDE.md                # AI 진입점
+│   └── index.md                 # 사람용 구조
 ├── docs/                       # 프로젝트 문서 (common/, views/, archive/)
 │   ├── common/                  # 공통 기반 (foundation, development, operations, reference, decisions)
 │   ├── views/                   # 뷰별 도메인 지식 (dcim, settings, home, demo)
