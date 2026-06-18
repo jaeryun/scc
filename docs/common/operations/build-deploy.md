@@ -46,8 +46,10 @@ cp .env.example .env.local
 
 | 변수               | 용도                                           |
 | ------------------ | ---------------------------------------------- |
-| `DATABASE_URL`     | PostgreSQL 연결 문자열 (필수)                  |
-| `BUILD_STANDALONE` | standalone 출력 활성화 (Docker 배포 시 `true`) |
+| `DATABASE_URL`             | PostgreSQL 연결 문자열 (필수)                    |
+| `SHADOW_DATABASE_URL`      | Prisma shadow DB (prisma migrate dev 전용)      |
+| `DIRECT_URL`               | 마이그레이션/RLS 우회 (connection pooler 사용 시, 선택) |
+| `BUILD_STANDALONE`         | standalone 출력 활성화 (Docker 배포 시 `true`)   |
 
 - 폐쇄망, 외부 CDN 불가 — `images.unoptimized: true`
 - `NEXT_PUBLIC_*` 변수: 빌드 시점 포함, 런타임 시크릿은 `-e`로 Docker 주입
@@ -56,10 +58,10 @@ cp .env.example .env.local
 
 ```bash
 # 1. 스키마 변경
-bunx prisma migrate dev --name YYMMDD_설명
+bunx prisma migrate dev --name YYMMDD_설명 --config prisma/config/prisma.config.ts
 
 # 2. 클라이언트 생성 (빌드 전 필수)
-bunx prisma generate
+bunx prisma generate --config prisma/config/prisma.config.ts
 
 # 3. 빌드
 bun run build
@@ -70,7 +72,7 @@ bun run build
 `scripts/check-migrations.sh` — schema.prisma와 마이그레이션 일치 여부 검사.
 
 - CI 또는 `bun run build` 전 자동 실행
-- 드리프트 발견 시 `bunx prisma migrate dev`로 마이그레이션 생성 필요
+- 드리프트 발견 시 `bunx prisma migrate dev --config prisma/config/prisma.config.ts`로 마이그레이션 생성 필요
 
 ## 배포 체크리스트
 

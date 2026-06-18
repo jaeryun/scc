@@ -1,6 +1,6 @@
 # Prisma 규칙
 
-> **상세 위치**: [prisma/CLAUDE.md](../../../prisma/CLAUDE.md) (AI 진입점), [prisma/index.md](../../../prisma/index.md) (디렉터리 구조), [ADR-002](../../common/decisions/adr-002-prisma-schema-architecture.md) (결정)
+> **상세 위치**: [prisma/CLAUDE.md](../../../prisma/CLAUDE.md) (AI 진입점), [prisma/index.md](../../../prisma/index.md) (디렉터리 구조), [ADR-002](../../common/decisions/adr-002-prisma-schema-architecture.md) (결정), [data-models](../reference/data-models/index.md) (데이터 모델 도메인 트리)
 
 ## 스키마 구조 (Multi-file, Prisma 7)
 
@@ -156,6 +156,31 @@ bunx prisma format --check --config prisma/config/prisma.config.ts
 - ❌ 모델 간 cross-module query (모듈 경계 무시)
 - ❌ `new PrismaClient()` (adapter 없이, Prisma 7에서 미작동)
 
+## Troubleshooting (Prisma 7 일반 에러)
+
+### "Error validating: This line is invalid" (P1012)
+- **원인**: 옛 Prisma 6 `import` 디렉티브 또는 schema 위치 문제
+- **해결**: `prisma.config.ts`의 `schema` 경로가 `prisma/models` (폴더)인지 확인. `import` 디렉티브 사용 안 함
+
+### "needs to be constructed with a non-empty, valid PrismaClientOptions"
+- **원인**: Prisma 7에서 `new PrismaClient()` 직접 호출 불가
+- **해결**: `new PrismaClient({ adapter: new PrismaPg({...}) })` 패턴 사용
+
+### "Schema at ... not found"
+- **원인**: `--config` 플래그 누락 또는 config 파일 경로 오타
+- **해결**: 모든 `bunx prisma` 명령에 `--config prisma/config/prisma.config.ts` 추가
+
+### "Cannot find module '../../prisma/generated/client'"
+- **원인**: `prisma generate` 미실행 또는 import 경로 오타
+- **해결**: `bunx prisma generate --config prisma/config/prisma.config.ts` 실행
+
+### "Environment variable not found: DATABASE_URL"
+- **원인**: Prisma 7은 .env를 자동 로드 안 함
+- **해결**: `prisma.config.ts`에서 `dotenv.config({ path: '.env' })` 명시
+
+자세한 내용: [prisma/CLAUDE.md](../../../prisma/CLAUDE.md)
+
 ## 변경 이력
 
+- 2026-06-19: Troubleshooting 섹션 추가 (Prisma 7 일반 에러 5종)
 - 2026-06-17: Prisma 7 마이그레이션, multi-file folder-based, driver adapter, db push 정책, AI 네비게이션 추가 (ADR-002)

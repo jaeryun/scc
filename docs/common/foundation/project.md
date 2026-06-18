@@ -20,6 +20,12 @@ TanStack React Query, TanStack Table, TanStack Form + Zod, Zustand, Nuqs, Rechar
 # 데이터베이스 (필수)
 DATABASE_URL=postgresql://user:password@host:5432/dbname
 
+# Prisma shadow DB (migrate dev 전용)
+SHADOW_DATABASE_URL=postgresql://postgres:POSTGRES@localhost:5432/prisma_shadow
+
+# (선택) 마이그레이션/RLS 우회 — connection pooler(PgBouncer 등) 사용 시 필요
+DIRECT_URL=postgresql://user:password@host:5432/dbname
+
 # 인증 관련 환경변수는 SSO 도입 시 추가
 ```
 
@@ -84,6 +90,8 @@ DATABASE_URL=postgresql://user:password@host:5432/dbname
 ├── docker-compose.yml          # PostgreSQL + Next.js 개발 환경
 └── package.json
 ```
+
+> Note: `scripts/check-migrations.sh`는 Prisma 7 패턴으로 갱신됨 (`--config prisma/config/prisma.config.ts` 사용).
 
 ## 배포
 

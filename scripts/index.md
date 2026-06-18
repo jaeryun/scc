@@ -8,7 +8,7 @@
 
 | 디렉토리/파일 | 용도 | 키워드 |
 |----------|------|---------|
-| `check-migrations.sh` | Prisma schema ↔ migration 불일치 검출 (prebuild 자동 실행) | prisma, migration, validation, prebuild |
+| `check-migrations.sh` | Prisma 7 패턴으로 갱신된 마이그레이션 무결성 검사 (`prisma/schema.prisma` datamodel 직접 참조, `prisma.config.ts` config 분리) | prisma, migration, validation, prebuild |
 | `generate-api-spec.ts` | `src/app/api/` route handler 스캔 → `public/api-specs/internal/latest.json` 생성 (prebuild 자동 실행) | API, spec, generation, prebuild |
 | `doc-links.py` | 문서 간 참조 분석 → 각 `index.md` 하단 링크 상태 테이블 갱신 (수동 실행) | docs, links, validation |
 | `CLAUDE.md` | AI 에이전트 가이드 (스크립트 사용법) | guide, usage |

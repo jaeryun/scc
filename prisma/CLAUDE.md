@@ -38,6 +38,14 @@ prisma/
 └── index.md                 # 사람용 구조
 ```
 
+## `prisma/generated/` 디렉토리
+
+- **자동 생성**: `bunx prisma generate` 실행 시마다 재생성됨
+- **Git ignore**: 커밋 대상 아님. `.gitignore`에 `/prisma/generated/` 명시
+- **수동 편집 금지**: 변경 시 다음 generate에서 덮어쓰여짐
+- **Import 경로**: `../../prisma/generated/client` (또는 `../node_modules/.prisma/client` — output 경로에 따라 다름)
+- **재생성 시점**: 모델/스키마 변경, 의존성 추가/제거, 클론 직후
+
 ## Prisma 7 핵심 변경사항
 
 - **Generator**: `prisma-client` (이전 `prisma-client-js` deprecated)
@@ -79,3 +87,25 @@ const prisma = new PrismaClient({ adapter });
 
 - DB 롤백: `docs/common/operations/db-rollback-runbook.md`
 - 마이그레이션 squash: `./prisma/scripts/squash-migrations.sh --dry-run` (custom SQL 사전 감지)
+
+## Troubleshooting (Prisma 7 일반 에러)
+
+### "Error validating: This line is invalid" (P1012)
+- **원인**: 옛 Prisma 6 `import` 디렉티브 또는 schema 위치 문제
+- **해결**: `prisma.config.ts`의 `schema` 경로가 `prisma/models` (폴더)인지 확인. `import` 디렉티브 사용 안 함
+
+### "needs to be constructed with a non-empty, valid PrismaClientOptions"
+- **원인**: Prisma 7에서 `new PrismaClient()` 직접 호출 불가
+- **해결**: `new PrismaClient({ adapter: new PrismaPg({...}) })` 패턴 사용
+
+### "Schema at ... not found"
+- **원인**: `--config` 플래그 누락 또는 config 파일 경로 오타
+- **해결**: 모든 `bunx prisma` 명령에 `--config prisma/config/prisma.config.ts` 추가
+
+### "Cannot find module '../../prisma/generated/client'"
+- **원인**: `prisma generate` 미실행 또는 import 경로 오타
+- **해결**: `bunx prisma generate --config prisma/config/prisma.config.ts` 실행
+
+### "Environment variable not found: DATABASE_URL"
+- **원인**: Prisma 7은 .env를 자동 로드 안 함
+- **해결**: `prisma.config.ts`에서 `dotenv.config({ path: '.env' })` 명시
