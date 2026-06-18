@@ -149,3 +149,5 @@ Prisma 7 기반 multi-file schema, 도메인별 디렉터리, 검증 스크립�
 
 - [docs/common/development/prisma.md](../development/prisma.md) — Prisma 규칙
 - [prisma/CLAUDE.md](../../../prisma/CLAUDE.md) — AI 진입점
+- [prisma/index.md](../../../prisma/index.md) — 사람용 디렉터리 구조
+- [docs/common/reference/data-models/index.md](../reference/data-models/index.md) — 데이터 모델 도메인 트리

@@ -46,6 +46,33 @@ prisma/
 - **Import 경로**: `../../prisma/generated/client` (또는 `../node_modules/.prisma/client` — output 경로에 따라 다름)
 - **재생성 시점**: 모델/스키마 변경, 의존성 추가/제거, 클론 직후
 
+## 첫 설정 (Quickstart)
+
+신규 개발자가 처음 Prisma 환경을 설정할 때:
+
+```bash
+# 1. 의존성 설치
+bun install
+
+# 2. .env 설정
+cp .env.example .env
+# .env에 DATABASE_URL, SHADOW_DATABASE_URL 설정 (Docker compose postgres 기준)
+# 예: DATABASE_URL="postgresql://scc:scc@localhost:5432/scc"
+#     SHADOW_DATABASE_URL="postgresql://postgres:POSTGRES@localhost:5432/prisma_shadow"
+
+# 3. Prisma client 생성
+bunx prisma generate --config prisma/config/prisma.config.ts
+
+# 4. 마이그레이션 적용 (DB가 비어있을 때)
+bunx prisma migrate dev --name YYMMDD_init --config prisma/config/prisma.config.ts
+
+# 5. 검증
+bunx prisma validate --config prisma/config/prisma.config.ts
+./prisma/scripts/check-prisma.sh
+```
+
+> **Note**: Docker compose로 postgres 띄우는 경우 `docker compose up -d postgres` 먼저 실행.
+
 ## Prisma 7 핵심 변경사항
 
 - **Generator**: `prisma-client` (이전 `prisma-client-js` deprecated)

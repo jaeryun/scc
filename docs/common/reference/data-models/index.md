@@ -34,3 +34,4 @@ models/
 - [prisma/index.md](../../../../prisma/index.md) — 디렉터리 구조
 - [docs/common/development/prisma.md](../../development/prisma.md) — 규칙
 - [docs/common/decisions/adr-002-prisma-schema-architecture.md](../../decisions/adr-002-prisma-schema-architecture.md) — 결정
+- [docs/common/operations/db-rollback-runbook.md](../operations/db-rollback-runbook.md) — P0 운영

@@ -102,3 +102,5 @@ bunx prisma migrate deploy --config prisma/config/prisma.config.ts
 - [ADR-002 prisma schema architecture](../decisions/adr-002-prisma-schema-architecture.md)
 - [docs/common/development/prisma.md](../development/prisma.md) — 정책
 - [prisma/CLAUDE.md](../../../prisma/CLAUDE.md) — AI 진입점
+- [prisma/index.md](../../../prisma/index.md) — 사람용 디렉터리 구조
+- [docs/common/reference/data-models/index.md](../reference/data-models/index.md) — 데이터 모델 도메인 트리
