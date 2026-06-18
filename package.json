@@ -25,7 +25,10 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "db:test:seed": "bun scripts/test-seed.ts",
-    "db:e2e:seed": "bun scripts/e2e-seed.ts"
+    "db:e2e:seed": "bun scripts/e2e-seed.ts",
+    "db:seed": "bun prisma/seeds/index.ts",
+    "db:seed:dev": "SEED_ENV=dev bun prisma/seeds/index.ts",
+    "db:seed:staging": "SEED_ENV=staging bun prisma/seeds/index.ts"
   },
   "dependencies": {
     "@codemirror/lang-javascript": "^6.2.5",
@@ -148,5 +151,7 @@
       "oxfmt --write"
     ]
   },
-  "prisma": {}
+  "prisma": {
+    "seed": "bun prisma/seeds/index.ts"
+  }
 }
