@@ -101,11 +101,11 @@ cp .env.example .env.local
 # .env.local 파일에 DATABASE_URL 설정
 
 # DB 마이그레이션 및 클라이언트 생성
-bunx prisma migrate dev
-bunx prisma generate
+bunx prisma migrate dev --config prisma/config/prisma.config.ts
+bunx prisma generate --config prisma/config/prisma.config.ts
 
 # (선택) 시드 데이터
-bunx prisma db seed
+bunx prisma db seed --config prisma/config/prisma.config.ts
 
 # 개발 서버 실행
 bun run dev
@@ -140,9 +140,9 @@ docker compose up -d
 ### DB 마이그레이션
 
 ```bash
-bunx prisma migrate dev    # 개발: 마이그레이션 생성 및 적용
-bunx prisma migrate deploy # 운영: 마이그레이션 적용만
-bunx prisma generate       # Prisma Client 재생성
+bunx prisma migrate dev --config prisma/config/prisma.config.ts    # 개발: 마이그레이션 생성 및 적용
+bunx prisma migrate deploy --config prisma/config/prisma.config.ts # 운영: 마이그레이션 적용만
+bunx prisma generate --config prisma/config/prisma.config.ts       # Prisma Client 재생성
 ```
 
 ---
