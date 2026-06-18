@@ -1,27 +1,15 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
   provider          = "postgresql"
   url               = env("DATABASE_URL")
+  directUrl         = env("DIRECT_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
-model ViewSetting {
-  id        String   @id @default(cuid())
-  viewId    String   @unique
-  icon      String   @default("dashboard")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model NetBoxCache {
-  url        String   @id
-  data       Json
-  expiresAt  DateTime
-  staleUntil DateTime
-  hitCount   Int      @default(0)
-
-  @@index([expiresAt])
-}
+// Models (multi-file)
+import "./models/core/view-setting.prisma"
+import "./models/cache/netbox-cache.prisma"
