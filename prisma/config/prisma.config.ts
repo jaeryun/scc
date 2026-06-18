@@ -13,6 +13,7 @@ export default defineConfig({
     shadowDatabaseUrl: env('SHADOW_DATABASE_URL')
   },
   migrations: {
+    path: path.resolve(process.cwd(), 'prisma', 'migrations'),
     seed: 'bun prisma/seeds/index.ts'
   }
 });
