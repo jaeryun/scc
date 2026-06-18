@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import type { ViewSetting } from '@prisma/client';
+import type { ViewSetting } from '../../../../prisma/generated/client';
 import { views } from '@/config/views';
 
 vi.mock('@/lib/prisma', () => ({

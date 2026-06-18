@@ -78,3 +78,6 @@ src/lib/netbox/netbox-openapi-v4.x.json
 
 # Auto-generated API spec
 public/api-specs/internal/
+
+# Prisma generated client (v7+ TypeScript source output)
+/prisma/generated/

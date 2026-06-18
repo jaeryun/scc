@@ -1,4 +1,5 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '../../prisma/generated/client';
+import { PrismaPg } from '@prisma/adapter-pg';
 
 /**
  * DATABASE_URL이 가리키는 DB가 없으면 생성.
@@ -7,9 +8,9 @@ import { PrismaClient } from '@prisma/client';
  */
 export async function ensureTestDatabase(targetDb: 'scc_test' | 'scc_e2e') {
   const baseUrl = process.env.DATABASE_URL ?? '';
-  // postgres DB로 일단 접속
   const adminUrl = baseUrl.replace(/\/[^/]+$/, '/postgres');
-  const admin = new PrismaClient({ datasources: { db: { url: adminUrl } } });
+  const adapter = new PrismaPg({ connectionString: adminUrl });
+  const admin = new PrismaClient({ adapter });
   try {
     const exists = await admin.$queryRawUnsafe<Array<{ exists: boolean }>>(
       `SELECT EXISTS(SELECT 1 FROM pg_database WHERE datname = '${targetDb}')`
