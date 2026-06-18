@@ -1,52 +1,81 @@
-# Prisma 실무 가이드
+# prisma/ — AI 에이전트 가이드
 
-@index.md
-@../docs/common/development/prisma.md
-@../docs/common/foundation/conventions.md
+> **AI 진입점**: Prisma 작업 시 가장 먼저 읽을 문서. 다른 Prisma 관련 문서로의 cross-link 허브.
 
-규칙 및 네이밍 컨벤션은 [`docs/common/development/prisma.md`](../docs/common/development/prisma.md)를, 전체 코딩 규칙은 [`docs/common/foundation/conventions.md`](../docs/common/foundation/conventions.md)를 따릅니다.
+## 빠른 링크
 
-## Shadow Database
+| 문서 | 용도 |
+|------|------|
+| [docs/common/development/prisma.md](../docs/common/development/prisma.md) | 규칙/네이밍/CI 정책 |
+| [docs/common/decisions/adr-002-prisma-schema-architecture.md](../docs/common/decisions/adr-002-prisma-schema-architecture.md) | multi-file + 명명 + CI 결정 |
+| [docs/common/reference/data-models/index.md](../docs/common/reference/data-models/index.md) | 도메인별 데이터 모델 |
+| [docs/common/operations/db-rollback-runbook.md](../docs/common/operations/db-rollback-runbook.md) | P0 마이그레이션 롤백 |
+| [prisma/index.md](./index.md) | 디렉터리 구조 + 도메인 트리 (사람용) |
 
-`prisma migrate dev`는 새 마이그레이션 생성 시 shadow database가 반드시 필요합니다. 내부적으로 shadow DB에 기존 마이그레이션을 모두 적용한 뒤, schema.prisma와 비교해 diff를 추출합니다.
-
-- **전용 DB 사용**: 기존 DB를 shadow 용도로 재사용하면 테이블 충돌이 발생합니다. `prisma_shadow` 같은 전용 빈 DB를 postgres 슈퍼유저 계정으로 생성하세요.
-- **환경 변수**: `.env.local`에 `SHADOW_DATABASE_URL`을 설정합니다.
-
-```
-SHADOW_DATABASE_URL="postgresql://postgres:POSTGRES@localhost:5432/prisma_shadow"
-```
-
-## 일상 워크플로
+## 디렉터리 구조
 
 ```
-1. prisma/schema.prisma 수정
-2. bunx prisma migrate dev --name YYMMDD_설명     → migration 생성 + DB 반영 + generate 자동 실행
-3. bun run build                                   → check-migrations.sh 통과 확인
+prisma/
+├── models/                  # 1 모델 = 1 파일 (multi-file, Prisma 7 folder-based)
+│   ├── schema.prisma        # generator + datasource (Prisma 7은 datasource에 url 미포함)
+│   ├── core/                # 설정/사이트
+│   │   └── view-setting.prisma
+│   ├── cache/               # 캐시/외부 동기화
+│   │   └── netbox-cache.prisma
+│   └── ...                  # 향후 도메인 확장
+├── config/
+│   └── prisma.config.ts     # Prisma 7 공식 config (schema 폴더 경로, datasource, migrations)
+├── generated/               # Prisma 7 client 출력 (gitignore됨)
+├── migrations/              # Prisma 마이그레이션 (기계 생성)
+│   └── YYYYMMDDHHMMSS_<purpose>/
+│       └── migration.sql
+├── seeds/                   # 시드 데이터
+│   └── index.ts
+├── scripts/                 # 검증/운영 스크립트
+│   ├── check-prisma.sh      # 네이밍/길이/예약어 + Squawk
+│   └── squash-migrations.sh # custom SQL 감지 + dry-run
+├── CLAUDE.md                # 이 파일 (AI 진입점)
+└── index.md                 # 사람용 구조
 ```
 
-## DB 이관 / 재구성
+## Prisma 7 핵심 변경사항
 
-이미 확정된 마이그레이션을 새로운 DB에 순차 적용할 때:
+- **Generator**: `prisma-client` (이전 `prisma-client-js` deprecated)
+- **Output 경로**: 명시적 (`output = "../../prisma/generated"`)
+- **Datasource URL**: `prisma.config.ts`의 `datasource` 블록에서 관리 (schema.prisma에 없음)
+- **Driver adapter 필수**: SQL providers는 `@prisma/adapter-pg` + `pg` 필요
+- **Folder-based multi-file**: `prisma.config.ts`의 `schema`를 폴더 경로로 지정 → 해당 디렉터리의 `schema.prisma` + 모든 하위 .prisma 파일 자동 포함
 
+## 새 모델 추가 절차
+
+1. `prisma/models/<domain>/<model>.prisma` 생성 (kebab-case)
+2. `bunx prisma generate --config prisma/config/prisma.config.ts`
+3. `bunx prisma migrate dev --name YYMMDD_<purpose> --config prisma/config/prisma.config.ts`
+4. `./prisma/scripts/check-prisma.sh` (마이그레이션 네이밍/Squawk 검증)
+
+## 새 enum 추가
+
+- 모델 전용 enum: 해당 모델 파일 안에 정의
+- 전사 공통 enum: `prisma/models/<domain>/enums.prisma`에 추가
+
+## 마이그레이션 작업
+
+- 네이밍: `YYMMDD_<purpose>` 또는 `YYMMDD_<ticket>_<purpose>`
+- 커밋 전 `./prisma/scripts/check-prisma.sh` 실행
+- 운영 배포: `docs/common/operations/db-rollback-runbook.md` 참조
+
+## 클라이언트 import
+
+```typescript
+// 절대 경로 사용 시
+import { PrismaClient } from '../../prisma/generated/client';
+import { PrismaPg } from '@prisma/adapter-pg';
+
+const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
+const prisma = new PrismaClient({ adapter });
 ```
-bunx prisma migrate deploy
-```
 
-## DB 완전 초기화
+## 긴급 상황
 
-개발 중 스키마가 꼬였을 때 처음부터 다시 시작:
-
-```bash
-# 1. DB + shadow DB 모두 드랍 후 재생성
-psql -U postgres -c "DROP DATABASE IF EXISTS scc;"
-psql -U postgres -c "DROP DATABASE IF EXISTS prisma_shadow;"
-psql -U postgres -c "CREATE DATABASE scc OWNER scc;"
-psql -U postgres -c "CREATE DATABASE prisma_shadow OWNER postgres;"
-
-# 2. 모든 migration 디렉토리 삭제 후 재생성
-rm -rf prisma/migrations/2*
-bunx prisma migrate dev --name YYMMDD_init
-```
-
-환경변수(`DATABASE_URL`, `SHADOW_DATABASE_URL`)는 `.env.local`에 설정합니다.
+- DB 롤백: `docs/common/operations/db-rollback-runbook.md`
+- 마이그레이션 squash: `./prisma/scripts/squash-migrations.sh --dry-run` (custom SQL 사전 감지)
