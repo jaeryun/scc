@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 # check-migrations.sh — Prisma 마이그레이션 무결성 검사
 #
-# schema.prisma와 마이그레이션 파일이 일치하는지 확인합니다.
-# DATABASE_URL이 없으면 디렉토리 구조만 검사하고,
-# SHADOW_DATABASE_URL이 있으면 shadow DB로 diff까지 수행합니다.
+# Prisma 7 multi-file folder-based schema 검사.
+# prisma.config.ts에서 schema/datasource/migrations 경로를 관리.
 #
 # 실행: package.json prebuild → build 시 자동 호출
 
@@ -16,21 +15,22 @@ cd "$PROJECT_DIR"
 
 echo "=== Migration Integrity Check ==="
 
-# .env.local에서 DATABASE_URL 자동 로드
+# Prisma 7: prisma.config.ts loads .env via dotenv, so we also load from .env
+# (not .env.local — Prisma 7 does not auto-load any .env file)
 if [ -z "${DATABASE_URL:-}" ]; then
-  if [ -f .env.local ]; then
-    export $(grep DATABASE_URL .env.local | xargs)
+  if [ -f .env ]; then
+    export $(grep DATABASE_URL .env | xargs)
   fi
 fi
 
-# .env.local 또는 .env에서 SHADOW_DATABASE_URL 자동 로드
+# Load SHADOW_DATABASE_URL from .env
 if [ -z "${SHADOW_DATABASE_URL:-}" ]; then
-  if [ -f .env.local ]; then
-    eval "$(grep '^SHADOW_DATABASE_URL=' .env.local)"
-  elif [ -f .env ]; then
+  if [ -f .env ]; then
     eval "$(grep '^SHADOW_DATABASE_URL=' .env)"
   fi
 fi
+
+CONFIG="--config prisma/config/prisma.config.ts"
 
 # DB 접속 없으면 마이그레이션 디렉토리 존재 여부만 확인
 if [ -z "${DATABASE_URL:-}" ]; then
@@ -62,10 +62,12 @@ if [ -z "$SHADOW_DB" ]; then
 fi
 
 # prisma migrate diff로 실제 스키마 불일치(drift) 검출
+# Prisma 7: --to-config-datasource + --config 사용 (옛 --to-schema-datamodel 대체)
 echo "[INFO] Running prisma migrate diff..."
 diff_output=$(bunx prisma migrate diff \
   --from-migrations prisma/migrations \
-  --to-schema-datamodel prisma/schema.prisma \
+  --to-config-datasource \
+  $CONFIG \
   --shadow-database-url "$SHADOW_DB" \
   --script 2>&1) || true
 
@@ -79,13 +81,13 @@ fi
 if echo "$diff_output" | grep -qiE "CREATE|ALTER|DROP"; then
   echo "=============================================="
   echo "[ERROR] SCHEMA DRIFT DETECTED!"
-  echo "The following changes exist in schema.prisma"
+  echo "The following changes exist in the Prisma schema"
   echo "that are not covered by migration files:"
   echo "=============================================="
   echo "$diff_output"
   echo "=============================================="
   echo "Fix: Create a new migration with:"
-  echo "  bunx prisma migrate dev --name YYMMDD_설명"
+  echo "  bunx prisma migrate dev --name YYMMDD_<purpose> $CONFIG"
   echo "=============================================="
   exit 1
 fi

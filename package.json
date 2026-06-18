@@ -154,8 +154,5 @@
     "!(scripts)/**/*.{js,jsx,tsx,ts,css,less,scss,sass}": [
       "oxfmt --write"
     ]
-  },
-  "prisma": {
-    "seed": "bun prisma/seeds/index.ts"
   }
 }
