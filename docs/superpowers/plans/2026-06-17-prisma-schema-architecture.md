@@ -5,14 +5,17 @@
 **Goal:** 단일 `schema.prisma` + 단일 init 마이그레이션으로 구성된 `prisma/` 디렉터리를 multi-file schema, 도메인별 디렉터리, 검증 스크립트, 운영 정책을 갖춘 베스트 프랙티스 기반 아키텍처로 재설계한다.
 
 **Architecture:**
-- `prisma/schema.prisma` (root) = generator + datasource + model import 디렉티브
-- `prisma/models/<domain>/<model>.prisma` = 1 모델 = 1 파일 (모델 + 전용 enum)
-- `prisma/config/prisma.config.ts` = seed 등록 (schema 경로는 default)
+- `prisma/schema.prisma` (root) — **제거됨** (또는 stub). Prisma config의 schema 경로로 대체.
+- `prisma/models/schema.prisma` = generator + datasource (main schema)
+- `prisma/models/<domain>/<model>.prisma` = 1 모델 = 1 파일 (auto-include by Prisma 7 folder discovery)
+- `prisma/config/prisma.config.ts` = `schema: "prisma/models"` 폴더 경로 + seed 등록
 - `prisma/scripts/check-prisma.sh` = 네이밍/길이/예약어 + Squawk 통합
 - `prisma/scripts/squash-migrations.sh` = custom SQL 자동 감지 + dry-run
 - 문서: prisma/CLAUDE.md 진입점 + docs/common/{development,decisions,operations,reference} 4개 + 1-hop cross-link
 
-**Tech Stack:** Prisma 6.19.3, PostgreSQL, Squawk (PostgreSQL migration linter), Bash, Bun
+**Tech Stack:** Prisma 7.8.0 (multi-file folder discovery), PostgreSQL, Squawk (PostgreSQL migration linter), Bash, Bun
+
+> **Note**: Prisma 7은 `import` 키워드를 지원하지 않음. multi-file은 `prisma.config.ts`의 `schema` 폴더 경로로만 가능. 이 plan은 처음에는 import 디렉티브로 작성되었으나 검증 결과 Prisma 7도 미지원 확인. folder-based approach로 변경.
 
 ---
 
@@ -30,7 +33,7 @@
 - `docs/common/reference/data-models/index.md` — 도메인 트리
 
 **Modify:**
-- `prisma/schema.prisma` — generator + datasource + import 디렉티브
+- `prisma/schema.prisma` — **제거** (root schema는 `prisma/models/schema.prisma`로 이동)
 - `prisma/CLAUDE.md` — AI 진입점, cross-link hub
 - `prisma/index.md` — 사람용 구조 문서
 - `docs/common/development/prisma.md` — 정책/규칙 전면 갱신
@@ -80,20 +83,32 @@ Co-Authored-By: Claude Sonnet 4.6 (1M context) <noreply@anthropic.com>"
 
 ---
 
-### Task 2: schema.prisma 업데이트 (generator + datasource)
+### Task 2: schema 디렉터리 재구성 (root → models/schema.prisma)
 
 **Files:**
-- Modify: `prisma/schema.prisma`
+- Delete: `prisma/schema.prisma` (root의 단일 파일 schema)
+- Create: `prisma/models/schema.prisma` (generator + datasource)
+- Note: Prisma 7의 `import` 키워드는 subdirectory 파일 미지원 → folder-based auto-discovery 사용
 
-- [ ] **Step 1: schema.prisma 백업**
+- [ ] **Step 1: 기존 schema.prisma 내용 확인**
 
 ```bash
-cp prisma/schema.prisma prisma/schema.prisma.bak
+cat prisma/schema.prisma
 ```
 
-- [ ] **Step 2: schema.prisma 재작성**
+Expected: 현재 단일 파일 schema (generator + datasource + 2 모델). 다음 step에서 내용 이동.
 
-`prisma/schema.prisma` 전체를 다음으로 교체:
+- [ ] **Step 2: prisma/models/ 디렉터리 확인 (Task 1에서 이미 생성됨)**
+
+```bash
+ls -la prisma/models/
+```
+
+Expected: 빈 디렉터리 (또는 .gitkeep).
+
+- [ ] **Step 3: 새 prisma/models/schema.prisma 생성**
+
+`prisma/models/schema.prisma` 생성:
 
 ```prisma
 generator client {
@@ -107,35 +122,35 @@ datasource db {
   directUrl         = env("DIRECT_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
-
-// Models (multi-file)
-import "./models/core/view-setting.prisma"
-import "./models/cache/netbox-cache.prisma"
 ```
 
-- [ ] **Step 3: 백업 제거**
+- [ ] **Step 4: 기존 root prisma/schema.prisma 삭제**
 
 ```bash
-rm prisma/schema.prisma.bak
+rm prisma/schema.prisma
 ```
 
-- [ ] **Step 4: prisma validate (실패 예상 — model 파일 없음)**
+> **중요**: Task 5의 prisma.config.ts가 `schema: "prisma/models"` 폴더 경로로 설정되면, Prisma는 root의 `prisma/schema.prisma`를 무시하고 `prisma/models/schema.prisma` + 같은 디렉터리 트리의 모든 .prisma 파일을 자동으로 포함.
+
+- [ ] **Step 5: prisma validate (실패 예상 — model 파일 없음)**
 
 ```bash
-bunx prisma validate
+bunx prisma validate 2>&1 | head -20
 ```
 
-Expected: ERROR — `models/core/view-setting.prisma` 파일 없음. 이건 정상 (다음 task에서 생성).
+Expected: "schema.prisma is valid" 또는 모델 파일이 없다는 에러. 어느 쪽이든 P1012 (import not recognized)가 아니어야 함.
 
-- [ ] **Step 5: Commit**
+- [ ] **Step 6: Commit**
 
 ```bash
-git add prisma/schema.prisma
-git commit -m "chore(prisma): rewrite schema.prisma with driver adapters and direct URL
+git add -A prisma/
+git commit -m "chore(prisma): restructure schema to multi-file (folder-based)
 
-- Add previewFeatures = [\"driverAdapters\"]
+- Move schema.prisma from prisma/ root to prisma/models/
+- Add driverAdapters previewFeature
 - Add directUrl for connection pooler
-- Convert to multi-file with import directives
+- Remove import directives (Prisma 7 doesn't support them)
+- Use Prisma 7 folder-based auto-discovery (prisma.config.ts in Task 5)
 
 Co-Authored-By: Claude Sonnet 4.6 (1M context) <noreply@anthropic.com>"
 ```
@@ -237,7 +252,7 @@ Co-Authored-By: Claude Sonnet 4.6 (1M context) <noreply@anthropic.com>"
 
 ---
 
-### Task 5: prisma.config.ts 작성
+### Task 5: prisma.config.ts 작성 (folder-based schema 경로)
 
 **Files:**
 - Create: `prisma/config/prisma.config.ts`
@@ -251,26 +266,31 @@ import { defineConfig } from "prisma/config";
 import path from "node:path";
 
 export default defineConfig({
-  schema: path.join("prisma", "schema.prisma"),
+  schema: path.join("prisma", "models"),
   migrations: {
     seed: "bun prisma/seeds/index.ts",
   },
 });
 ```
 
-- [ ] **Step 2: prisma validate (config 인식 확인)**
+> **Note**: `schema`에 폴더 경로 (`prisma/models`)를 지정하면, Prisma는 그 디렉터리의 `schema.prisma`를 찾아 사용하고, 같은 트리의 모든 `.prisma` 파일을 자동으로 포함.
+
+- [ ] **Step 2: prisma validate (config 인식 + folder discovery 확인)**
 
 ```bash
-bunx prisma validate
+bunx prisma validate 2>&1 | head -20
 ```
 
-Expected: 여전히 `The schema at prisma/schema.prisma is valid`. config 파일이 정상 인식됨.
+Expected: `The schema at prisma/models/schema.prisma is valid` (model 파일 없어서 경고는 OK). config가 정상 인식되고 folder discovery 작동.
 
 - [ ] **Step 3: Commit**
 
 ```bash
 git add prisma/config/prisma.config.ts
-git commit -m "chore(prisma): add prisma.config.ts with seed registration
+git commit -m "chore(prisma): add prisma.config.ts with folder-based schema path
+
+- schema: prisma/models (folder path for multi-file auto-discovery)
+- migrations.seed: bun prisma/seeds/index.ts
 
 Co-Authored-By: Claude Sonnet 4.6 (1M context) <noreply@anthropic.com>"
 ```
