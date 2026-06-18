@@ -1,0 +1,9 @@
+model NetBoxCache {
+  url        String   @id
+  data       Json
+  expiresAt  DateTime
+  staleUntil DateTime
+  hitCount   Int      @default(0)
+
+  @@index([expiresAt])
+}
