@@ -9,7 +9,3 @@ datasource db {
   directUrl         = env("DIRECT_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
-
-// Models (multi-file)
-import "./models/core/view-setting.prisma"
-import "./models/cache/netbox-cache.prisma"
