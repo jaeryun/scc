@@ -30,7 +30,7 @@ models/
 
 ## 관련 문서
 
-- [prisma/CLAUDE.md](../../../prisma/CLAUDE.md) — AI 진입점
-- [prisma/index.md](../../../prisma/index.md) — 디렉터리 구조
+- [prisma/CLAUDE.md](../../../../prisma/CLAUDE.md) — AI 진입점
+- [prisma/index.md](../../../../prisma/index.md) — 디렉터리 구조
 - [docs/common/development/prisma.md](../../development/prisma.md) — 규칙
 - [docs/common/decisions/adr-002-prisma-schema-architecture.md](../../decisions/adr-002-prisma-schema-architecture.md) — 결정

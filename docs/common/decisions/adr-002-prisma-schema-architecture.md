@@ -108,7 +108,7 @@ Prisma 7 기반 multi-file schema, 도메인별 디렉터리, 검증 스크립�
 
 - `CREATE INDEX CONCURRENTLY`, `ALTER TABLE ... ADD CONSTRAINT`는 트래픽 低谷 시간 또는 read-only 모드
 - 운영 마이그레이션은 PR 리뷰 + `migrate dev --create-only`로 SQL 검토
-- 긴급 롤백은 [db-rollback-runbook.md](../../operations/db-rollback-runbook.md) 참조
+- 긴급 롤백은 [db-rollback-runbook.md](../../common/operations/db-rollback-runbook.md) 참조
 
 ### 검토한 대안
 
@@ -144,3 +144,8 @@ Prisma 7 기반 multi-file schema, 도메인별 디렉터리, 검증 스크립�
 - 모든 Prisma 관련 문서가 1-hop 내 도달 가능 (AI 네비게이션 보장)
 - 운영 거버넌스는 팀 규모에 맞게 lean (전담 DB 담당자 없음)
 - 자사 only 운영이므로 multi-tenant/multi-schema는 비목표
+
+## 관련 문서
+
+- [docs/common/development/prisma.md](../development/prisma.md) — Prisma 규칙
+- [prisma/CLAUDE.md](../../../prisma/CLAUDE.md) — AI 진입점

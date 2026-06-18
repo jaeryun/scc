@@ -1,6 +1,6 @@
 # Prisma 규칙
 
-> **상세 위치**: [prisma/CLAUDE.md](../../../prisma/CLAUDE.md) (AI 진입점), [prisma/index.md](../../../prisma/index.md) (디렉터리 구조), [ADR-002](../../decisions/adr-002-prisma-schema-architecture.md) (결정)
+> **상세 위치**: [prisma/CLAUDE.md](../../../prisma/CLAUDE.md) (AI 진입점), [prisma/index.md](../../../prisma/index.md) (디렉터리 구조), [ADR-002](../../common/decisions/adr-002-prisma-schema-architecture.md) (결정)
 
 ## 스키마 구조 (Multi-file, Prisma 7)
 
@@ -59,13 +59,13 @@
   2. prod DB 백업
   3. `./prisma/scripts/squash-migrations.sh --apply`
   4. `prisma migrate status` 검증
-- **상세**: [ADR-002](../../decisions/adr-002-prisma-schema-architecture.md)
+- **상세**: [ADR-002](../../common/decisions/adr-002-prisma-schema-architecture.md)
 
 ### Rollback
 
 - Prisma는 down 마이그레이션 자동 생성 안 함. `migrate diff`로 수동 생성
 - **PR 단계**: `prisma migrate dev --create-only`로 SQL 검토
-- **운영**: [db-rollback-runbook.md](../../operations/db-rollback-runbook.md) 참조
+- **운영**: [db-rollback-runbook.md](../../common/operations/db-rollback-runbook.md) 참조
 
 ## 명명 규칙
 

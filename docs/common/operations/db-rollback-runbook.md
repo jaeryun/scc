@@ -101,4 +101,4 @@ bunx prisma migrate deploy --config prisma/config/prisma.config.ts
 
 - [ADR-002 prisma schema architecture](../decisions/adr-002-prisma-schema-architecture.md)
 - [docs/common/development/prisma.md](../development/prisma.md) — 정책
-- [prisma/CLAUDE.md](../../prisma/CLAUDE.md) — AI 진입점
+- [prisma/CLAUDE.md](../../../prisma/CLAUDE.md) — AI 진입점
