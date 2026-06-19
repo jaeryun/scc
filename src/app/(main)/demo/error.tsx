@@ -1,8 +1,20 @@
 'use client';
 
+import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
+import { logger } from '@/lib/logger.client';
 
-export default function DemoError({ reset }: { error: Error; reset: () => void }) {
+export default function DemoError({
+  error,
+  reset
+}: {
+  error: Error & { digest?: string };
+  reset: () => void;
+}) {
+  useEffect(() => {
+    logger.error({ err: error, digest: error.digest }, 'Page render failed');
+  }, [error]);
+
   return (
     <div className='flex flex-1 items-center justify-center p-6'>
       <div className='text-center space-y-3'>

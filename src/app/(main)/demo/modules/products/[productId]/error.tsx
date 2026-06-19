@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import PageContainer from '@/components/layout/page-container';
+import { logger } from '@/lib/logger.client';
 
 export default function ErrorPage({
   error,
@@ -12,7 +13,7 @@ export default function ErrorPage({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error(error);
+    logger.error({ err: error, digest: error.digest }, 'Page render failed');
   }, [error]);
 
   return (
