@@ -24,6 +24,7 @@
 | `naming.md` | 파일명/변수명 컨벤션 | 네이밍, kebab-case |
 | `data-layer.md` | 데이터 페칭 계층 규칙 | service, queries, hooks |
 | `forms.md` | TanStack Form + Zod 규칙 | 폼, TanStack, Zod |
+| `logging.md` | 로깅 규칙 (pino) | 로깅, pino, logger |
 | `prisma.md` | Prisma 스키마/마이그레이션 규칙 (확장됨) | Prisma, 스키마 |
 | `server-actions.md` | Server Actions 규칙 | Server Actions, mutation |
 | `state-management.md` | 상태 관리 규칙 (Zustand) | Zustand, store |
