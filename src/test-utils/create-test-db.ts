@@ -1,5 +1,6 @@
 import { PrismaClient } from '../../prisma/generated/client';
 import { PrismaPg } from '@prisma/adapter-pg';
+import { logger } from '@/lib/logger';
 
 /**
  * DATABASE_URL이 가리키는 DB가 없으면 생성.
@@ -17,7 +18,7 @@ export async function ensureTestDatabase(targetDb: 'scc_test' | 'scc_e2e') {
     );
     if (!exists[0]?.exists) {
       await admin.$executeRawUnsafe(`CREATE DATABASE "${targetDb}"`);
-      console.log(`Created database: ${targetDb}`);
+      logger.info({ op: 'createTestDb', db: targetDb }, 'Created test database');
     }
   } finally {
     await admin.$disconnect();

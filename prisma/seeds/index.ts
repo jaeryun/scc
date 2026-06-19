@@ -1,9 +1,11 @@
-// Placeholder seed — will be expanded in Task 11
+import { logger } from '../../src/lib/logger';
+
 async function main() {
-  console.log('Seed: no-op (placeholder)');
+  const start = Date.now();
+  logger.info({ op: 'seedRun', durationMs: Date.now() - start }, 'Seed: no-op (placeholder)');
 }
 
 main().catch((e) => {
-  console.error(e);
+  logger.error({ err: e, op: 'seedRun' }, 'Seed failed');
   process.exit(1);
 });
