@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { logger } from '@/lib/logger';
 import { success, failure } from '@/lib/api-response';
 import { invalidateCache } from '@/lib/netbox/cache';
 import { envSchema } from '@/lib/netbox/env';
@@ -22,6 +23,8 @@ const assignIpSchema = z.object({
 });
 
 export async function POST(req: NextRequest) {
+  const start = Date.now();
+  const op = 'assignIpAddress';
   try {
     const { prefixId } = assignIpSchema.parse(await req.json());
     const { baseUrl, headers } = netboxClient();
@@ -40,6 +43,10 @@ export async function POST(req: NextRequest) {
     const created = Array.isArray(resBody) ? resBody[0] : resBody;
 
     if (!created) {
+      logger.warn(
+        { op, prefixId, durationMs: Date.now() - start },
+        'No available IP addresses in prefix'
+      );
       return NextResponse.json(failure('No available IP addresses in prefix'), {
         status: 409
       });
@@ -47,8 +54,13 @@ export async function POST(req: NextRequest) {
 
     await invalidateCache('netbox:ip-addresses:');
 
+    logger.info({ op, prefixId, durationMs: Date.now() - start }, 'Assigned IP address');
     return NextResponse.json(success(created), { status: 201 });
   } catch (error) {
+    logger.error(
+      { err: error, op, durationMs: Date.now() - start, url: req.url },
+      'Failed to assign IP address'
+    );
     if (error instanceof ZodError) {
       return NextResponse.json(
         failure(error.issues.map((i) => `${i.path.join('.')}: ${i.message}`).join(', ')),

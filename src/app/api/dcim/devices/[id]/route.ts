@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { logger } from '@/lib/logger';
 import { success, failure } from '@/lib/api-response';
 import { checkCache, fetchAndCache, invalidateCache } from '@/lib/netbox/cache';
 import { buildCacheKey } from '@/lib/netbox/paths';
@@ -20,17 +21,29 @@ function netboxClient() {
 }
 
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const start = Date.now();
+  const op = 'getDevice';
   const { id } = await params;
   const cacheKey = buildCacheKey('devices', 'detail', { id });
 
   const cached = await checkCache(cacheKey);
-  if (cached?.fresh) return NextResponse.json(success(cached.data));
+  if (cached?.fresh) {
+    logger.info(
+      { op, id, cached: true, durationMs: Date.now() - start },
+      'Fetched device (cache hit)'
+    );
+    return NextResponse.json(success(cached.data));
+  }
 
   try {
     const { baseUrl, headers } = netboxClient();
     const res = await withRetry(() => fetch(`${baseUrl}/api/dcim/devices/${id}/`, { headers }));
 
     if (!res.ok) {
+      logger.warn(
+        { op, id, status: res.status, durationMs: Date.now() - start },
+        'Device not found or upstream error'
+      );
       return NextResponse.json(failure('Device not found'), {
         status: res.status === 404 ? 404 : 502
       });
@@ -38,8 +51,13 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
 
     const data = await res.json();
     await fetchAndCache(cacheKey, data);
+    logger.info({ op, id, durationMs: Date.now() - start }, 'Fetched device');
     return NextResponse.json(success(data));
-  } catch {
+  } catch (err) {
+    logger.error(
+      { err, op, id, durationMs: Date.now() - start, url: _req.url },
+      'Failed to fetch device'
+    );
     if (cached?.data) return NextResponse.json(success(cached.data));
     return NextResponse.json(failure('NetBox service temporarily unavailable'), {
       status: 502
@@ -58,6 +76,8 @@ const deviceUpdateSchema = z
   .strip();
 
 export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const start = Date.now();
+  const op = 'updateDevice';
   try {
     const { id } = await params;
     const body = deviceUpdateSchema.parse(await req.json());
@@ -79,8 +99,13 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     await invalidateCache('netbox:interfaces:');
     await invalidateCache('netbox:cables:');
 
+    logger.info({ op, id, durationMs: Date.now() - start }, 'Updated device');
     return NextResponse.json(success(resBody));
   } catch (error) {
+    logger.error(
+      { err: error, op, durationMs: Date.now() - start, url: req.url },
+      'Failed to update device'
+    );
     if (error instanceof ZodError) {
       return NextResponse.json(
         failure(error.issues.map((i) => `${i.path.join('.')}: ${i.message}`).join(', ')),
@@ -99,6 +124,8 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
 }
 
 export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const start = Date.now();
+  const op = 'deleteDevice';
   try {
     const { id } = await params;
     const { baseUrl, headers } = netboxClient();
@@ -117,8 +144,13 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
     await invalidateCache('netbox:interfaces:');
     await invalidateCache('netbox:cables:');
 
+    logger.info({ op, id, durationMs: Date.now() - start }, 'Deleted device');
     return NextResponse.json(success(null));
   } catch (error) {
+    logger.error(
+      { err: error, op, durationMs: Date.now() - start, url: _req.url },
+      'Failed to delete device'
+    );
     if (error instanceof NetBoxHttpError) {
       return NextResponse.json(failure(error.sanitizedMessage), {
         status: error.status

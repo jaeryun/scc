@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { logger } from '@/lib/logger';
 import { success, failure } from '@/lib/api-response';
 import { netboxAll } from '@/lib/netbox/auto-paginate';
 import { checkCache, fetchAndCache, invalidateCache } from '@/lib/netbox/cache';
@@ -30,17 +31,30 @@ const prefixCreateSchema = z
   .strip();
 
 export async function GET(req: NextRequest) {
+  const start = Date.now();
+  const op = 'listPrefixes';
   const params = Object.fromEntries(req.nextUrl.searchParams) as Record<string, string>;
   const cacheKey = buildCacheKey('prefixes', 'list', params);
 
   const cached = await checkCache(cacheKey);
-  if (cached?.fresh) return NextResponse.json(success(cached.data));
+  if (cached?.fresh) {
+    logger.info(
+      { op, cached: true, durationMs: Date.now() - start },
+      'Listed IPAM prefixes (cache hit)'
+    );
+    return NextResponse.json(success(cached.data));
+  }
 
   try {
     const data = await withRetry(() => netboxAll('/api/ipam/prefixes/', params));
     await fetchAndCache(cacheKey, data);
+    logger.info({ op, count: data.length, durationMs: Date.now() - start }, 'Listed IPAM prefixes');
     return NextResponse.json(success(data));
-  } catch {
+  } catch (err) {
+    logger.error(
+      { err, op, durationMs: Date.now() - start, url: req.url },
+      'Failed to list IPAM prefixes'
+    );
     if (cached?.data) return NextResponse.json(success(cached.data));
     return NextResponse.json(failure('NetBox service temporarily unavailable'), {
       status: 502
@@ -49,6 +63,8 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  const start = Date.now();
+  const op = 'createPrefix';
   try {
     const body = prefixCreateSchema.parse(await req.json());
     const { baseUrl, headers } = netboxClient();
@@ -67,8 +83,13 @@ export async function POST(req: NextRequest) {
 
     await invalidateCache('netbox:prefixes:');
 
+    logger.info({ op, durationMs: Date.now() - start }, 'Created IPAM prefix');
     return NextResponse.json(success(resBody), { status: 201 });
   } catch (error) {
+    logger.error(
+      { err: error, op, durationMs: Date.now() - start, url: req.url },
+      'Failed to create IPAM prefix'
+    );
     if (error instanceof ZodError) {
       return NextResponse.json(
         failure(error.issues.map((i) => `${i.path.join('.')}: ${i.message}`).join(', ')),
