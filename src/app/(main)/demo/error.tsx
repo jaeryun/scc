@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { logger } from '@/lib/logger.client';
 
 export default function DemoError({
   error,
@@ -12,7 +11,7 @@ export default function DemoError({
   reset: () => void;
 }) {
   useEffect(() => {
-    logger.error({ err: error, digest: error.digest }, 'Page render failed');
+    console.error('Page render failed', { digest: error.digest, message: error.message });
   }, [error]);
 
   return (

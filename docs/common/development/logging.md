@@ -1,12 +1,12 @@
 # 로깅 규칙
 
 > 표준 로거: `src/lib/logger.ts` (pino) — server-only
-> 클라이언트 로거: `src/lib/logger.client.ts` — error boundary 전용
+> 클라이언트 에러: `console.error(error)` (Next.js 표준)
 
 ## 필수 도구
 
 - `import { logger } from '@/lib/logger';` — 서버 컴포넌트, API route, server action, service layer
-- `import { logger } from '@/lib/logger.client';` — 클라이언트 컴포넌트 (error boundary 등)
+- `console.error(...)` — 클라이언트 컴포넌트 (error boundary 등). 표준 Next.js 패턴.
 
 ## 레벨 (4단계)
 
