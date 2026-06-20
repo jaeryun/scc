@@ -19,6 +19,8 @@
 
 `fatal`, `trace` 사용 금지.
 
+> **예외**: 고빈도 scrape endpoint(Prometheus 등)는 `debug` 사용 — [ADR-003](../decisions/adr-003-metrics-endpoint-logger-debug.md) 참조.
+
 ## 메시지 패턴
 
 ```typescript
