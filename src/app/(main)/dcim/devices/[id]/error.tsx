@@ -9,5 +9,5 @@ export default function ErrorPage({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  return <ErrorPageComponent error={error} reset={reset} />;
+  return <ErrorPageComponent error={error} resetAction={reset} />;
 }
